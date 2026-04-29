@@ -31,7 +31,7 @@ La URL base es `https://app.mintie.example/scim/v2`.
 
 ## Autenticación
 
-Un token bearer por organización. Genera y rota el token desde la [UI de administración](/setup/enable-sso) una vez se publique.
+Un token bearer por organización. Genera y rota el token desde la [UI de administración](/es/setup/enable-sso) una vez se publique.
 
 ```http
 Authorization: Bearer scim_live_<token>
@@ -44,7 +44,7 @@ Authorization: Bearer scim_live_<token>
 
 ## Semántica del borrado lógico
 
-`DELETE /Users/{id}` **no** elimina la fila. Establece `deactivated_at = now()` y revoca todas las sesiones. La fila se conserva para fines de auditoría: consulta [registros de auditoría](/security/audit-logs).
+`DELETE /Users/{id}` **no** elimina la fila. Establece `deactivated_at = now()` y revoca todas las sesiones. La fila se conserva para fines de auditoría: consulta [registros de auditoría](/es/security/audit-logs).
 
 ## Conformidad
 

@@ -25,9 +25,9 @@ Cette présentation vous emmène de zéro au SSO appliqué pour votre organisati
   <Step title="Connectez votre IdP">
     Choisissez votre fournisseur et suivez le guide spécifique au fournisseur :
 
-    - [Okta](/setup/okta)
-    - [Google Workspace](/setup/google-workspace)
-    - [SAML / OIDC générique](/setup/generic-saml)
+    - [Okta](/fr/setup/okta)
+    - [Google Workspace](/fr/setup/google-workspace)
+    - [SAML / OIDC générique](/fr/setup/generic-saml)
   </Step>
   <Step title="Effectuez une connexion de test">
     L'interface d'administration affiche un lien "Tester la connexion" qui
@@ -37,12 +37,12 @@ Cette présentation vous emmène de zéro au SSO appliqué pour votre organisati
   </Step>
   <Step title="Appliquez le SSO">
     Activez **Exiger le SSO** pour l'organisation. Les sessions actives par
-    mot de passe sont migrées vers le SSO via le [job de migration de sessions](/concepts/sessions).
+    mot de passe sont migrées vers le SSO via le [job de migration de sessions](/fr/concepts/sessions).
   </Step>
   <Step title="Notifiez vos utilisateurs">
     Mintie envoie automatiquement des e-mails aux utilisateurs par mot de passe
     à T-30, T-7 et T-1 jour avant que leur mot de passe cesse de fonctionner.
-    Voir [communications utilisateur](/migration/user-comms).
+    Voir [communications utilisateur](/fr/migration/user-comms).
   </Step>
 </Steps>
 
@@ -53,4 +53,4 @@ Une fois le SSO appliqué :
 - L'écran de connexion redirige les utilisateurs vers votre IdP après qu'ils ont saisi leur e-mail
 - Les sessions de navigateur existantes sont contraintes de se réauthentifier via SSO en quelques minutes
 - Les flux de réinitialisation de mot de passe sont désactivés pour les organisations qui exigent le SSO
-- Les clés d'API restent valides jusqu'à la publication de [la liaison à l'identité IdP](/api-and-keys/api-keys)
+- Les clés d'API restent valides jusqu'à la publication de [la liaison à l'identité IdP](/fr/api-and-keys/api-keys)

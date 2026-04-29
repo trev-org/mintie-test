@@ -22,7 +22,7 @@ Le flux SSO de Mintie est basé sur OIDC par défaut. Les fournisseurs SAML sont
   </Step>
   <Step title="Mintie lie ou crée l'utilisateur">
     La recherche de l'utilisateur se fait d'abord par `(idp_provider, idp_user_id)`, puis par e-mail.
-    Voir [liaison d'identité](/concepts/identity-linking) pour les règles.
+    Voir [liaison d'identité](/fr/concepts/identity-linking) pour les règles.
   </Step>
   <Step title="Mintie émet une session">
     Un cookie de session est défini avec `HttpOnly`, `Secure` et `SameSite=Lax`.
@@ -32,16 +32,16 @@ Le flux SSO de Mintie est basé sur OIDC par défaut. Les fournisseurs SAML sont
 ## Composants
 
 <CardGroup cols={2}>
-  <Card title="Écran de connexion" icon="display" href="/setup/sign-in-experience">
+  <Card title="Écran de connexion" icon="display" href="/fr/setup/sign-in-experience">
     Le point d'entrée "Continuer avec le SSO" que les utilisateurs voient sur `/login`.
   </Card>
-  <Card title="Callback OIDC" icon="rotate" href="/concepts/sessions">
+  <Card title="Callback OIDC" icon="rotate" href="/fr/concepts/sessions">
     `/api/auth/sso/callback` — validation du jeton, recherche de l'utilisateur, émission de la session.
   </Card>
-  <Card title="Liaison d'identité" icon="link" href="/concepts/identity-linking">
+  <Card title="Liaison d'identité" icon="link" href="/fr/concepts/identity-linking">
     Comment Mintie associe un utilisateur IdP externe à un enregistrement utilisateur Mintie.
   </Card>
-  <Card title="Contrôle par feature flag" icon="toggle-on" href="/concepts/feature-flags">
+  <Card title="Contrôle par feature flag" icon="toggle-on" href="/fr/concepts/feature-flags">
     Le flag `sso_enabled` par organisation contrôle si le SSO est proposé.
   </Card>
 </CardGroup>

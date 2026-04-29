@@ -14,7 +14,7 @@ description: "Preguntas comunes sobre la migración a SSO en Mintie"
     LDAP directo, lo reconsideraremos.
   </Accordion>
   <Accordion title="¿Y Microsoft Entra ID (anteriormente Azure AD)?">
-    Soportado a través del conector [SAML / OIDC genérico](/setup/generic-saml)
+    Soportado a través del conector [SAML / OIDC genérico](/es/setup/generic-saml)
     hoy. Aún no se ha priorizado un conector dedicado de Entra: presenta una
     solicitud si lo necesitas.
   </Accordion>
@@ -46,12 +46,12 @@ description: "Preguntas comunes sobre la migración a SSO en Mintie"
 
 <AccordionGroup>
   <Accordion title="¿Mis usuarios serán desconectados en el momento en que aplique el SSO?">
-    No inmediatamente. El [job de migración de sesiones](/concepts/sessions) despliega
+    No inmediatamente. El [job de migración de sesiones](/es/concepts/sessions) despliega
     la reautenticación forzada al 10% de sesiones por minuto por defecto, de modo que la
     flota completa no llegue a tu IdP a la vez.
   </Accordion>
   <Accordion title="¿Y las claves de API?">
-    Consulta [Claves de API e identidad SSO](/api-and-keys/api-keys). Una vez que esto
+    Consulta [Claves de API e identidad SSO](/es/api-and-keys/api-keys). Una vez que esto
     se publique, los usuarios desactivados en el IdP verán que sus claves devuelven 401 en 5 minutos.
   </Accordion>
 </AccordionGroup>

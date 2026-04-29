@@ -31,7 +31,7 @@ L'URL de base est `https://app.mintie.example/scim/v2`.
 
 ## Authentification
 
-Un jeton bearer par organisation. Générez et faites tourner le jeton depuis l'[interface d'administration](/setup/enable-sso) une fois publiée.
+Un jeton bearer par organisation. Générez et faites tourner le jeton depuis l'[interface d'administration](/fr/setup/enable-sso) une fois publiée.
 
 ```http
 Authorization: Bearer scim_live_<token>
@@ -44,7 +44,7 @@ Authorization: Bearer scim_live_<token>
 
 ## Sémantique de la suppression logique
 
-`DELETE /Users/{id}` ne supprime **pas** la ligne. Il définit `deactivated_at = now()` et révoque toutes les sessions. La ligne est conservée à des fins d'audit — voir [journaux d'audit](/security/audit-logs).
+`DELETE /Users/{id}` ne supprime **pas** la ligne. Il définit `deactivated_at = now()` et révoque toutes les sessions. La ligne est conservée à des fins d'audit — voir [journaux d'audit](/fr/security/audit-logs).
 
 ## Conformité
 
