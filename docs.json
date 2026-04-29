@@ -70,14 +70,6 @@
           {
             "group": "Security",
             "pages": ["security/mfa", "security/audit-logs"]
-          },
-          {
-            "group": "Migration",
-            "pages": [
-              "migration/timeline",
-              "migration/user-comms",
-              "migration/faq"
-            ]
           }
         ]
       }
