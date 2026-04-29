@@ -1,0 +1,50 @@
+---
+title: "Cronograma de migración"
+description: "Cómo se secuencia el despliegue del SSO desde la base hasta GA"
+---
+
+El despliegue del SSO está secuenciado en cuatro hitos. Actualmente estamos entre M1 y M2.
+
+## Hitos
+
+<Steps>
+  <Step title="M1 — Happy path OIDC detrás de un flag">
+    **Hecho.** Migración de esquema, feature flag, punto de entrada de inicio de sesión.
+    El handler del callback OIDC se está finalizando ahora (en desarrollo).
+  </Step>
+  <Step title="M2 — Adaptadores de Okta + Google en GA">
+    **En curso.** Conectores nativos para los dos IdP de mayor prioridad.
+    El SAML/OIDC genérico funciona manualmente mientras tanto.
+  </Step>
+  <Step title="M3 — SCIM + UI de administración">
+    **Siguiente.** Endpoint SCIM 2.0 y la página de configuración de administración que permite
+    a los clientes autoservirse la configuración de SSO.
+  </Step>
+  <Step title="M4 — Retiro de contraseñas">
+    **Final.** Una vez que una organización lleve 60 días en SSO, el inicio de sesión con contraseña se
+    desactiva. Las comunicaciones a usuarios finales se incrementan en T-30, T-7 y T-1 días.
+  </Step>
+</Steps>
+
+## Fechas del proyecto
+
+| | |
+| --- | --- |
+| Inicio | 2026-04-01 |
+| Objetivo | 2026-07-15 |
+| Estado | En progreso |
+
+## Restricciones que dirigen el proyecto
+
+El despliegue está secuenciado en torno a tres operaciones empresariales bloqueadas:
+
+- **Dos en Okta**: el conector Okta de M2 está en la ruta crítica
+- **Una necesita SCIM**: el endpoint SCIM de M3 las desbloquea
+- **Las tres firmaron contratos** asumiendo GA para mediados de julio
+
+## Fuera del alcance
+
+Surgieron dos peticiones durante la definición del alcance pero se descartaron: consulta las [preguntas frecuentes](/migration/faq) para más contexto:
+
+- Integración directa de LDAP / Active Directory
+- Reglas personalizadas de complejidad de contraseña por organización

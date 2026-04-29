@@ -1,0 +1,40 @@
+---
+title: "Registros de auditoría"
+description: "Visibilidad para los clientes de los eventos de autenticación e identidad"
+---
+
+<Info>
+  **Planificado.** El panel de registros de auditoría está en el roadmap. Varios clientes potenciales
+  empresariales lo pidieron durante la conversación de adquisición de SSO.
+</Info>
+
+## Qué se registrará
+
+El panel mostrará un feed filtrable de eventos de identidad para la organización:
+
+| Evento | Cuándo se emite |
+| --- | --- |
+| `auth.signin.success` | El usuario inicia sesión (contraseña o SSO) |
+| `auth.signin.failure` | El inicio de sesión falla, con motivo redactado |
+| `auth.sso.linked` | Un usuario de Mintie se vinculó a una identidad de IdP |
+| `auth.sso.unlinked` | Vínculo eliminado (acción de administrador) |
+| `auth.session.forced_relogin` | El job de migración de sesiones marcó una sesión |
+| `scim.user.provisioned` | `POST /Users` de SCIM tuvo éxito |
+| `scim.user.deactivated` | `DELETE /Users/{id}` de SCIM tuvo éxito |
+| `apikey.created` | Clave de API emitida |
+| `apikey.revoked` | Clave de API revocada (manualmente o por desactivación en el IdP) |
+
+## UI
+
+El panel vivirá en **Configuración → Autenticación → Registros de auditoría**, filtrable por:
+
+- Usuario
+- Rango de tiempo
+- Tipo de evento
+- Resultado (éxito / fallo)
+
+Las filas se expanden para mostrar metadatos completos del evento (IP, user agent, claims del IdP, etc.).
+
+## Exportación
+
+La exportación a CSV y un destino de webhook para reenvío a SIEM están ambos en la lista de deseos para este hito.

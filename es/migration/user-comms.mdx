@@ -1,0 +1,46 @@
+---
+title: "Comunicaciones a usuarios finales"
+description: "Cómo Mintie notifica a los usuarios que su contraseña va a desaparecer"
+---
+
+<Warning>
+  **Próximamente.** La secuencia de correos automatizada está en desarrollo. Hasta que
+  se publique, las comunicaciones a usuarios finales las envía tu equipo de cuenta de forma
+  ad-hoc: coordina con [support@mintie.example](mailto:support@mintie.example) antes de
+  aplicar el SSO.
+</Warning>
+
+Cuando una organización habilita el SSO, los usuarios con contraseña de esa organización necesitan ser advertidos antes de que su contraseña deje de funcionar. Mintie envía tres correos transaccionales en un calendario fijo.
+
+## El calendario
+
+<Steps>
+  <Step title="T-30 días desde el retiro">
+    "Tu organización se está moviendo al SSO. Esto es lo que cambia." Incluye
+    el nombre del IdP, la fecha y un enlace para probar el inicio de sesión por adelantado.
+  </Step>
+  <Step title="T-7 días desde el retiro">
+    Recordatorio con la fecha límite explícita. Incluye un enlace al flujo
+    "Probar inicio de sesión" en el producto.
+  </Step>
+  <Step title="T-1 día desde el retiro">
+    Recordatorio final. Después de esto, el formulario de inicio de sesión con contraseña se oculta para la
+    organización del usuario.
+  </Step>
+</Steps>
+
+## Lo que los administradores deben saber
+
+<Note>
+  **No se permite la cancelación de suscripción por usuario.** Esta es una comunicación de seguridad,
+  no marketing: los usuarios no pueden optar por no ser informados de que su contraseña va a desaparecer.
+  El envío respeta los límites de tasa existentes para correo electrónico transaccional.
+</Note>
+
+## Flujo de aprobación
+
+El texto del correo es revisado por soporte y legal antes de cada release importante. Los administradores de la organización pueden previsualizar el correo exacto que recibirán sus usuarios desde **Configuración → Autenticación → SSO → Comunicaciones** una vez que se publique la UI de administración.
+
+## ¿Qué pasa si un usuario se pierde los correos?
+
+Después del retiro, el formulario de contraseña se oculta y el usuario se enruta al SSO automáticamente. Si todavía no tiene una identidad de IdP, llega a la ruta de "usuario desconocido" y el administrador de la organización debe invitarlo o habilitar el [aprovisionamiento JIT](/provisioning/jit).

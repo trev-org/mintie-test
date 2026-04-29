@@ -1,0 +1,49 @@
+---
+title: "Okta"
+description: "Connectez Okta comme votre fournisseur d'identité pour Mintie"
+---
+
+<Warning>
+  **Bientôt disponible.** Le support natif d'Okta est en développement. Aujourd'hui, Okta fonctionne
+  via le flux de connexion SAML/OIDC générique, configuré manuellement par votre
+  équipe de compte Mintie. Le connecteur Okta dédié ajoute la configuration par URL de métadonnées,
+  le mappage de claims de groupe et la compatibilité testée en CI.
+</Warning>
+
+## Ce que le connecteur dédié offrira
+
+<CardGroup cols={2}>
+  <Card title="URL de métadonnées ou téléversement XML" icon="file-import">
+    Collez l'URL de métadonnées de votre app Okta ou téléversez le XML — pas de copier-coller
+    d'émetteur, ACS et certificats de signature.
+  </Card>
+  <Card title="Mappage de claims de groupe" icon="users-rectangle">
+    Mappez les claims de groupe Okta aux rôles Mintie. Documenté par type d'app Okta
+    (OIDC web, SAML 2.0, personnalisée).
+  </Card>
+  <Card title="Compatibilité CI" icon="circle-check">
+    Mintie exécute un test E2E automatisé contre un tenant de développement Okta à chaque
+    release, pour que les régressions spécifiques à Okta ne vous parviennent pas.
+  </Card>
+  <Card title="Prêt pour SCIM" icon="arrows-rotate">
+    Se combine avec le [provisioning SCIM 2.0](/provisioning/scim) pour
+    l'auto-provisioning et le déprovisioning depuis Okta.
+  </Card>
+</CardGroup>
+
+## Configuration aujourd'hui (chemin manuel)
+
+Jusqu'à la publication du connecteur dédié, suivez le flux [SAML / OIDC générique](/setup/generic-saml) avec ces valeurs spécifiques à Okta :
+
+| Champ Mintie | Où le trouver dans Okta |
+| --- | --- |
+| Émetteur | App Okta → Sign On → Issuer |
+| URL d'autorisation | App Okta → Sign On → Authorize URL |
+| URL de jeton | App Okta → Sign On → Token URL |
+| URL JWKS | App Okta → Sign On → JWKS URL |
+| ID client / Secret | App Okta → General |
+
+<Note>
+  Deux de nos trois deals d'entreprise bloqués sont sur Okta — le connecteur
+  dédié est le prochain ticket non fondamental sur la feuille de route.
+</Note>

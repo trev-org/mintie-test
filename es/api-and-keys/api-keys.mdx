@@ -1,0 +1,45 @@
+---
+title: "Claves de API e identidad SSO"
+description: "Cómo se comportan las claves de API cuando el usuario propietario es desactivado en tu IdP"
+---
+
+<Warning>
+  **Próximamente.** Hoy, las claves de API sobreviven a su usuario propietario:
+  si un usuario es desactivado en tu IdP, sus claves siguen funcionando hasta
+  que se revocan manualmente. Estamos cerrando esa brecha; el comportamiento
+  descrito a continuación es el estado objetivo.
+</Warning>
+
+## El problema que estamos resolviendo
+
+Para las organizaciones que requieren SSO, desaprovisionar a un usuario en el IdP también debería detener su acceso a la API de Mintie. Hoy no lo hace: las claves son independientes del estado de la sesión.
+
+## Qué cambia
+
+Cada clave de API llevará el `idp_user_id` del usuario emisor. En cada llamada de API, el middleware de autenticación comprueba el estado "activo" del IdP para ese usuario.
+
+| Comprobación | Frecuencia | Comportamiento al fallar |
+| --- | --- | --- |
+| Flag de revocación local | Cada llamada | `401 invalid_key` |
+| Estado activo en IdP | En caché, TTL de 5 minutos | `401 user_deactivated` |
+| Requisito de SSO de la organización | Cada llamada | `401 sso_required` (si el usuario solo tiene contraseña) |
+
+Esto significa que un usuario desaprovisionado en tu IdP verá sus claves devolver 401 en 5 minutos, independientemente de cuándo se emitieron las claves.
+
+## Qué se mantiene igual
+
+<CardGroup cols={2}>
+  <Card title="Claves de cuenta de servicio" icon="robot">
+    Las claves de cuenta de servicio con alcance de organización están exentas
+    de la comprobación de usuario activo: tienen un modelo de identidad
+    separado y se revocan a nivel de organización.
+  </Card>
+  <Card title="Formato del token" icon="key">
+    Sin cambios visibles para el cliente en el formato del token o en la
+    cabecera de autenticación. No tendrás que rotar claves cuando esto se publique.
+  </Card>
+</CardGroup>
+
+## Migración
+
+Cuando el cambio se despliegue, las claves existentes se marcarán con el `idp_user_id` de su usuario propietario de forma diferida en el primer uso. Las claves cuyo propietario no tenga `idp_user_id` (es decir, todavía solo con contraseña) seguirán funcionando hasta la fecha límite de retiro de contraseñas de la organización.

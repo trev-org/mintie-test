@@ -1,0 +1,45 @@
+---
+title: "Clés d'API et identité SSO"
+description: "Comment les clés d'API se comportent quand l'utilisateur propriétaire est désactivé dans votre IdP"
+---
+
+<Warning>
+  **Bientôt disponible.** Aujourd'hui, les clés d'API survivent à leur utilisateur
+  propriétaire : si un utilisateur est désactivé dans votre IdP, ses clés
+  continuent de fonctionner jusqu'à révocation manuelle. Nous comblons cette
+  lacune ; le comportement décrit ci-dessous est l'état cible.
+</Warning>
+
+## Le problème que nous résolvons
+
+Pour les organisations qui exigent le SSO, le déprovisioning d'un utilisateur dans l'IdP devrait également couper son accès à l'API Mintie. Aujourd'hui ce n'est pas le cas : les clés sont indépendantes de l'état de session.
+
+## Ce qui change
+
+Chaque clé d'API portera l'`idp_user_id` de l'utilisateur émetteur. À chaque appel d'API, le middleware d'authentification vérifie le statut "actif" dans l'IdP pour cet utilisateur.
+
+| Vérification | Fréquence | Comportement en cas d'échec |
+| --- | --- | --- |
+| Flag de révocation local | Chaque appel | `401 invalid_key` |
+| Statut actif dans l'IdP | Mis en cache, TTL de 5 minutes | `401 user_deactivated` |
+| Exigence SSO de l'organisation | Chaque appel | `401 sso_required` (si l'utilisateur n'a qu'un mot de passe) |
+
+Cela signifie qu'un utilisateur déprovisionné dans votre IdP verra ses clés renvoyer 401 dans les 5 minutes, indépendamment du moment où les clés ont été émises.
+
+## Ce qui reste identique
+
+<CardGroup cols={2}>
+  <Card title="Clés de comptes de service" icon="robot">
+    Les clés de compte de service à portée d'organisation sont exemptées de
+    la vérification d'utilisateur actif : elles ont un modèle d'identité
+    distinct et sont révoquées à l'échelle de l'organisation.
+  </Card>
+  <Card title="Format du jeton" icon="key">
+    Aucun changement visible côté client dans le format du jeton ou l'en-tête
+    d'authentification. Vous n'aurez pas à faire tourner les clés à la publication.
+  </Card>
+</CardGroup>
+
+## Migration
+
+Lorsque le changement sera déployé, les clés existantes seront marquées avec l'`idp_user_id` de leur utilisateur propriétaire de manière paresseuse à la première utilisation. Les clés dont le propriétaire n'a pas d'`idp_user_id` (c'est-à-dire encore par mot de passe uniquement) continueront de fonctionner jusqu'à la date limite de retrait des mots de passe de l'organisation.

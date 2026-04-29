@@ -1,0 +1,44 @@
+---
+title: "Habilitar SSO"
+description: "Conecta tu IdP y activa el SSO para tu organización"
+---
+
+<Warning>
+  **Próximamente.** La UI de administración para la configuración de SSO está en desarrollo. Hasta que
+  se publique, tu equipo de cuenta configura las conexiones de IdP en tu nombre: abre
+  un ticket en [support@mintie.example](mailto:support@mintie.example) con
+  los metadatos de tu IdP.
+</Warning>
+
+Una vez se publique la UI de administración, los administradores de organización podrán gestionar el SSO de extremo a extremo sin involucrar a soporte de Mintie.
+
+## Qué incluirá la página
+
+La página de configuración de SSO vive en **Configuración → Autenticación → SSO**. Cubre cuatro tareas:
+
+<CardGroup cols={2}>
+  <Card title="Conectar un IdP" icon="plug">
+    Flujo guiado por proveedor: pega una URL de metadatos de Okta, autenticación OAuth en
+    Google Workspace, o sube un XML SAML genérico.
+  </Card>
+  <Card title="Comprobar la salud de la conexión" icon="heart-pulse">
+    Una insignia de estado en vivo por conexión: frescura de la clave de firma, última
+    sincronización exitosa, último inicio de sesión.
+  </Card>
+  <Card title="Probar inicio de sesión" icon="vial">
+    Un enlace "Probar inicio de sesión" desencadena un viaje de ida y vuelta real a tu IdP y
+    muestra el éxito o la razón exacta del fallo.
+  </Card>
+  <Card title="Requerir SSO" icon="lock">
+    Un toggle que aplica el SSO a nivel de toda la organización. Muestra un modal de confirmación
+    explicando las [consecuencias de la migración de sesiones](/concepts/sessions).
+  </Card>
+</CardGroup>
+
+## Configuración específica del proveedor
+
+Cada proveedor tiene su propia página una vez llegues al paso de conexión:
+
+- [Okta](/setup/okta)
+- [Google Workspace](/setup/google-workspace)
+- [SAML / OIDC genérico](/setup/generic-saml)

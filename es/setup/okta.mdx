@@ -1,0 +1,49 @@
+---
+title: "Okta"
+description: "Conecta Okta como tu proveedor de identidad para Mintie"
+---
+
+<Warning>
+  **Próximamente.** El soporte nativo de Okta está en desarrollo. Hoy, Okta funciona
+  a través del flujo de conexión SAML/OIDC genérico, configurado manualmente por tu
+  equipo de cuenta de Mintie. El conector dedicado de Okta añade configuración mediante URL de metadatos,
+  mapeo de claims de grupo, y compatibilidad probada en CI.
+</Warning>
+
+## Qué ofrecerá el conector dedicado
+
+<CardGroup cols={2}>
+  <Card title="URL de metadatos o subida de XML" icon="file-import">
+    Pega la URL de metadatos de tu app de Okta o sube el XML: sin copiar y pegar
+    el emisor, ACS y certificados de firma.
+  </Card>
+  <Card title="Mapeo de claims de grupo" icon="users-rectangle">
+    Mapea los claims de grupo de Okta a los roles de Mintie. Documentado por tipo de app de Okta
+    (OIDC web, SAML 2.0, personalizada).
+  </Card>
+  <Card title="Compatibilidad con CI" icon="circle-check">
+    Mintie ejecuta una prueba E2E automatizada contra un tenant de desarrollo de Okta en cada
+    release, para que las regresiones específicas de Okta no te lleguen.
+  </Card>
+  <Card title="Listo para SCIM" icon="arrows-rotate">
+    Se combina con el [aprovisionamiento SCIM 2.0](/provisioning/scim) para
+    el aprovisionamiento y desaprovisión automáticos desde Okta.
+  </Card>
+</CardGroup>
+
+## Configuración hoy (ruta manual)
+
+Hasta que se publique el conector dedicado, sigue el flujo [SAML / OIDC genérico](/setup/generic-saml) con estos valores específicos de Okta:
+
+| Campo Mintie | Dónde encontrarlo en Okta |
+| --- | --- |
+| Emisor | App de Okta → Sign On → Issuer |
+| URL de autorización | App de Okta → Sign On → Authorize URL |
+| URL de token | App de Okta → Sign On → Token URL |
+| URL de JWKS | App de Okta → Sign On → JWKS URL |
+| ID de cliente / Secreto | App de Okta → General |
+
+<Note>
+  Dos de nuestras tres operaciones empresariales bloqueadas están en Okta: el conector
+  dedicado es el siguiente ticket no fundacional en el roadmap.
+</Note>

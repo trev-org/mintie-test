@@ -1,0 +1,70 @@
+---
+title: "Sesiones"
+description: "Cómo Mintie emite, valida y migra las sesiones durante el despliegue del SSO"
+---
+
+<Warning>
+  Varias partes del manejo de sesiones están **en desarrollo activo**. El
+  flujo descrito aquí es el estado objetivo. Hoy, los callbacks OIDC tienen éxito
+  pero el job de migración de sesiones y el `AuthGuard` unificado todavía
+  se están desplegando.
+</Warning>
+
+## Ciclo de vida de la sesión
+
+Una sesión de Mintie es un registro del lado del servidor más una cookie opaca. La cookie lleva el ID de sesión; todo lo demás (ID de usuario, expiración, claims del IdP) vive en la fila de la sesión.
+
+| Campo | Origen |
+| --- | --- |
+| `session_id` | Token aleatorio de 256 bits, opaco para el cliente |
+| `user_id` | De la búsqueda de vinculación de identidad |
+| `auth_method` | `password` o `sso` |
+| `idp_user_id` | Establecido cuando `auth_method = sso` |
+| `force_sso_relogin_at` | Marcado por el job de migración (ver más abajo) |
+| `expires_at` | Ventana deslizante de 14 días, con un máximo absoluto de 90 días |
+
+## Migración de sesiones
+
+Cuando una organización activa **Requerir SSO**, las sesiones activas con contraseña se migran al SSO sin cerrar todas las pestañas de todo el mundo a la vez.
+
+<Steps>
+  <Step title="El job de migración marca cada sesión activa">
+    Un job en segundo plano itera las sesiones activas de la organización y establece
+    `force_sso_relogin_at = now()`. El despliegue por defecto es gradual: 10% de
+    las sesiones por minuto, para repartir la carga de reautenticación en el IdP.
+  </Step>
+  <Step title="AuthGuard aplica la marca">
+    En la siguiente petición, el middleware de autenticación ve la marca y devuelve
+    `401 { reason: "sso_required" }`.
+  </Step>
+  <Step title="El interceptor del frontend enruta al SSO">
+    El interceptor de respuestas del frontend captura `sso_required`, guarda la
+    URL de retorno, y redirige al usuario al punto de entrada de SSO.
+  </Step>
+  <Step title="El usuario se reautentica vía IdP">
+    Tras el éxito, se emite una nueva sesión SSO y el usuario vuelve al lugar donde estaba.
+  </Step>
+</Steps>
+
+## AuthGuard y principals
+
+El middleware de autenticación (`AuthGuard`) devuelve un `AuthenticatedPrincipal`. Existen dos implementaciones:
+
+```ts
+interface AuthenticatedPrincipal {
+  userId: string;
+  orgId: string;
+  authMethod: "password" | "sso";
+}
+
+class PasswordPrincipal implements AuthenticatedPrincipal { /* ... */ }
+class SsoPrincipal implements AuthenticatedPrincipal {
+  // adds: idpUserId, idpProvider, idpClaims
+}
+```
+
+<Note>
+  Los consumidores aguas abajo deben depender de la interfaz
+  `AuthenticatedPrincipal`, no de las clases concretas. El código que desestructura `session.userId`
+  directamente está siendo migrado: consulta el seguimiento interno del codemod.
+</Note>

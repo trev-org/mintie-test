@@ -28,55 +28,175 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Documentation",
-        "groups": [
+        "language": "en",
+        "default": true,
+        "tabs": [
           {
-            "group": "Get started",
-            "pages": ["introduction", "quickstart"]
-          },
-          {
-            "group": "Concepts",
-            "pages": [
-              "concepts/how-sso-works",
-              "concepts/identity-linking",
-              "concepts/sessions",
-              "concepts/feature-flags"
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Get started",
+                "pages": ["introduction", "quickstart"]
+              },
+              {
+                "group": "Concepts",
+                "pages": [
+                  "concepts/how-sso-works",
+                  "concepts/identity-linking",
+                  "concepts/sessions",
+                  "concepts/feature-flags"
+                ]
+              },
+              {
+                "group": "Set up a provider",
+                "pages": [
+                  "setup/sign-in-experience",
+                  "setup/enable-sso",
+                  "setup/okta",
+                  "setup/google-workspace",
+                  "setup/generic-saml"
+                ]
+              },
+              {
+                "group": "User provisioning",
+                "pages": [
+                  "provisioning/overview",
+                  "provisioning/scim",
+                  "provisioning/jit"
+                ]
+              },
+              {
+                "group": "API & integrations",
+                "pages": ["api-and-keys/api-keys"]
+              },
+              {
+                "group": "Security",
+                "pages": ["security/mfa", "security/audit-logs"]
+              },
+              {
+                "group": "Migration",
+                "pages": [
+                  "migration/timeline",
+                  "migration/user-comms",
+                  "migration/faq"
+                ]
+              }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "language": "es",
+        "tabs": [
           {
-            "group": "Set up a provider",
-            "pages": [
-              "setup/sign-in-experience",
-              "setup/enable-sso",
-              "setup/okta",
-              "setup/google-workspace",
-              "setup/generic-saml"
+            "tab": "Documentación",
+            "groups": [
+              {
+                "group": "Empezar",
+                "pages": ["es/introduction", "es/quickstart"]
+              },
+              {
+                "group": "Conceptos",
+                "pages": [
+                  "es/concepts/how-sso-works",
+                  "es/concepts/identity-linking",
+                  "es/concepts/sessions",
+                  "es/concepts/feature-flags"
+                ]
+              },
+              {
+                "group": "Configurar un proveedor",
+                "pages": [
+                  "es/setup/sign-in-experience",
+                  "es/setup/enable-sso",
+                  "es/setup/okta",
+                  "es/setup/google-workspace",
+                  "es/setup/generic-saml"
+                ]
+              },
+              {
+                "group": "Aprovisionamiento de usuarios",
+                "pages": [
+                  "es/provisioning/overview",
+                  "es/provisioning/scim",
+                  "es/provisioning/jit"
+                ]
+              },
+              {
+                "group": "API e integraciones",
+                "pages": ["es/api-and-keys/api-keys"]
+              },
+              {
+                "group": "Seguridad",
+                "pages": ["es/security/mfa", "es/security/audit-logs"]
+              },
+              {
+                "group": "Migración",
+                "pages": [
+                  "es/migration/timeline",
+                  "es/migration/user-comms",
+                  "es/migration/faq"
+                ]
+              }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "language": "fr",
+        "tabs": [
           {
-            "group": "User provisioning",
-            "pages": [
-              "provisioning/overview",
-              "provisioning/scim",
-              "provisioning/jit"
-            ]
-          },
-          {
-            "group": "API & integrations",
-            "pages": ["api-and-keys/api-keys"]
-          },
-          {
-            "group": "Security",
-            "pages": ["security/mfa", "security/audit-logs"]
-          },
-          {
-            "group": "Migration",
-            "pages": [
-              "migration/timeline",
-              "migration/user-comms",
-              "migration/faq"
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Démarrer",
+                "pages": ["fr/introduction", "fr/quickstart"]
+              },
+              {
+                "group": "Concepts",
+                "pages": [
+                  "fr/concepts/how-sso-works",
+                  "fr/concepts/identity-linking",
+                  "fr/concepts/sessions",
+                  "fr/concepts/feature-flags"
+                ]
+              },
+              {
+                "group": "Configurer un fournisseur",
+                "pages": [
+                  "fr/setup/sign-in-experience",
+                  "fr/setup/enable-sso",
+                  "fr/setup/okta",
+                  "fr/setup/google-workspace",
+                  "fr/setup/generic-saml"
+                ]
+              },
+              {
+                "group": "Provisioning des utilisateurs",
+                "pages": [
+                  "fr/provisioning/overview",
+                  "fr/provisioning/scim",
+                  "fr/provisioning/jit"
+                ]
+              },
+              {
+                "group": "API et intégrations",
+                "pages": ["fr/api-and-keys/api-keys"]
+              },
+              {
+                "group": "Sécurité",
+                "pages": ["fr/security/mfa", "fr/security/audit-logs"]
+              },
+              {
+                "group": "Migration",
+                "pages": [
+                  "fr/migration/timeline",
+                  "fr/migration/user-comms",
+                  "fr/migration/faq"
+                ]
+              }
             ]
           }
         ]
