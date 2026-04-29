@@ -86,11 +86,11 @@
             ]
           },
           {
-            "tab": "Registro de cambios",
+            "tab": "Changelog",
             "groups": [
               {
-                "group": "Registro de cambios",
-                "pages": ["es/changelog/overview"]
+                "group": "Changelog",
+                "pages": ["changelog/overview"]
               }
             ]
           }
@@ -152,11 +152,11 @@
             ]
           },
           {
-            "tab": "Journal des modifications",
+            "tab": "Registro de cambios",
             "groups": [
               {
-                "group": "Journal des modifications",
-                "pages": ["fr/changelog/overview"]
+                "group": "Registro de cambios",
+                "pages": ["es/changelog/overview"]
               }
             ]
           }
@@ -218,11 +218,11 @@
             ]
           },
           {
-            "tab": "Changelog",
+            "tab": "Journal des modifications",
             "groups": [
               {
-                "group": "Changelog",
-                "pages": ["changelog/overview"]
+                "group": "Journal des modifications",
+                "pages": ["fr/changelog/overview"]
               }
             ]
           }
