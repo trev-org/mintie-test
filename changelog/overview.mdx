@@ -1,0 +1,38 @@
+---
+title: "Changelog"
+description: "Latest product updates from Mintie SSO"
+---
+
+<Update label="April 29, 2026" description="Mintie SSO general availability" tags={["Release"]}>
+
+## New features
+
+**Enterprise single sign-on.** Replace password login with your existing identity provider. Sign-in is gated per organization by the `sso_enabled` flag — your account team flips it when you're ready. See [how SSO works](/concepts/how-sso-works).
+
+**Email-first sign-in.** Users enter their email on the login screen and are routed to your IdP automatically. Read more in [sign-in experience](/setup/sign-in-experience).
+
+**Okta and Google Workspace providers.** Connect your IdP using the dedicated guides for [Okta](/setup/okta) and [Google Workspace](/setup/google-workspace), or use the [generic SAML / OIDC](/setup/generic-saml) flow for any other provider.
+
+**Identity linking.** Each user is now linked 1:1 to an external IdP identity, so the same person stays the same person across login methods. See [identity linking](/concepts/identity-linking).
+
+**SCIM 2.0 provisioning.** Provision and deprovision users automatically from your IdP. Details in [SCIM provisioning](/provisioning/scim).
+
+**Just-in-time provisioning.** New users are created on first SSO sign-in, no pre-sync required. See [JIT provisioning](/provisioning/jit).
+
+**Admin UI for SSO config.** Configure your IdP connection, run a test sign-in, and enforce SSO from **Settings → Auth → SSO** in the dashboard. Walkthrough in the [quickstart](/quickstart).
+
+**SSO-aware API keys.** API keys are now tied to your IdP identity and are revoked when the user is deprovisioned. See [API keys](/api-and-keys/api-keys).
+
+**Step-up MFA.** Sensitive actions can require a fresh MFA challenge even within an active session. See [step-up MFA](/security/mfa).
+
+**Audit log.** Track every authentication event — sign-ins, SSO enforcement changes, SCIM updates, and API key activity. See [audit logs](/security/audit-logs).
+
+## Updates
+
+**Session migration on enforcement.** When you flip **Require SSO**, active password sessions are migrated to SSO within minutes instead of being abruptly terminated. Background details in [sessions](/concepts/sessions).
+
+**Migration emails.** Mintie now automatically emails password users at T-30, T-7, and T-1 days before their password stops working. See [user comms](/migration/user-comms) and the full [migration timeline](/migration/timeline).
+
+**Per-org feature flag.** SSO rolls out organization by organization via the `sso_enabled` flag, so you can pilot with one org before enabling the rest. See [feature flags](/concepts/feature-flags).
+
+</Update>

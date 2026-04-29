@@ -78,6 +78,10 @@
               "migration/user-comms",
               "migration/faq"
             ]
+          },
+          {
+            "group": "Changelog",
+            "pages": ["changelog/overview"]
           }
         ]
       }
