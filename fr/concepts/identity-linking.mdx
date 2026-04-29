@@ -1,0 +1,63 @@
+---
+title: "Liaison d'identité"
+description: "Comment les utilisateurs Mintie sont mappés aux identités IdP externes"
+---
+
+Chaque utilisateur Mintie a un lien optionnel vers un fournisseur d'identité externe. Le lien vit sur deux colonnes de la table `users`.
+
+## Schéma
+
+| Colonne | Type | Description |
+| --- | --- | --- |
+| `idp_provider` | `text`, nullable | Clé du fournisseur — `okta`, `google`, `generic_oidc`, `generic_saml`. |
+| `idp_user_id` | `text`, nullable | ID utilisateur stable du fournisseur (le claim `sub`, ou l'`id` SCIM). |
+
+Un index unique composite sur `(idp_provider, idp_user_id)` garantit qu'une identité externe donnée correspond au plus à un utilisateur Mintie.
+
+## Ordre de recherche
+
+Lorsque le callback OIDC se déclenche, Mintie résout l'utilisateur dans cet ordre :
+
+<Steps>
+  <Step title="Par ID externe">
+    `WHERE idp_provider = ? AND idp_user_id = ?`. C'est le cas en régime
+    permanent — l'utilisateur s'est déjà connecté via SSO.
+  </Step>
+  <Step title="Par e-mail, si non lié">
+    Si aucune ligne ne correspond, Mintie recherche l'utilisateur par e-mail. Si une correspondance est trouvée
+    et que la ligne n'a pas de colonnes `idp_*` définies, Mintie écrit le lien
+    de manière transactionnelle et connecte l'utilisateur.
+  </Step>
+  <Step title="Provisionne, si JIT activé">
+    S'il n'y a pas de correspondance d'e-mail et que l'organisation a JIT activé (planifié —
+    voir [provisioning JIT](/provisioning/jit)), Mintie crée un nouvel utilisateur.
+  </Step>
+  <Step title="Rejette sinon">
+    La connexion est rejetée avec une erreur "utilisateur inconnu". L'administrateur de l'organisation
+    doit inviter l'utilisateur (ou activer SCIM / JIT).
+  </Step>
+</Steps>
+
+## Cas limites
+
+<AccordionGroup>
+  <Accordion title="Même e-mail, IdP différent">
+    Si un utilisateur a déjà `idp_provider = 'okta'` et tente de se connecter via
+    `google` avec le même e-mail, Mintie rejette la connexion. Les utilisateurs ont
+    exactement un IdP à la fois. Les administrateurs d'organisation peuvent le changer via le support.
+  </Accordion>
+  <Accordion title="Changement d'e-mail dans l'IdP">
+    Mintie utilise `idp_user_id` comme clé, pas l'e-mail — ainsi un changement d'e-mail dans l'IdP
+    se propage à la prochaine connexion sans rompre le lien.
+  </Accordion>
+  <Accordion title="Compte existant par mot de passe">
+    La première connexion SSO pour un compte par mot de passe lie la ligne en place.
+    Le mot de passe **n'est pas** supprimé mais est contourné lors des connexions suivantes.
+    Il est purgé à l'expiration de la date limite de retrait des mots de passe de l'organisation.
+  </Accordion>
+</AccordionGroup>
+
+## Historique de migration
+
+Les colonnes `idp_*` ont été ajoutées le 2026-04-15 avec un backfill no-op. Les utilisateurs
+préexistants ont `NULL` dans les deux colonnes jusqu'à leur première connexion SSO.

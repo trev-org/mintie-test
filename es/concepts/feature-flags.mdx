@@ -1,0 +1,50 @@
+---
+title: "Feature flags"
+description: "Cómo el despliegue del SSO se controla por organización"
+---
+
+Todas las rutas de código de SSO están detrás de un único flag de LaunchDarkly: `sso_enabled`. El flag se evalúa por organización, no por usuario.
+
+## El flag
+
+| | |
+| --- | --- |
+| **Clave** | `sso_enabled` |
+| **Tipo** | Booleano |
+| **Por defecto** | `false` |
+| **Targeting** | Por organización, mediante `orgId` |
+
+Cuando `sso_enabled = false`:
+
+- El botón "Continuar con SSO" se oculta en `/login`
+- `/api/auth/idp-lookup` devuelve `{ ssoEnabled: false }`
+- `/api/auth/sso/callback` devuelve `404`
+- La página de configuración de SSO en la UI de administración está oculta
+
+## Cómo se evalúa
+
+La evaluación del lado del servidor pasa por `FeatureContext.forOrg(orgId)`:
+
+```ts
+const ctx = FeatureContext.forOrg(orgId);
+if (await ctx.bool("sso_enabled")) {
+  // SSO code path
+}
+```
+
+La evaluación del frontend usa el hook estándar:
+
+```tsx
+const ssoEnabled = useFlag("sso_enabled");
+```
+
+## Estrategia de despliegue
+
+Activamos `sso_enabled` por organización a medida que incorporamos pilotos:
+
+1. Organización interna de Mintie (ya activada)
+2. Organizaciones de design partner (pilotos activos)
+3. Las tres operaciones empresariales bloqueadas (esperando a Okta/SCIM)
+4. Disponibilidad general: el flag pasa a ser `true` por defecto
+
+Una vez que llegue la GA, el flag se mantendrá durante un ciclo de release como interruptor de emergencia y luego se eliminará.

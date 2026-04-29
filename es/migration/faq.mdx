@@ -1,0 +1,70 @@
+---
+title: "Preguntas frecuentes"
+description: "Preguntas comunes sobre la migración a SSO en Mintie"
+---
+
+## Soporte de proveedores
+
+<AccordionGroup>
+  <Accordion title="¿Mintie soporta integración directa con LDAP / Active Directory?">
+    **No, y no tenemos planes de hacerlo.** La petición original vino de un único
+    cliente potencial que ya ejecuta Okta delante de AD, por lo que la ruta WorkOS → Okta los
+    cubre. Ejecutar un cliente LDAP en nuestra infraestructura no merece la pena
+    por la carga operativa para un solo cliente. Si varios clientes piden
+    LDAP directo, lo reconsideraremos.
+  </Accordion>
+  <Accordion title="¿Y Microsoft Entra ID (anteriormente Azure AD)?">
+    Soportado a través del conector [SAML / OIDC genérico](/setup/generic-saml)
+    hoy. Aún no se ha priorizado un conector dedicado de Entra: presenta una
+    solicitud si lo necesitas.
+  </Accordion>
+  <Accordion title="¿Puedo usar varios IdP para una organización?">
+    No. Cada organización tiene un IdP a la vez. Los usuarios de la misma organización inician sesión
+    a través del mismo proveedor.
+  </Accordion>
+</AccordionGroup>
+
+## Contraseñas
+
+<AccordionGroup>
+  <Accordion title="¿Puedo configurar reglas de complejidad de contraseña por organización?">
+    **No, y lo eliminamos del alcance.** Las contraseñas van a desaparecer con
+    el SSO; invertir en reglas de contraseña por organización sería un esfuerzo desperdiciado. Los
+    valores predeterminados existentes basados en zxcvbn se mantienen para la cola larga de
+    usuarios con contraseña hasta el retiro completo.
+  </Accordion>
+  <Accordion title="¿Qué le pasa a la contraseña de un usuario cuando se vincula al SSO?">
+    El hash permanece en la base de datos pero se omite en los inicios de sesión posteriores.
+    Se purga cuando pasa la fecha límite de retiro de contraseñas de la organización.
+  </Accordion>
+  <Accordion title="¿Puede un usuario optar por no usar SSO una vez que su organización lo aplica?">
+    No. La aplicación del SSO es a nivel de toda la organización.
+  </Accordion>
+</AccordionGroup>
+
+## Sesiones y migración
+
+<AccordionGroup>
+  <Accordion title="¿Mis usuarios serán desconectados en el momento en que aplique el SSO?">
+    No inmediatamente. El [job de migración de sesiones](/concepts/sessions) despliega
+    la reautenticación forzada al 10% de sesiones por minuto por defecto, de modo que la
+    flota completa no llegue a tu IdP a la vez.
+  </Accordion>
+  <Accordion title="¿Y las claves de API?">
+    Consulta [Claves de API e identidad SSO](/api-and-keys/api-keys). Una vez que esto
+    se publique, los usuarios desactivados en el IdP verán que sus claves devuelven 401 en 5 minutos.
+  </Accordion>
+</AccordionGroup>
+
+## Precios
+
+<AccordionGroup>
+  <Accordion title="¿El SSO es una característica solo para empresas?">
+    El SSO está incluido en los planes Business y Enterprise. SCIM es
+    solo para Enterprise.
+  </Accordion>
+  <Accordion title="¿Cobráis por usuario de IdP o por usuario de Mintie?">
+    Por usuario de Mintie, facturado contra tu plan de asientos existente. La desaprovisión
+    de SCIM libera asientos automáticamente.
+  </Accordion>
+</AccordionGroup>

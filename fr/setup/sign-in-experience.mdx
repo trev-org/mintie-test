@@ -1,0 +1,50 @@
+---
+title: "Expérience de connexion"
+description: "Ce que les utilisateurs finaux voient sur l'écran de connexion Mintie quand le SSO est activé"
+---
+
+L'écran de connexion à `/login` est **e-mail d'abord**. Les utilisateurs saisissent leur e-mail ; Mintie s'occupe du reste.
+
+## Le flux
+
+<Steps>
+  <Step title="L'utilisateur saisit l'e-mail">
+    Un seul champ e-mail est la seule entrée au premier chargement.
+  </Step>
+  <Step title="Mintie recherche l'IdP de l'organisation">
+    Le frontend POST vers `/api/auth/idp-lookup`. La réponse est l'une de :
+
+    ```json
+    { "method": "sso", "redirectUrl": "https://idp.example/..." }
+    ```
+    ```json
+    { "method": "password" }
+    ```
+  </Step>
+  <Step title="Mintie redirige en conséquence">
+    Sur `sso`, le frontend redirige vers l'IdP. Sur `password`, le champ
+    de mot de passe est révélé.
+  </Step>
+</Steps>
+
+## À quoi ressemble le bouton
+
+Le point d'entrée "Continuer avec le SSO" est rendu par le composant `<SsoButton />`. Il est encapsulé dans un check `useFlag("sso_enabled")`, donc les utilisateurs des organisations sans SSO ne le voient jamais.
+
+## Cas limites
+
+<AccordionGroup>
+  <Accordion title="L'utilisateur saisit un e-mail que Mintie ne connaît pas">
+    `/api/auth/idp-lookup` renvoie `{ method: "password" }` pour éviter de divulguer
+    l'appartenance à une organisation. La tentative de mot de passe échoue de la même manière que pour tout
+    utilisateur inconnu.
+  </Accordion>
+  <Accordion title="Un utilisateur dans une organisation qui exige le SSO essaie le champ mot de passe">
+    Le champ mot de passe n'apparaît jamais pour les organisations qui exigent le SSO — la réponse de
+    recherche renvoie toujours `sso`.
+  </Accordion>
+  <Accordion title="Plusieurs organisations, même e-mail">
+    Mintie choisit l'organisation en fonction de l'organisation principale de l'utilisateur. Les utilisateurs
+    multi-organisations peuvent choisir une organisation spécifique via le paramètre de query `?org=<slug>`.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,73 @@
+---
+title: "SCIM 2.0"
+description: "Aprovisionamiento y desaprovisionamiento automatizado de usuarios mediante SCIM 2.0"
+---
+
+<Warning>
+  **Próximamente.** SCIM 2.0 está en desarrollo y es el requisito bloqueante
+  para la más grande de nuestras tres operaciones empresariales bloqueadas. La interfaz
+  documentada aquí es la especificación planificada.
+</Warning>
+
+## Qué te aporta SCIM
+
+Cuando tu IdP envía un evento del ciclo de vida del usuario (nueva contratación, cambio de grupo, desaprovisión), Mintie lo refleja en segundos, sin clics del administrador.
+
+## Endpoints
+
+La URL base es `https://app.mintie.example/scim/v2`.
+
+| Método | Ruta | Propósito |
+| --- | --- | --- |
+| `GET` | `/Users` | Lista usuarios |
+| `POST` | `/Users` | Crea un usuario |
+| `GET` | `/Users/{id}` | Obtiene un usuario |
+| `PATCH` | `/Users/{id}` | Actualiza un usuario (incluido el toggle de activación) |
+| `DELETE` | `/Users/{id}` | Borrado lógico de un usuario |
+| `GET` | `/Groups` | Lista grupos |
+| `POST` | `/Groups` | Crea un grupo |
+| `PATCH` | `/Groups/{id}` | Actualiza la pertenencia a un grupo |
+| `DELETE` | `/Groups/{id}` | Borrado lógico de un grupo |
+
+## Autenticación
+
+Un token bearer por organización. Genera y rota el token desde la [UI de administración](/setup/enable-sso) una vez se publique.
+
+```http
+Authorization: Bearer scim_live_<token>
+```
+
+<Note>
+  Los tokens SCIM tienen alcance a una organización y a un único propósito. No pueden leer ni
+  escribir nada fuera de los endpoints SCIM.
+</Note>
+
+## Semántica del borrado lógico
+
+`DELETE /Users/{id}` **no** elimina la fila. Establece `deactivated_at = now()` y revoca todas las sesiones. La fila se conserva para fines de auditoría: consulta [registros de auditoría](/security/audit-logs).
+
+## Conformidad
+
+El endpoint SCIM apunta a la compatibilidad con la suite de cumplimiento SCIM de Okta. Una vez disponible, el SCIM de Mintie se podrá probar con:
+
+- El probador SCIM de Okta
+- El agente de aprovisionamiento de Microsoft Entra ID
+- WorkOS Directory Sync (usado internamente)
+
+## Lo que harás
+
+<Steps>
+  <Step title="Genera un token SCIM">
+    Desde **Configuración → Autenticación → SSO → SCIM**, haz clic en **Generar token**.
+  </Step>
+  <Step title="Configura tu IdP">
+    Pega la URL base y el token en la configuración de aprovisionamiento SCIM de tu IdP.
+  </Step>
+  <Step title="Elige los mapeos de atributos">
+    Los valores predeterminados coinciden con SCIM Core estándar. Mapea cualquier atributo personalizado que
+    tu organización necesite.
+  </Step>
+  <Step title="Envía un usuario de prueba">
+    Aprovisiona un usuario desde el IdP y confirma que aparece en Mintie.
+  </Step>
+</Steps>

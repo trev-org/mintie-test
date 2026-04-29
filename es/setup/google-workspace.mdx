@@ -1,0 +1,45 @@
+---
+title: "Google Workspace"
+description: "Conecta Google Workspace como tu proveedor de identidad para Mintie"
+---
+
+<Warning>
+  **Próximamente.** El conector de Google Workspace está en desarrollo. Hoy,
+  el inicio de sesión con Google funciona a través del flujo de conexión OIDC genérico, configurado por tu
+  equipo de cuenta de Mintie. El conector dedicado añade un flujo de administración basado en OAuth
+  y Directory Sync.
+</Warning>
+
+## Qué ofrecerá el conector dedicado
+
+<CardGroup cols={2}>
+  <Card title="Conexión de administrador con OAuth" icon="google">
+    Un superadministrador en tu Google Workspace hace clic en "Conectar Google" y
+    concede a Mintie acceso con scopes. Sin XML SAML, sin secretos de cliente que pegar.
+  </Card>
+  <Card title="Sincronización de directorio" icon="people-arrows">
+    Los usuarios y grupos se sincronizan de Google a Mintie cada noche. Las nuevas contrataciones aparecen
+    automáticamente; las salidas se desactivan en 24 horas.
+  </Card>
+  <Card title="Estado de la conexión" icon="signal">
+    Visible en la UI de administración: hora de la última sincronización, número de usuarios, estado de la concesión de scopes.
+  </Card>
+</CardGroup>
+
+## Configuración hoy (ruta manual)
+
+Usa el flujo [SAML / OIDC genérico](/setup/generic-saml) con los endpoints OIDC estándar de Google:
+
+| Campo Mintie | Valor |
+| --- | --- |
+| Emisor | `https://accounts.google.com` |
+| URL de autorización | `https://accounts.google.com/o/oauth2/v2/auth` |
+| URL de token | `https://oauth2.googleapis.com/token` |
+| URL de JWKS | `https://www.googleapis.com/oauth2/v3/certs` |
+| ID de cliente / Secreto | Desde Google Cloud Console → APIs y Servicios → Credenciales |
+
+<Tip>
+  El conector dedicado desbloquea Directory Sync. Sin él, Google
+  Workspace funciona para SSO pero no para autoaprovisionamiento: las nuevas contrataciones deben ser
+  invitadas manualmente hasta que aterrice SCIM o el conector.
+</Tip>

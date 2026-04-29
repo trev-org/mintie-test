@@ -1,0 +1,50 @@
+---
+title: "Calendrier de migration"
+description: "Comment le déploiement du SSO est séquencé, des fondations à la GA"
+---
+
+Le déploiement du SSO est séquencé en quatre jalons. Nous sommes actuellement entre M1 et M2.
+
+## Jalons
+
+<Steps>
+  <Step title="M1 — Happy path OIDC derrière un flag">
+    **Fait.** Migration de schéma, feature flag, point d'entrée de connexion.
+    Le handler du callback OIDC est en cours de finalisation (en développement).
+  </Step>
+  <Step title="M2 — Adaptateurs Okta + Google en GA">
+    **En cours.** Connecteurs natifs pour les deux IdP les plus prioritaires.
+    Le SAML/OIDC générique fonctionne manuellement entre-temps.
+  </Step>
+  <Step title="M3 — SCIM + interface d'administration">
+    **Suivant.** Endpoint SCIM 2.0 et la page de paramètres d'administration qui permet
+    aux clients de configurer le SSO en libre-service.
+  </Step>
+  <Step title="M4 — Retrait des mots de passe">
+    **Final.** Une fois qu'une organisation est sur le SSO depuis 60 jours, la connexion par
+    mot de passe est désactivée. Les communications utilisateurs montent en charge à T-30, T-7 et T-1 jour.
+  </Step>
+</Steps>
+
+## Dates du projet
+
+| | |
+| --- | --- |
+| Début | 2026-04-01 |
+| Cible | 2026-07-15 |
+| Statut | En cours |
+
+## Contraintes directrices
+
+Le déploiement est séquencé autour de trois deals d'entreprise bloqués :
+
+- **Deux sur Okta** — le connecteur Okta de M2 est sur le chemin critique
+- **Un a besoin de SCIM** — l'endpoint SCIM de M3 les débloque
+- **Les trois ont signé des contrats** en supposant la GA pour mi-juillet
+
+## Hors périmètre
+
+Deux demandes ont émergé lors du cadrage mais ont été retirées — voir la [FAQ](/migration/faq) pour plus de contexte :
+
+- Intégration directe LDAP / Active Directory
+- Règles personnalisées de complexité de mot de passe par organisation

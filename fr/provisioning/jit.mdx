@@ -1,0 +1,45 @@
+---
+title: "Provisioning juste-à-temps"
+description: "Créer des utilisateurs à la première connexion SSO via le mappage d'attributs SAML"
+---
+
+<Info>
+  **Planifié.** Le provisioning JIT est sur la feuille de route en suite de SCIM.
+  Cette page décrit la conception planifiée — aucun des flags JIT ni des
+  mappages d'attributs n'est actif aujourd'hui.
+</Info>
+
+## Pourquoi JIT
+
+SCIM est la bonne réponse quand votre IdP le prend en charge. Pour les équipes dont l'IdP n'a pas d'outils SCIM — ou qui ne veulent pas maintenir un agent de provisioning SCIM — JIT est l'alternative : un utilisateur est créé la première fois qu'il se connecte avec succès via SSO.
+
+## Comment cela fonctionnera
+
+Quand `jit_enabled = true` pour une organisation et qu'un callback OIDC réussit pour un utilisateur inconnu, Mintie :
+
+<Steps>
+  <Step title="Lit les attributs SAML / OIDC de l'assertion">
+    E-mail, nom et (optionnellement) claims de mappage de rôles.
+  </Step>
+  <Step title="Crée l'utilisateur avec les attributs mappés">
+    Le rôle par défaut est `member` sauf si un claim de mappage de rôle dit autre chose.
+  </Step>
+  <Step title="Lie l'identité IdP dans la même transaction">
+    L'utilisateur est connecté immédiatement — pas de seconde redirection.
+  </Step>
+</Steps>
+
+## Mappage d'attributs par défaut
+
+| Champ Mintie | Attribut SAML | Claim OIDC |
+| --- | --- | --- |
+| `email` | `email` ou `emailAddress` | `email` |
+| `firstName` | `firstName` ou `givenName` | `given_name` |
+| `lastName` | `lastName` ou `familyName` | `family_name` |
+| `role` | `role` (défini par l'organisation) | claim personnalisé |
+
+## Quand JIT est le mauvais choix
+
+- Vous avez besoin de déprovisioning (JIT ne gère que le provisioning — utilisez SCIM)
+- Vous avez besoin de changements d'accès basés sur les groupes après la connexion (utilisez SCIM)
+- On ne peut pas faire confiance à votre IdP pour envoyer des attributs précis (utilisez l'invitation manuelle)

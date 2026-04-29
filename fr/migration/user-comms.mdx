@@ -1,0 +1,46 @@
+---
+title: "Communications aux utilisateurs finaux"
+description: "Comment Mintie informe les utilisateurs que leur mot de passe va disparaître"
+---
+
+<Warning>
+  **Bientôt disponible.** La séquence d'e-mails automatisée est en développement. Jusqu'à
+  sa publication, les communications aux utilisateurs finaux sont envoyées au cas par cas par votre
+  équipe de compte — coordonnez avec [support@mintie.example](mailto:support@mintie.example) avant
+  d'appliquer le SSO.
+</Warning>
+
+Lorsqu'une organisation active le SSO, les utilisateurs par mot de passe de cette organisation doivent être avertis avant que leur mot de passe cesse de fonctionner. Mintie envoie trois e-mails transactionnels selon un calendrier fixe.
+
+## Le calendrier
+
+<Steps>
+  <Step title="T-30 jours avant le retrait">
+    "Votre organisation passe au SSO. Voici ce qui change." Inclut
+    le nom de l'IdP, la date et un lien pour tester la connexion par avance.
+  </Step>
+  <Step title="T-7 jours avant le retrait">
+    Rappel avec date limite explicite. Inclut un lien vers le flux
+    "Tester la connexion" intégré au produit.
+  </Step>
+  <Step title="T-1 jour avant le retrait">
+    Rappel final. Après cela, le formulaire de connexion par mot de passe est masqué pour
+    l'organisation de l'utilisateur.
+  </Step>
+</Steps>
+
+## Ce que les administrateurs doivent savoir
+
+<Note>
+  **Le désabonnement par utilisateur n'est pas autorisé.** Il s'agit d'une communication de sécurité,
+  pas de marketing — les utilisateurs ne peuvent pas refuser d'être informés que leur mot de passe va
+  disparaître. L'envoi respecte les limites de débit existantes pour les e-mails transactionnels.
+</Note>
+
+## Workflow d'approbation
+
+Le texte des e-mails est revu par le support et le service juridique avant chaque release majeure. Les administrateurs d'organisation peuvent prévisualiser l'e-mail exact que leurs utilisateurs recevront depuis **Paramètres → Authentification → SSO → Communications** une fois l'interface d'administration publiée.
+
+## Et si un utilisateur manque les e-mails ?
+
+Après le retrait, le formulaire de mot de passe est masqué et l'utilisateur est redirigé vers le SSO automatiquement. S'il n'a pas encore d'identité IdP, il atteint le chemin "utilisateur inconnu" et l'administrateur de l'organisation doit l'inviter ou activer le [provisioning JIT](/provisioning/jit).

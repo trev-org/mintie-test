@@ -1,0 +1,45 @@
+---
+title: "Google Workspace"
+description: "Connectez Google Workspace comme votre fournisseur d'identité pour Mintie"
+---
+
+<Warning>
+  **Bientôt disponible.** Le connecteur Google Workspace est en développement. Aujourd'hui,
+  la connexion Google fonctionne via le flux de connexion OIDC générique, configuré par votre
+  équipe de compte Mintie. Le connecteur dédié ajoute un flux d'administration basé sur OAuth
+  et Directory Sync.
+</Warning>
+
+## Ce que le connecteur dédié offrira
+
+<CardGroup cols={2}>
+  <Card title="Connexion administrateur OAuth" icon="google">
+    Un super-administrateur dans votre Google Workspace clique sur "Connecter Google" et
+    accorde à Mintie un accès à scopes. Pas de XML SAML, pas de secrets clients à coller.
+  </Card>
+  <Card title="Synchronisation de l'annuaire" icon="people-arrows">
+    Les utilisateurs et groupes sont synchronisés de Google vers Mintie chaque nuit. Les nouvelles embauches apparaissent
+    automatiquement ; les départs sont désactivés sous 24 heures.
+  </Card>
+  <Card title="Statut de la connexion" icon="signal">
+    Visible dans l'interface d'administration : heure de la dernière synchro, nombre d'utilisateurs, statut d'octroi des scopes.
+  </Card>
+</CardGroup>
+
+## Configuration aujourd'hui (chemin manuel)
+
+Utilisez le flux [SAML / OIDC générique](/setup/generic-saml) avec les endpoints OIDC standard de Google :
+
+| Champ Mintie | Valeur |
+| --- | --- |
+| Émetteur | `https://accounts.google.com` |
+| URL d'autorisation | `https://accounts.google.com/o/oauth2/v2/auth` |
+| URL de jeton | `https://oauth2.googleapis.com/token` |
+| URL JWKS | `https://www.googleapis.com/oauth2/v3/certs` |
+| ID client / Secret | Depuis Google Cloud Console → APIs et Services → Identifiants |
+
+<Tip>
+  Le connecteur dédié débloque Directory Sync. Sans lui, Google
+  Workspace fonctionne pour le SSO mais pas pour l'auto-provisioning : les nouvelles embauches doivent
+  être invitées manuellement jusqu'à l'arrivée de SCIM ou du connecteur.
+</Tip>

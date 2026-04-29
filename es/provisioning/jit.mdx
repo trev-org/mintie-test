@@ -1,0 +1,45 @@
+---
+title: "Aprovisionamiento just-in-time"
+description: "Crea usuarios en el primer inicio de sesión SSO mediante mapeo de atributos SAML"
+---
+
+<Info>
+  **Planificado.** El aprovisionamiento JIT está en el roadmap como continuación de SCIM.
+  Esta página describe el diseño planificado: ninguno de los flags JIT ni los
+  mapeos de atributos están activos todavía.
+</Info>
+
+## Por qué JIT
+
+SCIM es la respuesta correcta cuando tu IdP lo soporta. Para los equipos cuyo IdP no tiene herramientas SCIM, o que no quieren mantener un agente de aprovisionamiento SCIM, JIT es la alternativa: un usuario se crea la primera vez que inicia sesión correctamente vía SSO.
+
+## Cómo funcionará
+
+Cuando `jit_enabled = true` para una organización y un callback OIDC tiene éxito para un usuario desconocido, Mintie:
+
+<Steps>
+  <Step title="Lee los atributos SAML / OIDC de la aserción">
+    Correo electrónico, nombre y (opcionalmente) claims de mapeo de roles.
+  </Step>
+  <Step title="Crea al usuario con los atributos mapeados">
+    El rol por defecto es `member` a menos que un claim de mapeo de roles diga lo contrario.
+  </Step>
+  <Step title="Vincula la identidad del IdP en la misma transacción">
+    El usuario inicia sesión inmediatamente, sin una segunda redirección.
+  </Step>
+</Steps>
+
+## Mapeo de atributos por defecto
+
+| Campo Mintie | Atributo SAML | Claim OIDC |
+| --- | --- | --- |
+| `email` | `email` o `emailAddress` | `email` |
+| `firstName` | `firstName` o `givenName` | `given_name` |
+| `lastName` | `lastName` o `familyName` | `family_name` |
+| `role` | `role` (definido por la organización) | claim personalizado |
+
+## Cuándo JIT es la opción incorrecta
+
+- Necesitas desaprovisionamiento (JIT solo gestiona aprovisionamiento; usa SCIM)
+- Necesitas cambios de acceso basados en grupos después del inicio de sesión (usa SCIM)
+- No se puede confiar en que tu IdP envíe atributos precisos (usa la invitación manual)
