@@ -84,6 +84,15 @@
                 ]
               }
             ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": ["changelog/overview"]
+              }
+            ]
           }
         ]
       },
@@ -139,6 +148,15 @@
                   "es/migration/user-comms",
                   "es/migration/faq"
                 ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": ["changelog/overview"]
               }
             ]
           }
@@ -200,8 +218,13 @@
             ]
           },
           {
-            "group": "Changelog",
-            "pages": ["changelog/overview"]
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": ["changelog/overview"]
+              }
+            ]
           }
         ]
       }
