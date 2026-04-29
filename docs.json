@@ -41,8 +41,7 @@
             "pages": [
               "concepts/how-sso-works",
               "concepts/identity-linking",
-              "concepts/sessions",
-              "concepts/feature-flags"
+              "concepts/sessions"
             ]
           },
           {

@@ -5,12 +5,6 @@ description: "Enterprise SSO, SCIM provisioning, and identity for Mintie"
 
 Mintie SSO lets your organization replace password-based login with enterprise single sign-on. Sign your users in through your existing identity provider, provision and deprovision them automatically, and tie API access to the same identity.
 
-<Info>
-  SSO is rolling out by org behind a feature flag. If you don't see the
-  options described in these docs, ask your account team to enable
-  `sso_enabled` for your organization.
-</Info>
-
 ## What's available today
 
 <CardGroup cols={2}>
@@ -19,9 +13,6 @@ Mintie SSO lets your organization replace password-based login with enterprise s
   </Card>
   <Card title="Identity linking" icon="link" href="/concepts/identity-linking">
     Each user is linked 1:1 to an external IdP identity via `idp_provider` and `idp_user_id`.
-  </Card>
-  <Card title="Per-org rollout" icon="toggle-on" href="/concepts/feature-flags">
-    SSO is gated by the `sso_enabled` LaunchDarkly flag, set per organization.
   </Card>
   <Card title="WorkOS under the hood" icon="layer-group">
     We use WorkOS as the IdP abstraction layer for OIDC, SAML, and Directory Sync.
@@ -49,9 +40,6 @@ We evaluated Okta SDK, Auth0, and WorkOS as the IdP integration layer and chose 
 ## Getting started
 
 <Steps>
-  <Step title="Talk to your account team">
-    SSO is enabled per-org. Your account team flips the `sso_enabled` flag.
-  </Step>
   <Step title="Connect your identity provider">
     Use the admin UI to connect Okta, Google Workspace, or any generic SAML/OIDC IdP.
   </Step>
