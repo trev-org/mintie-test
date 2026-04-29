@@ -1,0 +1,45 @@
+---
+title: "Just-in-time provisioning"
+description: "Create users on first SSO sign-in via SAML attribute mapping"
+---
+
+<Info>
+  **Planned.** JIT provisioning is on the roadmap as a follow-up to SCIM.
+  This page describes the planned design — none of the JIT flags or
+  attribute mappings are live yet.
+</Info>
+
+## Why JIT
+
+SCIM is the right answer when your IdP supports it. For teams whose IdP doesn't have SCIM tooling — or who don't want to maintain a SCIM provisioning agent — JIT is the alternative: a user is created the first time they successfully sign in via SSO.
+
+## How it will work
+
+When `jit_enabled = true` for an org and an OIDC callback succeeds for an unknown user, Mintie:
+
+<Steps>
+  <Step title="Reads SAML / OIDC attributes from the assertion">
+    Email, name, and (optionally) role-mapping claims.
+  </Step>
+  <Step title="Creates the user with the mapped attributes">
+    Default role is `member` unless a role-mapping claim says otherwise.
+  </Step>
+  <Step title="Links the IdP identity in the same transaction">
+    The user is signed in immediately — no second redirect.
+  </Step>
+</Steps>
+
+## Default attribute mapping
+
+| Mintie field | SAML attribute | OIDC claim |
+| --- | --- | --- |
+| `email` | `email` or `emailAddress` | `email` |
+| `firstName` | `firstName` or `givenName` | `given_name` |
+| `lastName` | `lastName` or `familyName` | `family_name` |
+| `role` | `role` (org-defined) | custom claim |
+
+## When JIT is the wrong choice
+
+- You need deprovisioning (JIT only handles provisioning — use SCIM)
+- You need group-based access changes after sign-in (use SCIM)
+- Your IdP can't be trusted to send accurate attributes (use manual invite)

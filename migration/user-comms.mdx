@@ -1,0 +1,46 @@
+---
+title: "End-user communications"
+description: "How Mintie notifies users their password is going away"
+---
+
+<Warning>
+  **Coming soon.** The automated email sequence is in development. Until it
+  ships, end-user comms are sent ad-hoc by your account team — coordinate
+  with [support@mintie.example](mailto:support@mintie.example) before
+  enforcing SSO.
+</Warning>
+
+When an org enables SSO, password users in that org need warning before their password stops working. Mintie sends three transactional emails on a fixed schedule.
+
+## The schedule
+
+<Steps>
+  <Step title="T-30 days from sunset">
+    "Your organization is moving to SSO. Here's what's changing." Includes
+    the IdP name, the date, and a link to test sign-in early.
+  </Step>
+  <Step title="T-7 days from sunset">
+    Reminder with explicit deadline. Includes a link to the in-product
+    "test sign-in" flow.
+  </Step>
+  <Step title="T-1 day from sunset">
+    Final reminder. After this, the password login form is hidden for the
+    user's org.
+  </Step>
+</Steps>
+
+## What admins should know
+
+<Note>
+  **Per-user unsubscribe is not allowed.** This is a security communication,
+  not marketing — users can't opt out of being told their password is going
+  away. The send respects existing transactional email rate limits.
+</Note>
+
+## Approval workflow
+
+Email copy is reviewed by support and legal before each major release. Org admins can preview the exact email their users will receive from **Settings → Auth → SSO → Communications** once the admin UI ships.
+
+## What if a user misses the emails?
+
+After sunset, the password form is hidden and the user is routed to SSO automatically. If they have no IdP identity yet, they hit the "unknown user" path and the org admin needs to invite them or enable [JIT provisioning](/provisioning/jit).

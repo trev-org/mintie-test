@@ -1,0 +1,50 @@
+---
+title: "Feature flags"
+description: "How SSO rollout is gated per organization"
+---
+
+All SSO code paths sit behind a single LaunchDarkly flag: `sso_enabled`. The flag is evaluated per-org, not per-user.
+
+## The flag
+
+| | |
+| --- | --- |
+| **Key** | `sso_enabled` |
+| **Type** | Boolean |
+| **Default** | `false` |
+| **Targeting** | Per organization, by `orgId` |
+
+When `sso_enabled = false`:
+
+- The "Continue with SSO" button is hidden on `/login`
+- `/api/auth/idp-lookup` returns `{ ssoEnabled: false }`
+- `/api/auth/sso/callback` returns `404`
+- The admin UI's SSO settings page is hidden
+
+## How it's evaluated
+
+Server-side eval goes through `FeatureContext.forOrg(orgId)`:
+
+```ts
+const ctx = FeatureContext.forOrg(orgId);
+if (await ctx.bool("sso_enabled")) {
+  // SSO code path
+}
+```
+
+Frontend eval uses the standard hook:
+
+```tsx
+const ssoEnabled = useFlag("sso_enabled");
+```
+
+## Rollout strategy
+
+We flip `sso_enabled` per-org as we onboard pilots:
+
+1. Internal Mintie org (already on)
+2. Design partner orgs (active pilots)
+3. The three blocked enterprise deals (waiting on Okta/SCIM)
+4. General availability — flag becomes `true` by default
+
+Once GA lands, the flag will stick around for one release cycle as a kill switch, then be removed.

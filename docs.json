@@ -1,0 +1,96 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "luma",
+  "name": "Mintie SSO",
+  "description": "Enterprise SSO, SCIM, and identity for Mintie",
+  "colors": {
+    "primary": "#0C8C5E",
+    "light": "#0C8C5E",
+    "dark": "#0C8C5E"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": ["introduction", "quickstart"]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/how-sso-works",
+              "concepts/identity-linking",
+              "concepts/sessions",
+              "concepts/feature-flags"
+            ]
+          },
+          {
+            "group": "Set up a provider",
+            "pages": [
+              "setup/sign-in-experience",
+              "setup/enable-sso",
+              "setup/okta",
+              "setup/google-workspace",
+              "setup/generic-saml"
+            ]
+          },
+          {
+            "group": "User provisioning",
+            "pages": [
+              "provisioning/overview",
+              "provisioning/scim",
+              "provisioning/jit"
+            ]
+          },
+          {
+            "group": "API & integrations",
+            "pages": ["api-and-keys/api-keys"]
+          },
+          {
+            "group": "Security",
+            "pages": ["security/mfa", "security/audit-logs"]
+          },
+          {
+            "group": "Migration",
+            "pages": [
+              "migration/timeline",
+              "migration/user-comms",
+              "migration/faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@mintie.example"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://app.mintie.example"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/mintie",
+      "github": "https://github.com/mintie"
+    }
+  },
+  "seo": {
+    "metatags": {
+      "robots": "noindex"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+---
+title: "Okta"
+description: "Connect Okta as your identity provider for Mintie"
+---
+
+<Warning>
+  **Coming soon.** Native Okta support is in development. Today, Okta works
+  through the generic SAML/OIDC connect flow, configured manually by your
+  Mintie account team. The dedicated Okta connector adds metadata-URL setup,
+  group claim mapping, and CI-tested compatibility.
+</Warning>
+
+## What the dedicated connector will offer
+
+<CardGroup cols={2}>
+  <Card title="Metadata URL or XML upload" icon="file-import">
+    Paste your Okta app's metadata URL or upload the XML — no copy-pasting
+    issuer, ACS, and signing certs.
+  </Card>
+  <Card title="Group claim mapping" icon="users-rectangle">
+    Map Okta group claims to Mintie roles. Documented per Okta app type
+    (OIDC web, SAML 2.0, custom).
+  </Card>
+  <Card title="CI compatibility" icon="circle-check">
+    Mintie runs an automated E2E test against an Okta dev tenant on every
+    release, so Okta-specific regressions don't reach you.
+  </Card>
+  <Card title="SCIM-ready" icon="arrows-rotate">
+    Pairs with [SCIM 2.0 provisioning](/provisioning/scim) for
+    auto-provision and deprovision from Okta.
+  </Card>
+</CardGroup>
+
+## Setting up today (manual path)
+
+Until the dedicated connector ships, follow the [generic SAML / OIDC](/setup/generic-saml) flow with these Okta-specific values:
+
+| Mintie field | Where to find it in Okta |
+| --- | --- |
+| Issuer | Okta app → Sign On → Issuer |
+| Authorize URL | Okta app → Sign On → Authorize URL |
+| Token URL | Okta app → Sign On → Token URL |
+| JWKS URL | Okta app → Sign On → JWKS URL |
+| Client ID / Secret | Okta app → General |
+
+<Note>
+  Two of our three blocked enterprise deals are on Okta — the dedicated
+  connector is the next non-foundational ticket on the roadmap.
+</Note>

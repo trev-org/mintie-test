@@ -1,0 +1,54 @@
+---
+title: "Quickstart"
+description: "Enable SSO for your Mintie organization in under 30 minutes"
+---
+
+This walkthrough takes you from zero to enforced SSO for your organization. The exact provider steps depend on whether you're connecting Okta, Google Workspace, or a generic SAML / OIDC IdP — each has its own page.
+
+## Prerequisites
+
+- You're an org admin in Mintie
+- The `sso_enabled` feature flag is on for your org ([talk to your account team](mailto:support@mintie.example))
+- You have admin access in your IdP (Okta, Google Workspace, etc.)
+
+## Steps
+
+<Steps>
+  <Step title="Open SSO settings">
+    Navigate to **Settings → Auth → SSO** in the Mintie dashboard.
+
+    <Note>
+      The admin UI is in development. Until it ships, your account team
+      will configure your IdP connection on your behalf.
+    </Note>
+  </Step>
+  <Step title="Connect your IdP">
+    Pick your provider and follow the provider-specific guide:
+
+    - [Okta](/setup/okta)
+    - [Google Workspace](/setup/google-workspace)
+    - [Generic SAML / OIDC](/setup/generic-saml)
+  </Step>
+  <Step title="Run a test sign-in">
+    The admin UI surfaces a "Test sign-in" link that triggers a real
+    round-trip to your IdP. Use it before enforcing SSO — it's the safest
+    way to catch claim mapping or attribute issues.
+  </Step>
+  <Step title="Enforce SSO">
+    Flip **Require SSO** for the org. Active password sessions are migrated
+    to SSO via the [session-migration job](/concepts/sessions).
+  </Step>
+  <Step title="Notify your users">
+    Mintie automatically emails password users at T-30, T-7, and T-1 days
+    before their password stops working. See [user comms](/migration/user-comms).
+  </Step>
+</Steps>
+
+## What changes for your users
+
+Once SSO is enforced:
+
+- The login screen routes users to your IdP after they enter their email
+- Existing browser sessions are forced to re-auth via SSO within minutes
+- Password reset flows are disabled for SSO-required orgs
+- API keys remain valid until [tied to IdP identity](/api-and-keys/api-keys) ships

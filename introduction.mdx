@@ -1,0 +1,61 @@
+---
+title: "Introduction"
+description: "Enterprise SSO, SCIM provisioning, and identity for Mintie"
+---
+
+Mintie SSO lets your organization replace password-based login with enterprise single sign-on. Sign your users in through your existing identity provider, provision and deprovision them automatically, and tie API access to the same identity.
+
+<Info>
+  SSO is rolling out by org behind a feature flag. If you don't see the
+  options described in these docs, ask your account team to enable
+  `sso_enabled` for your organization.
+</Info>
+
+## What's available today
+
+<CardGroup cols={2}>
+  <Card title="Email-first sign-in" icon="right-to-bracket" href="/setup/sign-in-experience">
+    Users enter their email on `/login`. We detect your org and route them to your IdP.
+  </Card>
+  <Card title="Identity linking" icon="link" href="/concepts/identity-linking">
+    Each user is linked 1:1 to an external IdP identity via `idp_provider` and `idp_user_id`.
+  </Card>
+  <Card title="Per-org rollout" icon="toggle-on" href="/concepts/feature-flags">
+    SSO is gated by the `sso_enabled` LaunchDarkly flag, set per organization.
+  </Card>
+  <Card title="WorkOS under the hood" icon="layer-group">
+    We use WorkOS as the IdP abstraction layer for OIDC, SAML, and Directory Sync.
+  </Card>
+</CardGroup>
+
+## What's coming
+
+| Capability | Status |
+| --- | --- |
+| Okta provider | In development |
+| Google Workspace provider | In development |
+| SCIM 2.0 provisioning | In development |
+| Admin UI for SSO config | In development |
+| Password sunset comms | In development |
+| API keys tied to IdP identity | In development |
+| Step-up MFA on sensitive actions | Planned |
+| Audit log dashboard | Planned |
+| Just-in-time provisioning | Planned |
+
+## Why WorkOS
+
+We evaluated Okta SDK, Auth0, and WorkOS as the IdP integration layer and chose **WorkOS**. The decision came down to native SCIM, a clean Directory Sync API, and a tenant-per-org model that maps directly to Mintie's `Organization` table. Auth0 was ruled out on per-MAU pricing; direct Okta SDK was deferred to avoid one-off integration work per provider.
+
+## Getting started
+
+<Steps>
+  <Step title="Talk to your account team">
+    SSO is enabled per-org. Your account team flips the `sso_enabled` flag.
+  </Step>
+  <Step title="Connect your identity provider">
+    Use the admin UI to connect Okta, Google Workspace, or any generic SAML/OIDC IdP.
+  </Step>
+  <Step title="Test sign-in, then enforce">
+    Verify a test sign-in works, then flip "Require SSO" to migrate active sessions.
+  </Step>
+</Steps>

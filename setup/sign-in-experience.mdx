@@ -1,0 +1,50 @@
+---
+title: "Sign-in experience"
+description: "What end users see on the Mintie sign-in screen with SSO enabled"
+---
+
+The sign-in screen at `/login` is **email-first**. Users enter their email; Mintie figures out the rest.
+
+## The flow
+
+<Steps>
+  <Step title="User enters email">
+    A single email field is the only input on first load.
+  </Step>
+  <Step title="Mintie looks up the org's IdP">
+    The frontend POSTs to `/api/auth/idp-lookup`. The response is one of:
+
+    ```json
+    { "method": "sso", "redirectUrl": "https://idp.example/..." }
+    ```
+    ```json
+    { "method": "password" }
+    ```
+  </Step>
+  <Step title="Mintie routes accordingly">
+    On `sso`, the frontend redirects to the IdP. On `password`, the password
+    field is revealed.
+  </Step>
+</Steps>
+
+## What the button looks like
+
+The "Continue with SSO" entry point is rendered by the `<SsoButton />` component. It's wrapped in a `useFlag("sso_enabled")` check, so users in non-SSO orgs never see it.
+
+## Edge cases
+
+<AccordionGroup>
+  <Accordion title="User enters an email Mintie doesn't know">
+    `/api/auth/idp-lookup` returns `{ method: "password" }` to avoid leaking
+    org membership. The password attempt fails the same way it would for any
+    unknown user.
+  </Accordion>
+  <Accordion title="User in an SSO-required org tries the password field">
+    The password field never appears for SSO-required orgs — the lookup
+    response always returns `sso`.
+  </Accordion>
+  <Accordion title="Multiple orgs, same email">
+    Mintie picks the org based on the user's primary org. Cross-org switchers
+    can pick a specific org via the `?org=<slug>` query param.
+  </Accordion>
+</AccordionGroup>

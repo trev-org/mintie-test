@@ -1,0 +1,70 @@
+---
+title: "FAQ"
+description: "Common questions about SSO migration in Mintie"
+---
+
+## Provider support
+
+<AccordionGroup>
+  <Accordion title="Does Mintie support direct LDAP / Active Directory integration?">
+    **No, and we don't plan to.** The original ask came from a single prospect
+    that already runs Okta in front of AD, so the WorkOS → Okta path covers
+    them. Running an LDAP client in our infrastructure isn't worth the
+    operational burden for one customer. If multiple customers ask for
+    direct LDAP, we'll revisit.
+  </Accordion>
+  <Accordion title="What about Microsoft Entra ID (formerly Azure AD)?">
+    Supported via the [generic SAML / OIDC](/setup/generic-saml) connector
+    today. A dedicated Entra connector hasn't been prioritized yet — file a
+    request if you need one.
+  </Accordion>
+  <Accordion title="Can I use multiple IdPs for one org?">
+    No. Each org has one IdP at a time. Users in the same org all sign in
+    through the same provider.
+  </Accordion>
+</AccordionGroup>
+
+## Passwords
+
+<AccordionGroup>
+  <Accordion title="Can I configure password complexity rules per org?">
+    **No, and we removed this from scope.** Passwords are going away under
+    SSO; investing in per-org password rules would be wasted effort. The
+    existing zxcvbn-backed defaults stay in place for the long-tail of
+    password users until the full sunset.
+  </Accordion>
+  <Accordion title="What happens to a user's password when they link to SSO?">
+    The hash stays in the database but is bypassed on subsequent sign-ins.
+    It's purged when the org's password sunset deadline passes.
+  </Accordion>
+  <Accordion title="Can a user opt out of SSO once their org enforces it?">
+    No. SSO enforcement is org-wide.
+  </Accordion>
+</AccordionGroup>
+
+## Sessions and migration
+
+<AccordionGroup>
+  <Accordion title="Will my users be logged out the moment I enforce SSO?">
+    Not immediately. The [session-migration job](/concepts/sessions) rolls
+    out the forced re-auth at 10% of sessions per minute by default, so the
+    fleet doesn't all hit your IdP at once.
+  </Accordion>
+  <Accordion title="What about API keys?">
+    See [API keys and SSO identity](/api-and-keys/api-keys). Once that
+    ships, IdP-deactivated users see their keys 401 within 5 minutes.
+  </Accordion>
+</AccordionGroup>
+
+## Pricing
+
+<AccordionGroup>
+  <Accordion title="Is SSO an enterprise-only feature?">
+    SSO is included on the Business and Enterprise plans. SCIM is
+    Enterprise-only.
+  </Accordion>
+  <Accordion title="Do you charge per IdP user or per Mintie user?">
+    Per Mintie user, billed against your existing seat plan. SCIM
+    deprovisioning frees up seats automatically.
+  </Accordion>
+</AccordionGroup>

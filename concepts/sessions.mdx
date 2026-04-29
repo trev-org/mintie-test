@@ -1,0 +1,70 @@
+---
+title: "Sessions"
+description: "How Mintie issues, validates, and migrates sessions during SSO rollout"
+---
+
+<Warning>
+  Several pieces of session handling are **in active development**. The
+  flow described here is the target state. Today, OIDC callbacks succeed
+  but the session-migration job and the unified `AuthGuard` are still
+  rolling out.
+</Warning>
+
+## Session lifecycle
+
+A Mintie session is a server-side record plus an opaque cookie. The cookie carries the session ID; everything else (user ID, expiry, IdP claims) lives in the session row.
+
+| Field | Source |
+| --- | --- |
+| `session_id` | Random 256-bit token, opaque to the client |
+| `user_id` | From identity-linking lookup |
+| `auth_method` | `password` or `sso` |
+| `idp_user_id` | Set when `auth_method = sso` |
+| `force_sso_relogin_at` | Stamped by the migration job (see below) |
+| `expires_at` | Sliding 14-day window, capped at 90 days absolute |
+
+## Session migration
+
+When an org flips **Require SSO**, in-flight password sessions are migrated to SSO without nuking everyone's tabs simultaneously.
+
+<Steps>
+  <Step title="Migration job stamps every active session">
+    A background job iterates active sessions for the org and sets
+    `force_sso_relogin_at = now()`. Default rollout is rolling — 10% of
+    sessions per minute — to spread re-auth load on the IdP.
+  </Step>
+  <Step title="AuthGuard enforces the stamp">
+    On the next request, the auth middleware sees the stamp and returns
+    `401 { reason: "sso_required" }`.
+  </Step>
+  <Step title="Frontend interceptor routes to SSO">
+    The frontend's response interceptor catches `sso_required`, stashes the
+    return URL, and redirects the user to the SSO entry point.
+  </Step>
+  <Step title="User re-auths via IdP">
+    On success, a fresh SSO session is issued and the user lands back where they were.
+  </Step>
+</Steps>
+
+## AuthGuard and principals
+
+The auth middleware (`AuthGuard`) returns an `AuthenticatedPrincipal`. Two implementations exist:
+
+```ts
+interface AuthenticatedPrincipal {
+  userId: string;
+  orgId: string;
+  authMethod: "password" | "sso";
+}
+
+class PasswordPrincipal implements AuthenticatedPrincipal { /* ... */ }
+class SsoPrincipal implements AuthenticatedPrincipal {
+  // adds: idpUserId, idpProvider, idpClaims
+}
+```
+
+<Note>
+  Downstream consumers should depend on the `AuthenticatedPrincipal`
+  interface, not the concrete classes. Code that destructures `session.userId`
+  directly is being migrated — see internal codemod tracking.
+</Note>

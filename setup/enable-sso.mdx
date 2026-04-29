@@ -1,0 +1,44 @@
+---
+title: "Enable SSO"
+description: "Connect your IdP and turn on SSO for your organization"
+---
+
+<Warning>
+  **Coming soon.** The admin UI for SSO settings is in development. Until it
+  ships, your account team configures IdP connections on your behalf — open
+  a ticket at [support@mintie.example](mailto:support@mintie.example) with
+  your IdP metadata.
+</Warning>
+
+Once the admin UI ships, org admins will be able to manage SSO end-to-end without involving Mintie support.
+
+## What the page will include
+
+The SSO settings page lives at **Settings → Auth → SSO**. It covers four jobs:
+
+<CardGroup cols={2}>
+  <Card title="Connect an IdP" icon="plug">
+    Guided flow per provider — paste an Okta metadata URL, OAuth into
+    Google Workspace, or upload a generic SAML XML.
+  </Card>
+  <Card title="Check connection health" icon="heart-pulse">
+    A live status badge per connection: signing key freshness, last
+    successful sync, last sign-in.
+  </Card>
+  <Card title="Test sign-in" icon="vial">
+    A "Test sign-in" link triggers a real round-trip to your IdP and
+    surfaces success or the exact failure reason.
+  </Card>
+  <Card title="Require SSO" icon="lock">
+    A toggle that enforces SSO org-wide. Surfaces a confirmation modal
+    explaining the [session-migration consequences](/concepts/sessions).
+  </Card>
+</CardGroup>
+
+## Provider-specific setup
+
+Each provider has its own page once you reach the connect step:
+
+- [Okta](/setup/okta)
+- [Google Workspace](/setup/google-workspace)
+- [Generic SAML / OIDC](/setup/generic-saml)

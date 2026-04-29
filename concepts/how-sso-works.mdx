@@ -1,0 +1,54 @@
+---
+title: "How SSO works"
+description: "End-to-end flow of an SSO sign-in in Mintie"
+---
+
+Mintie's SSO flow is OIDC-based by default. SAML providers are tunneled through WorkOS so the application code only ever sees an OIDC-shaped callback.
+
+## The happy path
+
+<Steps>
+  <Step title="User enters their email on /login">
+    The frontend calls `/api/auth/idp-lookup` with the email's domain. If the
+    org has SSO enabled, the response includes a redirect URL to the IdP.
+  </Step>
+  <Step title="User authenticates at the IdP">
+    Mintie never sees the password. The IdP redirects back to
+    `/api/auth/sso/callback` with an authorization code.
+  </Step>
+  <Step title="Mintie validates the callback">
+    The callback handler validates the `state` token (CSRF), `nonce` (replay),
+    and the ID token signature, issuer, audience, and expiry.
+  </Step>
+  <Step title="Mintie links or creates the user">
+    User lookup is by `(idp_provider, idp_user_id)` first, then by email.
+    See [identity linking](/concepts/identity-linking) for the rules.
+  </Step>
+  <Step title="Mintie issues a session">
+    A session cookie is set with `HttpOnly`, `Secure`, and `SameSite=Lax`.
+  </Step>
+</Steps>
+
+## Components
+
+<CardGroup cols={2}>
+  <Card title="Sign-in screen" icon="display" href="/setup/sign-in-experience">
+    The "Continue with SSO" entry point users see at `/login`.
+  </Card>
+  <Card title="OIDC callback" icon="rotate" href="/concepts/sessions">
+    `/api/auth/sso/callback` — token validation, user lookup, session mint.
+  </Card>
+  <Card title="Identity linking" icon="link" href="/concepts/identity-linking">
+    How Mintie maps an external IdP user to a Mintie user record.
+  </Card>
+  <Card title="Feature gating" icon="toggle-on" href="/concepts/feature-flags">
+    Per-org `sso_enabled` flag controls whether SSO is offered.
+  </Card>
+</CardGroup>
+
+## Security guarantees
+
+- ID tokens are cryptographically verified against the IdP's JWKS
+- `state` tokens are single-use and bound to the originating session
+- Session cookies are not readable from JavaScript
+- IdP credentials never reach Mintie's servers

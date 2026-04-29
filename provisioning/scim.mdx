@@ -1,0 +1,73 @@
+---
+title: "SCIM 2.0"
+description: "Automated user provisioning and deprovisioning via SCIM 2.0"
+---
+
+<Warning>
+  **Coming soon.** SCIM 2.0 is in development and is the gating requirement
+  for the largest of our three blocked enterprise deals. The interface
+  documented here is the planned spec.
+</Warning>
+
+## What SCIM gets you
+
+When your IdP pushes a user lifecycle event (new hire, group change, deprovision), Mintie reflects it within seconds — no admin clicks required.
+
+## Endpoints
+
+The base URL is `https://app.mintie.example/scim/v2`.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/Users` | List users |
+| `POST` | `/Users` | Create a user |
+| `GET` | `/Users/{id}` | Get a user |
+| `PATCH` | `/Users/{id}` | Update a user (including activation toggle) |
+| `DELETE` | `/Users/{id}` | Soft-delete a user |
+| `GET` | `/Groups` | List groups |
+| `POST` | `/Groups` | Create a group |
+| `PATCH` | `/Groups/{id}` | Update group membership |
+| `DELETE` | `/Groups/{id}` | Soft-delete a group |
+
+## Authentication
+
+A bearer token per organization. Generate and rotate the token from the [admin UI](/setup/enable-sso) once it ships.
+
+```http
+Authorization: Bearer scim_live_<token>
+```
+
+<Note>
+  SCIM tokens are scoped to one org and one purpose. They cannot read or
+  write anything outside the SCIM endpoints.
+</Note>
+
+## Soft-delete semantics
+
+`DELETE /Users/{id}` does **not** drop the row. It sets `deactivated_at = now()` and revokes all sessions. The row is preserved for audit purposes — see [audit logs](/security/audit-logs).
+
+## Conformance
+
+The SCIM endpoint targets compatibility with the Okta SCIM compliance suite. Once available, Mintie's SCIM is testable with:
+
+- Okta SCIM tester
+- Microsoft Entra ID provisioning agent
+- WorkOS Directory Sync (used internally)
+
+## What you'll do
+
+<Steps>
+  <Step title="Generate a SCIM token">
+    From **Settings → Auth → SSO → SCIM**, click **Generate token**.
+  </Step>
+  <Step title="Configure your IdP">
+    Paste the base URL and token into your IdP's SCIM provisioning settings.
+  </Step>
+  <Step title="Pick attribute mappings">
+    The defaults match standard SCIM Core. Map any custom attributes your
+    org needs.
+  </Step>
+  <Step title="Push a test user">
+    Provision one user from the IdP and confirm it appears in Mintie.
+  </Step>
+</Steps>

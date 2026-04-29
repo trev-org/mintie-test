@@ -1,0 +1,63 @@
+---
+title: "Identity linking"
+description: "How Mintie users map to external IdP identities"
+---
+
+Every Mintie user has an optional link to an external identity provider. The link lives on two columns of the `users` table.
+
+## Schema
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `idp_provider` | `text`, nullable | Provider key — `okta`, `google`, `generic_oidc`, `generic_saml`. |
+| `idp_user_id` | `text`, nullable | Provider's stable user ID (the `sub` claim, or the SCIM `id`). |
+
+A composite unique index on `(idp_provider, idp_user_id)` guarantees a given external identity maps to at most one Mintie user.
+
+## Lookup order
+
+When the OIDC callback fires, Mintie resolves the user in this order:
+
+<Steps>
+  <Step title="By external ID">
+    `WHERE idp_provider = ? AND idp_user_id = ?`. This is the steady-state
+    case — the user has signed in via SSO before.
+  </Step>
+  <Step title="By email, if unlinked">
+    If no row matches, Mintie looks up the user by email. If a match is found
+    and the row has no `idp_*` columns set, Mintie writes the link
+    transactionally and signs the user in.
+  </Step>
+  <Step title="Provision, if JIT enabled">
+    If no email match exists and the org has JIT enabled (planned —
+    see [JIT provisioning](/provisioning/jit)), Mintie creates a new user.
+  </Step>
+  <Step title="Reject otherwise">
+    The sign-in is rejected with an "unknown user" error. The org admin
+    must invite the user (or enable SCIM / JIT).
+  </Step>
+</Steps>
+
+## Edge cases
+
+<AccordionGroup>
+  <Accordion title="Same email, different IdP">
+    If a user already has `idp_provider = 'okta'` and tries to sign in via
+    `google` with the same email, Mintie rejects the sign-in. Users have
+    exactly one IdP at a time. Org admins can change it via support.
+  </Accordion>
+  <Accordion title="Email change at the IdP">
+    Mintie keys on `idp_user_id`, not email — so an email change at the IdP
+    flows through on the next sign-in without breaking the link.
+  </Accordion>
+  <Accordion title="Existing password account">
+    The first SSO sign-in for a password account links the row in place.
+    The password is **not** deleted but is bypassed on subsequent sign-ins.
+    It's purged when the org's password sunset deadline passes.
+  </Accordion>
+</AccordionGroup>
+
+## Migration history
+
+The `idp_*` columns were added on 2026-04-15 with a no-op backfill. Pre-existing
+users have `NULL` in both columns until their first SSO sign-in.

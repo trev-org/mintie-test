@@ -1,0 +1,43 @@
+---
+title: "API keys and SSO identity"
+description: "How API keys behave when their owning user is deactivated in your IdP"
+---
+
+<Warning>
+  **Coming soon.** Today, API keys outlive their owning user — if a user is
+  deactivated in your IdP, their keys keep working until manually revoked.
+  We're closing that gap; the behavior described below is the target state.
+</Warning>
+
+## The problem we're solving
+
+For SSO-required orgs, deprovisioning a user in the IdP should also stop their access to the Mintie API. Today it doesn't — keys are independent of session state.
+
+## What's changing
+
+Each API key will carry the issuing user's `idp_user_id`. On every API call, the auth middleware checks the IdP "active" status for that user.
+
+| Check | Frequency | Behavior on fail |
+| --- | --- | --- |
+| Local revocation flag | Every call | `401 invalid_key` |
+| IdP active status | Cached, 5-minute TTL | `401 user_deactivated` |
+| Org SSO requirement | Every call | `401 sso_required` (if user is password-only) |
+
+This means a user deprovisioned in your IdP will see their keys 401 within 5 minutes, regardless of when the keys were issued.
+
+## What stays the same
+
+<CardGroup cols={2}>
+  <Card title="Service account keys" icon="robot">
+    Org-scoped service account keys are exempt from the user-active check —
+    they have a separate identity model and are revoked org-wide.
+  </Card>
+  <Card title="Token format" icon="key">
+    No client-visible change to the token format or auth header. You won't
+    need to rotate keys when this ships.
+  </Card>
+</CardGroup>
+
+## Migration
+
+When the change rolls out, existing keys are stamped with their owning user's `idp_user_id` lazily on first use. Keys whose owner has no `idp_user_id` (i.e., still password-only) keep working until the org's password sunset deadline.

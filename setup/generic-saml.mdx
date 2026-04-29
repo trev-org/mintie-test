@@ -1,0 +1,47 @@
+---
+title: "Generic SAML / OIDC"
+description: "Connect any SAML 2.0 or OIDC identity provider to Mintie"
+---
+
+If your IdP isn't Okta or Google Workspace, the generic SAML / OIDC connector covers it. Mintie tunnels both protocols through WorkOS, so the application code only ever sees an OIDC-shaped callback.
+
+<Note>
+  The configuration today is done by your Mintie account team. Once the
+  [admin UI](/setup/enable-sso) ships, you'll do this yourself.
+</Note>
+
+## OIDC connection
+
+You'll need:
+
+- Issuer (`iss`)
+- Authorize URL
+- Token URL
+- JWKS URL
+- Client ID and Client Secret
+- Required scopes — Mintie needs at least `openid email profile`
+
+## SAML 2.0 connection
+
+You'll need:
+
+- Identity Provider Metadata XML (or the metadata URL)
+- The IdP's signing certificate (embedded in metadata)
+- Required attribute claims:
+  - `email` (required)
+  - `firstName` and `lastName` (optional but recommended)
+  - `groups` (optional, used for role mapping)
+
+## Mintie endpoints
+
+You'll point your IdP at:
+
+| Mintie endpoint | URL |
+| --- | --- |
+| ACS (SAML) | `https://app.mintie.example/api/auth/saml/acs` |
+| Redirect URI (OIDC) | `https://app.mintie.example/api/auth/sso/callback` |
+| Entity ID | `https://app.mintie.example/auth/<your-org-slug>` |
+
+## Validation
+
+Mintie validates every callback's signature, issuer, audience, and expiry. Misconfigured IdPs are surfaced with specific error codes, not a generic "sign-in failed" — see the [audit logs](/security/audit-logs) once that ships.

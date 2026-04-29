@@ -1,0 +1,45 @@
+---
+title: "Google Workspace"
+description: "Connect Google Workspace as your identity provider for Mintie"
+---
+
+<Warning>
+  **Coming soon.** The Google Workspace connector is in development. Today,
+  Google sign-in works through the generic OIDC connect flow, set up by your
+  Mintie account team. The dedicated connector adds an OAuth-based admin
+  flow and Directory Sync.
+</Warning>
+
+## What the dedicated connector will offer
+
+<CardGroup cols={2}>
+  <Card title="OAuth admin connect" icon="google">
+    A super-admin in your Google Workspace clicks "Connect Google" and
+    grants Mintie scoped access. No SAML XML, no client secrets to paste.
+  </Card>
+  <Card title="Directory sync" icon="people-arrows">
+    Users and groups sync from Google to Mintie nightly. New hires appear
+    automatically; departures are deactivated within 24 hours.
+  </Card>
+  <Card title="Connection status" icon="signal">
+    Surface in the admin UI: last sync time, user count, scope grant status.
+  </Card>
+</CardGroup>
+
+## Setting up today (manual path)
+
+Use the [generic SAML / OIDC](/setup/generic-saml) flow with Google's standard OIDC endpoints:
+
+| Mintie field | Value |
+| --- | --- |
+| Issuer | `https://accounts.google.com` |
+| Authorize URL | `https://accounts.google.com/o/oauth2/v2/auth` |
+| Token URL | `https://oauth2.googleapis.com/token` |
+| JWKS URL | `https://www.googleapis.com/oauth2/v3/certs` |
+| Client ID / Secret | From Google Cloud Console → APIs & Services → Credentials |
+
+<Tip>
+  The dedicated connector unlocks Directory Sync. Without it, Google
+  Workspace works for SSO but not for auto-provisioning — new hires need to
+  be invited manually until SCIM or the connector lands.
+</Tip>
