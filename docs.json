@@ -8,6 +8,24 @@
     "light": "#0C8C5E",
     "dark": "#0C8C5E"
   },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "assistant",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "grok",
+      "aistudio",
+      "devin",
+      "windsurf",
+      "mcp",
+      "cursor",
+      "vscode",
+      "devin-mcp"
+    ]
+  },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
