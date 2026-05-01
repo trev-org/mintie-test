@@ -3,14 +3,9 @@ title: "Okta"
 description: "Connect Okta as your identity provider for Mintie"
 ---
 
-<Warning>
-  **Coming soon.** Native Okta support is in development. Today, Okta works
-  through the generic SAML/OIDC connect flow, configured manually by your
-  Mintie account team. The dedicated Okta connector adds metadata-URL setup,
-  group claim mapping, and CI-tested compatibility.
-</Warning>
+The dedicated Okta provider adapter is generally available. Connect your Okta tenant from the admin UI with a metadata URL, map group claims to Mintie roles, and rely on CI-tested compatibility on every release.
 
-## What the dedicated connector will offer
+## What the Okta connector offers
 
 <CardGroup cols={2}>
   <Card title="Metadata URL or XML upload" icon="file-import">
@@ -31,9 +26,29 @@ description: "Connect Okta as your identity provider for Mintie"
   </Card>
 </CardGroup>
 
-## Setting up today (manual path)
+## Connect Okta
 
-Until the dedicated connector ships, follow the [generic SAML / OIDC](/setup/generic-saml) flow with these Okta-specific values:
+<Steps>
+  <Step title="Create the Okta application">
+    In the Okta admin console, create an OIDC web app or SAML 2.0 app for Mintie. Mintie supports both — pick the one your org standardizes on.
+  </Step>
+  <Step title="Copy the metadata URL">
+    From the Okta app's **Sign On** tab, copy the metadata URL (SAML) or the OIDC discovery document URL.
+  </Step>
+  <Step title="Add the connection in Mintie">
+    In the Mintie admin UI, go to **Settings → SSO → Add provider → Okta** and paste the metadata URL. Mintie resolves issuer, ACS, JWKS, and signing certs automatically.
+  </Step>
+  <Step title="Map group claims">
+    Map Okta group claims to Mintie roles. Unmapped groups fall back to the org's default role.
+  </Step>
+  <Step title="Test, then enforce">
+    Run a test sign-in from the connection's **Test** button. Once it passes, flip **Require SSO** for the org.
+  </Step>
+</Steps>
+
+## Field reference
+
+If you prefer to enter values manually instead of using the metadata URL, here's where each field lives in Okta:
 
 | Mintie field | Where to find it in Okta |
 | --- | --- |
@@ -44,6 +59,5 @@ Until the dedicated connector ships, follow the [generic SAML / OIDC](/setup/gen
 | Client ID / Secret | Okta app → General |
 
 <Note>
-  Two of our three blocked enterprise deals are on Okta — the dedicated
-  connector is the next non-foundational ticket on the roadmap.
+  The Okta adapter runs through WorkOS under the hood. See [How SSO works](/concepts/how-sso-works) for the full request flow.
 </Note>
