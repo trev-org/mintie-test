@@ -3,14 +3,9 @@ title: "Google Workspace"
 description: "Connectez Google Workspace comme votre fournisseur d'identité pour Mintie"
 ---
 
-<Warning>
-  **Bientôt disponible.** Le connecteur Google Workspace est en développement. Aujourd'hui,
-  la connexion Google fonctionne via le flux de connexion OIDC générique, configuré par votre
-  équipe de compte Mintie. Le connecteur dédié ajoute un flux d'administration basé sur OAuth
-  et Directory Sync.
-</Warning>
+Le connecteur Google Workspace dédié est disponible dans **Paramètres → Authentification → SSO**. Sélectionnez **Google Workspace**, saisissez votre domaine principal et approuvez les scopes SSO et Directory Sync en tant que super-administrateur Google. Consultez [Activer le SSO](/fr/setup/enable-sso) pour la procédure complète.
 
-## Ce que le connecteur dédié offrira
+## Ce que le connecteur offre
 
 <CardGroup cols={2}>
   <Card title="Connexion administrateur OAuth" icon="google">
@@ -26,9 +21,31 @@ description: "Connectez Google Workspace comme votre fournisseur d'identité pou
   </Card>
 </CardGroup>
 
-## Configuration aujourd'hui (chemin manuel)
+## Connecter Google Workspace
 
-Utilisez le flux [SAML / OIDC générique](/fr/setup/generic-saml) avec les endpoints OIDC standard de Google :
+<Steps>
+  <Step title="Connectez-vous comme super-administrateur Google">
+    Vous devez être super-administrateur de votre Workspace pour accorder les
+    scopes SSO et Directory Sync.
+  </Step>
+  <Step title="Saisissez votre domaine principal">
+    Dans Mintie, accédez à **Paramètres → Authentification → SSO**, choisissez
+    **Google Workspace** et saisissez votre domaine principal (par exemple,
+    `acme.com`).
+  </Step>
+  <Step title="Approuvez les scopes">
+    Cliquez sur **Connecter**. Google ouvre un écran de consentement —
+    approuvez les scopes SSO et Directory Sync de Mintie.
+  </Step>
+  <Step title="Exécutez une connexion de test">
+    Cliquez sur **Test sign-in** pour confirmer que l'aller-retour fonctionne
+    avant d'activer [Exiger le SSO](/fr/setup/enable-sso#exiger-le-sso-pour-votre-organisation).
+  </Step>
+</Steps>
+
+### Alternative : OIDC générique
+
+Si vous ne pouvez pas utiliser le connecteur dédié, le [connecteur SAML / OIDC générique](/fr/setup/generic-saml) accepte les endpoints OIDC standard de Google :
 
 | Champ Mintie | Valeur |
 | --- | --- |
@@ -39,7 +56,7 @@ Utilisez le flux [SAML / OIDC générique](/fr/setup/generic-saml) avec les endp
 | ID client / Secret | Depuis Google Cloud Console → APIs et Services → Identifiants |
 
 <Tip>
-  Le connecteur dédié débloque Directory Sync. Sans lui, Google
-  Workspace fonctionne pour le SSO mais pas pour l'auto-provisioning : les nouvelles embauches doivent
-  être invitées manuellement jusqu'à l'arrivée de SCIM ou du connecteur.
+  Sans le connecteur dédié, Google Workspace fonctionne pour le SSO mais pas
+  pour l'auto-provisioning : les nouvelles embauches doivent être invitées
+  manuellement jusqu'à l'activation de SCIM.
 </Tip>
