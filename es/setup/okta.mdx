@@ -3,14 +3,9 @@ title: "Okta"
 description: "Conecta Okta como tu proveedor de identidad para Mintie"
 ---
 
-<Warning>
-  **Próximamente.** El soporte nativo de Okta está en desarrollo. Hoy, Okta funciona
-  a través del flujo de conexión SAML/OIDC genérico, configurado manualmente por tu
-  equipo de cuenta de Mintie. El conector dedicado de Okta añade configuración mediante URL de metadatos,
-  mapeo de claims de grupo, y compatibilidad probada en CI.
-</Warning>
+El conector dedicado de Okta está disponible en **Configuración → Autenticación → SSO**. Selecciona **Okta** en el selector de proveedor, pega tu URL de metadatos o sube el XML de metadatos y haz clic en **Conectar**. Consulta [Habilitar SSO](/es/setup/enable-sso) para el recorrido completo.
 
-## Qué ofrecerá el conector dedicado
+## Qué ofrece el conector
 
 <CardGroup cols={2}>
   <Card title="URL de metadatos o subida de XML" icon="file-import">
@@ -31,9 +26,29 @@ description: "Conecta Okta como tu proveedor de identidad para Mintie"
   </Card>
 </CardGroup>
 
-## Configuración hoy (ruta manual)
+## Conectar Okta
 
-Hasta que se publique el conector dedicado, sigue el flujo [SAML / OIDC genérico](/es/setup/generic-saml) con estos valores específicos de Okta:
+<Steps>
+  <Step title="Crea la app SAML de Okta">
+    En Okta, crea una nueva app SAML 2.0 para Mintie.
+  </Step>
+  <Step title="Copia tus metadatos">
+    En la pestaña Sign-On, copia la URL de metadatos o descarga el XML.
+  </Step>
+  <Step title="Pégalo en Mintie">
+    En Mintie, ve a **Configuración → Autenticación → SSO**, elige **Okta**,
+    selecciona **URL de metadatos** o **XML de metadatos**, pega el valor y
+    haz clic en **Conectar**.
+  </Step>
+  <Step title="Ejecuta un inicio de sesión de prueba">
+    Haz clic en **Test sign-in** para confirmar que el viaje funciona antes de
+    activar [Requerir SSO](/es/setup/enable-sso#requerir-sso-para-tu-organización).
+  </Step>
+</Steps>
+
+### Alternativa: SAML / OIDC genérico
+
+Si no puedes usar el flujo de metadatos, el [conector SAML / OIDC genérico](/es/setup/generic-saml) acepta los mismos valores de Okta:
 
 | Campo Mintie | Dónde encontrarlo en Okta |
 | --- | --- |
@@ -42,8 +57,3 @@ Hasta que se publique el conector dedicado, sigue el flujo [SAML / OIDC genéric
 | URL de token | App de Okta → Sign On → Token URL |
 | URL de JWKS | App de Okta → Sign On → JWKS URL |
 | ID de cliente / Secreto | App de Okta → General |
-
-<Note>
-  Dos de nuestras tres operaciones empresariales bloqueadas están en Okta: el conector
-  dedicado es el siguiente ticket no fundacional en el roadmap.
-</Note>
