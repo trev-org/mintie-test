@@ -3,6 +3,30 @@ title: "Changelog"
 description: "Latest product updates from Mintie SSO"
 ---
 
+<Update label="May 3, 2026" description="Self-serve SSO admin UI and dedicated connectors" tags={["Release"]}>
+
+## New features
+
+**Self-serve SSO admin UI.** Org admins can now manage identity providers end-to-end from **Settings → Auth → SSO** — no support ticket required. Connect a provider, view connection health, and toggle enforcement from one page. See [Enable SSO](/setup/enable-sso).
+
+**Dedicated Okta connector.** Connect Okta by pasting a metadata URL or uploading metadata XML. Replaces the manual generic-SAML path. See [Okta setup](/setup/okta).
+
+**Dedicated Google Workspace connector.** Connect Google Workspace with an OAuth admin flow — enter your primary domain and approve the SSO and Directory Sync scopes as a super-admin. See [Google Workspace setup](/setup/google-workspace).
+
+**Test sign-in.** Run a real round-trip against your IdP from the SSO settings page before enforcing SSO. Failures surface the exact reason so you can fix misconfigurations on the spot. See [Run a test sign-in](/setup/enable-sso#run-a-test-sign-in).
+
+**Self-serve disconnect.** Tear down an IdP connection from the admin UI. Existing sessions stay active until they expire; new SSO sign-ins are rejected immediately. See [Disconnect a provider](/setup/enable-sso#disconnect-a-provider).
+
+## Updates
+
+**Connection health at a glance.** The SSO settings page now shows a status badge (`Active`, `Awaiting verification`, `Disconnected`), the connection ID, and the timestamp and result of your most recent test sign-in.
+
+**Require SSO confirmation modal.** Enabling org-wide SSO now opens a confirmation modal that explains session-migration consequences before any change happens. The toggle stays disabled until an IdP is connected. See [Require SSO for your org](/setup/enable-sso#require-sso-for-your-org).
+
+**Admin API for SSO automation.** The endpoints behind the settings page are documented for server-to-server automation, including connect, status, test, require, and disconnect calls. See the [admin API reference](/setup/enable-sso#admin-api-reference).
+
+</Update>
+
 <Update label="April 29, 2026" description="Mintie SSO general availability" tags={["Release"]}>
 
 ## New features
