@@ -10,67 +10,78 @@ We use **GitHub Actions** for CI and **ICP Deploy** for CD. Every service repo i
 
 ```mermaid
 flowchart LR
-  Push[Push or PR] --> Lint
-  Lint --> Test[Unit tests]
-  Test --> SCA[Snyk SCA]
-  SCA --> SAST[Semgrep SAST]
-  SAST --> Build[Build OCI image]
-  Build --> Sign[Sign image with Cosign]
-  Sign --> SBOM[Generate SBOM]
-  SBOM --> Push2[Push to ECR]
-  Push2 --> CDPath{merged to main?}
-  CDPath -->|yes| ICP[ICP rollout]
-  CDPath -->|no| End[done]
+  Push[Push or PR] --> Verify
+  subgraph Verify [Verify · parallel]
+    direction TB
+    Lint[Lint]
+    Test[Unit tests + coverage]
+    Sec[Security scan<br/>Snyk + Semgrep]
+  end
+  Verify --> Build[Build + Sign + SBOM<br/>buildx with attestations]
+  Build --> Scan[Trivy + push to ECR]
+  Scan --> Gate{merged to main?}
+  Gate -->|yes| Deploy[ICP progressive rollout<br/>dev → staging → prod]
+  Gate -->|no| Done[done]
 ```
+
+The verify stage runs in parallel — a failure in any job fails the PR fast without waiting for the others.
 
 ## Required checks
 
-Every service must have these checks pass before merge:
+A single `ci/verify` status check rolls up the following. All must pass before merge:
 
-- Unit tests with line coverage threshold (80% for new code)
-- SCA (Snyk) — no high or critical vulnerabilities
-- SAST (Semgrep) — Intuit-tuned ruleset
-- Container scan (Trivy) on built image
-- License check (FOSSA) — no GPL or AGPL in service code
-- API contract test (if service exposes a public/internal API)
+- Unit tests, 80% line coverage on new code
+- Security: Snyk SCA (no high/critical), Semgrep SAST (Intuit ruleset), Trivy image scan
+- License check (FOSSA) — no GPL/AGPL in service code
+- API contract test (services exposing a public or internal API)
+
+Individual job logs are still available; the rollup keeps branch protection rules to one entry per service.
 
 ## Build-and-deploy SLAs
 
-| Stage                    | Target time    | Action if exceeded                 |
-| ------------------------ | -------------- | ---------------------------------- |
-| PR check (full pipeline) | < 15 min       | DevX team paged                    |
-| Merge to dev deploy      | < 10 min       | Service team alerted               |
-| Dev → staging            | < 5 min        | —                                  |
-| Staging → prod canary    | < 30 min       | Manual approval after staging gate |
-| Canary → 100%            | 60 min default | Auto-progress unless SLO regresses |
+| Stage                          | Target         | If exceeded                        |
+| ------------------------------ | -------------- | ---------------------------------- |
+| PR check (full verify + build) | < 8 min        | DevX paged                         |
+| Merge to dev                   | < 5 min        | Service team alerted               |
+| Dev → staging                  | < 3 min        | —                                  |
+| Staging → prod canary          | < 15 min       | Manual approval after staging gate |
+| Canary → 100%                  | 30 min default | Auto-progress unless SLOs regress  |
+
+End-to-end merge-to-prod-canary target: **20 minutes**.
 
 ## Rollbacks
 
-Rollback is one command:
+One command:
 
 ```bash
 intuit deploy rollback <service> --env prod
 ```
 
-By default this rolls back to the previous version. To roll forward to a specific version:
+Rolls back to the previous version. To pin a specific version:
 
 ```bash
 intuit deploy promote <service> --env prod --version v1.42.0
 ```
 
-ICP keeps the last 10 versions hot for instant rollback. Rollback never requires a build.
+ICP keeps the last 10 versions hot. Rollback never requires a build.
 
 ## Promotion gates
 
-Every promotion has a gate. Standard gates:
+| Gate              | Auto check                                  | Bypass authority                                  |
+| ----------------- | ------------------------------------------- | ------------------------------------------------- |
+| dev → staging     | Smoke tests pass                            | Auto on green                                     |
+| staging → canary  | Integration suite + load test               | Service tech lead                                 |
+| canary → 100%     | SLO checks (latency, error rate, saturation) | Auto unless regression; lead + on-call to override |
 
-| Gate              | Auto check                              | Bypass authority             |
-| ----------------- | --------------------------------------- | ---------------------------- |
-| dev → staging     | Smoke tests pass                        | Service tech lead            |
-| staging → canary  | Integration suite, load test            | Service tech lead            |
-| canary → 100%     | SLO checks (latency, error rate)        | Service tech lead + on-call  |
+Bypasses are logged and audited. Three or more bypasses in a rolling 30-day window trigger a review with engineering leadership.
 
-Bypassing a gate is logged and audited. Repeat bypasses trigger a review with engineering leadership.
+## What changed in this revamp
+
+- **Verify stage parallelized.** Lint, tests, and security scans now run concurrently. Old pipeline ran them sequentially.
+- **Single build step.** Image build, Cosign signing, and SBOM generation now happen in one `buildx` invocation using build attestations. Three jobs collapsed into one.
+- **One security status check.** Snyk + Semgrep + Trivy roll up into `ci/verify` instead of three separate required checks. Branch protection is simpler; coverage is the same.
+- **Auto-promote dev → staging.** Removed manual gate; smoke tests gate is sufficient.
+- **Tighter SLAs.** PR check 15 → 8 min. Merge-to-prod-canary roughly 45 → 20 min.
 
 ## Owner
 
