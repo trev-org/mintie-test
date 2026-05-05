@@ -1,0 +1,71 @@
+---
+title: "Privacy (GDPR / CCPA)"
+description: "How Intuit handles privacy obligations and data subject requests."
+icon: "shield"
+---
+
+Intuit operates under multiple privacy regimes simultaneously. The strictest applicable rules apply.
+
+## Applicable regulations
+
+| Regulation                | Geography             | Highlights                                                |
+| ------------------------- | --------------------- | --------------------------------------------------------- |
+| GDPR                      | EU/UK customers       | Legal basis required, DSR rights, breach notification     |
+| CCPA / CPRA               | California consumers  | Sale opt-out, deletion right, sensitive PI category       |
+| PIPEDA                    | Canada                | Reasonable purpose, consent, breach notification           |
+| Australia Privacy Act     | Australia             | APP principles, breach notification                        |
+| India DPDP Act            | India                 | Notice, consent, data fiduciary obligations                |
+| GLBA                      | U.S. financial data   | Privacy notices, safeguards rule                           |
+| FCRA                      | U.S. credit data      | Permissible purpose for credit reports                     |
+
+## Data subject requests (DSR)
+
+Customers can request access, correction, deletion, or export of their data. We handle these via the **Privacy Center** at `privacy.intuit.com`.
+
+| Right          | Timeline                  | Notes                                            |
+| -------------- | ------------------------- | ------------------------------------------------ |
+| Access         | 30 days (45 with extension)| Provide a copy of personal data                  |
+| Correction     | 30 days                    | Update inaccurate data                           |
+| Deletion       | 30 days                    | Delete unless retention required (tax records, etc.) |
+| Portability    | 30 days                    | Machine-readable export                          |
+| Opt-out (CCPA) | 15 days                    | Stop "sale" of personal information              |
+
+The DSR backend is a coordinated workflow across products. Each service has a `dsr-handler` that performs lookup, export, or deletion in its data stores. See [Data classification](/engineering/security/data-classification) for retention rules that override deletion in some cases.
+
+## Breach notification
+
+If we suffer a personal-data breach:
+
+- **GDPR**: notify Supervisory Authority within 72 hours; notify data subjects without undue delay if high risk
+- **California**: notify affected residents and AG within stated timelines
+- **Other states / countries**: per local law
+
+The IR team coordinates notifications. See [Incident response](/engineering/security/incident-response).
+
+## Privacy by design
+
+Engineering teams must:
+
+- Run a **Privacy Impact Assessment (PIA)** for new flows touching personal data
+- Choose minimum data needed (data minimization)
+- Default to short retention; extend with justification
+- Encrypt at rest and in transit
+- Tag schema columns with classifications
+- Build DSR handlers as part of the service, not bolted on
+
+PIAs go through `privacy@intuit.example` for sign-off.
+
+## Cookie / tracking compliance
+
+- Cookie banner served per region (EU/UK/CA opt-in; US largely opt-out)
+- Strictly-necessary vs. analytics vs. advertising buckets distinct
+- Updates require Privacy + Legal review
+- Honor browser DoNotTrack and Global Privacy Control where applicable
+
+## Privacy training
+
+Required annually for all employees. Engineers and data-handling roles get an extended track.
+
+## Owner
+
+Privacy Office · `privacy@intuit.example`

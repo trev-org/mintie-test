@@ -1,0 +1,70 @@
+---
+title: "Dev environment"
+description: "Local development tooling and conventions."
+icon: "laptop"
+---
+
+## The Intuit CLI
+
+`intuit` is the canonical interface for development tasks. Read `intuit --help` for the full menu.
+
+| Command                    | What it does                                       |
+| -------------------------- | -------------------------------------------------- |
+| `intuit auth login`        | SSO login, refreshes AWS, kube, Vault tokens       |
+| `intuit dev up`            | Start the local dev stack for the current repo     |
+| `intuit dev down`          | Stop and clean up                                  |
+| `intuit dev logs <svc>`    | Stream logs                                        |
+| `intuit ssh <env> <svc>`   | Open shell in a non-prod pod via Teleport          |
+| `intuit deploy promote`    | Promote a build through environments               |
+| `intuit secret get <name>` | Retrieve a secret from Vault for local dev         |
+
+## Required tools
+
+The bootstrap script installs these. If you bring your own:
+
+- **JDK 21** (Temurin) for Java services
+- **Node 20 LTS** with pnpm 9 (we use pnpm everywhere)
+- **Go 1.22** for Go services
+- **Docker Desktop** (or OrbStack)
+- **kubectl** v1.28+ and **helm** v3.13+
+- **AWS CLI v2** (login is via `intuit auth`, not `aws configure`)
+- **Vault CLI** (login via `intuit auth`)
+- **Snyk CLI** for local SCA scans
+- **Terraform** v1.6+ for infra repos
+
+## Editor / IDE
+
+We don't mandate an editor. Most engineers use:
+
+- VS Code or Cursor (most common)
+- IntelliJ IDEA Ultimate (free for engineers via L&D)
+- Neovim (more popular than you'd think)
+
+Recommended VS Code extensions:
+
+- `dbaeumer.vscode-eslint`
+- `esbenp.prettier-vscode`
+- `redhat.java`
+- `redhat.vscode-yaml`
+- `golang.go`
+- `intuit.intuit-codespace` — internal extension for the [Service catalog](/engineering/services/service-catalog) and runbooks
+
+## Local secrets
+
+Don't ever commit secrets. Local dev secrets live in Vault under `secret/dev/<service>/`. Pull with:
+
+```bash
+intuit secret get dev/<service>/local --output .env
+```
+
+`.env` files are git-ignored repo-wide via the org-level `.gitignore`. See [Secrets management](/engineering/infra/secrets-management).
+
+## Codespaces
+
+Cloud-based dev environments via GitHub Codespaces are available for any service that has a `.devcontainer` config. Pre-configured environments save on local Docker resource usage; ideal for quick fixes from a tablet or borrowed machine.
+
+Pre-warmed Codespaces are kept ready for the top-100 services. Expect a clone-to-running time of ~60 seconds.
+
+## Owner
+
+Developer Experience · `devx@intuit.example`

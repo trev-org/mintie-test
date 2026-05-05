@@ -1,0 +1,76 @@
+---
+title: "Build systems"
+description: "Maven, Gradle, pnpm, Go modules, Bazel — what we use and when."
+icon: "hammer"
+---
+
+## What to use when
+
+| You're building...                | Use                |
+| --------------------------------- | ------------------ |
+| Java service (single repo)        | Gradle 8 with Kotlin DSL |
+| Java library                      | Gradle 8 (or Maven for legacy) |
+| Node.js / TypeScript              | pnpm + Turbo       |
+| Go service                        | Go modules         |
+| Cross-language monorepo           | Bazel              |
+| Mobile (RN)                       | Metro + EAS        |
+| Mobile (native)                   | Xcode / Gradle     |
+
+## Java
+
+Gradle is the default. We publish a shared `intuit-build-conventions` plugin that sets:
+
+- JDK 21 toolchain
+- Spotless format on commit
+- JUnit 5
+- Snyk SCA integration
+- Coverage reporting via JaCoCo (Codecov upload)
+
+Maven works for legacy modules. New Java projects go Gradle.
+
+## Node.js / TypeScript
+
+We standardized on **pnpm** in 2024 because:
+
+- Faster installs (cached `node_modules`)
+- Strict dependency resolution prevents phantom imports
+- Workspaces are native and predictable
+
+A typical web app:
+
+```
+package.json    # pnpm workspaces
+apps/
+  web/          # Next.js or Vite
+  storybook/    # design system docs
+packages/
+  ui/           # shared components
+  api-client/   # generated from OpenAPI
+turbo.json      # Turbo for build cache + task graph
+```
+
+Turbo handles caching across packages. Remote cache is hosted by Intuit's CI infrastructure — set `TURBO_TOKEN` from `intuit auth` automatically.
+
+## Go
+
+Go modules, no extras. Use:
+
+- `go test ./...` for unit tests
+- `go vet` and `golangci-lint` (config in `intuit-go-conventions`)
+- `goreleaser` for binaries
+
+## Bazel
+
+Used for the largest monorepos: `icp/`, `genos/`, `trips/`. Bazel rules: `rules_go`, `rules_jvm`, `rules_nodejs`, `rules_python`. We run a remote build cache (BuildBuddy) shared across all developers — first build is slow, subsequent builds across the team are seconds.
+
+<Tip>
+  If you're on a small team starting fresh, **don't** start with Bazel. The complexity is rarely worth it until you're sharing a lot of code across languages or have build times in tens of minutes.
+</Tip>
+
+## Container builds
+
+All container images are built with **Buildah** (not Docker daemon) in CI for security. Use multi-stage builds. Base images come from `internal-base/` in our internal registry — they're scanned, signed, and free of CVEs.
+
+## Owner
+
+Developer Experience · `devx@intuit.example`

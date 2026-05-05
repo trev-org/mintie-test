@@ -1,0 +1,64 @@
+---
+title: "VPN"
+description: "When you need it, how to use it, and what it does."
+icon: "shield"
+---
+
+We use **Cisco AnyConnect** for VPN. It's pre-installed on managed laptops.
+
+## When you need VPN
+
+| Scenario                                   | VPN required?    |
+| ------------------------------------------ | ---------------- |
+| Slack, Gmail, Workday                      | No (internet-routed) |
+| GitHub Enterprise                          | No (Okta SSO sufficient) |
+| Internal-only admin tools                  | Yes              |
+| Production database direct access          | Yes + Teleport    |
+| Vault prod CLI                             | Yes              |
+| Some legacy tools (esp. Mailchimp's PHP estate) | Yes         |
+
+Most engineers rarely need VPN — Okta and zero-trust networking handle most cases. If you're hitting `*.intuit-internal` hostnames, you'll need it.
+
+## Connecting
+
+```bash
+# CLI
+sudo /opt/cisco/anyconnect/bin/vpn -s connect vpn.intuit.com
+
+# Or use the GUI
+```
+
+You'll prompt for Okta SSO + MFA. Sessions last 12 hours.
+
+## Profiles
+
+- `default` — most internal tools
+- `prod-admin` — restricted, requires manager-pre-approved role
+- `fedramp` — separate VPN for FedRAMP-isolated workloads
+- `developer-hub-india` — optimized routing for BLR-based engineers
+
+## Troubleshooting
+
+| Symptom                     | Try                                                |
+| --------------------------- | -------------------------------------------------- |
+| "Authentication failed"     | Re-enroll Okta MFA, retry                          |
+| Connects but DNS broken     | Disconnect, run `sudo killall mDNSResponder`, reconnect |
+| Slow                        | Switch to a closer profile (we have 8 endpoints)   |
+| Fails on coffee shop wifi   | Some captive portals block IPSec — try cellular hotspot |
+| Constantly disconnecting    | File [Help Desk ticket](/operations/it/help-desk) tagged `vpn` |
+
+## Travel
+
+VPN works internationally with these caveats:
+
+- Some countries (China, UAE, Russia) block or restrict VPNs — IT pre-clears travel and can issue a temporary device
+- Latency from APAC can degrade — use the local profile (`apac-svc`)
+- Mainland China requires explicit pre-approval and a separate compliance flow
+
+## Zero-trust direction
+
+We're moving away from VPN toward Okta + Teleport + Tailscale-style zero-trust for service-by-service access. New apps are zero-trust-first; legacy apps will phase off VPN over the next 18 months.
+
+## Owner
+
+Network Operations · `netops@intuit.example`

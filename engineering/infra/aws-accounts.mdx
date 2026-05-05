@@ -1,0 +1,90 @@
+---
+title: "AWS accounts"
+description: "Account topology, naming, and how to get access."
+icon: "cloud"
+---
+
+Intuit operates a multi-account AWS Organization with hundreds of accounts. Account boundaries are our primary blast-radius control.
+
+## Topology
+
+```
+intuit-org (root)
+├── prod-ou
+│   ├── prod-sbse-quickbooks
+│   ├── prod-sbse-payroll
+│   ├── prod-consumer-turbotax
+│   ├── prod-creditkarma
+│   └── prod-mailchimp
+├── nonprod-ou
+│   ├── dev-sbse-quickbooks
+│   ├── stg-sbse-quickbooks
+│   ...
+├── shared-services-ou
+│   ├── shared-network
+│   ├── shared-logging
+│   ├── shared-build
+│   └── shared-secrets
+├── security-ou
+│   ├── security-tooling
+│   ├── security-logarchive
+│   └── security-audit
+└── sandbox-ou
+    └── sandbox-* (per team)
+```
+
+## Naming
+
+`{env}-{segment}-{product-or-platform}`. Examples:
+
+- `prod-sbse-quickbooks` — QuickBooks production
+- `dev-platform-icp` — ICP development
+- `stg-consumer-turbotax` — TurboTax staging
+- `sandbox-tcraine-experiments` — personal sandbox
+
+## Access
+
+Use **AWS SSO** via Okta. After `intuit auth login`, you can list and assume roles:
+
+```bash
+aws sso login --profile prod-sbse-quickbooks
+intuit aws assume prod-sbse-quickbooks ReadOnly
+```
+
+Default roles per account:
+
+| Role            | Who                              | Permissions                           |
+| --------------- | -------------------------------- | ------------------------------------- |
+| `Admin`         | Account owner team               | Full account control (sparingly used) |
+| `Developer`     | Service team members             | Read all, write to dev/stg only       |
+| `ReadOnly`      | Most engineers                   | Read-only across resources            |
+| `Break-glass`   | On-call, emergencies only        | Admin, audit-logged, time-limited     |
+| `Auditor`       | Security and compliance teams    | Read all + CloudTrail                 |
+
+## Cost ownership
+
+Each account has a designated cost center. AWS bills are split by account, then within accounts via tagging.
+
+Required tags on every resource:
+
+```yaml
+Service: invoice-service
+Owner: team-invoicing@intuit.example
+Environment: prod  # or dev/stg/sandbox
+CostCenter: 4501
+DataClassification: pii_low  # see /engineering/security/data-classification
+```
+
+The `intuit-tag-cop` Lambda removes resources missing required tags after 7 days. So tag your stuff.
+
+## Sandbox accounts
+
+Anyone can request a personal sandbox account through the [Software catalog](/operations/it/software-catalog). Hard caps:
+
+- $500/month spend limit (auto-shut-down)
+- No customer data ever
+- 90-day expiry, renewable
+
+## Owner
+
+Cloud Platform · `cloud-platform@intuit.example`

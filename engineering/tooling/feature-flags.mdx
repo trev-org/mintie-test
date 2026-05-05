@@ -1,0 +1,89 @@
+---
+title: "Feature flags"
+description: "Flag-driven development with LaunchDarkly + the Intuit shim."
+icon: "flag"
+---
+
+We use **LaunchDarkly** for feature flags, fronted by the `@intuit/flags` shim that adds telemetry, audit logging, and standard targeting helpers.
+
+## When to use a flag
+
+- Any user-facing feature that's not GA
+- Any change with non-trivial blast radius (DB query change, new external dependency)
+- Experiments (A/B tests)
+- Operational toggles ("switch to fallback provider")
+
+## Flag types
+
+| Type                    | Lifespan         | Examples                                        |
+| ----------------------- | ---------------- | ----------------------------------------------- |
+| Release flag            | < 30 days        | New checkout flow, new API endpoint             |
+| Operational toggle      | Indefinite       | Use provider A vs B, enable rate limiter        |
+| Permission flag         | Indefinite       | "Beta program member" gate                      |
+| Experiment              | < 90 days        | A/B test on signup screen                       |
+| Kill switch             | Indefinite       | Disable a feature in incident                   |
+
+## Naming conventions
+
+`<scope>.<area>.<what>.<rollout-or-permanent>`. Examples:
+
+```
+sbse.invoicing.multi_currency.release
+sbse.invoicing.use_new_pdf_lib.operational
+consumer.turbotax.live_pricing_v2.experiment
+platform.payments.kill_switch_stripe.kill
+```
+
+## Implementation
+
+```typescript
+import { flags } from '@intuit/flags'
+
+const useNewFlow = await flags.evaluate('sbse.invoicing.checkout_v2.release', {
+  user: { id: userId },
+  tenant: { id: tenantId },
+  defaultValue: false,
+})
+
+if (useNewFlow) {
+  return newFlow()
+} else {
+  return oldFlow()
+}
+```
+
+The shim emits a `flag.evaluation` metric every time a flag is read, tagged with the flag name and resolved value. Useful for verifying rollout coverage.
+
+## Rollout pattern
+
+<Steps>
+  <Step title="Default off in code">
+    Merge the change behind the flag, defaulting to off in all environments.
+  </Step>
+  <Step title="Internal-only in dev/staging">
+    Enable for engineering team accounts. Verify telemetry.
+  </Step>
+  <Step title="Canary 1% prod">
+    Enable for 1% of traffic. Monitor SLOs and error rates for 24 hours minimum.
+  </Step>
+  <Step title="Ramp">
+    5% → 25% → 50% → 100%. Each step is a deliberate decision with metrics review.
+  </Step>
+  <Step title="Cleanup">
+    Once 100% for 30 days, remove the flag and the dead code path.
+  </Step>
+</Steps>
+
+## Cleanup
+
+Stale flags are tech debt. We have a quarterly **Flag Cleanup Day** where each team retires flags that have been at 100% (or 0%) for 30+ days.
+
+The `@intuit/flags` lint rule warns when:
+
+- A release flag is older than 90 days
+- An experiment flag has been at constant 100% or 0% for 30+ days
+- A flag is unused in code (no `flags.evaluate` call) but exists in LaunchDarkly
+
+## Owner
+
+Experimentation Platform · `flags@intuit.example`

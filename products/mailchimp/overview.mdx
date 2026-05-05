@@ -1,0 +1,60 @@
+---
+title: "Mailchimp overview"
+description: "Mailchimp marketing platform — internal context."
+icon: "mail"
+---
+
+Mailchimp is Intuit's marketing platform for SMB and mid-market. Acquired in 2021. Continues to operate with much of its own infrastructure and culture, deeply integrating with QuickBooks for cross-sell.
+
+## What Mailchimp sells
+
+| Tier         | Customers                              |
+| ------------ | -------------------------------------- |
+| Free         | Up to 500 contacts, basic email        |
+| Essentials   | $13+/mo, A/B testing, scheduling        |
+| Standard     | $20+/mo, automations, behavior triggers |
+| Premium      | $350+/mo, advanced segmentation, multi-user |
+| Transactional (Mandrill) | Developer API for transactional email |
+
+## Capabilities
+
+- Email campaigns (send, schedule, A/B)
+- Customer Journeys (visual automation builder)
+- Audiences and segmentation
+- Landing pages and signup forms
+- Behavioral triggers (carts, purchases, page visits)
+- SMS (US, UK, growing)
+- Postcard mailings (US)
+- Reports + revenue attribution
+
+## Tech stack
+
+| Layer                | Tech                                                    |
+| -------------------- | ------------------------------------------------------- |
+| Web                  | Ember.js (legacy migrating to React in places), GraphQL |
+| Backend              | PHP (legacy core), Go (newer services)                  |
+| Send infrastructure  | Custom mail transfer agents, plus AWS SES               |
+| Data                 | MySQL + Cassandra historically; migrating to AWS managed |
+| Real-time            | Kafka                                                   |
+| Identity             | Mailchimp identity, federating with Intuit ID via OIDC |
+
+The PHP core is notable — Mailchimp built one of the largest production PHP codebases in the world. The migration off PHP is multi-year and selective; we don't rewrite working code without business reason.
+
+## Customer scale
+
+- ~13M users globally
+- Hundreds of billions of emails sent annually
+- Largest single sender of marketing email globally by volume
+- Most reliable enterprise sender by industry deliverability rankings (Litmus, EmailGeeks)
+
+## Internal/external boundaries
+
+Mailchimp.com is its own brand and product. Customers don't typically know about Intuit ownership. Some integration points to know:
+
+- **Intuit ID federation** for cross-product sign-in (TurboTax, QBO, Mailchimp)
+- **Mailchimp + QuickBooks** bundled offering for SBSE customers
+- **Mandrill** is the transactional sister product, used internally by [Notifications](/engineering/services/notifications)
+
+## Owner
+
+Mailchimp Product · `mc-product@mailchimp.com`

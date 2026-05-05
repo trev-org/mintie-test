@@ -1,0 +1,86 @@
+---
+title: "Identity & IAM"
+description: "Intuit ID, sign-in, and how services authenticate users."
+icon: "key"
+---
+
+The Identity Platform is the cross-product authentication and authorization layer. Every Intuit product uses it: TurboTax, QuickBooks, Credit Karma, Mailchimp.
+
+See also: [Intuit ID (cross-product)](/products/cross/intuit-id) for product-team integration details.
+
+## Components
+
+| Component       | Responsibility                                                      |
+| --------------- | ------------------------------------------------------------------- |
+| `auth-service`  | OAuth 2.0 / OIDC issuer for Intuit ID                               |
+| `iam-policy`    | Policy decision point (is this principal allowed to do this?)       |
+| `mfa-service`   | TOTP, push, SMS, WebAuthn                                           |
+| `session-store` | Centralized session and token state                                 |
+| `kyc-service`   | Identity verification (Know Your Customer) for financial flows      |
+| `fraud-engine`  | Real-time fraud signals during sign-in and sign-up                  |
+
+## Authenticating from your service
+
+Every request reaching your service passes through ICP's edge proxy, which validates the OIDC token. Your service receives the verified claims as headers:
+
+```http
+X-Intuit-User-Id: user_abc123
+X-Intuit-Tenant-Id: tenant_xyz
+X-Intuit-Realm: quickbooks
+X-Intuit-Auth-Time: 1736209891
+X-Intuit-MFA-Verified: true
+```
+
+Use `@intuit/auth-context` to parse:
+
+```typescript
+import { authContext } from '@intuit/auth-context'
+
+const ctx = authContext.fromRequest(req)
+if (!ctx.mfaVerified) {
+  throw new Error('MFA required for this operation')
+}
+```
+
+## Authorization
+
+We use **policy as code** via the `iam-policy` service (built on OPA / Rego). Policies live in `intuit-platform/iam-policies/` repo.
+
+Example policy:
+
+```rego
+package quickbooks.invoices
+
+allow {
+  input.action == "read"
+  input.resource.tenant_id == input.principal.tenant_id
+}
+
+allow {
+  input.action == "write"
+  input.principal.role == "admin"
+  input.resource.tenant_id == input.principal.tenant_id
+}
+```
+
+Services call `iam.check(principal, action, resource)`. p99 latency is < 5ms.
+
+## Session lifetime
+
+| Surface                  | Default                  |
+| ------------------------ | ------------------------ |
+| Web (TurboTax, QBO)      | 24h, sliding             |
+| Mobile                   | 30d, refresh tokens      |
+| API (machine-to-machine) | 1h JWT, refresh via OAuth client_credentials |
+| Admin tools              | 4h, no sliding           |
+| Sensitive (banking, tax) | 30 min, requires re-auth |
+
+## Cross-product SSO
+
+Once a user signs into one Intuit product (e.g., QuickBooks), they're signed into all their entitled products via the shared session cookie at `*.intuit.com`. Mailchimp lives at `mailchimp.com` so it uses an explicit OIDC redirect.
+
+Credit Karma maintains a separate identity stack but federates with Intuit ID for users who choose to link.
+
+## Owner
+
+Identity Platform · `identity@intuit.example`

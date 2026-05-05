@@ -1,0 +1,82 @@
+---
+title: "Runbooks"
+description: "What good runbooks look like and where they live."
+icon: "book"
+---
+
+A runbook is the document an on-call uses at 3am. It should be specific enough to follow without your team's tribal knowledge.
+
+## Where they live
+
+Inside the service repo, at `docs/runbooks/<alert-name>.md`. They're auto-linked from the Service Catalog and from the alert payload itself — so when PagerDuty fires, the link to the runbook is in the SMS.
+
+## Format
+
+Every runbook follows this structure:
+
+```markdown
+# Alert: <alert-name>
+
+## Symptoms
+What the on-call sees. Dashboards, log queries, customer impact.
+
+## Likely causes
+Top 3-5 reasons this fires, ordered by frequency.
+
+## Diagnostic steps
+1. Step-by-step commands to confirm.
+2. Use `intuit run <X>` rather than custom shell pipelines.
+
+## Mitigation
+What to do *now* to stop customer pain.
+
+## Resolution
+Longer-term fix path.
+
+## Recent changes
+Last 5 changes to this alert or service that might be related.
+
+## Escalation
+Who to page if mitigation fails.
+```
+
+## Quality bar
+
+A runbook fails the bar if:
+
+- It's a wall of text without commands or links
+- It says "see so-and-so's notes"
+- The first command is a 6-line shell pipeline
+- It's been touched in less than 6 months but the service has changed
+- It doesn't link back to the dashboards it references
+
+## Examples
+
+Strong examples to model:
+
+- `intuit/payments/docs/runbooks/charge-decline-rate-spike.md`
+- `intuit/identity/docs/runbooks/login-success-drop.md`
+- `intuit/turbotax-efile/docs/runbooks/irs-submission-failures.md`
+
+## Drills
+
+Each team runs a **runbook drill** monthly:
+
+1. Pick a runbook
+2. New on-call follows it cold
+3. Time how long until mitigation
+4. Update anything unclear
+
+## What's not a runbook
+
+A runbook isn't:
+
+- Architecture documentation (use `/docs/architecture/`)
+- Deep-dive of failure modes (postmortems)
+- General team docs
+
+Keep them tight, specific, and actionable.
+
+## Owner
+
+SRE Excellence · `sre@intuit.example`

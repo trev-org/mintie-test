@@ -1,0 +1,76 @@
+---
+title: "Tax engine"
+description: "How TurboTax computes returns. The crown-jewel codebase."
+icon: "calculator"
+---
+
+The Tax Engine is the calculation core that powers TurboTax DIY, TurboTax Live, and ProTax (Lacerte, ProConnect, ProSeries). It encodes federal and state tax law as executable rules.
+
+## What it does
+
+Given a "tax data graph" (the user's life: income, deductions, dependents, etc.), the engine computes:
+
+- Tax owed or refund expected
+- Form-by-form fill-in values (1040, Schedule A, etc.)
+- Cross-form propagation (e.g., AGI affecting dozens of downstream calculations)
+- Optimization (which credits to claim, AMT vs. regular)
+- Validation (does the return pass IRS schema)
+
+## How it's built
+
+The engine is a **rules-based DAG** written in our internal DSL `TaxLang`. The compiler translates `TaxLang` to:
+
+- Java for server-side execution (TurboTax Online, Live)
+- WASM for client-side preview/calculation (responsive UX while editing)
+- Rust for ProTax desktop products
+
+Rules are versioned by **tax year**:
+
+```
+rules/
+├── 2023/
+├── 2024/
+├── 2025/   # Current TY
+└── 2026/   # In progress, internal only
+```
+
+Each year's rules are frozen on January 1 of the filing year. After freeze, only IRS-clarification patches and bugfixes ship.
+
+## Authoring rules
+
+Rule authors are tax-attorney + engineer pairs. A typical rule:
+
+```
+rule child_tax_credit_2025 {
+  applies_when: filing.tax_year == 2025
+  inputs: { dependents, agi, filing_status }
+  outputs: { ctc_amount }
+
+  let qualifying_children = dependents.filter(is_qualifying_child(2025))
+  let base = qualifying_children.length * 2000
+  let phaseout_threshold = match filing_status {
+    SINGLE | HOH => 200_000
+    MFJ => 400_000
+    _ => 200_000
+  }
+  let phaseout = max(0, ceil((agi - phaseout_threshold) / 1000) * 50)
+  ctc_amount = max(0, base - phaseout)
+}
+```
+
+Every rule has citations to the underlying tax code, IRS regs, and revenue rulings — these become "see why" tooltips for the user.
+
+## Testing
+
+- **Reference tests** — known-good returns from real and synthetic taxpayers, verified against IRS calculation
+- **Property-based tests** — randomized inputs across distributions, compared between current and previous year for stability
+- **IRS schema validation** — every computed return must pass IRS Schema 1.0 before submission
+- **Cross-engine** — Java vs. WASM vs. Rust must agree to the cent
+
+## Why the engine isn't an LLM
+
+Tax law is exact and adversarial. A penny off invalidates a return. LLMs are great at *understanding* tax data ("this looks like a 1099-NEC, not a W-2") but a poor fit for *computing* it. We use Genos for understanding and the engine for computing.
+
+## Owner
+
+Tax Calculation Platform · `tax-engine@intuit.example`

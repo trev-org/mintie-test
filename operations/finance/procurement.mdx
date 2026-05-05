@@ -1,0 +1,71 @@
+---
+title: "Procurement"
+description: "Buying for Intuit — vendors, POs, and contracts."
+icon: "shopping-bag"
+---
+
+Procurement covers anything Intuit pays a vendor for, from a $5K seat license to multi-million-dollar AWS commits.
+
+## When to involve procurement
+
+| Spend                    | Path                                          |
+| ------------------------ | --------------------------------------------- |
+| < $1,000 / one-time      | Corporate card + expense report               |
+| $1,000 - $5,000          | Corporate card; flag in expense if recurring  |
+| $5,000 - $25,000         | Procurement-managed PO                        |
+| > $25,000                | Procurement-managed RFP or sole-source        |
+| Multi-year commitment    | Procurement + Finance + Legal                 |
+| Customer data flowing    | + Privacy + Security review                   |
+
+## PO workflow
+
+<Steps>
+  <Step title="Submit intake">
+    Procurement intake form: what you need, why, vendor (if known), urgency, expected spend.
+  </Step>
+  <Step title="Vendor due diligence">
+    For new vendors: financial health, security review, privacy review, compliance attestations.
+  </Step>
+  <Step title="Negotiate">
+    Procurement leads negotiation. They'll loop you in on scope and SLAs.
+  </Step>
+  <Step title="Contract">
+    Legal reviews. See [Contracts review](/operations/legal/contracts-review).
+  </Step>
+  <Step title="PO issued">
+    PO sent to vendor; vendor invoices against PO.
+  </Step>
+  <Step title="Receipt">
+    You confirm receipt of goods/services in Workday; AP pays.
+  </Step>
+</Steps>
+
+## Plan ahead
+
+- New vendor: 4-6 weeks
+- Existing vendor, new use: 2-3 weeks
+- Existing vendor, existing terms: < 1 week
+
+If you need something faster, talk to procurement; rush options exist for genuinely urgent needs but aren't free.
+
+## Approved-vendor list
+
+The catalog of pre-approved vendors is at `procurement.intuit.example/vendors`. Using an approved vendor cuts most of the due-diligence step.
+
+## Sustainability and DEI commitments
+
+- We track vendor diversity (women-owned, minority-owned, veteran-owned, etc.) and report annually
+- Carbon-intensive purchases require procurement to surface alternatives
+- Conflict-of-interest disclosure required for any employee with a financial interest in a vendor
+
+## Renewal calendar
+
+Don't be surprised by auto-renewals:
+
+- Procurement maintains a renewal calendar
+- Owners get 90, 60, 30-day warnings
+- Negotiate before the renewal window — renegotiating after auto-renewal is harder
+
+## Owner
+
+Procurement · `procurement@intuit.example`

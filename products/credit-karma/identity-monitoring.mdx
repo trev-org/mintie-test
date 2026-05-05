@@ -1,0 +1,68 @@
+---
+title: "Identity monitoring"
+description: "How Credit Karma alerts members to identity-theft signals."
+icon: "shield-alert"
+---
+
+Identity Monitoring is a paid (and partly free) feature that alerts members when their identity may have been compromised.
+
+## What we monitor
+
+| Signal                                 | Coverage                                    |
+| -------------------------------------- | ------------------------------------------- |
+| New credit inquiries                   | Free for everyone                            |
+| New tradelines / accounts opened       | Free for everyone                            |
+| Public records                         | Free for everyone                            |
+| Dark web mentions of email             | Free for everyone                            |
+| Dark web mentions of SSN, full identity | Paid (ID Monitor Premium)                   |
+| Address change alerts                  | Paid                                        |
+| Bank account / card breaches           | Paid                                        |
+| SSN trace                              | Paid (one-time)                              |
+
+## Alerts
+
+Alerts ship via:
+
+- Push notification
+- Email
+- In-app alert center
+
+Alert latency target: < 1 hour from data source ingest to delivery.
+
+## What members can do
+
+When alerted, members can:
+
+- Acknowledge the alert (it was them)
+- Mark as suspicious (we offer next-step guidance)
+- Place a fraud alert with bureaus (we link to the bureaus' tools)
+- Freeze credit (we link to all three bureaus' freeze pages)
+- File an FTC identity theft report (we link)
+- Talk to a restoration specialist (paid tier)
+
+## Restoration
+
+For paid-tier members, we contract with **CyberScout** to provide identity restoration:
+
+- Dedicated case manager
+- Help disputing fraudulent accounts
+- Up to $1M ID-theft insurance (underwritten by AIG)
+- Document recovery assistance
+
+## Architecture
+
+| Component               | Role                                                |
+| ----------------------- | --------------------------------------------------- |
+| Bureau-event ingest     | Real-time events from TU/EQ                         |
+| Dark-web ingest         | Daily feeds from threat-intel partners              |
+| Detector                | Per-member rules + ML to surface relevant events    |
+| Alert dispatcher        | Throttling, deduplication, channel routing          |
+| Case workflow           | Premium-tier restoration cases                       |
+
+## Privacy
+
+This product creates the most sensitive data we hold (active threat indicators on a member). All alerts encrypt at rest with member-derived keys. Internal access requires manager + privacy approval.
+
+## Owner
+
+Trust & Safety Engineering · `trust-eng@creditkarma.com`

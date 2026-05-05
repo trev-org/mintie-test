@@ -1,0 +1,71 @@
+---
+title: "Payments (QuickBooks)"
+description: "How QuickBooks Payments accepts customer payments — for our customers' customers."
+icon: "credit-card"
+---
+
+QuickBooks Payments lets QBO customers accept card and ACH payments from their customers, integrated tightly with invoicing and the accounting engine.
+
+It's a B2B2C product: Intuit sells to the SMB; the SMB transacts with their end customer.
+
+## Acceptance methods
+
+- **Online** via invoice "Pay now" email link
+- **In-app** via QuickBooks Mobile (manual entry or Tap to Pay)
+- **In-store** via card readers (Bluetooth + Lightning, sold via QuickBooks)
+- **Recurring** for subscriptions and retainers
+- **Hosted checkout** for non-QuickBooks businesses
+
+## Pricing (FY25, U.S.)
+
+| Method            | Rate                             |
+| ----------------- | -------------------------------- |
+| Card-present      | 2.5% + $0                        |
+| Card-not-present  | 2.99% + $0.25                    |
+| Keyed             | 3.4% + $0.25                     |
+| ACH               | 1% (cap $10) per transaction     |
+
+Volume discounts available for high-throughput customers.
+
+## Architecture
+
+QuickBooks Payments sits on top of the [Payments Platform](/engineering/services/payments-platform). We add:
+
+- Invoice-aware metadata propagation
+- Auto-reconcile to the customer's bank deposit
+- Posting to the [accounting engine](/products/quickbooks/accounting-engine)
+- Dispute / chargeback workflow integrated with invoicing
+- 1099-K reporting for our customers (we issue the form)
+
+## Settlement
+
+Funds settle to the customer's bank account:
+
+- ACH: 2-5 business days from authorization
+- Card (standard): next business day
+- Card (instant deposit, premium): same day, 1.5% fee
+
+## Risk and underwriting
+
+Every QuickBooks Payments customer goes through KYB (know-your-business). The risk team reviews:
+
+- Industry codes (some prohibited)
+- Volume forecasts
+- Beneficial ownership
+- Adverse media
+
+We hold funds (delayed settlement) for new accounts in higher-risk industries until volume patterns are established.
+
+## Disputes and chargebacks
+
+When a card chargeback arrives:
+
+1. Notification to QBO customer with evidence-upload UI
+2. We forward evidence to the network
+3. Customer is responsible for the loss if upheld; we bear loss if our anti-fraud signals failed
+
+We aim to keep our chargeback rate well below network thresholds (Visa: 0.9%; Mastercard: 1.5%).
+
+## Owner
+
+QuickBooks Payments · `qbpayments@intuit.example`

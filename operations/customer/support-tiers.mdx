@@ -1,0 +1,67 @@
+---
+title: "Customer support tiers"
+description: "How customer support is structured across products."
+icon: "headset"
+---
+
+Customer support at Intuit varies by product, segment, and tier — but the principles are consistent.
+
+## Support model
+
+| Product       | Tiers                                              |
+| ------------- | -------------------------------------------------- |
+| TurboTax DIY  | In-product help, community, paid expert chat       |
+| TurboTax Live | Included expert support                            |
+| QBO Simple Start | Community + chat                                |
+| QBO Advanced  | Phone + chat + dedicated success rep                |
+| QBO Premium   | All-tier + 24/7                                    |
+| Mailchimp     | Free has chat (limited); paid tiers add phone, email|
+| Credit Karma  | Email-first, in-app chat for paid features         |
+
+## Channels
+
+| Channel        | Hours                                     |
+| -------------- | ----------------------------------------- |
+| In-product chat| Varies by product; M-F daytime by default |
+| Phone          | Limited to paid tiers                     |
+| Email          | All tiers                                  |
+| Community      | 24/7, peer + Intuit moderators             |
+| Twitter / X    | Best-effort                                |
+| Status page    | Real-time (read-only)                     |
+
+## Internal vs. external
+
+The customer never knows what tier a rep is. Internally, we operate three tiers of support reps:
+
+- **Tier 1**: First-line response, ~80% of cases. Use scripts, knowledge base, and tooling.
+- **Tier 2**: Specialist for complex cases. Read-write access to many systems.
+- **Tier 3**: Engineer-on-call for issues that need code investigation.
+
+## Escalation paths
+
+See [Escalation paths](/operations/customer/escalation-paths) for routing rules. Common escalations:
+
+- Tier 1 → Tier 2 (complex case, ~10%)
+- Tier 2 → Tier 3 / Eng (suspected bug)
+- Tier 3 → Sev triage if it's affecting many customers
+
+## Quality and metrics
+
+| Metric                       | Target                                   |
+| ---------------------------- | ---------------------------------------- |
+| Customer Sat (CSAT)          | > 90% positive                            |
+| First contact resolution     | > 75%                                    |
+| Average handle time          | Varies by product (< 8 min for QBO)       |
+| Time to first response       | < 2 min for chat; < 4 hours for email     |
+| Net promoter (post-contact)  | > 50                                     |
+
+## Tooling
+
+- **Salesforce Service Cloud** — case management
+- **Zendesk** (some products) — chat-first support
+- **Internal admin tools** — read-only access to customer accounts (logged, audited)
+- **Knowledge base** — internal answers, deeply linked from cases
+
+## Owner
+
+Customer Care · `customer-care@intuit.example`

@@ -1,0 +1,51 @@
+---
+title: "TurboTax overview"
+description: "Internal context on the TurboTax product family."
+icon: "receipt"
+---
+
+TurboTax is the U.S. consumer DIY tax preparation product, supplemented by Live Assisted and Live Full Service offerings.
+
+## Product editions
+
+| Edition                 | Audience                          | Avg revenue per filer (FY25) |
+| ----------------------- | --------------------------------- | ---------------------------- |
+| Free Edition            | Simple W-2-only returns           | $0 (loss leader)             |
+| Deluxe                  | Itemizers, mortgage interest      | $59                          |
+| Premier                 | Investors, rental income          | $89                          |
+| Self-Employed           | 1099 income, Schedule C           | $129                         |
+| Live Assisted           | Add expert help on top of any DIY | +$80–$130                    |
+| Live Full Service       | Expert prepares for you           | $189–$429                    |
+
+## Tech stack
+
+- Frontend: React + the **Trips** design system
+- Backend: Java services on ICP, plus a domain-specific tax engine (see [Tax engine](/products/turbotax/tax-engine))
+- Data: PostgreSQL for in-progress returns; long-term archive in encrypted S3 + Snowflake (no PII direct in OLAP)
+- Mobile: React Native for iOS and Android
+- Live Assisted: hosted by `live-experts-platform`, see [Live Experts](/products/turbotax/live-experts)
+
+## Key partnerships
+
+- **IRS Modernized e-File (MeF)** — primary federal submission channel
+- **State revenue agencies** — direct integrations with all 41 state-income-tax states
+- **Financial institutions** — 1099 import for ~7,000 institutions via OFX feeds
+- **Employers** — W-2 import via ADP, Paychex, and dozens more
+
+## Regulatory landscape
+
+- **IRS Pub 1075** — controls for Federal Tax Information (FTI). All FTI flows touch isolated infrastructure.
+- **IRS Authorized e-File Provider** — annual recertification
+- **State e-file agreements** — varied; some require state-specific data residency
+- **FTC and state AGs** — actively scrutinize tax-prep advertising and refund-product disclosures
+
+## What internal teams should know
+
+- TurboTax is **the most seasonal** business at Intuit. Engineering capacity for Jan-Apr is allocated months in advance — see [Seasonal readiness](/products/turbotax/seasonal-readiness).
+- Tax law changes annually. The tax engine includes year-versioned rules; releases for the next tax year ship in November-December.
+- DIY-to-Live conversion is a top metric. Many features are designed to surface "get expert help" exactly when users hesitate.
+- E-file submissions to IRS are batched but appear synchronous to the user — the magic happens in the [E-file pipeline](/products/turbotax/efile-pipeline).
+
+## Owner
+
+TurboTax Product · `turbotax-product@intuit.example`

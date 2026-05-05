@@ -1,0 +1,61 @@
+---
+title: "Credit Karma overview"
+description: "Personal finance, credit, and lending — internal context."
+icon: "credit-card"
+---
+
+Credit Karma is a wholly-owned subsidiary acquired in 2020. It runs largely on its own infrastructure but federates with Intuit ID for cross-product sign-in.
+
+## What it does
+
+Credit Karma helps members:
+
+- See their credit scores and reports for free, with weekly updates
+- Get personalized recommendations for credit cards, loans, and insurance
+- Monitor identity and credit changes
+- Bank: Credit Karma Money Spend (debit) and Save (HYSA)
+- Save and budget tools
+
+Members are largely U.S. consumers; expanding in Canada and the U.K.
+
+## Business model
+
+Credit Karma is **paid by lenders** (and other partners) when members are matched and convert (apply, get approved, originate). Approval-likelihood predictions drive the matching engine — the more accurate the prediction, the more valuable the lead, the higher the payout.
+
+| Vertical                | Revenue                                      |
+| ----------------------- | -------------------------------------------- |
+| Credit cards            | Largest single segment                       |
+| Personal loans          | High-margin                                  |
+| Auto loans              | Growing                                      |
+| Mortgage                | Volatile, rate-sensitive                     |
+| Insurance               | Auto, home, life                             |
+| Banking (Money)         | Spread + interchange                         |
+
+## Tech split
+
+| Layer                        | Tech                                       |
+| ---------------------------- | ------------------------------------------ |
+| Web                          | React, GraphQL, BFF on Node.js             |
+| Mobile                       | Native iOS (Swift) and Android (Kotlin)    |
+| Backend                      | Scala (legacy), Kotlin (new), Go (edge)    |
+| ML / recommendations         | Internal "Recommendations Platform"        |
+| Data                         | Kafka + S3 + Snowflake (separate from Intuit's) |
+| Identity                     | Credit Karma identity, federates with Intuit ID |
+
+## Member volume (FY25)
+
+- ~140M U.S. members (about half of U.S. adults with credit)
+- ~70M monthly actives in U.S.
+- ~15M Canadian members
+- ~5M U.K. members
+
+## Compliance landscape
+
+- **Fair Credit Reporting Act (FCRA)** — we operate as a CRA reseller; covered tightly
+- **Equal Credit Opportunity Act / Reg B** — recommendations must not facilitate disparate-impact lending
+- **State lending laws** — recommendations are state-aware
+- **Consumer Financial Protection Bureau (CFPB)** — frequent regulator
+
+## Owner
+
+Credit Karma Product · `ck-product@creditkarma.com`

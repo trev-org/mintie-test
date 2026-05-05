@@ -1,0 +1,97 @@
+---
+title: "Postmortems"
+description: "Blameless postmortem culture, template, and timeline."
+icon: "file-text"
+---
+
+Postmortems exist to **learn**, not to assign blame. We've never fired anyone for an honest mistake. We have fired people for hiding mistakes.
+
+## When required
+
+| Severity | Postmortem required | Timeline                       |
+| -------- | ------------------- | ------------------------------ |
+| Sev-1    | Always              | Draft in 5 business days       |
+| Sev-2    | Default yes         | Draft in 10 business days      |
+| Sev-3    | Per team discretion | If yes, draft in 10 days       |
+| Sev-4    | No                  | —                              |
+| Security | Always (SEC-1, SEC-2)| Draft in 5 business days       |
+
+## Template
+
+```markdown
+# Postmortem: <short title>
+
+## TL;DR
+One sentence: what happened, what was the customer impact.
+
+## Impact
+- Customer impact (count, % of users, dollars)
+- Internal impact (engineering hours, on-call burden)
+- Compliance / reporting impact (if any)
+
+## Timeline
+ISO timestamps + UTC. Cover: detection, escalation, mitigation, recovery.
+
+## What happened
+A narrative, in chronological order, written for someone unfamiliar.
+
+## Why it happened
+Use the **5 whys** or similar. Surface contributing factors:
+- Technical
+- Process
+- Cultural
+- Tools
+
+## What went well
+At least three things. We'd like to keep doing them.
+
+## What went poorly
+At least three things. Be specific and concrete.
+
+## Where we got lucky
+Factors that prevented this from being worse and that we can't rely on next time.
+
+## Action items
+| # | Owner | Description | Priority | Due |
+
+## Lessons learned
+Reusable takeaways that other teams should hear.
+```
+
+## Process
+
+<Steps>
+  <Step title="Author the draft">
+    Usually the IC or the most-involved engineer. Ask reviewers to challenge facts and timing.
+  </Step>
+  <Step title="Review meeting">
+    Open meeting, anyone can attend. The point is shared learning, not approval. Sev-1 PMs are reviewed in the **PM Forum** — a fortnightly meeting where engineering leadership reviews recent incidents.
+  </Step>
+  <Step title="Action items">
+    Track in Jira. Postmortems with no closed action items 30 days later get escalated.
+  </Step>
+  <Step title="Publish">
+    Postmortems are published to the company-wide repo of `intuit/postmortems`. Sev-1s linked from `#eng-postmortems`.
+  </Step>
+</Steps>
+
+## Blamelessness in practice
+
+Replace "Alice deployed a bad config" with "the config validation step did not catch the bad value." The action item then targets the system, not Alice.
+
+If the system genuinely allowed a single human to cause an outage, that's the bug to fix.
+
+## Action item discipline
+
+Action items have:
+
+- A **named owner** (a person, not a team)
+- A **clear definition of done**
+- A **due date** that's realistic (90 days max)
+- Priority
+
+We track action item closure rate as an engineering health metric. Open items past due raise flags weekly.
+
+## Owner
+
+SRE Excellence · `sre@intuit.example`

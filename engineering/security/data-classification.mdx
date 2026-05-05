@@ -1,0 +1,87 @@
+---
+title: "Data classification"
+description: "How we tag, store, and handle sensitive data."
+icon: "tags"
+---
+
+Every piece of customer data has a classification. Classification dictates encryption, access controls, and retention.
+
+## Classification tiers
+
+| Class            | Examples                                                   | Storage requirements                                 |
+| ---------------- | ---------------------------------------------------------- | ---------------------------------------------------- |
+| Public           | Marketing copy, public docs                                | No special controls                                  |
+| Internal         | Org chart, team Slack, this KB                             | Auth required                                        |
+| Confidential     | Compensation, financial planning, strategic docs           | Auth + approval, encryption at rest                  |
+| `pii_low`        | Email, name, phone                                         | Encrypted at rest, audit logged                      |
+| `pii_high`       | DOB, address, account balances, transactions               | Encrypted, audit logged, RBAC                        |
+| `pii_critical`   | SSN, EIN, tax ID, full PAN, bank account #                 | **Tokenized** — actual value never in service DBs    |
+| `phi`            | Protected health info                                      | HIPAA-compliant infrastructure                       |
+| `tax_data`       | Returns, W-2s, 1099s                                        | Restricted, IRS Pub 1075 controls                    |
+
+## Tokenization
+
+`pii_critical` data **must be tokenized** — the actual value lives in our token service, your DB stores only the token.
+
+```typescript
+// Wrong — never do this
+await db.insert({ ssn: '123-45-6789', name: 'Alice' })
+
+// Right — tokenize first
+const ssnToken = await tokens.tokenize({
+  value: '123-45-6789',
+  classification: 'pii_critical',
+  context: { service: 'turbotax', purpose: 'efile' },
+})
+await db.insert({ ssn_token: ssnToken, name: 'Alice' })
+
+// To use it later
+const ssn = await tokens.detokenize(ssnToken, { reason: 'efile-submit' })
+```
+
+Detokenize sparingly. Each detokenize is logged and counts toward your service's PII budget — anomalous spikes alert security.
+
+## Schema tagging
+
+Tag DB columns:
+
+```sql
+COMMENT ON COLUMN customer.email IS 'classification:pii_low';
+COMMENT ON COLUMN customer.ssn_token IS 'classification:pii_critical;tokenized:true';
+```
+
+Lakehouse tables use Iceberg properties:
+
+```yaml
+properties:
+  intuit.classification: pii_high
+  intuit.retention_days: 2555
+```
+
+## Access patterns
+
+| Class        | Default access in prod                                     |
+| ------------ | ---------------------------------------------------------- |
+| Public       | Anyone                                                      |
+| Internal     | All employees                                              |
+| Confidential | Need-to-know with manager approval                          |
+| `pii_low`    | Service principals only                                    |
+| `pii_high`   | Service principals; humans require manager+privacy approval |
+| `pii_critical` | Service principals only via token service                |
+
+## Retention
+
+| Class            | Default retention                                         |
+| ---------------- | --------------------------------------------------------- |
+| Application logs | 30 days hot, 1 year archive                               |
+| Audit logs       | 7 years                                                   |
+| `pii_low`        | 7 years after account closed                               |
+| `pii_high`       | 7 years after account closed                               |
+| `pii_critical`   | 7 years for tax data; per-product otherwise              |
+| `tax_data`       | 7 years (IRS) or longer per state                         |
+
+DSR (data subject requests) override these — see [Privacy](/operations/legal/privacy-gdpr-ccpa).
+
+## Owner
+
+Privacy Engineering · `privacy-eng@intuit.example`

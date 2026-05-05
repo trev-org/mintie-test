@@ -1,0 +1,71 @@
+---
+title: "Laptop provisioning"
+description: "How laptops are imaged, refreshed, and returned."
+icon: "laptop"
+---
+
+This page covers the IT side of laptops. For employee actions on day one, see [Equipment setup](/people/equipment-setup).
+
+## Imaging
+
+All laptops ship pre-enrolled in:
+
+- **Jamf** (macOS) or **Intune** (Windows)
+- **CrowdStrike Falcon** for endpoint security
+- **Intuit Backup Agent** to S3
+- **Intuit VPN client** (Cisco AnyConnect)
+- **1Password** browser extension and app
+- **Slack, Zoom, Chrome** baseline
+
+The image is built from `intuit-laptop-image` repo, refreshed monthly.
+
+## Provisioning flow
+
+```mermaid
+flowchart LR
+  Hire[New hire approved] --> Order[Workday triggers order]
+  Order --> Vendor[Vendor preps + ships]
+  Vendor --> Employee[Employee receives]
+  Employee --> Bootstrap[First boot bootstrap]
+  Bootstrap --> Active[Active in fleet]
+```
+
+## Refresh
+
+Laptops refresh every **3 years**. 60 days before refresh, employee gets:
+
+- Email with refresh date and pickup/ship-to options
+- Choice of equivalent or upgraded model (if eligible)
+- Migration tools (Apple Migration Assistant pre-configured)
+
+Old laptop is wiped (DBAN-equivalent for SSDs) and recycled or refurbished for sandbox use.
+
+## Repairs
+
+- **In-warranty**: Apple Care or Dell Pro Support, scheduled by IT
+- **Out-of-warranty**: replacement laptop issued, old one sent for board-level repair if economic
+- **Loaners**: hub offices stock loaners for repairs > 1 day
+
+## Returns
+
+When an employee leaves Intuit:
+
+1. Workday triggers the asset return on their last day
+2. Pre-paid label generated
+3. Employee ships laptop, charger, and any external monitor in the original box
+4. Receipt confirmed at IronMountain
+5. Asset wiped and re-imaged for refurb or recycled
+
+If an employee doesn't return equipment within 30 days, payroll is notified to deduct fair-market value from final pay (in jurisdictions where this is permitted).
+
+## Audits
+
+Quarterly fleet audits:
+
+- Reconcile Jamf/Intune inventory against Workday
+- Identify missing devices (last-checkin > 90 days)
+- Confirm encryption is enabled on every device
+
+## Owner
+
+IT Operations · `it@intuit.example`

@@ -1,0 +1,77 @@
+---
+title: "Deliverability"
+description: "How we keep Mailchimp's send reputation strong."
+icon: "shield-check"
+---
+
+Deliverability — landing in the inbox vs. spam — is the most important quality metric in email marketing. Mailchimp's reputation is the result of decades of operational discipline.
+
+## What ISPs care about
+
+Inbox vs. spam routing depends on:
+
+1. **Sender reputation** — IP and domain reputation tracked by ISPs
+2. **Authentication** — SPF, DKIM, DMARC alignment
+3. **Engagement** — opens, clicks, replies vs. complaints, deletes
+4. **Content** — spam-flag patterns in subject and body
+5. **List hygiene** — bounces, spam traps, complaint rate
+6. **Volume patterns** — sudden volume changes look suspicious
+
+We monitor and tune all of these.
+
+## Reputation metrics
+
+| Metric                                | Healthy threshold      |
+| ------------------------------------- | ---------------------- |
+| Complaint rate                         | < 0.1% (Gmail), < 0.3% overall |
+| Bounce rate                            | < 5%                   |
+| Spam trap hits                         | 0                      |
+| Unsubscribe rate                       | < 0.5%                 |
+| Sender Score (Validity)                | > 90                   |
+| Inbox placement rate (Litmus)          | > 95%                  |
+
+We alert when any of these regress.
+
+## Authentication
+
+- **SPF** — record customer's sending domains in `v=spf1 include:servers.mcsv.net ~all`
+- **DKIM** — Mailchimp signs every email; we encourage customers to authenticate their own domain (CNAME records → our keys)
+- **DMARC** — alignment policy at the customer's domain, ideally `p=quarantine` or `p=reject`
+
+## Customer education
+
+Deliverability is partly Mailchimp's job and partly the customer's. Our docs (publicly at mailchimp.com/help) cover:
+
+- List building (don't buy lists)
+- Reactivation hygiene (cull dormant addresses)
+- Authentication setup
+- Sending cadence
+- Subject-line norms
+
+Bad customers can hurt good customers via shared IP reputation. We have to enforce.
+
+## Enforcement
+
+Patterns that get accounts suspended or limited:
+
+- Mass-importing purchased lists
+- Sudden 10× volume increases without warmup
+- Complaint rates above thresholds
+- Spam trap hits
+- Phishing or scam content
+
+The Trust team handles enforcement, balancing customer growth and ecosystem health.
+
+## Industry relationships
+
+Mailchimp staff sit on:
+
+- M3AAWG (Messaging, Malware, Mobile Anti-Abuse Working Group)
+- Email Sender & Provider Coalition
+- Authentication standards bodies (DMARC.org)
+
+Our deliverability team is a known quantity at Gmail, Yahoo, Microsoft, Apple. These relationships matter when something goes wrong.
+
+## Owner
+
+Deliverability Engineering · `deliverability@mailchimp.com`

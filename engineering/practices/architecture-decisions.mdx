@@ -1,0 +1,88 @@
+---
+title: "Architecture decisions"
+description: "ADRs, RFCs, and how we make durable technical decisions."
+icon: "file-cog"
+---
+
+We use **Architecture Decision Records (ADRs)** to capture significant technical choices. ADRs prevent the same arguments from being relitigated every six months.
+
+## When to write an ADR
+
+- A choice with multi-quarter consequences
+- A choice that locks in technology, vendor, or major design
+- A choice with disagreement on the team
+- A choice you'd struggle to explain to a new hire in 12 months
+
+You don't need an ADR for: framework version bumps, library swaps with no API change, or routine refactors.
+
+## Where ADRs live
+
+Inside the service repo at `docs/adr/NNNN-<title>.md`. Numbered sequentially. Markdown.
+
+For cross-team ADRs ("we're standardizing on X across SBSE"), they live in `intuit-platform/adrs/`.
+
+## Template
+
+```markdown
+# ADR-NNNN: <title>
+
+- **Status**: Proposed | Accepted | Deprecated | Superseded by ADR-XYZ
+- **Date**: 2026-05-04
+- **Deciders**: @author, @tech-lead, @reviewer
+
+## Context
+What's the situation? What problem are we solving?
+
+## Decision
+What did we decide? Be specific.
+
+## Alternatives considered
+At least 2. For each: brief description, why not chosen.
+
+## Consequences
+- Positive: ...
+- Negative: ...
+- Neutral: ...
+
+## Follow-up
+What we'll re-evaluate, when, and based on what evidence.
+```
+
+## RFC vs ADR
+
+- **RFC** ("Request for Comments") — proposal phase. Open-ended discussion.
+- **ADR** — decision recorded after discussion ends.
+
+An RFC may produce one or more ADRs. Some teams skip the RFC and go straight to ADR-as-proposal.
+
+## Process
+
+<Steps>
+  <Step title="Draft">
+    Author writes the ADR with status `Proposed`.
+  </Step>
+  <Step title="Review">
+    PR-style review. Comments on the markdown. Aim for resolution within 5 business days.
+  </Step>
+  <Step title="Decide">
+    Tech lead or staff engineer accepts. Status flips to `Accepted`.
+  </Step>
+  <Step title="Communicate">
+    Share in team channel. For cross-team impact, post in `#eng-architecture`.
+  </Step>
+  <Step title="Revisit">
+    Per the follow-up section. Don't let ADRs go stale silently.
+  </Step>
+</Steps>
+
+## Superseded ADRs
+
+When a new ADR replaces an old one:
+
+- New ADR references the old one
+- Old ADR's status changes to `Superseded by ADR-NNNN`
+- Don't delete old ADRs — they're part of the institutional memory
+
+## Owner
+
+Engineering Excellence · `eng-excellence@intuit.example`

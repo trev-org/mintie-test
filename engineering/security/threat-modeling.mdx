@@ -1,0 +1,73 @@
+---
+title: "Threat modeling"
+description: "How and when to threat-model a new system."
+icon: "shield-alert"
+---
+
+Threat modeling identifies what can go wrong **before** you build it. Mandatory for T0 / T1 services and any change with a meaningful trust-boundary shift.
+
+## When
+
+| Trigger                                              | Required?    |
+| ---------------------------------------------------- | ------------ |
+| New T0/T1 service                                    | Yes          |
+| New external API                                     | Yes          |
+| New trust boundary (e.g., new SaaS dependency)       | Yes          |
+| New PII flow                                         | Yes          |
+| Refactor crossing security domains                   | Yes          |
+| Internal-only change with no trust shift             | No           |
+| Bug fix without architectural change                 | No           |
+
+## How
+
+We use **STRIDE** for systematic identification, plus a freeform "what could go wrong?" pass.
+
+<Steps>
+  <Step title="Diagram the system">
+    Sketch a data flow diagram (Miro, Excalidraw, mermaid) showing actors, services, datastores, and trust boundaries.
+  </Step>
+  <Step title="Apply STRIDE">
+    For each component and each data flow:
+    - **S**poofing — can someone impersonate?
+    - **T**ampering — can data be modified?
+    - **R**epudiation — can someone deny an action?
+    - **I**nformation disclosure — can data leak?
+    - **D**enial of service — can it be taken down?
+    - **E**levation of privilege — can a low-priv actor escalate?
+  </Step>
+  <Step title="Score and prioritize">
+    Likelihood × impact. Don't try to fix everything at once.
+  </Step>
+  <Step title="Mitigate, accept, or transfer">
+    For each threat, decide. Document.
+  </Step>
+  <Step title="Review with security-architects@">
+    Submit your threat model and get sign-off. Lightweight if your design is straightforward; thorough if it's novel.
+  </Step>
+</Steps>
+
+## Template
+
+A starter Markdown template lives at `intuit-platform/threat-models/template.md`. Copy it into your service repo's `docs/security/`. Sample entries:
+
+| Threat                              | Vector                                | Likelihood | Impact | Mitigation                                  |
+| ----------------------------------- | ------------------------------------- | ---------- | ------ | ------------------------------------------- |
+| Customer SSO token replayed         | MITM on internal network              | Low        | High   | mTLS via Istio + short token TTLs           |
+| Bulk export endpoint scraped        | Authenticated abuse                   | Med        | High   | Rate limit + anomaly detection + audit logs |
+| Insider downloads PII               | Authorized human                      | Low        | Critical | RBAC + audit + DLP, alerts on volume       |
+| Stripe API key leaked in logs       | Logging mistake                       | Med        | High   | Standard logger redacts; secrets never in env outside Vault |
+
+## Common patterns we already mitigate
+
+You don't need to redesign these — the platform handles them:
+
+- DDoS at edge (Akamai)
+- Bot abuse at edge (Akamai Bot Manager)
+- mTLS service-to-service (Istio)
+- Default-deny network policies (Istio + AuthorizationPolicy)
+- Token replay (short JWT TTL + nonce in sensitive flows)
+- Replay of webhooks (signed, ts in payload)
+
+## Owner
+
+Security Architects · `security-architects@intuit.example`

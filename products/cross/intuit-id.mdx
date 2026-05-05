@@ -1,0 +1,72 @@
+---
+title: "Intuit ID"
+description: "Cross-product sign-in and identity, from a product perspective."
+icon: "key"
+---
+
+Intuit ID is the unified sign-in for TurboTax, QuickBooks, Mint, Credit Karma (federated), and Mailchimp (federated). One email, one password, one MFA device — many products.
+
+For the engineering platform underneath, see [Identity & IAM](/engineering/services/identity-iam).
+
+## What it gives the user
+
+- Single sign-on across the Intuit ecosystem
+- Consistent MFA experience
+- Unified profile (email, phone, address)
+- Single security console — sessions, devices, security keys
+- Cross-product entitlements ("you have access to QBO and TurboTax")
+
+## What it gives Intuit
+
+- Cross-sell: a TurboTax user becomes a QBO user without re-registering
+- Single source of truth for identity (no duplicate accounts)
+- Shared fraud signals across products
+- Consistent compliance posture
+
+## Account types
+
+| Type        | Signup path                                           |
+| ----------- | ----------------------------------------------------- |
+| Personal    | TurboTax, Mint, personal QBO Self-Employed             |
+| Company     | QBO multi-user, Payroll, Payments                     |
+| Accountant  | ProTax, QuickBooks Online Accountant                  |
+| Federated CK | Credit Karma user opting into Intuit ID linking       |
+| Federated MC | Mailchimp user opting into Intuit ID linking          |
+
+## Sign-up
+
+Sign-up for Intuit ID happens in the context of a product:
+
+1. User visits TurboTax or QuickBooks
+2. Clicks "Create an account"
+3. Email + password + name (and product-specific extras)
+4. Email verification
+5. Optional MFA enrollment (strongly encouraged)
+
+Account is created in the **Identity store** and pinned to the originating product, but available to all.
+
+## Cross-product UX
+
+Once signed in:
+
+- Visiting other Intuit properties auto-signs you in (cookie-based at `*.intuit.com`)
+- Mailchimp (`mailchimp.com`) and Credit Karma (`creditkarma.com`) are separate domains and require explicit federation flow
+
+## Security console
+
+At `accounts.intuit.com`, users can:
+
+- See active sessions and revoke any
+- Manage MFA devices
+- Add security keys (WebAuthn)
+- Review recent sign-ins
+- Change password
+- Manage email and phone
+
+## Cross-product fraud
+
+If we detect account takeover signals on TurboTax (impossible-travel sign-ins, password spray hits, etc.), we lock the Intuit ID — across all products. This trades convenience for safety; the customer is notified immediately and we offer a fast unlock path with KBA.
+
+## Owner
+
+Identity Product · `identity-product@intuit.example`

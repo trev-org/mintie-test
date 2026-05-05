@@ -1,0 +1,91 @@
+---
+title: "Genos AI"
+description: "Intuit's foundation-model platform powering AI features across products."
+icon: "sparkles"
+tag: "New"
+---
+
+<Note>
+  Updated 2026-04-22. Genos 3 (the FY26 model lineup) is in production for TurboTax, QBO, and Mailchimp. CK integrations begin Q4 FY26.
+</Note>
+
+Genos AI is the cross-product foundation-model platform. It runs internal models, fine-tunes external ones, and provides the runtime that every product team uses to build AI features.
+
+## What Genos provides
+
+| Layer                 | Purpose                                                  |
+| --------------------- | -------------------------------------------------------- |
+| Foundation models     | Hosted internal LLMs (ours + tuned open-weight)          |
+| External providers    | Routed access to OpenAI, Anthropic, Google when better suited |
+| Eval and red-teaming  | Internal eval harness and adversarial testing            |
+| RAG infrastructure    | Vector store, retrieval pipelines, freshness guarantees   |
+| Agent runtime         | Multi-step tool-use orchestration with safety rails       |
+| Guardrails            | Output filtering for PII, hallucination, jailbreaks       |
+| Cost and rate control | Per-product budgets, quota enforcement                    |
+| Observability         | Eval-in-prod, drift detection, prompt logging             |
+
+## Where Genos shows up
+
+| Product       | Surfaces                                                           |
+| ------------- | ------------------------------------------------------------------ |
+| TurboTax      | Document recognition (W-2, 1099), Q&A interview help, expert assist |
+| QuickBooks    | Transaction categorization, financial insights, invoice copy generation |
+| Mailchimp     | Subject-line generation, journey suggestions, copy assistance      |
+| Credit Karma  | Recommendations explanations (FY26 H2), member Q&A                 |
+| Internal      | Code review assist, log triage, knowledge-base search              |
+
+## Calling Genos
+
+```typescript
+import { genos } from '@intuit/genos'
+
+const result = await genos.complete({
+  task: 'invoice_extraction',
+  variant: 'production',
+  inputs: { document: pdfBytes },
+  user: { customerId },
+  policy: {
+    maxLatencyMs: 3000,
+    fallbackTo: 'rule-based',
+  },
+})
+```
+
+The shim handles model selection, retries, fallbacks, telemetry, and guardrails. Product teams don't pick models directly — they pick a "task" and Genos routes to the right model based on quality vs. cost.
+
+## Model lineup
+
+Internal foundation models (Genos 3, current):
+
+- `genos-3-fast` — speed-optimized, ~7B params, great for transaction categorization
+- `genos-3-balanced` — ~70B params, default choice
+- `genos-3-pro` — ~400B params, hardest tasks
+- `genos-3-vision` — multi-modal for documents
+- `genos-3-embed` — embeddings model
+
+External providers (frontier-routed):
+
+- Anthropic Claude — preferred for long-context reasoning
+- OpenAI GPT — chosen task-by-task based on eval
+- Google Gemini — cost-sensitive routing
+
+## Safety
+
+Every Genos call passes through:
+
+- **Input guardrail** — PII redaction before model sees it (or per-task allowed)
+- **Output guardrail** — toxicity, PII, hallucination checks
+- **Provenance** — logged per call, human reviewable, retained 90 days
+- **Eval-in-prod** — sample of outputs evaluated continuously against a ground-truth harness
+- **Kill switch** — instant ability to disable any task globally
+
+## Compliance
+
+- Customer data does not train external providers — all calls are zero-retention agreements
+- Customer data may train internal Genos models with explicit, segmented consent
+- Data sovereignty: EU customer data routes to EU-hosted Genos infra by default
+- Tax data (TurboTax) has a separate Genos enclave with IRS Pub 1075 controls
+
+## Owner
+
+Genos Platform · `genos@intuit.example`

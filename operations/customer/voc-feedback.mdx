@@ -1,0 +1,62 @@
+---
+title: "Voice of the Customer"
+description: "How customer feedback flows back into product decisions."
+icon: "message-circle"
+---
+
+Voice of the Customer (VoC) is how we close the loop between what customers experience and what we build next. Multiple feedback streams converge into product priorities.
+
+## Feedback channels
+
+| Stream                   | What it captures                                          |
+| ------------------------ | --------------------------------------------------------- |
+| Support cases            | Friction points, bug reports, feature gaps                |
+| In-product surveys (CSAT, NPS) | Sentiment after key moments                          |
+| Community forums         | Power-user feedback, often very detailed                  |
+| User research            | Moderated interviews, contextual studies                  |
+| Sales calls              | What prospective customers want before buying             |
+| Churn surveys            | Why customers leave                                       |
+| Reviews (App Store, Trustpilot, G2) | Public, moderated for trends                   |
+| Social listening         | Real-time qualitative                                     |
+
+## Aggregation
+
+The **VoC Platform** ingests all streams into a single Snowflake table, then layers:
+
+- Topic classification (Genos-powered)
+- Sentiment analysis
+- Volume and trend
+- Cross-stream linkage (does this NPS comment match a recent support trend?)
+
+Product teams have a per-product VoC dashboard linking back to source cases.
+
+## Acting on it
+
+Each PM has a **standing slot** in their cycle for VoC-driven work. Common shapes:
+
+- Bug fixes from clustered case patterns
+- Quick UX improvements from in-product surveys
+- New features from research-validated prospect themes
+- Help content updates for friction patterns
+
+## Closed-loop responses
+
+For high-effort customers (especially those who took time to write detailed feedback):
+
+- We respond within 5 business days
+- We provide context on what we heard and any next-step
+- For accepted feature requests, we follow up at launch
+
+## What gets prioritized
+
+We don't build everything customers ask for. The bar:
+
+- Resolves a measurable friction (case volume, NPS impact, churn signal)
+- Aligns with product strategy
+- Has a healthy effort:impact ratio
+
+Product leaders own these tradeoffs.
+
+## Owner
+
+Customer Insights · `voc@intuit.example`

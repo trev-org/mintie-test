@@ -1,0 +1,73 @@
+---
+title: "Seasonal readiness"
+description: "How TurboTax engineering prepares for tax season."
+icon: "calendar-check"
+tag: "Updated"
+---
+
+<Note>
+  Updated 2026-04-15. Reflects the FY26 season retrospective and the FY27 pre-season plan.
+</Note>
+
+Tax season runs roughly **mid-January through mid-April**, with peak day on **April 15**. The full operational cycle:
+
+| Month         | Activity                                                                |
+| ------------- | ----------------------------------------------------------------------- |
+| Jul–Sep (off) | Major refactors, year-over-year tax law updates, tooling investments    |
+| Oct           | Code freeze planning. Capacity testing begins.                          |
+| Nov           | Tax-year rules freeze. Pre-season load tests.                           |
+| Dec           | Early-bird filers (W-2 forecasts). Final security review.               |
+| Jan           | IRS opens e-file. We open in lockstep. **Daily war room** starts.       |
+| Feb–Mar       | Steady-state peak. Live-experts onboarding wave 2.                      |
+| Mar 15        | First push: corp/partnership extension deadline.                        |
+| Apr 1–14      | Operational lockdown. Only sev-1 fixes. Pre-staged DR drills.           |
+| Apr 15        | Peak day. All hands.                                                    |
+| Apr 16–18     | Post-peak hot wash. Quick fixes.                                        |
+| May–Jun       | Postmortem cycle. Plan for next year.                                   |
+
+## Code freezes
+
+Two freezes:
+
+1. **Pre-season freeze** — December 15 to January 31. Only IRS-clarification patches and critical fixes.
+2. **Peak freeze** — April 1 to April 18. Sev-1 hotfixes only. Requires VP approval per change.
+
+During freeze, `intuit deploy` enforces this — pushes are rejected unless tagged `freeze-exempt` with a linked ticket.
+
+## Capacity planning
+
+Capacity is dimensioned against **2× the previous year's peak**. We provision:
+
+- 4× normal compute, scaling to 10× via auto-scaling
+- 3× normal database connections
+- 2× the normal Stripe / IRS rate limits (negotiated annually)
+- Pre-warmed pods to avoid cold-start cliffs
+
+## Live experts staffing
+
+The Live Assisted and Live Full Service businesses scale staff massively during season:
+
+- ~5,000 tax pros at peak (vs. ~500 baseline)
+- Onboarding waves in November, January, March
+- Capacity-managed by domain (sole proprietor, investor, multistate, etc.)
+
+Engineering supports this with the [Live Experts platform](/products/turbotax/live-experts).
+
+## DR drills
+
+Every February we run two DR drills:
+
+1. **Region failover** — primary region simulated unavailable, traffic shifts to DR
+2. **IRS comms outage** — simulated IRS unavailability for 4 hours, queue draining tested
+
+Real outages during peak are very rare; drills are the way we keep capability.
+
+## On-call shape
+
+- Primary on-call rotation expands from 5 engineers to 25 during season
+- 24/7 follow-the-sun across MV, ATL, BLR, TLV
+- Manager-on-call mandatory; VP-on-call from April 1
+
+## Owner
+
+TurboTax Engineering · `turbotax-eng@intuit.example`

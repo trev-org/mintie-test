@@ -1,0 +1,75 @@
+---
+title: "Source control"
+description: "GitHub Enterprise, monorepos, and our branching model."
+icon: "git-branch"
+---
+
+## GitHub Enterprise
+
+We host on **github.intuit.com** (GitHub Enterprise Cloud). Sign in with Okta SSO. Personal `github.com` accounts cannot push to internal repos.
+
+## Org structure
+
+| Org                 | Purpose                                          |
+| ------------------- | ------------------------------------------------ |
+| `intuit`            | Main org, most services                          |
+| `intuit-platform`   | Internal platform tooling                        |
+| `intuit-research`   | ML research, experiments, scratch space          |
+| `intuit-archived`   | Deprecated repos (read-only)                     |
+| `creditkarma`       | Credit Karma (separate org, separate auth model) |
+| `mailchimp`         | Mailchimp (separate org)                         |
+
+## Branching model
+
+We use **trunk-based development** with short-lived feature branches:
+
+- `main` is always deployable
+- Branches < 5 days old, < 500 lines diff
+- Squash merge into `main`
+- Tags trigger releases (semver)
+
+Long-running branches are a smell — they indicate work that should be flagged behind feature flags instead. See [Feature flags](/engineering/tooling/feature-flags).
+
+## Naming conventions
+
+Branches: `<your-handle>/<short-description>` — e.g., `tcraine/fix-invoice-pdf-overflow`.
+
+Commit messages follow Conventional Commits:
+
+```
+feat(invoicing): support multi-currency line items
+fix(billing): handle expired credit cards gracefully
+docs(readme): update setup steps for Apple Silicon
+```
+
+`feat:` and `fix:` are required for changelog generation. `chore:`, `docs:`, `test:`, `refactor:` are also recognized.
+
+## Required reviews
+
+| Repo type        | Reviewers required                   |
+| ---------------- | ------------------------------------ |
+| Service repos    | 2 reviewers, 1 from CODEOWNERS       |
+| Infra repos      | 2 reviewers, 1 from `@platform/sre` |
+| Production data  | 2 reviewers, 1 from data-eng         |
+| Public-facing    | 2 reviewers + accessibility approval |
+| Documentation    | 1 reviewer                           |
+
+`CODEOWNERS` files are mandatory in every repo. Lint enforces them.
+
+## Monorepos vs polyrepos
+
+We don't have a religion on this. Most services are single-repo. Some shared platform code lives in monorepos:
+
+- `intuit-platform/icp` — the Intuit Cloud Platform monorepo
+- `intuit/trips` — the Trips design system monorepo
+- `intuit/genos` — Genos AI Platform monorepo
+
+Monorepos use Bazel or Turborepo. See [Build systems](/engineering/tooling/build-systems).
+
+## Repo retirement
+
+If a repo hasn't seen a commit in 12 months and isn't on the critical-services list, the [Service catalog](/engineering/services/service-catalog) flags it. Owners must respond — keep it, archive it, or hand it off — within 30 days.
+
+## Owner
+
+Developer Experience · `devx@intuit.example`

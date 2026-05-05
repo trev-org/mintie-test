@@ -1,12 +1,29 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "luma",
-  "name": "Mintie SSO",
-  "description": "Enterprise SSO, SCIM, and identity for Mintie",
+  "theme": "sequoia",
+  "name": "Intuit Internal KB",
+  "description": "The single source of truth for how we work, build, and ship at Intuit.",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Avenir Next",
+      "source": "/AvenirNextCyr-Demi.woff2",
+      "format": "woff2"
+    },
+    "body": {
+      "family": "Avenir Next",
+      "source": "/AvenirNextCyr-Regular.woff2",
+      "format": "woff2"
+    }
+  },
+  "favicon": "/favicon.ico",
   "colors": {
-    "primary": "#0C8C5E",
-    "light": "#0C8C5E",
-    "dark": "#0C8C5E"
+    "primary": "#236CFF",
+    "light": "#5A8DFF",
+    "dark": "#0B3FB0"
   },
   "contextual": {
     "options": [
@@ -26,232 +43,316 @@
       "devin-mcp"
     ]
   },
-  "favicon": "/favicon.svg",
   "navigation": {
-    "languages": [
+    "tabs": [
       {
-        "language": "en",
-        "default": true,
-        "tabs": [
+        "tab": "Company",
+        "icon": "building",
+        "groups": [
           {
-            "tab": "Documentation",
-            "groups": [
-              {
-                "group": "Get started",
-                "pages": ["introduction", "quickstart"]
-              },
-              {
-                "group": "Concepts",
-                "pages": [
-                  "concepts/how-sso-works",
-                  "concepts/identity-linking",
-                  "concepts/sessions",
-                  "concepts/feature-flags"
-                ]
-              },
-              {
-                "group": "Set up a provider",
-                "pages": [
-                  "setup/sign-in-experience",
-                  "setup/enable-sso",
-                  "setup/okta",
-                  "setup/google-workspace",
-                  "setup/generic-saml"
-                ]
-              },
-              {
-                "group": "User provisioning",
-                "pages": [
-                  "provisioning/overview",
-                  "provisioning/scim",
-                  "provisioning/jit"
-                ]
-              },
-              {
-                "group": "API & integrations",
-                "pages": ["api-and-keys/api-keys"]
-              },
-              {
-                "group": "Security",
-                "pages": ["security/mfa", "security/audit-logs"]
-              },
-              {
-                "group": "Migration",
-                "pages": [
-                  "migration/timeline",
-                  "migration/user-comms",
-                  "migration/faq"
-                ]
-              }
+            "group": "Welcome",
+            "icon": "door-open",
+            "pages": [
+              "index",
+              "company/about-intuit",
+              "company/our-mission",
+              "company/leadership",
+              "company/business-segments"
             ]
           },
           {
-            "tab": "Changelog",
-            "groups": [
-              {
-                "group": "Changelog",
-                "pages": ["changelog/overview"]
-              }
+            "group": "People & HR",
+            "icon": "users",
+            "pages": [
+              "people/onboarding",
+              "people/first-week-checklist",
+              "people/equipment-setup",
+              "people/benefits-overview",
+              "people/health-insurance",
+              "people/retirement-401k",
+              "people/equity-rsu",
+              "people/time-off-pto",
+              "people/parental-leave",
+              "people/employee-resource-groups",
+              "people/performance-reviews",
+              "people/career-ladders",
+              "people/internal-mobility",
+              "people/learning-development"
+            ]
+          },
+          {
+            "group": "Workplace",
+            "icon": "briefcase",
+            "pages": [
+              "workplace/office-locations",
+              "workplace/hybrid-work-policy",
+              "workplace/travel-expense",
+              "workplace/badge-access",
+              "workplace/dress-code"
+            ]
+          },
+          {
+            "group": "Culture",
+            "icon": "sparkles",
+            "pages": [
+              "culture/operating-values",
+              "culture/code-of-conduct",
+              "culture/dei"
             ]
           }
         ]
       },
       {
-        "language": "es",
-        "tabs": [
+        "tab": "Engineering",
+        "icon": "code",
+        "groups": [
           {
-            "tab": "Documentación",
-            "groups": [
-              {
-                "group": "Empezar",
-                "pages": ["es/introduction", "es/quickstart"]
-              },
-              {
-                "group": "Conceptos",
-                "pages": [
-                  "es/concepts/how-sso-works",
-                  "es/concepts/identity-linking",
-                  "es/concepts/sessions",
-                  "es/concepts/feature-flags"
-                ]
-              },
-              {
-                "group": "Configurar un proveedor",
-                "pages": [
-                  "es/setup/sign-in-experience",
-                  "es/setup/enable-sso",
-                  "es/setup/okta",
-                  "es/setup/google-workspace",
-                  "es/setup/generic-saml"
-                ]
-              },
-              {
-                "group": "Aprovisionamiento de usuarios",
-                "pages": [
-                  "es/provisioning/overview",
-                  "es/provisioning/scim",
-                  "es/provisioning/jit"
-                ]
-              },
-              {
-                "group": "API e integraciones",
-                "pages": ["es/api-and-keys/api-keys"]
-              },
-              {
-                "group": "Seguridad",
-                "pages": ["es/security/mfa", "es/security/audit-logs"]
-              },
-              {
-                "group": "Migración",
-                "pages": [
-                  "es/migration/timeline",
-                  "es/migration/user-comms",
-                  "es/migration/faq"
-                ]
-              }
+            "group": "Getting started",
+            "icon": "play",
+            "pages": [
+              "engineering/index",
+              "engineering/getting-started",
+              "engineering/dev-environment",
+              "engineering/intuit-cloud-platform"
             ]
           },
           {
-            "tab": "Registro de cambios",
-            "groups": [
-              {
-                "group": "Registro de cambios",
-                "pages": ["es/changelog/overview"]
-              }
+            "group": "Tooling",
+            "icon": "wrench",
+            "pages": [
+              "engineering/tooling/source-control",
+              "engineering/tooling/cicd-pipelines",
+              "engineering/tooling/build-systems",
+              "engineering/tooling/observability",
+              "engineering/tooling/feature-flags"
+            ]
+          },
+          {
+            "group": "Platform services",
+            "icon": "server",
+            "pages": [
+              "engineering/services/service-catalog",
+              "engineering/services/identity-iam",
+              "engineering/services/payments-platform",
+              "engineering/services/data-platform",
+              "engineering/services/ml-platform",
+              "engineering/services/notifications"
+            ]
+          },
+          {
+            "group": "Infrastructure",
+            "icon": "cloud",
+            "pages": [
+              "engineering/infra/aws-accounts",
+              "engineering/infra/kubernetes",
+              "engineering/infra/networking",
+              "engineering/infra/databases",
+              "engineering/infra/secrets-management"
+            ]
+          },
+          {
+            "group": "Security",
+            "icon": "shield",
+            "pages": [
+              "engineering/security/secure-sdlc",
+              "engineering/security/threat-modeling",
+              "engineering/security/data-classification",
+              "engineering/security/vulnerability-management",
+              "engineering/security/incident-response"
+            ]
+          },
+          {
+            "group": "On-call",
+            "icon": "siren",
+            "pages": [
+              "engineering/oncall/overview",
+              "engineering/oncall/runbooks",
+              "engineering/oncall/postmortems",
+              "engineering/oncall/severity-levels"
+            ]
+          },
+          {
+            "group": "Practices",
+            "icon": "book-open",
+            "pages": [
+              "engineering/practices/code-review",
+              "engineering/practices/testing-standards",
+              "engineering/practices/architecture-decisions"
             ]
           }
         ]
       },
       {
-        "language": "fr",
-        "tabs": [
+        "tab": "Products",
+        "icon": "box",
+        "groups": [
           {
-            "tab": "Documentation",
-            "groups": [
-              {
-                "group": "Démarrer",
-                "pages": ["fr/introduction", "fr/quickstart"]
-              },
-              {
-                "group": "Concepts",
-                "pages": [
-                  "fr/concepts/how-sso-works",
-                  "fr/concepts/identity-linking",
-                  "fr/concepts/sessions",
-                  "fr/concepts/feature-flags"
-                ]
-              },
-              {
-                "group": "Configurer un fournisseur",
-                "pages": [
-                  "fr/setup/sign-in-experience",
-                  "fr/setup/enable-sso",
-                  "fr/setup/okta",
-                  "fr/setup/google-workspace",
-                  "fr/setup/generic-saml"
-                ]
-              },
-              {
-                "group": "Provisioning des utilisateurs",
-                "pages": [
-                  "fr/provisioning/overview",
-                  "fr/provisioning/scim",
-                  "fr/provisioning/jit"
-                ]
-              },
-              {
-                "group": "API et intégrations",
-                "pages": ["fr/api-and-keys/api-keys"]
-              },
-              {
-                "group": "Sécurité",
-                "pages": ["fr/security/mfa", "fr/security/audit-logs"]
-              },
-              {
-                "group": "Migration",
-                "pages": [
-                  "fr/migration/timeline",
-                  "fr/migration/user-comms",
-                  "fr/migration/faq"
-                ]
-              }
+            "group": "Overview",
+            "icon": "compass",
+            "pages": ["products/index", "products/portfolio"]
+          },
+          {
+            "group": "TurboTax",
+            "icon": "receipt",
+            "pages": [
+              "products/turbotax/overview",
+              "products/turbotax/tax-engine",
+              "products/turbotax/efile-pipeline",
+              "products/turbotax/seasonal-readiness",
+              "products/turbotax/audit-defense",
+              "products/turbotax/live-experts"
             ]
           },
           {
-            "tab": "Journal des modifications",
-            "groups": [
-              {
-                "group": "Journal des modifications",
-                "pages": ["fr/changelog/overview"]
-              }
+            "group": "QuickBooks",
+            "icon": "calculator",
+            "pages": [
+              "products/quickbooks/overview",
+              "products/quickbooks/online-architecture",
+              "products/quickbooks/accounting-engine",
+              "products/quickbooks/invoicing",
+              "products/quickbooks/payroll",
+              "products/quickbooks/payments",
+              "products/quickbooks/banking-feeds"
+            ]
+          },
+          {
+            "group": "Credit Karma",
+            "icon": "credit-card",
+            "pages": [
+              "products/credit-karma/overview",
+              "products/credit-karma/credit-bureau-integrations",
+              "products/credit-karma/recommendations-engine",
+              "products/credit-karma/identity-monitoring"
+            ]
+          },
+          {
+            "group": "Mailchimp",
+            "icon": "mail",
+            "pages": [
+              "products/mailchimp/overview",
+              "products/mailchimp/email-delivery",
+              "products/mailchimp/audiences",
+              "products/mailchimp/automations",
+              "products/mailchimp/deliverability"
+            ]
+          },
+          {
+            "group": "Cross-product",
+            "icon": "share-2",
+            "pages": [
+              "products/cross/intuit-id",
+              "products/cross/genos-ai",
+              "products/cross/data-sharing"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Operations",
+        "icon": "settings",
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "compass",
+            "pages": ["operations/index"]
+          },
+          {
+            "group": "IT",
+            "icon": "laptop",
+            "pages": [
+              "operations/it/help-desk",
+              "operations/it/laptop-provisioning",
+              "operations/it/sso-okta",
+              "operations/it/vpn",
+              "operations/it/software-catalog"
+            ]
+          },
+          {
+            "group": "Finance",
+            "icon": "dollar-sign",
+            "pages": [
+              "operations/finance/expense-reports",
+              "operations/finance/procurement",
+              "operations/finance/corporate-card",
+              "operations/finance/budget-process"
+            ]
+          },
+          {
+            "group": "Legal",
+            "icon": "scale",
+            "pages": [
+              "operations/legal/contracts-review",
+              "operations/legal/nda-process",
+              "operations/legal/ip-policy",
+              "operations/legal/privacy-gdpr-ccpa"
+            ]
+          },
+          {
+            "group": "Customer",
+            "icon": "headset",
+            "pages": [
+              "operations/customer/support-tiers",
+              "operations/customer/escalation-paths",
+              "operations/customer/voc-feedback"
+            ]
+          },
+          {
+            "group": "Comms",
+            "icon": "megaphone",
+            "pages": [
+              "operations/comms/internal-channels",
+              "operations/comms/all-hands",
+              "operations/comms/press-policy"
             ]
           }
         ]
       }
-    ]
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Service Catalog",
+          "icon": "list",
+          "href": "https://developer.intuit.com/app/developer/homepage"
+        },
+        {
+          "anchor": "Help Desk",
+          "icon": "life-buoy",
+          "href": "https://www.intuit.com/support/"
+        },
+        {
+          "anchor": "Status",
+          "icon": "activity",
+          "href": "https://status.quickbooks.intuit.com/"
+        }
+      ]
+    }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+  "icons": {
+    "library": "lucide"
   },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:support@mintie.example"
+        "label": "Service Catalog",
+        "href": "https://developer.intuit.com/app/developer/homepage"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintie.example"
+      "label": "File a ticket",
+      "href": "https://www.intuit.com/support/"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintie",
-      "github": "https://github.com/mintie"
+      "slack": "https://intuit.slack.com",
+      "github": "https://github.com/intuit"
     }
+  },
+  "search": {
+    "prompt": "Search the Intuit KB"
   },
   "seo": {
     "metatags": {

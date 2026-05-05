@@ -1,0 +1,98 @@
+---
+title: "Intuit Cloud Platform (ICP)"
+description: "Our internal PaaS. The default way to run services in production."
+icon: "cloud"
+---
+
+ICP is Intuit's internal platform-as-a-service. It runs on top of EKS and provides:
+
+- Service deployment via Helm + a thin internal CRD
+- Autoscaling, traffic management, blue/green and canary
+- Logging, metrics, tracing for free
+- Secrets injection from Vault
+- Compliance defaults (network policies, mTLS, security headers)
+
+~95% of Intuit services run on ICP. The rest are legacy or have specific compliance needs (e.g., FedRAMP-only workloads).
+
+## Service descriptor
+
+Every ICP service has a `service.yaml` in its repo:
+
+```yaml
+apiVersion: icp.intuit.com/v1
+kind: Service
+metadata:
+  name: invoice-service
+  domain: sbse.quickbooks.invoicing
+  owner: team-invoicing@intuit.example
+  oncall: pagerduty:invoicing-primary
+spec:
+  runtime: java21
+  port: 8080
+  resources:
+    cpu: 500m
+    memory: 1Gi
+  scaling:
+    min: 2
+    max: 20
+    targetCPU: 70
+  dependencies:
+    - identity-service
+    - payments-platform
+  env:
+    - name: LOG_LEVEL
+      value: info
+    - name: DB_URL
+      valueFrom:
+        vault: secret/prod/invoice-service/db
+```
+
+## Deployment flow
+
+```mermaid
+flowchart LR
+  PR[PR merged] --> CI[CI build]
+  CI --> Image[OCI image]
+  Image --> Dev[Deploy to dev]
+  Dev --> Stage[Deploy to staging]
+  Stage --> Canary[Canary 5% prod]
+  Canary --> Prod[Full prod rollout]
+```
+
+Each gate runs automated checks:
+
+- **Dev**: smoke tests, API contract tests
+- **Staging**: full integration suite, load tests
+- **Canary**: 5% traffic for 30 min — auto-rollback on SLO regression
+- **Prod**: gradual rollout, 10/25/50/100% over 60 min
+
+## Environments
+
+| Env       | Purpose                              | Data                          |
+| --------- | ------------------------------------ | ----------------------------- |
+| Local     | Single-engineer development          | Synthetic                     |
+| Sandbox   | Shared, ephemeral, per-PR namespace  | Synthetic                     |
+| Dev       | Always-on integration                | Synthetic                     |
+| Staging   | Pre-prod, mirrors prod topology      | Anonymized prod snapshots     |
+| Prod      | The real thing                       | Real customer data            |
+| FedRAMP   | Isolated for federal customers       | Real, FedRAMP-controlled      |
+
+## Multi-region
+
+ICP services run in **us-east-2 (primary)** and **us-west-2 (DR)** by default. Customer-data-bearing services in Europe also run in **eu-west-2**, in Asia in **ap-southeast-1**.
+
+Region failover is automatic for stateless services. Stateful services (especially DBs) require team-defined runbooks — see [Runbooks](/engineering/oncall/runbooks).
+
+## SLOs
+
+ICP itself targets:
+
+- 99.95% control-plane availability
+- 99.99% data-plane (running services) availability
+- p99 deploy time < 10 minutes from merge to prod-canary
+
+If ICP is down, deploys are blocked but running services are not affected. Status: `status.intuit.example`.
+
+## Owner
+
+ICP Platform Team · `icp@intuit.example`

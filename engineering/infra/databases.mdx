@@ -1,0 +1,75 @@
+---
+title: "Databases"
+description: "What databases we use and when, plus operational expectations."
+icon: "database"
+---
+
+## Choosing a database
+
+| Workload                              | Default                          |
+| ------------------------------------- | -------------------------------- |
+| Transactional SQL                     | PostgreSQL on Aurora             |
+| High-throughput key-value             | DynamoDB                         |
+| Document / JSON                       | DynamoDB or PostgreSQL JSONB     |
+| Caching                               | ElastiCache (Redis)              |
+| Search                                | OpenSearch                       |
+| Time-series (operational metrics)     | Wavefront (managed)              |
+| Time-series (business)                | Timestream                       |
+| Graph                                 | Neptune (rare)                   |
+| OLAP / analytics                      | Snowflake (see [Data platform](/engineering/services/data-platform)) |
+| Embeddings / vector                   | Pinecone (managed) or OpenSearch k-NN |
+
+<Tip>
+  When in doubt, pick PostgreSQL. It scales further than people think and the developer ergonomics are excellent.
+</Tip>
+
+## Provisioning
+
+DBs are provisioned via Terraform in your service's `terraform/` directory. The `intuit-rds` and `intuit-dynamodb` modules set safe defaults:
+
+- Encryption at rest (KMS, customer-managed key)
+- Backups: Aurora point-in-time recovery, 35-day retention; DynamoDB on-demand backups
+- Multi-AZ
+- Performance Insights enabled
+- Slow query logging
+- Autoscaling for storage
+
+## Migrations
+
+- **Schema migrations**: Liquibase (Java) or Flyway (most others), run on deploy
+- **Backwards-compat required**: every schema change must work with both old and new code for at least one deploy cycle
+- **Data migrations**: > 1M rows requires a runbook, off-peak scheduling, and DBA review
+
+## High-risk patterns
+
+These go through DBA review:
+
+- Adding a NOT NULL column to a > 10M row table (use `DEFAULT` + backfill + `SET NOT NULL`)
+- Removing columns (split into deprecation phases)
+- Long-running transactions (DynamoDB transaction limits, Aurora lock contention)
+- Cross-table joins on tables both > 100M rows
+- Any DDL during peak traffic
+
+## Operational SLOs
+
+| Metric                          | Aurora target           | DynamoDB target  |
+| ------------------------------- | ----------------------- | ---------------- |
+| Availability                    | 99.99%                  | 99.99%           |
+| Query latency p99 (T0 services) | < 25ms                  | < 10ms           |
+| Replication lag                 | < 1 second              | N/A              |
+| Backup recovery time            | < 30 minutes            | < 1 hour         |
+
+## Sensitive data
+
+PII columns must be tagged in the schema:
+
+```sql
+COMMENT ON COLUMN customer.email IS 'classification:pii_high';
+COMMENT ON COLUMN customer.ssn IS 'classification:pii_critical;tokenize:true';
+```
+
+`pii_critical` columns must be tokenized (the actual SSN never lives in your DB; you get a token from the `tokens-service`). See [Data classification](/engineering/security/data-classification).
+
+## Owner
+
+Database Platform · `db-platform@intuit.example`

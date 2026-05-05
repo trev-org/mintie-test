@@ -1,0 +1,62 @@
+---
+title: "Customer Journeys & automations"
+description: "Mailchimp's visual automation builder."
+icon: "git-branch"
+---
+
+Customer Journeys is Mailchimp's automation builder — a visual editor for multi-step, condition-driven message flows triggered by events.
+
+## What customers build
+
+| Use case                          | Typical shape                                       |
+| --------------------------------- | --------------------------------------------------- |
+| Welcome series                    | Trigger: signup → 5 emails over 2 weeks             |
+| Abandoned cart                    | Trigger: cart abandoned 1h → reminder + 24h follow-up |
+| Post-purchase                     | Order placed → thank you + review request + cross-sell |
+| Re-engagement                     | Inactive 60d → 3-email win-back sequence            |
+| Event-based                       | Webinar registration → reminder cadence + replay    |
+
+## Building blocks
+
+Journeys consist of:
+
+- **Triggers** — what starts the journey (signup, tag added, purchase, custom event)
+- **Conditions** — split based on properties or behavior
+- **Delays** — wait timers (relative or absolute)
+- **Actions** — send email, send SMS, add tag, update merge field, fire webhook
+- **Goal events** — exit when achieved (e.g., made a purchase)
+
+## Real-time vs. batch
+
+Journey execution is **streaming** — every contact event flows through Kafka into the Journeys runtime, which evaluates that contact's position in any active journey and queues the next action.
+
+Time-based steps (delays) are scheduled via a delayed-event store and reactivate the contact at the right time.
+
+## At scale
+
+- ~5M active journeys at any time
+- ~1B events processed per day driving journey progression
+- p99 trigger-to-first-action latency: < 30 seconds for streaming triggers
+
+## A/B testing
+
+Customers can A/B test branches of a journey: split contacts down two paths, measure goal-event rate, automatically promote the winner.
+
+## AI assistance (Genos)
+
+Genos-powered features available in Journeys:
+
+- Suggest a journey shape from a one-liner ("welcome new customers")
+- Generate email subject lines and body copy from a brief
+- Predict best send times per recipient
+- Detect underperforming branches and suggest improvements
+
+## Common pitfalls
+
+- Loops — accidental infinite loops if a journey re-triggers itself; we detect and break
+- Oversending — contacts in 5+ journeys at once can get overwhelmed; we cap and warn
+- Stale triggers — events that never come (e.g., purchase that doesn't happen) leave contacts stuck mid-journey forever
+
+## Owner
+
+Journeys Engineering · `journeys@mailchimp.com`

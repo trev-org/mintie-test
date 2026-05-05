@@ -1,0 +1,79 @@
+---
+title: "SSO with Okta"
+description: "Single sign-on, MFA, and recovery."
+icon: "key"
+---
+
+We use Okta as our IdP for **all** internal apps. If an app doesn't have Okta SSO, it shouldn't be used for Intuit work.
+
+## What's behind Okta
+
+The full list is in the [Software catalog](/operations/it/software-catalog). Top-used apps:
+
+- Google Workspace (gmail, calendar, drive)
+- Slack
+- GitHub Enterprise
+- Workday
+- AWS (via SSO + role assumption)
+- Vault
+- Snowflake
+- Tableau, Looker
+- Lyra Health
+- E*TRADE
+
+## MFA
+
+Required for all employees. Choose at least **two** factors:
+
+| Factor               | Notes                                          |
+| -------------------- | ---------------------------------------------- |
+| Okta Verify (push)   | Default; install on phone                      |
+| TOTP (Authy / Google) | Backup; works without internet                |
+| WebAuthn (Yubikey)   | Strongest; required for L6+ and exec staff     |
+| SMS                  | Last resort; not allowed for sensitive apps    |
+
+We do **not** support Touch ID alone or biometric-only flows for production access.
+
+## Provisioning new apps
+
+All employees get the baseline apps automatically. Beyond baseline, request via [Software catalog](/operations/it/software-catalog).
+
+For apps that require justification (admin consoles, financial systems, customer-data tools), request requires manager approval and may need data-classification review.
+
+## Lost MFA device
+
+<Steps>
+  <Step title="Try alternate factor first">
+    If you set up multiple factors, sign in with the other one.
+  </Step>
+  <Step title="Use the recovery code">
+    You should have saved a one-time recovery code at MFA enrollment. Use it at the recovery prompt.
+  </Step>
+  <Step title="Contact IT Help Desk">
+    If neither works, file a [Help Desk ticket](/operations/it/help-desk) and call the IT phone line. Identity verification (KBA + manager confirmation) required to reset.
+  </Step>
+  <Step title="Re-enroll">
+    Once unlocked, set up two factors immediately and save the recovery code somewhere safe (1Password recommended).
+  </Step>
+</Steps>
+
+## Tradeoff: convenience vs. security
+
+We err toward security. Concrete consequences:
+
+- Sessions expire after 24h on web, 30d on mobile, 4h on admin tools
+- Re-auth required for sensitive operations (banking, tax data, exec compensation)
+- Devices register; new-device sign-ins require email or push approval
+
+## Reporting suspicious activity
+
+If you see a sign-in you didn't make, or get an MFA push you didn't initiate:
+
+- **Decline the push** if applicable
+- Page security on-call (`#sec-incident` slash command)
+- Change your password
+- IT Sec will investigate
+
+## Owner
+
+Identity Operations · `identity-ops@intuit.example`

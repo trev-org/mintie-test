@@ -1,0 +1,64 @@
+---
+title: "Recommendations engine"
+description: "How Credit Karma matches members to credit and lending products."
+icon: "wand-2"
+---
+
+The Recommendations Engine is what monetizes Credit Karma. Given a member's credit profile and partner offers, it predicts the right product to surface and the conversion likelihood.
+
+## What it predicts
+
+For each (member, offer) pair, we predict:
+
+- **Approval probability** — will the member be approved?
+- **Click probability** — will they click?
+- **Apply probability** — will they apply?
+- **Origination probability** — will the lender originate?
+- **Lifetime value** — what's this member worth on this product?
+
+The engine combines these into an **expected value** to rank.
+
+## Inputs
+
+- Member's credit profile (current and historical)
+- Member's profile (age, location, employment if provided)
+- Behavioral signals (browse and click history)
+- Partner's offer terms and underwriting criteria
+
+## Models
+
+We use a layered architecture:
+
+1. **Eligibility filter** — deterministic, rule-based. Excludes offers the member isn't underwriting-eligible for.
+2. **Approval likelihood** — gradient-boosted model per partner per product
+3. **Conversion stack** — click / apply / originate, modeled per surface
+4. **Ranker** — combines + applies business constraints (diversity, fair lending)
+
+We retrain models continuously on labeled data (lender-shared origination outcomes for matched members).
+
+## Fairness and Reg B
+
+The engine is regulated under Reg B (no disparate impact on protected classes). Controls:
+
+- Protected-class data (race, gender, etc.) **never** enters the model
+- Disparate impact analysis runs nightly; alerts route to compliance
+- Independent annual audit
+- Documented model risk reviews per [ML platform](/engineering/services/ml-platform) governance
+
+## Surfaces
+
+Recommendations appear in:
+
+- Member home dashboard
+- Product-specific feeds (Cards, Loans, Auto, Insurance)
+- Email and push (with consent)
+- In-app onboarding
+- Partner-side widgets (white-labeled)
+
+## A/B testing
+
+Every change to ranking is A/B tested. Online metrics: CTR, apply, origination, satisfaction. Guardrails: disparate impact, member trust scores, partner relationships.
+
+## Owner
+
+Recommendations Engineering · `recs-eng@creditkarma.com`

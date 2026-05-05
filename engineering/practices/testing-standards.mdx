@@ -1,0 +1,75 @@
+---
+title: "Testing standards"
+description: "What to test, how, and when."
+icon: "check-square"
+---
+
+Testing isn't optional. But more tests aren't always better. Test the things that prevent customer-impacting bugs.
+
+## Test pyramid
+
+```
+        /\
+       /  \    Manual / exploratory
+      /----\
+     / E2E  \   End-to-end, browser
+    /--------\
+   / Integ.   \   Service + DB + dependencies (mocks at edges)
+  /------------\
+ /   Unit       \   Fast, deterministic, lots of them
+/----------------\
+```
+
+We aim for the **Diamond** at Intuit: heavy on integration tests, lighter on unit tests for business logic that's covered by integration tests anyway.
+
+## Coverage targets
+
+- **Unit + Integration**: 80% line coverage for new code
+- **E2E**: critical user journeys per product, run on every staging deploy
+- **Coverage is a floor, not a target**. Don't game it with trivial tests.
+
+## What we test
+
+| Category               | Required                                                           |
+| ---------------------- | ------------------------------------------------------------------ |
+| Happy path             | Yes, for every feature                                             |
+| Edge cases             | Yes — empty inputs, max sizes, boundary values                     |
+| Error paths            | Yes for each documented error condition                            |
+| Concurrency            | Yes if your code uses goroutines, threads, or async                 |
+| Idempotency            | Yes for any handler that mutates state                             |
+| Performance            | Required for T0/T1 services (load tests as part of CI)             |
+| Security               | Static analysis + targeted tests for auth/authz boundaries         |
+| Accessibility          | Required for all customer-facing UI                                |
+
+## Test environments
+
+| Env       | Use                                          | Data                            |
+| --------- | -------------------------------------------- | ------------------------------- |
+| Local     | Unit + service tests                         | Synthetic                       |
+| Sandbox   | Per-PR integration tests                     | Synthetic, fresh per run        |
+| Dev       | Cross-team integration                       | Synthetic, shared               |
+| Staging   | E2E, load, perf, smoke                       | Anonymized prod snapshots       |
+
+## Synthetic data
+
+Use the `intuit-synth` library to generate realistic but fake customer data: tax forms, invoices, accounts, transactions. Never seed tests with real customer data, even anonymized.
+
+## Test flakiness
+
+A flaky test is a broken test. We have zero tolerance for "rerun and pray."
+
+- The CI flake monitor flags tests that fail >5% of runs
+- Service teams must fix or quarantine within 7 days
+- Quarantined tests are tracked; they age out and get removed
+
+## Production testing
+
+Yes — we run tests in production:
+
+- **Synthetic monitoring** (Catchpoint) — every customer journey, every minute
+- **Canary analysis** during deploys — automated rollback on regression
+- **Chaos testing** (Gremlin) — quarterly chaos days for T0 services
+
+## Owner
+
+Engineering Excellence · `eng-excellence@intuit.example`

@@ -1,0 +1,52 @@
+---
+title: "Engineering at Intuit"
+description: "How we build, deploy, and operate software at Intuit."
+icon: "code"
+mode: "wide"
+---
+
+Welcome to the Engineering section of the Intuit KB. Bookmark this page — it's the entry point for everything technical.
+
+## Start here
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/engineering/getting-started">
+    Get a dev environment running and ship your first PR.
+  </Card>
+  <Card title="Service catalog" icon="list" href="/engineering/services/service-catalog">
+    Find any service: owner, repo, runbook, dashboards.
+  </Card>
+  <Card title="Intuit Cloud Platform" icon="cloud" href="/engineering/intuit-cloud-platform">
+    Our internal PaaS that runs ~95% of all services.
+  </Card>
+  <Card title="On-call overview" icon="siren" href="/engineering/oncall/overview">
+    Pager rotations, severity levels, and runbooks.
+  </Card>
+</CardGroup>
+
+## Core principles
+
+We optimize for **customer outcomes**, **safety**, and **velocity** — in that order, when they conflict.
+
+1. **Ship small, ship often.** Median PR size at Intuit is ~150 lines. Median deploy frequency for healthy services is 5+/week.
+2. **You build it, you run it.** Service teams own their service end-to-end, including on-call.
+3. **Automate the path of least resistance.** If the right thing is hard, fix the path. Don't write a wiki.
+4. **Default to observability.** Every service emits structured logs, metrics, and traces. No exceptions.
+5. **Security is not optional.** [Secure SDLC](/engineering/security/secure-sdlc) is mandatory; threat modeling kicks in at the design stage.
+
+## Tech stack snapshot
+
+| Layer            | Default choice                                  | Notes                                           |
+| ---------------- | ----------------------------------------------- | ----------------------------------------------- |
+| Service runtime  | Java (Spring Boot), Node.js (TypeScript), Go    | Use what your team uses; new services need ARC review |
+| Datastore (OLTP) | PostgreSQL on Aurora, DynamoDB                  | See [Databases](/engineering/infra/databases)   |
+| Datastore (OLAP) | Snowflake                                       | See [Data platform](/engineering/services/data-platform) |
+| Streaming        | Kafka (MSK), Kinesis                            |                                                 |
+| Compute          | EKS (Kubernetes), AWS Lambda                    |                                                 |
+| Frontend         | React + TypeScript, Trips design system         |                                                 |
+| Mobile           | React Native (cross-platform), native Swift/Kotlin where needed |                                 |
+| ML/AI            | Genos AI Platform, SageMaker                    | See [ML platform](/engineering/services/ml-platform) |
+
+## Owner
+
+Engineering Excellence · `eng-excellence@intuit.example`

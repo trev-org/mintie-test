@@ -1,0 +1,68 @@
+---
+title: "Accounting engine"
+description: "The double-entry ledger that anchors QuickBooks."
+icon: "book"
+---
+
+Every transaction in QuickBooks goes through the **accounting engine** — a double-entry bookkeeping system that's the financial source of truth for our small-business customers.
+
+## Double-entry, in 60 seconds
+
+Every transaction creates entries on **at least two accounts**, debits = credits. Examples:
+
+| Event                   | Debit                | Credit                |
+| ----------------------- | -------------------- | --------------------- |
+| Customer pays invoice   | Cash                 | Accounts Receivable   |
+| Pay vendor bill         | Accounts Payable     | Cash                  |
+| Issue invoice           | Accounts Receivable  | Sales Revenue         |
+| Buy inventory           | Inventory Asset      | Cash or A/P           |
+| Run payroll             | Wages Expense        | Cash + Tax Liabilities|
+
+The engine validates this invariant for every transaction. If a transaction would unbalance the books, it's rejected before it commits.
+
+## Chart of accounts
+
+Each realm has its own **chart of accounts** — a hierarchical taxonomy of where money lives. QuickBooks ships with industry-tailored defaults but customers can customize.
+
+## Transaction types
+
+- **Invoice / Bill** — accrual-side recognition
+- **Payment** — cash-side movement
+- **Journal entry** — direct debit/credit (advanced users)
+- **Adjusting entry** — period-close adjustments
+- **Bank feed transaction** — imported, then categorized
+- **Transfer** — between owned accounts
+- **Inventory adjustment** — quantity + cost
+
+Each type has its own validations and downstream effects.
+
+## Period close and lock
+
+Customers (or their accountants) can **close a period** at month/quarter/year end. After close:
+
+- Transactions in the closed period require a "closed period" override password
+- Reports for the period are immutable
+- Audit trails preserve every change
+
+We never delete transactions. Voids and edits create new ledger entries that explicitly reverse and replace.
+
+## Multi-currency
+
+A realm can transact in multiple currencies. Exchange rates pull from `xe.com` daily; transactions store both the foreign and home-currency amounts. Period reports translate at user-selectable rates (current, period-end, etc.).
+
+## Tax integration
+
+The engine integrates with the [sales-tax service](#) for jurisdiction-specific tax computation on invoices. For income tax, financial reports flow into TurboTax via [Data sharing](/products/cross/data-sharing) when the customer files.
+
+## Why this matters
+
+If the engine has a bug, **every** customer's books are wrong. Test coverage on the engine is the strictest in the company:
+
+- Reference suite of 50,000+ scenarios
+- Bit-for-bit reproducibility of summary reports
+- Mutation testing — every conditional flipped to ensure tests catch
+- Periodic auditor review (our customers' accountants find bugs we miss)
+
+## Owner
+
+Accounting Platform · `accounting-platform@intuit.example`

@@ -1,0 +1,103 @@
+---
+title: "Observability"
+description: "Logs, metrics, traces — and how to use them effectively."
+icon: "activity"
+---
+
+## The three pillars
+
+| Pillar    | Tool                | What you get                                       |
+| --------- | ------------------- | -------------------------------------------------- |
+| Logs      | Splunk              | Structured JSON logs, 30-day retention             |
+| Metrics   | Wavefront           | Time-series, 18-month retention                    |
+| Traces    | Honeycomb           | Distributed traces, sampled at 1% by default       |
+| Errors    | Sentry              | Front-end and back-end exception aggregation       |
+| Synthetics| Catchpoint          | External uptime + latency monitoring               |
+
+All four are wired into ICP automatically — services don't configure transport, just emit.
+
+## Logging conventions
+
+JSON only. Every log line includes:
+
+```json
+{
+  "ts": "2026-05-04T15:23:11Z",
+  "level": "info",
+  "service": "invoice-service",
+  "trace_id": "0af7651916cd43dd8448eb211c80319c",
+  "span_id": "b7ad6b7169203331",
+  "user_id": "user_abc123",
+  "tenant_id": "tenant_xyz",
+  "msg": "invoice created",
+  "invoice_id": "inv_123",
+  "amount_cents": 12300
+}
+```
+
+<Warning>
+  Never log PII or secrets. Use the `intuit-logger` library which automatically redacts: SSN, credit card, full email, OAuth tokens. See [Data classification](/engineering/security/data-classification).
+</Warning>
+
+## Metrics
+
+We use the **RED method** as the default:
+
+- **R**ate — requests per second
+- **E**rror rate — errors per second / total
+- **D**uration — p50, p95, p99 latency
+
+Plus the **USE method** for resources (CPU, memory, disk, etc.). ICP emits both for free.
+
+Custom business metrics: prefix with `business.` or `customer.`. Examples:
+
+- `business.invoice.created`
+- `business.payment.completed_amount`
+- `customer.signup.completed`
+
+## Traces
+
+Tracing is on by default. Use `Tracer.span()` (Java) / `tracer.startSpan()` (Node) for custom spans:
+
+```typescript
+import { tracer } from '@intuit/observability'
+
+const span = tracer.startSpan('invoice.calculate_tax')
+try {
+  // ...
+} finally {
+  span.end()
+}
+```
+
+Honeycomb has the best query UX of the three pillars. Lean on it for incident triage.
+
+## SLOs and dashboards
+
+Every service must publish at least three SLOs:
+
+1. **Availability** — fraction of successful requests
+2. **Latency** — p99 under target threshold
+3. **Correctness** — domain-specific (e.g., "invoices generate accurate totals")
+
+Define in `service.yaml`:
+
+```yaml
+slo:
+  availability:
+    target: 99.9
+    window: 30d
+  latency_p99:
+    target_ms: 250
+    window: 30d
+```
+
+Dashboards are auto-generated. Customize in Wavefront if needed.
+
+## Alerting
+
+Alerts feed PagerDuty. Hard rule: **no alert without a runbook**. See [On-call runbooks](/engineering/oncall/runbooks).
+
+## Owner
+
+Observability Platform · `obs-platform@intuit.example`

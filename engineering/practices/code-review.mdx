@@ -1,0 +1,61 @@
+---
+title: "Code review"
+description: "Norms, expectations, and turnaround targets."
+icon: "git-pull-request"
+---
+
+Code review is a primary place where engineering culture happens. Treat it accordingly.
+
+## Reviewer turnaround
+
+| Author              | Reviewer expectation                  |
+| ------------------- | ------------------------------------- |
+| New hire            | < 4 business hours                    |
+| Anyone else         | Same business day, < 1 business day after |
+| Late-Friday PR      | Monday morning is fine                |
+| Sev-1 hotfix        | Drop everything                       |
+
+If you can't review within a day, **decline or reassign** quickly so the PR finds a reviewer who can.
+
+## Author expectations
+
+- **PR description** explains *why*, not just *what*. Link the ticket.
+- **Small PRs**. Median is ~150 lines. Aim for under 400 lines diff.
+- **Self-review first**. Read your own PR before requesting review; you'll catch a lot.
+- **Test plan** — what you tested, how, what you didn't. Screenshots for UI.
+- **No drive-by changes** — refactoring + new feature in the same PR is harder to review.
+- **Use draft PRs** for early feedback when shape is unclear.
+
+## Reviewer expectations
+
+- **Review the design, not just the code.** Wrong design > nice code.
+- **Be specific.** "This is confusing" → "I'd rename `processData` to `splitOrders` so callers know what it does."
+- **Be timely.** A 2-hour bottleneck on review can derail someone's day.
+- **Accept "good enough."** Perfect is the enemy of shipped.
+- **Ask, don't demand.** "What do you think about X?" leaves room for the author's reasoning.
+
+## Approval rules
+
+- Two reviewers required, one from CODEOWNERS
+- One approval is the floor; complex changes deserve more
+- Authors do not approve their own PRs (yes, it's checked)
+- Force-merging requires written justification posted to `#eng-norms`
+
+## When to escalate
+
+If you and a reviewer can't agree:
+
+1. Discuss synchronously (call > thread)
+2. Bring in a third opinion (often a tech lead)
+3. Document the tradeoff in an [ADR](/engineering/practices/architecture-decisions)
+4. Last resort: tech lead or staff+ resolves
+
+## Bots and automation
+
+- `auto-merge` allowed when all required checks pass and at least one human approves
+- `dependabot` PRs auto-merge for patch versions, manual for minor/major
+- Renovate / pnpm-up handles cross-repo dependency consistency
+
+## Owner
+
+Engineering Excellence · `eng-excellence@intuit.example`

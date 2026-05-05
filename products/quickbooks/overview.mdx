@@ -1,0 +1,63 @@
+---
+title: "QuickBooks overview"
+description: "The accounting and SMB management platform — internal context."
+icon: "calculator"
+---
+
+QuickBooks is the largest SBSE product family. It started as desktop in the 1990s, became cloud-first in the 2010s, and is now an integrated platform spanning accounting, payroll, payments, time, capital, and more.
+
+## Product family
+
+| Product                 | Tier              | Notes                                       |
+| ----------------------- | ----------------- | ------------------------------------------- |
+| QuickBooks Online       | Self-Employed → Advanced | The flagship                          |
+| QuickBooks Desktop      | Pro/Premier/Enterprise | Subscription-only since 2024            |
+| QuickBooks Payroll      | Core/Premium/Elite |                                            |
+| QuickBooks Payments     | —                 | Card and ACH acceptance                     |
+| QuickBooks Time         | —                 | (Formerly TSheets)                          |
+| QuickBooks Live         | —                 | Bookkeeping by humans                       |
+| QuickBooks Capital      | —                 | Lending                                     |
+| Intuit Enterprise Suite | —                 | Mid-market                                  |
+| Mailchimp Plus QBO      | —                 | Cross-product bundle                        |
+
+## Tech split
+
+| Layer                         | Tech                                                |
+| ----------------------------- | --------------------------------------------------- |
+| QBO Web                       | React + Trips, BFF in Node.js                       |
+| QBO Mobile                    | React Native, native modules where needed           |
+| Core accounting backend       | Java on Spring, Aurora PostgreSQL per-tenant sharded|
+| Payroll                       | Mostly Java + Kotlin; multi-tenant per-state taxes  |
+| Payments                      | See [Payments platform](/engineering/services/payments-platform) |
+| Banking feeds                 | Plaid + Yodlee + direct integrations                |
+| QBO Desktop                   | C++ (legacy), with cloud sync via desktop-bridge    |
+
+## Multi-tenancy
+
+QBO is multi-tenant at the **realm** level. A realm is one company file (small biz). Users can belong to multiple realms (e.g., an accountant with 50 clients).
+
+Tenant isolation:
+
+- Per-realm database schema in shared Aurora clusters (sharded)
+- Realm-scoped IAM checks at every API
+- Per-realm encryption keys (KMS-derived) for sensitive fields
+
+## Scale snapshot (FY25)
+
+- ~9M active QBO subscribers globally
+- ~250M API calls per day
+- ~12B accounting transactions per month
+- ~1.5M payroll runs per quarter
+- ~$200B in invoices created annually
+- ~$70B in payments processed annually
+
+## What internal teams should know
+
+- QBO is **always on**. There is no off-season — every business needs accounting every day.
+- Multi-currency, multi-language, multi-tax-jurisdiction. International is huge.
+- Accountants are a critical user segment. The "ProAdvisor" experience is a separate UX surface.
+- Banking feeds break — it's the most-customer-facing reliability concern.
+
+## Owner
+
+QBO Product · `qbo-product@intuit.example`

@@ -1,0 +1,73 @@
+---
+title: "On-call overview"
+description: "How rotations, escalations, and compensation work."
+icon: "siren"
+---
+
+If you build a service, you run it. On-call is how we make that real.
+
+## Rotation shape
+
+Most teams use a two-tier rotation:
+
+| Tier            | Coverage              | Response time | Notes                                          |
+| --------------- | --------------------- | ------------- | ---------------------------------------------- |
+| Primary         | 1 week shift, 24/7    | 5 min ack     | Pages on alerts; first response                |
+| Secondary       | 1 week shift, 24/7    | 15 min ack    | Backup if primary doesn't ack                  |
+| Manager-on-call | 2 week shift          | 30 min        | Coordinates if pages cluster or escalate       |
+
+Follow-the-sun teams (Payments, Identity) split rotations across MV / ATL / BLR / TLV so no one sleeps through pages.
+
+## Compensation
+
+- **Primary on-call**: $1,000 per week stipend (US), country-equivalent elsewhere
+- **Secondary**: $300 per week
+- **Manager-on-call**: $500 per shift
+- **Pages outside business hours that result in real work**: extra hour of comp for each hour worked, up to 8 per night
+- **Holiday on-call**: 1.5× stipend during major holidays
+
+## When to page someone
+
+Page when:
+
+- A service is down or degrading customer experience
+- A security incident is suspected
+- A data integrity issue is detected
+- A compliance gate is at risk
+
+Don't page for:
+
+- Issues with no customer impact and a clear next-business-day window
+- Curiosity about behavior — file a ticket
+- Internal-tooling issues unless they block on-call response
+
+## Escalation paths
+
+If you can't reach the responsible team:
+
+1. Service's secondary on-call (PagerDuty)
+2. Service's manager-on-call
+3. Domain SRE on-call
+4. ICP platform on-call (if platform-related)
+5. Engineering leadership on-call (last resort, sev-1 only)
+
+The Service Catalog lists each path per service.
+
+## Pages don't follow you off rotation
+
+When your shift ends, your phone goes silent. Hand off via the **on-call sync** with the next shift, covering open issues, recent changes, and known landmines.
+
+## Healthy on-call
+
+A healthy rotation has:
+
+- < 3 sev-3+ pages per week
+- < 1 after-hours page per week per engineer
+- 95%+ ack within 5 minutes
+- Postmortems for every sev-1 and most sev-2
+
+If your rotation isn't healthy, it's a tech-debt signal. Talk to your manager — fixing rotations is real work.
+
+## Owner
+
+SRE Excellence · `sre@intuit.example`

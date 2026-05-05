@@ -1,0 +1,62 @@
+---
+title: "IT Help Desk"
+description: "How to get IT help fast."
+icon: "life-buoy"
+---
+
+The fastest way to get unblocked: file a Help Desk ticket. We staff IT 24/5 in the U.S. and EU; 9am-6pm local in APAC.
+
+## Filing a ticket
+
+1. Visit `help.intuit.example` (Okta SSO)
+2. Pick a category — laptop, network, access, software, account
+3. Describe the issue — include screenshots, error messages, what you've tried
+4. Submit
+
+You'll get an email within 15 min during business hours acknowledging receipt with an estimated SLA.
+
+## Categories and SLAs
+
+| Category                         | First response | Resolution target |
+| -------------------------------- | -------------- | ----------------- |
+| Critical (whole team blocked)    | 15 min         | 1 hour            |
+| Major (single user blocked)      | 1 hour         | 4 hours           |
+| Standard (productivity impact)   | 4 hours        | 1 business day    |
+| Request (access / new equipment) | 1 business day | 3 business days   |
+
+## Common tickets
+
+| Issue                                    | Self-serve before ticket?                                   |
+| ---------------------------------------- | ----------------------------------------------------------- |
+| Forgot password                          | `accounts.intuit.com` reset                                 |
+| Locked out of Okta                       | `accounts.intuit.com/recovery` if MFA available             |
+| Lost MFA device                          | Yes — see [SSO with Okta](/operations/it/sso-okta) recovery |
+| Need a new monitor                       | Buy with home-office stipend, no ticket needed              |
+| Need access to a new app                 | Use [Software catalog](/operations/it/software-catalog)     |
+| Laptop slow                              | Try restart + Activity Monitor before ticketing             |
+| VPN won't connect                        | See [VPN](/operations/it/vpn) troubleshooting                |
+| Lost laptop                              | **Ticket immediately + email it-sec@**                      |
+
+## Walk-up support
+
+Hub offices have a walk-up Help Desk:
+
+- MV: Building 4, ground floor, M-F 9-5
+- ATL: 4th floor, M-F 9-5
+- SD: 2nd floor, M-F 9-5
+- BLR: Manyata Tech Park, M-F 9-5
+- LON: 3rd floor, M-Th 9-5
+
+## After-hours emergencies
+
+Page on-call IT via PagerDuty `#it-oncall` for genuinely critical issues outside business hours. Examples:
+
+- VPN down for an entire team
+- Production access broken for on-call engineer
+- Suspected security incident (also page security on-call)
+
+Don't page for "my Slack is being weird" — that's morning-ticket material.
+
+## Owner
+
+IT Operations · `it@intuit.example`

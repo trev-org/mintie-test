@@ -1,0 +1,56 @@
+---
+title: "Severity levels"
+description: "How we classify incidents and what each level demands."
+icon: "alert-triangle"
+---
+
+Severity drives response speed, escalation, and visibility. Pick the right one quickly — we'd rather upgrade than downgrade.
+
+## Definitions
+
+| Severity | Customer impact                                     | Examples                                               | Initial response time |
+| -------- | --------------------------------------------------- | ------------------------------------------------------ | ---------------------- |
+| Sev-1    | Significant or total loss of service for many users | TurboTax e-file down on April 14; checkout broken      | 5 min ack, 15 min war room |
+| Sev-2    | Meaningful degradation                              | Slow login (>5s p95); a region down                    | 15 min ack, 30 min eng on call |
+| Sev-3    | Minor or partial impact                             | Edge feature broken; single-tenant issue               | Best-effort within hours       |
+| Sev-4    | No customer impact, internal only                   | Dashboard broken; flaky test in CI                     | Next business day              |
+
+Security severities (SEC-1 through SEC-4) follow [Incident response](/engineering/security/incident-response).
+
+## Sev-1 specifics
+
+Sev-1s are visible to the entire company:
+
+- War room created automatically (Slack channel `#sev1-<short-tag>` and Zoom)
+- Comms team notified — they handle external and internal messaging
+- Status page updated within 30 min
+- Executive page (CTO and product GM) within 30 min
+- Customer support primed with FAQ
+- Engineering leadership joins as observers
+
+The **Incident Commander** for Sev-1s is typically a senior on-call engineer or SRE. The IC does not fix the bug — the IC drives the response.
+
+## Sev-2 specifics
+
+- War room recommended, not required
+- Customer support proactively informed
+- Status page updated if customer-facing
+- Executive notified for sustained sev-2
+
+## Sev-3 / Sev-4
+
+- Tracked in Jira, no war room
+- Resolved in normal sprint cadence
+
+## Upgrades and downgrades
+
+Sev levels can change as understanding improves. Document the change in the incident timeline. Common patterns:
+
+- Starts as a sev-3, scope expands → upgrade to sev-2 or sev-1
+- Starts as a sev-1 (assumed worst case), turns out narrow → downgrade to sev-2
+
+Default to the higher severity when in doubt. The cost of a false sev-1 is a busy night; the cost of a missed sev-1 can be customers and dollars.
+
+## Owner
+
+SRE Excellence · `sre@intuit.example`

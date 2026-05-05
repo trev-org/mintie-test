@@ -1,0 +1,80 @@
+---
+title: "Notifications platform"
+description: "Email, push, SMS, in-app — one platform, one rate-limit policy."
+icon: "bell"
+---
+
+The Notifications Platform centralizes all customer-facing messages: transactional, marketing, and operational. Built on top of internal sender infrastructure plus third-party providers.
+
+## Channels
+
+| Channel  | Provider                                            |
+| -------- | --------------------------------------------------- |
+| Email    | Mailchimp Transactional (Mandrill) + Amazon SES     |
+| SMS      | Twilio (primary), Sinch (fallback)                  |
+| Push     | FCM (Android), APNs (iOS), via OneSignal abstraction |
+| In-app   | Internal — websocket and pull-based                 |
+| Voice    | Twilio Programmable Voice                           |
+| WhatsApp | Twilio                                              |
+
+## API
+
+```typescript
+import { notify } from '@intuit/notifications'
+
+await notify.send({
+  templateId: 'tt_efile_accepted_v3',
+  channel: 'auto',  // email + push if both available
+  recipient: { customerId: 'cust_abc' },
+  vars: {
+    refundAmount: '$2,431.00',
+    acceptedAt: '2026-04-15T10:23:00Z',
+  },
+  category: 'transactional',
+  priority: 'high',
+})
+```
+
+The platform handles:
+
+- Channel selection (based on user preferences and consent)
+- Locale and timezone routing
+- Send-time optimization (for non-urgent)
+- Throttling and rate limiting per recipient
+- Suppression lists (unsubscribes, bounces)
+- Delivery + open/click tracking
+
+## Templates
+
+Templates live in **Templates Studio** (internal tool) and version with the codebase under `notifications/templates/`. Approval workflow:
+
+1. Author creates a draft
+2. Content design review
+3. Legal review (for any marketing or financial content)
+4. Translations queued (for i18n templates)
+5. Approval and version bump
+6. Templates synced to platform within 5 minutes
+
+## Categories and consent
+
+| Category        | Consent rule                                                                    |
+| --------------- | ------------------------------------------------------------------------------- |
+| Transactional   | Sent regardless of marketing consent (account, security, payment confirmations) |
+| Operational     | Sent if user has account; can opt out per channel                                |
+| Marketing       | Requires explicit opt-in; CAN-SPAM and CASL compliant                           |
+| Security        | Always sent; cannot be opted out                                                |
+
+Misclassification (e.g., marketing tagged as transactional) is a privacy violation. See [Privacy](/operations/legal/privacy-gdpr-ccpa).
+
+## SLOs
+
+| Metric                           | Target              |
+| -------------------------------- | ------------------- |
+| Transactional send latency p95   | < 5 seconds         |
+| Marketing scheduled send accuracy| < 1 minute drift    |
+| Delivery success                 | > 99% (excl. bounces)|
+| Throughput peak                  | 100k msg/sec        |
+
+## Owner
+
+Notifications Platform · `notifications@intuit.example`

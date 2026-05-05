@@ -1,0 +1,83 @@
+---
+title: "ML platform"
+description: "Training, deploying, and serving ML and LLM models at Intuit."
+icon: "brain"
+---
+
+The ML Platform sits on top of the Data Platform and provides the training, registry, and serving layer for all ML and LLM workloads.
+
+For the foundation-model layer specifically, see [Genos AI](/products/cross/genos-ai).
+
+## Stack
+
+| Layer            | Tool                              |
+| ---------------- | --------------------------------- |
+| Feature store    | Internal "Feast on Snowflake"     |
+| Training         | SageMaker, Databricks, Genos      |
+| Experiment track | MLflow                            |
+| Model registry   | MLflow + internal review gate     |
+| Online serving   | KServe on EKS                     |
+| LLM serving      | Genos AI Platform                 |
+| Eval / harness   | LangSmith + internal Eval Service |
+
+## Training
+
+Two paths:
+
+1. **Notebooks → Pipeline**: prototype in Databricks, promote to SageMaker for production training.
+2. **Custom containers**: bring your own training image, run on SageMaker.
+
+All production training runs **must**:
+
+- Log to MLflow with experiment ID
+- Register the resulting model in the registry with a model card
+- Pass automated eval before promotion to staging
+- Pass model risk review before promotion to prod (Tier-1 models only)
+
+## Online serving
+
+KServe wraps your model in a standard inference protocol. Define an `InferenceService`:
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: tax-classification-v3
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: pytorch
+      storageUri: s3://intuit-models/tax-classification/v3
+      resources:
+        limits:
+          cpu: 4
+          memory: 8Gi
+          nvidia.com/gpu: 1
+```
+
+Latency p99 target: < 100ms for non-LLM, < 500ms for embedding lookups, < 5s first-token for LLM.
+
+## Model risk review
+
+Tier-1 models (those that drive customer outcomes — refunds, credit decisions, fraud rejections) go through a **Model Risk Review** before launch:
+
+1. Training data audit (bias, leakage, drift)
+2. Eval harness review against live shadow traffic
+3. Fairness review (disparate impact across protected classes)
+4. Failure-mode analysis and human-in-the-loop fallback
+
+Lighter review for Tier-2 (UX assistance, autocomplete) and Tier-3 (internal-only) models.
+
+## Monitoring
+
+Once in prod:
+
+- Live metrics: throughput, latency, error rate, prediction distribution
+- Drift: input feature drift detected daily (KS / PSI tests)
+- Performance: rolling AUC / accuracy where labels arrive
+- Alerting: same PagerDuty channels as service-level alerts
+
+## Owner
+
+ML Platform · `ml-platform@intuit.example`

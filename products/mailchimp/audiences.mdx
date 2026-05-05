@@ -1,0 +1,87 @@
+---
+title: "Audiences & segmentation"
+description: "How Mailchimp customers manage and segment their contacts."
+icon: "users"
+---
+
+Audiences are the heart of Mailchimp. Every send, journey, and report references an audience.
+
+## What an audience is
+
+An audience is a list of contacts — typically customers, leads, or subscribers of a Mailchimp customer's business. Each contact has:
+
+- An email address (primary identity)
+- Optional: name, address, phone
+- Custom merge fields (e.g., signup source, plan tier, last purchase)
+- Tags (free-form labels)
+- Behavioral history (opens, clicks, purchases)
+
+## Limits
+
+| Tier        | Audiences | Contacts per audience |
+| ----------- | --------- | --------------------- |
+| Free        | 1         | 500                   |
+| Essentials  | 3         | 50,000                |
+| Standard    | 5         | 100,000+              |
+| Premium     | Unlimited | 200,000+              |
+
+## Segmentation
+
+Customers can segment audiences using:
+
+- Demographic filters (custom fields)
+- Behavioral filters (opens, clicks, purchase history)
+- Geographic
+- Engagement (active, lapsed, dormant)
+- Predicted segments (Genos-powered: likely to engage, likely to churn)
+
+Segments are **dynamic** — they update as contacts move in and out. Saved segments can be referenced by campaigns and journeys.
+
+## Contact identity
+
+We use email as the primary identity but also track the contact across:
+
+- Browser cookie (mc_eid)
+- Device push token (mobile)
+- E-commerce ID (when integrated with Shopify, WooCommerce, etc.)
+- Mailchimp's internal contact ID
+
+Identity resolution merges these signals into one contact when a high-confidence match is detected (e.g., email captured on cookie-known device).
+
+## Sources of contacts
+
+Contacts come from:
+
+- Manual adds by the customer
+- Signup forms (embed, popup, landing page)
+- Imports (CSV, ESP-to-ESP migration)
+- API
+- Integrations (Shopify, WooCommerce, Square, QuickBooks)
+
+## Compliance and consent
+
+Every contact has a consent record:
+
+- Source of consent (form ID, import note, etc.)
+- Date of consent
+- Opt-in status (single vs. confirmed)
+
+Mailchimp customers are responsible for legal compliance with their list-building. Mailchimp enforces basics:
+
+- Imports require attestation
+- Confirmed opt-in supported (and recommended) for high-deliverability
+- One-click unsubscribe in every email
+- Unsubscribes honored across all campaigns automatically
+
+## Architecture
+
+| Component         | Role                                                |
+| ----------------- | --------------------------------------------------- |
+| Contact store     | Cassandra-derived custom store; migrating to managed |
+| Segmentation engine | Custom query engine, sub-second on 100M-row audiences |
+| Identity service  | Cross-channel identity resolution                    |
+| Compliance store  | Append-only consent log                              |
+
+## Owner
+
+Audiences Engineering · `audiences@mailchimp.com`

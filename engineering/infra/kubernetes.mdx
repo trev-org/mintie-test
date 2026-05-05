@@ -1,0 +1,69 @@
+---
+title: "Kubernetes (EKS)"
+description: "Our Kubernetes platform — what's hosted, how it's run, and conventions."
+icon: "boxes"
+---
+
+Most Intuit services run on **EKS (Amazon Elastic Kubernetes Service)** clusters managed by ICP. We don't typically interact with Kubernetes directly — `intuit deploy` and `service.yaml` abstract it — but it's useful to understand what's underneath.
+
+## Cluster topology
+
+We run separate clusters per environment per region:
+
+| Cluster                     | Purpose                                          |
+| --------------------------- | ------------------------------------------------ |
+| `prod-use2-icp`             | Primary prod, US East (Ohio)                     |
+| `prod-usw2-icp`             | DR prod, US West (Oregon)                        |
+| `prod-euw2-icp`             | EU prod, London                                  |
+| `prod-aps1-icp`             | APAC prod, Singapore                             |
+| `staging-use2-icp`          | Staging, US East                                 |
+| `dev-use2-icp`              | Dev, US East                                     |
+| `prod-fedramp-use1-icp`     | FedRAMP-isolated, US East                        |
+
+Each cluster has multiple node groups: general (burstable), memory-optimized, GPU (for ML).
+
+## Conventions
+
+- **Namespaces** map to teams. `team-invoicing` owns `team-invoicing-prod`, `team-invoicing-stg`, etc.
+- **Pods** must have resource requests AND limits set
+- **Pod Security Standards** are enforced — services run as non-root, read-only filesystem
+- **Network policies** are default-deny for new namespaces; opt-in via service.yaml dependencies
+- **mTLS** between services via Istio
+
+## Direct kubectl access
+
+You don't usually need it, but if you do:
+
+```bash
+intuit kube login prod-use2-icp
+kubectl -n team-invoicing-prod get pods
+```
+
+Production access requires **break-glass justification** logged in the access portal.
+
+## Helm charts
+
+Service teams don't typically write Helm charts. ICP generates a chart from `service.yaml`. You can override portions if needed via a `helm-overrides.yaml` in your repo.
+
+If you do write charts, follow:
+
+- Use the `intuit-helm-charts` library for shared templates
+- Lint via `helm lint` and `kube-score`
+- Pass policy via Conftest / Rego rules
+
+## Operators we run
+
+- **Istio** — service mesh (mTLS, traffic policy)
+- **External Secrets** — Vault → K8s Secret sync
+- **cert-manager** — internal cert issuance via Vault PKI
+- **Argo Rollouts** — canary and blue/green
+- **KEDA** — event-driven autoscaling (Kafka, SQS)
+- **ICP Operator** — internal CRDs that map `Service` and `Job` resources to Helm releases
+
+## Upgrades
+
+EKS cluster upgrades happen quarterly. You'll get 30 days notice via `#eng-announcements`. Most workloads need no changes; deprecated APIs are flagged via `pluto` in CI.
+
+## Owner
+
+Compute Platform · `compute-platform@intuit.example`

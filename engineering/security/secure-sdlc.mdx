@@ -1,0 +1,71 @@
+---
+title: "Secure SDLC"
+description: "Security gates throughout the development lifecycle."
+icon: "shield-check"
+---
+
+Security at Intuit is **everyone's job**. The Security team enables; service teams own.
+
+## Lifecycle gates
+
+```mermaid
+flowchart LR
+  Idea --> Design[Design review]
+  Design --> Build[Build]
+  Build --> CI[Automated CI gates]
+  CI --> Deploy[Deploy]
+  Deploy --> Run[Run]
+  Run --> Retire[Retire]
+```
+
+| Stage   | Gate                                                                      |
+| ------- | ------------------------------------------------------------------------- |
+| Design  | [Threat modeling](/engineering/security/threat-modeling) for T0/T1 services |
+| Build   | SAST (Semgrep), SCA (Snyk), license check (FOSSA)                         |
+| Deploy  | Container scan (Trivy), IaC scan (Checkov), secret scan (git-secrets)     |
+| Run     | Runtime detection (Falco + custom rules), anomaly detection, periodic re-scans |
+| Retire  | Data retention enforcement, account decommission, key destruction         |
+
+## Required reviews
+
+- **New service** at T0/T1: threat model + architecture review with `security-architects@`
+- **New external dependency**: SCA approves; outdated dependencies get a 30-day fix window
+- **Production data access for new role**: privacy team approval
+- **Cryptographic changes**: `crypto-review@intuit.example` (don't roll your own crypto)
+- **Authentication changes**: `identity@intuit.example`
+
+## What "secure by default" means here
+
+These are non-negotiable defaults for any new service:
+
+1. **TLS everywhere** — never plaintext
+2. **mTLS service-to-service** via Istio
+3. **PII tokenization** for all sensitive identifiers
+4. **No long-lived credentials** — use IAM roles, OIDC federation, dynamic Vault creds
+5. **Least privilege** — start with no permissions, grant explicitly
+6. **Default-deny network policies**
+7. **Logging and audit on for all data-access events**
+8. **Dependencies pinned with lockfiles**, reproducible builds
+
+## Compliance regimes
+
+We're audited against:
+
+- **PCI DSS Level 1** — for any service handling cardholder data
+- **SOC 2 Type II** — annual, covers all platform services
+- **ISO 27001** — annual
+- **HIPAA** — for healthcare-billing flows in QuickBooks
+- **FedRAMP Moderate** — for government TurboTax deployments
+- **GDPR / CCPA / India DPDP** — privacy regulations
+
+The compliance team coordinates evidence collection. If they ping you, respond promptly — late evidence pushes audit timelines and lights your VP's hair on fire.
+
+## Reporting a security issue
+
+- **Internal**: file a JIRA in the `SEC` project, severity-rate it, page on-call for sev-1
+- **External (researcher)**: forwarded by `security@intuit.com` to `it-sec@`
+- **Suspected breach**: page **immediately** via PagerDuty `#security-oncall`. See [Incident response](/engineering/security/incident-response).
+
+## Owner
+
+Security Engineering · `sec-eng@intuit.example`

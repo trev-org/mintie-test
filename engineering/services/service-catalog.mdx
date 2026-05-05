@@ -1,0 +1,84 @@
+---
+title: "Service catalog"
+description: "The single registry of every service, owner, and runbook at Intuit."
+icon: "list"
+---
+
+The Service Catalog is Backstage running at `services.intuit.example/catalog`. It's the single source of truth for:
+
+- Who owns a service
+- Where the code lives
+- What its dependencies are
+- How to deploy and roll back
+- Runbooks, dashboards, and on-call rotation
+- Compliance posture (data classification, security review status)
+
+<Note>
+  If you can't find a service in the catalog, **the service is broken**, not the catalog. File a bug against the team.
+</Note>
+
+## What the catalog tracks
+
+For each service:
+
+| Field          | Source                              |
+| -------------- | ----------------------------------- |
+| Owner team     | `service.yaml` in repo              |
+| Source code    | GitHub repo URL                     |
+| Runbooks       | `/docs/runbook.md` in repo          |
+| Dashboards     | Auto-linked Wavefront, Honeycomb    |
+| On-call        | PagerDuty schedule                  |
+| Dependencies   | `service.yaml` + auto-traced calls  |
+| Data class     | Privacy team signed-off             |
+| Tier           | Criticality tier (T0–T3)            |
+| SLOs           | Defined in `service.yaml`           |
+
+## Service tiers
+
+| Tier | Definition                                            | Examples                              |
+| ---- | ----------------------------------------------------- | ------------------------------------- |
+| T0   | Customer-facing, revenue-critical, no acceptable downtime | E-file submission, identity, payments |
+| T1   | Customer-facing, revenue-impacting                    | Invoicing, payroll                    |
+| T2   | Customer-facing, non-blocking                         | Reporting, exports                    |
+| T3   | Internal-only                                         | Admin tools, batch jobs               |
+
+Service tier dictates:
+
+- On-call coverage (T0/T1: 24/7, T2: business hours, T3: best-effort)
+- SLO targets (T0: 99.99%, T1: 99.9%, T2: 99.5%, T3: 99%)
+- Change management requirements (T0 changes need explicit approval window)
+- Disaster recovery requirements
+
+## Onboarding a new service
+
+<Steps>
+  <Step title="Create the repo">
+    Use the template: `gh repo create intuit/<name> --template intuit/service-template`
+  </Step>
+  <Step title="Define service.yaml">
+    Owner, tier, runtime, dependencies, SLOs.
+  </Step>
+  <Step title="Get a security review">
+    For T0/T1 services, [Threat modeling](/engineering/security/threat-modeling) is mandatory pre-launch.
+  </Step>
+  <Step title="Wire dashboards and alerts">
+    ICP generates a starter dashboard and alert pack. Customize as needed.
+  </Step>
+  <Step title="Submit catalog PR">
+    The catalog onboards your service automatically when the repo and `service.yaml` are valid.
+  </Step>
+</Steps>
+
+## Deprecating a service
+
+Plan ahead — most production services have hidden consumers.
+
+1. Mark `lifecycle: deprecated` in `service.yaml` and set `deprecation_date`
+2. Wire a `Deprecation` HTTP header into responses
+3. Notify dependent teams via the Catalog's auto-mailer
+4. Wait at least one quarter; target zero traffic
+5. Mark `lifecycle: archived`, freeze the repo, snapshot data per retention rules
+
+## Owner
+
+Service Catalog Team · `catalog@intuit.example`

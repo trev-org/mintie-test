@@ -1,0 +1,65 @@
+---
+title: "Credit bureau integrations"
+description: "How we ingest, refresh, and surface credit data."
+icon: "database"
+---
+
+Credit Karma's product depends on credit data from the three major U.S. bureaus and equivalents abroad. We pull credit reports under the **member's authorization** and **soft-pull only** (no impact on credit score).
+
+## Bureaus we use
+
+| Region           | Bureaus                                     |
+| ---------------- | ------------------------------------------- |
+| United States    | TransUnion (primary), Equifax (secondary)   |
+| Canada           | TransUnion Canada, Equifax Canada           |
+| United Kingdom   | TransUnion UK, Equifax UK                   |
+
+Note: we do **not** pull from Experian for U.S. consumer reports.
+
+## Pulling reports
+
+Members authorize a soft pull at signup. We re-pull weekly for active members, on-demand if they request a refresh. The pull is identified as Credit Karma's reseller account; no hard inquiry is created.
+
+The reseller relationship requires:
+
+- **Permissible purpose** under FCRA (member-authorized)
+- **Identity verification** before the first pull (KBA + document)
+- **Annual audits** by the bureau
+
+## Score model
+
+We surface VantageScore 3.0 (and 4.0 in 2026), refreshed weekly. We do **not** display FICO scores — those require a different data agreement.
+
+## Data shape
+
+The bureau returns:
+
+- Personal information (name variants, addresses, SSN)
+- Tradelines (each credit account)
+- Public records (collections, judgments, bankruptcies)
+- Inquiries (hard and soft)
+- Score and score factors
+
+We model this internally as the **Credit Profile** schema, normalized across bureaus.
+
+## Disputes
+
+Members can dispute items directly through Credit Karma:
+
+- We forward the dispute to the bureau
+- Bureau investigates with the data furnisher (the lender)
+- Resolution typically 30 days
+- Credit Profile updates on next refresh
+
+## Privacy and security
+
+Credit reports are highly sensitive — equivalent to `pii_critical` in our [Data classification](/engineering/security/data-classification). Storage controls:
+
+- Encrypted at rest with member-derived KMS keys
+- Tokenized SSNs (the bureau's match keys are tokens to us too)
+- Access audit logs retained 7 years
+- Member data exportable and deletable per CCPA / GDPR
+
+## Owner
+
+Credit Profile Engineering · `credit-profile@creditkarma.com`

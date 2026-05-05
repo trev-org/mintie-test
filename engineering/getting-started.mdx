@@ -1,0 +1,84 @@
+---
+title: "Engineering quickstart"
+description: "From zero to your first PR in a real Intuit service."
+icon: "rocket"
+---
+
+Goal: by end of week one, you have ssh'd into nothing, but you've cloned a service, run it locally, and merged a PR.
+
+## Day 1 (after laptop setup)
+
+<Steps>
+  <Step title="Verify Okta and GitHub Enterprise">
+    Visit `github.intuit.com`. If you can sign in via SSO, you're good. If not, file a [Help Desk ticket](/operations/it/help-desk).
+  </Step>
+  <Step title="Install the Intuit CLI">
+    The `intuit` CLI is the Swiss-army knife for all things internal. Install:
+    ```bash
+    brew install intuit/tap/intuit
+    intuit auth login
+    ```
+    This bootstraps AWS credentials, kubeconfig, and Vault tokens via Okta SSO.
+  </Step>
+  <Step title="Set up dev tools">
+    ```bash
+    intuit bootstrap dev
+    ```
+    Installs: JDK 21, Node 20 LTS, Go 1.22, Docker Desktop, kubectl, helm, AWS CLI, Snyk CLI, Terraform.
+  </Step>
+  <Step title="Generate SSH keys">
+    Use the helper:
+    ```bash
+    intuit ssh-key generate --upload-to-github
+    ```
+  </Step>
+</Steps>
+
+## Day 2 — clone and run a service
+
+Pick any service from the [Service catalog](/engineering/services/service-catalog) (your team will recommend one). Then:
+
+```bash
+gh repo clone intuit/<service-name>
+cd <service-name>
+intuit dev up
+```
+
+`intuit dev up` reads `.intuit/dev.yaml` and starts everything the service needs locally — usually a docker-compose with Postgres + Kafka + the service itself.
+
+If it doesn't work, the service's `README.md` should tell you why. If it doesn't, file a bug against the service team — they violated the [README standard](/engineering/practices/code-review).
+
+## Day 3 — your first PR
+
+The "hello world" test: change the service's health-check message or add your name to a CONTRIBUTORS file. Workflow:
+
+```bash
+git checkout -b yourname/hello-world
+# edit a file
+git commit -m "feat: add hello-world greeting"
+git push origin yourname/hello-world
+gh pr create
+```
+
+CI will run — see [CI/CD pipelines](/engineering/tooling/cicd-pipelines). Two reviewers required for code changes.
+
+## Day 4–5 — pick up your first ticket
+
+Your manager will assign a "starter ticket" — usually a 1–2 day fix. Real work, low risk. Goals:
+
+1. See the full lifecycle: ticket → PR → review → merge → deploy → metrics
+2. Meet your tech lead and reviewers
+3. Verify your access works for everything you'll touch later
+
+## What to read next
+
+<CardGroup cols={2}>
+  <Card title="Dev environment" icon="laptop" href="/engineering/dev-environment">Detailed local setup.</Card>
+  <Card title="Code review" icon="git-pull-request" href="/engineering/practices/code-review">Norms and turnaround expectations.</Card>
+  <Card title="Testing standards" icon="check-square" href="/engineering/practices/testing-standards">What we test, how, and when.</Card>
+  <Card title="ICP overview" icon="cloud" href="/engineering/intuit-cloud-platform">How services run in production.</Card>
+</CardGroup>
+
+## Owner
+
+Developer Experience · `devx@intuit.example`

@@ -1,0 +1,49 @@
+---
+title: "Audit Defense"
+description: "What Audit Defense covers and how it works internally."
+icon: "shield"
+---
+
+Audit Defense is a paid add-on (and a free benefit for some Live customers) that gives the customer professional representation if the IRS or a state taxing authority audits their return.
+
+## The customer offer
+
+- Coverage for the tax year purchased
+- Year-round access to a tax pro for IRS/state correspondence
+- Pro represents the customer in audits, examinations, and notices
+- Non-IRS-issue support: identity-theft assistance, schedule changes, etc.
+
+## Pricing (FY25)
+
+| Plan                        | Price          |
+| --------------------------- | -------------- |
+| Single tax year             | $39.99 / year  |
+| Multi-year (3-pack)         | $99.99         |
+| Live customers              | Bundled free   |
+
+## How customers redeem
+
+When the IRS sends a notice, the customer:
+
+1. Logs into TurboTax → My Account → Audit Defense → Open Case
+2. Uploads the IRS notice (PDF or photo)
+3. Tax pro reaches out within 1 business day
+4. Pro represents the customer, including filing Power of Attorney (Form 2848)
+
+## Internal architecture
+
+Audit Defense is run by **TaxAudit.com** (third party we partner with). We provide the entitlement, route cases to TaxAudit, and pass back status updates to the customer. No customer tax data goes to TaxAudit unless the customer provides it during the case.
+
+| Component                  | Role                                                            |
+| -------------------------- | --------------------------------------------------------------- |
+| `entitlements-service`     | Tracks which customer purchased coverage for which TY            |
+| `audit-defense-gateway`    | API bridge to TaxAudit                                          |
+| `case-management-ui`       | Customer-facing case viewer                                     |
+
+## Compliance
+
+The case workflow is subject to IRS Circular 230 (rules for tax practitioners). All TaxAudit pros are CPAs, EAs, or tax attorneys. Annual training and Intuit audits ensure compliance.
+
+## Owner
+
+TurboTax Live Product · `tt-live-product@intuit.example`
