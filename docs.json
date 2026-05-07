@@ -158,7 +158,8 @@
               "engineering/security/threat-modeling",
               "engineering/security/data-classification",
               "engineering/security/vulnerability-management",
-              "engineering/security/incident-response"
+              "engineering/security/incident-response",
+              "engineering/security/audit-log-dashboard"
             ]
           },
           {
