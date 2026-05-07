@@ -1,0 +1,124 @@
+---
+title: "Audit log dashboard"
+description: "Self-serve view of authentication and identity events for org admins."
+icon: "list-checks"
+---
+
+The audit log dashboard exposes the auth-event stream we already write server-side so org admins can answer their own security questions without filing a support ticket.
+
+It surfaces sign-in events, SSO link/unlink, SCIM provisioning, and API-key lifecycle events — filterable, exportable, and retained per plan tier.
+
+See also: [Identity & IAM](/engineering/services/identity-iam) for the underlying auth platform and [Incident response](/engineering/security/incident-response) for what to do if the dashboard surfaces something suspicious.
+
+## Who can see it
+
+Visible only to users with the `admin` role on an org. Non-admins do not see the navigation entry — there is no greyed-out state and no role-escalation prompt. Direct URL access by non-admins returns 404.
+
+Mintie support sees the same view through the existing impersonation flow. Impersonated views are themselves recorded as `audit.viewed` events, attributed to the support actor.
+
+## Where to find it
+
+Sign in as an org admin and open **Settings → Auth → Audit log** (`/settings/auth/audit-log`).
+
+The default view is a reverse-chronological table covering the last 7 days.
+
+## Event coverage
+
+The dashboard surfaces the event kinds emitted by `server/src/audit/log.ts`:
+
+| Kind                       | Emitted when                                      |
+| -------------------------- | ------------------------------------------------- |
+| `sso.signin`               | A user signs in via SSO (success or failure)      |
+| `sso.link`                 | An IdP identity is linked to an existing user     |
+| `sso.unlink`               | An IdP identity is unlinked from a user           |
+| `scim.user.provisioned`    | SCIM creates a user in the org                    |
+| `scim.user.deactivated`    | SCIM deactivates a user                           |
+| `apikey.issued`            | An API key is created                             |
+| `apikey.revoked`           | An API key is revoked                             |
+| `audit.viewed`             | An admin opens the audit log dashboard            |
+
+API-key *use* events are out of scope for the dashboard; they live with rate-limiting telemetry.
+
+## Columns
+
+| Column      | Notes                                                   |
+| ----------- | ------------------------------------------------------- |
+| Timestamp   | UTC, with the viewer's local time on hover              |
+| Actor       | User or system (e.g., SCIM, support impersonation)      |
+| Event kind  | One of the kinds above                                  |
+| IP / UA     | When the event has a network origin                     |
+| IdP         | When the event involves an IdP                          |
+| Outcome     | Success or failure (only on event kinds with outcomes)  |
+| Target      | The user, API key, or other resource the event acts on  |
+
+Click any row to open a detail panel with the full `meta` payload pretty-printed.
+
+## Filtering
+
+| Filter      | Options                                                                      |
+| ----------- | ---------------------------------------------------------------------------- |
+| Time range  | 24h, 7d, 30d, or custom up to your plan's retention limit                    |
+| Actor       | User picker, multi-select                                                    |
+| Event kind  | Multi-select, grouped as SSO / SCIM / API keys                               |
+| Outcome     | Success or failure — applies only to event kinds with an outcome             |
+| IP address  | Free-text contains-match                                                     |
+
+## Failure reasons
+
+`sso.signin` failures are normalized to a fixed set so the dashboard does not leak IdP-side implementation details:
+
+- `bad_credentials`
+- `mfa_failed`
+- `account_locked`
+- `network`
+
+The verbatim IdP message is preserved in the `meta` payload visible in the detail panel — useful when debugging a specific failed sign-in with the customer.
+
+## Exporting
+
+Two paths, both honoring the active filters:
+
+- **CSV** — click "Export CSV". For exports up to 10k rows the file downloads inline. Larger exports run as an async job and email the requesting admin a signed download link valid for 1 hour.
+- **JSON** — `GET /api/audit/export` with the same query parameters as the dashboard. Same auth as the dashboard.
+
+Example:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" \
+  "https://api.intuit.com/api/audit/export?from=2026-05-01&to=2026-05-07&kind=sso.signin&outcome=failure"
+```
+
+## Retention
+
+Hard-deleted on cron after the retention window. Customers needing longer retention should pull regularly via export.
+
+| Plan             | Retention | Export window |
+| ---------------- | --------- | ------------- |
+| Free / Starter   | 30 days   | 30 days       |
+| Business         | 90 days   | 90 days       |
+| Enterprise       | 365 days  | 365 days      |
+
+Retention is not customer-configurable. Plan tier controls the window uniformly.
+
+## What it is not
+
+- **Not a SIEM.** No alerting, no anomaly detection, no cross-event correlation. Pull events into your SIEM via export.
+- **Not real-time.** v1 has no webhook delivery — poll the export endpoint.
+- **Auth surface only.** Settings, billing, and content edits are not in this dashboard.
+- **Not cross-org.** Partner / MSP scenarios are not supported in v1.
+
+## Performance
+
+- p95 filtered query latency under 500ms within a 30-day window at 1M events/org.
+- Export job p95 under 60s for the 90-day window.
+- Reads run off a replica so the audit-log write path never sits in the auth hot path.
+
+## Common questions
+
+**Can I see sign-ins from a specific IP?** Yes — use the IP free-text filter.
+
+**Can I see what an admin did inside the dashboard?** Yes — `audit.viewed` is logged on page load.
+
+**Can I get longer than 365-day retention?** No. Export and store on your side.
+
+**Can I get a webhook stream?** Not in v1. Track the SSO migration project for follow-ups.
