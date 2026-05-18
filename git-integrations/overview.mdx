@@ -1,0 +1,48 @@
+---
+title: "Git integrations"
+description: "Connect Mintie to GitHub, GitLab Cloud, or self-hosted GitLab as the source of truth for your documentation"
+---
+
+Mintie keeps your docs in sync with a Git repository. Pushes to the default branch trigger a re-index, navigation updates, and (optionally) Slack notifications. Mintie supports three providers as first-class integrations:
+
+<CardGroup cols={3}>
+  <Card title="GitHub" icon="github">
+    OAuth + App install. Works for github.com and GitHub Enterprise Cloud.
+  </Card>
+  <Card title="GitLab Cloud" icon="gitlab" href="/git-integrations/gitlab">
+    OAuth against gitlab.com with project webhooks.
+  </Card>
+  <Card title="Self-hosted GitLab" icon="server" href="/git-integrations/self-hosted-gitlab">
+    OAuth against your own GitLab instance, with custom CA support and per-workspace instance URLs.
+  </Card>
+</CardGroup>
+
+## What Mintie does with your repo
+
+<Steps>
+  <Step title="Indexes docs files">
+    On connect and on every push to the default branch, Mintie discovers MDX and Markdown files and proposes a [navigation tree](/git-integrations/repository-indexing).
+  </Step>
+  <Step title="Subscribes to webhooks">
+    Mintie installs a webhook for push, merge-request, and pipeline events. These power preview deploys and [Slack notifications](/git-integrations/slack-notifications).
+  </Step>
+  <Step title="Renders SDK samples">
+    Code blocks that reference files in the linked repo (including private repos) are fetched at build time. See [SDK templates and code samples](/git-integrations/sdk-templates).
+  </Step>
+</Steps>
+
+## Choosing a provider
+
+| You have... | Use |
+| --- | --- |
+| github.com repos | GitHub |
+| gitlab.com repos | GitLab Cloud |
+| A self-hosted GitLab (on-prem, VPC, regulated industry) | [Self-hosted GitLab](/git-integrations/self-hosted-gitlab) |
+
+<Note>
+  Bitbucket, Gitea, and Azure DevOps are not currently supported. See the [PRD](https://mintie-test.atlassian.net/wiki/spaces/OOP/pages/2260993) for roadmap status.
+</Note>
+
+## Connection lifecycle
+
+A workspace can connect at most one Git provider at a time. Disconnecting tears down the OAuth grant and webhook, but leaves the last-built docs in place until you reconnect or delete the workspace.

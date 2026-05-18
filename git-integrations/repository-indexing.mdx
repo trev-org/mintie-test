@@ -1,0 +1,91 @@
+---
+title: "Repository indexing"
+description: "How Mintie discovers docs files in your linked Git repository and generates a navigation tree"
+---
+
+When you connect a repository, Mintie scans it for MDX and Markdown files and proposes a navigation tree. The scan runs again on every push to the default branch, so adding a new page is as simple as committing the file.
+
+## What gets indexed
+
+By default, Mintie indexes:
+
+- `**/*.mdx` and `**/*.md` files
+- Any file referenced by `docs.json` or `mint.json`, regardless of extension
+
+Mintie ignores:
+
+- `node_modules/`, `.git/`, `dist/`, `build/`
+- Anything matched by `.mintignore` at the repo root (same syntax as `.gitignore`)
+- Files larger than 2 MB
+
+## Two indexing modes
+
+<CardGroup cols={2}>
+  <Card title="docs.json driven" icon="file-code">
+    If a `docs.json` exists at the repo root, Mintie uses it verbatim. The auto-discovered files are still searchable but only the pages listed in `docs.json` appear in the sidebar.
+  </Card>
+  <Card title="Auto-generated" icon="wand-magic-sparkles">
+    If no `docs.json` is present, Mintie generates a navigation tree from the file structure. Folder names become group names; `index.mdx` becomes the group landing page.
+  </Card>
+</CardGroup>
+
+## Auto-generation rules
+
+When Mintie generates navigation from the file tree:
+
+| Path | Becomes |
+| --- | --- |
+| `quickstart.mdx` | Top-level page **Quickstart** |
+| `setup/okta.mdx` | Page **Okta** under group **Setup** |
+| `setup/index.mdx` | Group landing page for **Setup** |
+| `setup/_internal.mdx` | Ignored — files starting with `_` are excluded |
+
+Group ordering is alphabetical by default. To override, add a `.mintie-order` file inside the directory listing slugs one per line.
+
+## Re-index triggers
+
+| Trigger | Re-index scope |
+| --- | --- |
+| Push to default branch | Full re-index |
+| Push to non-default branch | Incremental, preview-only |
+| Manual **Re-index** button in dashboard | Full re-index |
+| Webhook delivery failure | None — fix the webhook, then click **Re-index** |
+
+## docs.json reference
+
+Minimal `docs.json` that fixes the order and excludes drafts:
+
+```json docs.json
+{
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": ["introduction", "quickstart"]
+      },
+      {
+        "group": "Setup",
+        "pages": ["setup/okta", "setup/google-workspace"]
+      }
+    ]
+  }
+}
+```
+
+## llms-full.txt and search
+
+Mintie generates `llms-full.txt` from indexed pages for AI assistants and crawlers. Pages that 404 or fail to render are excluded automatically — see the changelog entry for [the llms-full.txt fix](/changelog/overview) if you previously hit ghost entries.
+
+## Troubleshooting
+
+### "Page exists in the repo but not in the sidebar"
+
+If your repo has a `docs.json`, the page must be listed there. If you intended auto-generation, remove `docs.json` and click **Re-index**.
+
+### "Order keeps drifting"
+
+Add a `.mintie-order` file or commit a `docs.json`. Alphabetical ordering is the default precisely because it's deterministic without configuration.
+
+### "Re-index is stuck"
+
+Check the Git webhook health on the [Slack notifications](/git-integrations/slack-notifications) page. A failing webhook means Mintie never received the push event.
