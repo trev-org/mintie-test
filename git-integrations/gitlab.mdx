@@ -1,0 +1,64 @@
+---
+title: "GitLab Cloud"
+description: "Connect a gitlab.com repository to Mintie"
+---
+
+The GitLab Cloud connector is available from **Settings → Integrations → Git**. Pick **GitLab**, authorize against gitlab.com, and select the project you want Mintie to read from.
+
+## What the connector offers
+
+<CardGroup cols={2}>
+  <Card title="OAuth, no PAT required" icon="key">
+    Mintie uses GitLab OAuth 2.0. No long-lived personal access tokens to rotate.
+  </Card>
+  <Card title="Project + system webhooks" icon="bolt">
+    Mintie subscribes to push, merge-request, and pipeline events. See [Slack notifications](/git-integrations/slack-notifications).
+  </Card>
+  <Card title="Auto-indexed navigation" icon="list-tree">
+    Markdown and MDX files are discovered on connect. See [Repository indexing](/git-integrations/repository-indexing).
+  </Card>
+  <Card title="Private repo code samples" icon="code">
+    SDK templates can import directly from your repo. See [SDK templates](/git-integrations/sdk-templates).
+  </Card>
+</CardGroup>
+
+## Connect GitLab Cloud
+
+<Steps>
+  <Step title="Open the integrations page">
+    In Mintie, go to **Settings → Integrations → Git** and pick **GitLab**.
+  </Step>
+  <Step title="Authorize with gitlab.com">
+    You're redirected to gitlab.com to approve the `read_repository`, `read_user`, and `api` scopes. Approve as a user with **Maintainer** or higher on the target project.
+  </Step>
+  <Step title="Pick the project">
+    After redirect, choose the project from the list. Mintie remembers the project's numeric ID, so renames don't break the link.
+  </Step>
+  <Step title="Confirm the webhook">
+    Mintie installs a project webhook automatically. The integrations page shows **Webhook: healthy** within a few seconds. If it stays **Pending**, see [Troubleshooting](#troubleshooting).
+  </Step>
+</Steps>
+
+## Required permissions
+
+| Scope | Used for |
+| --- | --- |
+| `read_repository` | Cloning and reading docs files |
+| `read_user` | Identifying the connecting user in audit logs |
+| `api` | Installing the project webhook and reading MR metadata |
+
+Mintie never requests `write_repository`. PR-style suggestions are proposed via a connected GitHub mirror or comment-only flow.
+
+## Troubleshooting
+
+### Webhook stays Pending
+
+Mintie cannot reach your GitLab instance, or the OAuth user lacks Maintainer. Click **Reinstall webhook** on the integrations page. If that fails, check that `https://hooks.mintie.example` is reachable from your network egress.
+
+### "Project not visible"
+
+The OAuth user must have at least **Reporter** on private projects. Re-run the OAuth flow as a Maintainer.
+
+### Self-hosted GitLab
+
+If your GitLab instance is not gitlab.com, use [Self-hosted GitLab](/git-integrations/self-hosted-gitlab) instead — the Cloud connector hard-codes `gitlab.com` as the OAuth host.

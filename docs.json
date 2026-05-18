@@ -72,6 +72,17 @@
                 "pages": ["api-and-keys/api-keys"]
               },
               {
+                "group": "Git integrations",
+                "pages": [
+                  "git-integrations/overview",
+                  "git-integrations/gitlab",
+                  "git-integrations/self-hosted-gitlab",
+                  "git-integrations/slack-notifications",
+                  "git-integrations/repository-indexing",
+                  "git-integrations/sdk-templates"
+                ]
+              },
+              {
                 "group": "Security",
                 "pages": ["security/mfa", "security/audit-logs"]
               },
