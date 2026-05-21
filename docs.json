@@ -3,9 +3,9 @@
   "theme": "palm",
   "name": "Morse Micro Documentation",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#55D799",
-    "dark": "#0D9373"
+    "primary": "#571C76",
+    "light": "#FFFFFF",
+    "dark": "#9A8CA0"
   },
   "navigation": {
     "groups": [
@@ -24,5 +24,13 @@
         ]
       }
     ]
+  },
+  "logo": {
+    "light": "/images/LOGO_ICONBLACKFULL.png",
+    "dark": "/images/LOGO_ICONWHITEEMPTY.png"
+  },
+  "fonts": {
+    "family": "Lato",
+    "weight": 300
   }
 }
