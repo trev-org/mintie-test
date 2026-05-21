@@ -30,7 +30,12 @@
     "dark": "/images/LOGO_ICONWHITEEMPTY.png"
   },
   "fonts": {
-    "family": "Lato",
-    "weight": 300
+    "heading": {
+      "family": "Lato",
+      "weight": 900
+    },
+    "body": {
+      "family": "Lato"
+    }
   }
 }
