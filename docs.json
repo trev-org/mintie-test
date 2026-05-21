@@ -1,6 +1,10 @@
 {
   "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
   "name": "Morse Micro Documentation",
+  "colors": {
+    "primary": "#ffffff"
+  },
   "navigation": {
     "tabs": [
       {
