@@ -120,8 +120,6 @@ This will generate output like:
 | INFO We suggest leaving the Extender’s terminal open while you configure the Access Point. |
 | :-- |
 
-## 
-
 ## **Configure the HaLowLink Access Point**
 
 ### **1. Reset the HaLowLink (Optional)**
