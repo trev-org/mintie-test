@@ -222,5 +222,8 @@
       "family": "Lato",
       "weight": 300
     }
+  },
+  "appearance": {
+    "strict": true
   }
 }
