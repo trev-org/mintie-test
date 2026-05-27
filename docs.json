@@ -11,20 +11,200 @@
     "groups": [
       {
         "group": "Home",
-        "pages": ["index"]
-      },
-      {
-        "group": "Test Docs",
         "pages": [
-          "EKH05_Evaluation_Kit_User_Guide_0_1_4",
-          "MM8108-MF15457_Hardware_Design_Guide_0_1_1",
-          "HaLowLink_User_Guide_0_1_4",
-          "AppNote_38_version_0_1_3",
-          "MM6108_Data_Sheet"
-        ]
+          "index"
+        ],
+        "icon": "house"
       },
       {
         "group": "User Guides",
+        "pages": [
+          "HaLowLink_User_Guide_0_1_4",
+          "EKH05_Evaluation_Kit_User_Guide_0_1_4"
+        ],
+        "icon": "book-open-cover"
+      },
+      {
+        "group": "Application Notes",
+        "icon": "pencil-mechanical",
+        "pages": [
+          "AppNote_38_version_0_1_3"
+        ]
+      },
+      {
+        "group": "Datasheets",
+        "icon": "database",
+        "pages": [
+          {
+            "group": "Chips",
+            "icon": "microchip",
+            "pages": [
+              "MM6108_Data_Sheet"
+            ]
+          },
+          {
+            "group": "Modules",
+            "icon": "microchip",
+            "pages": []
+          }
+        ]
+      },
+      {
+        "group": "Software Releases",
+        "icon": "keyboard",
+        "pages": [
+          {
+            "group": "IoT (FreeRTOS)",
+            "icon": "keyboard",
+            "pages": [
+              {
+                "group": "v2.11.2",
+                "icon": "keyboard",
+                "pages": []
+              },
+              {
+                "group": "v2.10.4",
+                "icon": "keyboard",
+                "pages": []
+              },
+              {
+                "group": "CMSIS Pack",
+                "icon": "keyboard",
+                "pages": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Linux",
+        "icon": "book-blank",
+        "pages": [
+          {
+            "group": "HaLowLink 2",
+            "icon": "link-horizontal",
+            "pages": []
+          },
+          {
+            "group": "HaLowLink 1",
+            "icon": "link-horizontal",
+            "pages": []
+          },
+          {
+            "group": "Evaluation Kit Images",
+            "icon": "camera",
+            "pages": [
+              {
+                "group": "MM8108-EKH01",
+                "icon": "camera",
+                "pages": []
+              },
+              {
+                "group": "MM8108-EKH19",
+                "icon": "camera",
+                "pages": []
+              },
+              {
+                "group": "MM6108-EKH01-05-US",
+                "icon": "camera",
+                "pages": []
+              },
+              {
+                "group": "MM6108-EKH03",
+                "icon": "camera",
+                "pages": []
+              }
+            ]
+          },
+          {
+            "group": "Driver",
+            "icon": "usb-drive",
+            "pages": [
+              {
+                "group": "v1.17.9",
+                "icon": "usb-drive",
+                "pages": []
+              },
+              {
+                "group": "v1.17.8",
+                "icon": "usb-drive",
+                "pages": []
+              },
+              {
+                "group": "v1.16.4",
+                "icon": "usb-drive",
+                "pages": []
+              }
+            ]
+          },
+          {
+            "group": "OpenWrt",
+            "icon": "book-open",
+            "pages": [
+              {
+                "group": "v2.11.12",
+                "icon": "book-open",
+                "pages": []
+              },
+              {
+                "group": "V2.9.3",
+                "icon": "book-open",
+                "pages": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Design Resources",
+        "icon": "pencil",
+        "pages": [
+          {
+            "group": "Hardware Design Resources",
+            "icon": "pencil",
+            "pages": [
+              "MM8108-MF15457_Hardware_Design_Guide_0_1_1"
+            ]
+          },
+          {
+            "group": "Carrier Board Design Packages",
+            "icon": "pencil",
+            "pages": []
+          },
+          {
+            "group": "Module Design Packages",
+            "icon": "pencil",
+            "pages": []
+          },
+          {
+            "group": "Reference Design Packages",
+            "icon": "pencil",
+            "pages": []
+          },
+          {
+            "group": "Tool Design Packages",
+            "icon": "pencil",
+            "pages": []
+          }
+        ]
+      },
+      {
+        "group": "Tools",
+        "icon": "toolbox",
+        "pages": [
+          {
+            "group": "BCF Editor",
+            "icon": "toolbox",
+            "pages": [
+              "v3-4-1",
+              "v2-9-1"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Certifications",
+        "icon": "square-check",
         "pages": []
       }
     ]
