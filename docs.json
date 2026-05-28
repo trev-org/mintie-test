@@ -206,6 +206,13 @@
         "group": "Certifications",
         "icon": "square-check",
         "pages": []
+      },
+      {
+        "group": "Changelog",
+        "icon": "clock-rotate-left",
+        "pages": [
+          "changelog/2026-05-28"
+        ]
       }
     ]
   },
