@@ -5,7 +5,7 @@
   "colors": {
     "primary": "#571C76",
     "light": "#FFFFFF",
-    "dark": "#ffffff"
+    "dark": "#3D1A50"
   },
   "navigation": {
     "groups": [
@@ -227,10 +227,16 @@
     },
     "body": {
       "family": "Lato",
-      "weight": 300
+      "weight": 500
     }
   },
   "appearance": {
-    "strict": true
+    "strict": false
+  },
+  "background": {
+    "color": {
+      "light": "#EDEACE",
+      "dark": "#000000"
+    }
   }
 }
