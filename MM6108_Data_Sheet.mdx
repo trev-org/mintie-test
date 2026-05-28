@@ -1,0 +1,502 @@
+---
+title: "MM6108 Data Sheet"
+description: "Wi-Fi HaLow / IEEE 802.11ah Sub-1 GHz 1/2/4/8 MHz Bandwidth MAC/PHY/Radio SoC"
+---
+
+# MM6108 SoC Data Sheet
+
+Wi-Fi HaLow / IEEE 802.11ah · Sub-1 GHz 1/2/4/8 MHz Bandwidth · MAC/PHY/Radio SoC
+
+---
+
+## 1 Product Overview
+
+### 1.1 Introduction
+
+Wi-Fi HaLow (pronounced HEY-low) is the first global Wi-Fi standard (IEEE 802.11ah) tailored to meet the Internet of Things (IoT) needs. It operates in the sub-1 GHz license-exempt RF bands (850–950 MHz range), enabling longer range, lower power, and lower cost than traditional Wi-Fi.
+
+Morse Micro, the world's leading Wi-Fi HaLow (802.11ah) solutions provider, offers several Wi-Fi HaLow connectivity solutions. The MM6108 SoC is a single-chip solution that includes Radio, PHY, and MAC functions compliant with the IEEE 802.11ah standard and supports data rates up to 32.5 Mbps. The radio supports programmable operation between 850 MHz and 950 MHz.
+
+The MM6108 has been designed for a simplified Wi-Fi HaLow connection to an external host. The RF interface includes the option to use either on-chip amplification for typical low-power, low-cost devices, or an external PCB-mounted power amplifier for ultra-long-reach applications.
+
+### 1.2 Features
+
+**Radio**
+
+- Single-stream max data rate of 32.5 Mbps (MCS=7, 64-QAM, 8 MHz channel, 4 µs GI)
+- Worldwide Sub-1 GHz frequency bands: 850–950 MHz
+- Channel bandwidth options: 1/2/4/8 MHz
+- Max output power: 8 dBm
+
+**802.11ah OFDM PHY**
+
+- BPSK, QPSK, 16-QAM and 64-QAM modulation
+- Automatic frequency and gain control
+- Forward Error Correction (FEC) coding and decoding
+- MCS levels 0–7 and MCS 10
+- Supports 1 MHz duplicate mode, Traveling Pilots, and Short Guard Intervals
+
+**802.11ah MAC (WFA HaLow certified)**
+
+- STA and AP roles
+- Listen-Before-Talk (LBT) with energy detect
+- 802.11 power save, fragmentation, packet aggregation
+- Target Wake Time (TWT) for long battery life
+- Restricted Access Window (RAW)
+- Automatic and manual MCS rate selection
+
+**Host Interface**
+
+- SDIO 2.0 slave (DS 25 MHz / HS 50 MHz), 1-bit and 4-bit modes
+- SPI mode operation supported
+
+**Power Management**
+
+- Power-down, Hibernate, and Active Rx/Tx modes
+- Integrated DC-DC converter, 3.0–3.6V supply
+
+**Security**
+
+- AES encryption engine
+- SHA-256, SHA-384, SHA-512 hardware support
+- WPA3 with Protected Management Frames (PMF)
+- Opportunistic Wireless Encryption (OWE)
+
+### 1.3 Applications
+
+IoT and M2M applications including: Surveillance Cameras, Cloud Connectivity, Low-power Sensor Networks, Building Automation, Asset Tracking, Industrial Automation, Smart Home, EV Car Chargers, Smart City Networks, Wi-Fi HaLow Client Adapters/Dongles, Agricultural Networks, Utility Smart Meters, and BT/ZigBee/Z-Wave to Wi-Fi HaLow Gateways.
+
+---
+
+## 2 Pin Descriptions
+
+The MM6108 device has 48 pins in a QFN 6x6 package.
+
+| Pin | Pin Name | Type | Description |
+| --- | --- | --- | --- |
+| 1, 2, 4, 6 | GND | Ground | Ground |
+| 3 | GPAIO | Analog | Analog test pin |
+| 5 | RFIN | RF | RF input |
+| 7 | RFOUT | RF | RF output |
+| 8 | CAPR | Power | Bypass capacitor for RF supply |
+| 9 | WAKE | Input | WAKE from sleep input |
+| 10 | RESET\_N | Input | Asynchronous chip reset (active low) |
+| 11 | VBAT\_PWR | Power | IC Power Supply |
+| 12 | IND | Analog | Inductor connection for integrated power management |
+| 13 | VBUCK\_FB | Power | Connection for integrated power management |
+| 14 | VBUCK | Power | Connection for integrated power management |
+| 15 | VBAT\_AON | Power | IC Power Supply (must match VBAT\_PWR source) |
+| 16 | CAPD | Power | Bypass capacitor for digital supply |
+| 17 | BUSY | Digital I/O | Wi-Fi Busy |
+| 18–23 | GPIO1–GPIO6 | Digital I/O | GPIO |
+| 24 | VDDIO | Power | VDD supply for digital IO |
+| 25 | SDIO\_D3 | Digital I/O | SDIO Data 3 |
+| 26 | SDIO\_D2 | Digital I/O | SDIO Data 2 |
+| 27 | SDIO\_D1 | Digital I/O | SDIO Data 1 / IRQ (1-bit mode) |
+| 28 | EXT\_HOST\_SEL | Digital I/O | External Host Select |
+| 29 | SDIO\_D0 | Digital I/O | SDIO Data 0 |
+| 30 | SDIO\_CMD | Digital I/O | SDIO Command |
+| 31 | SDIO\_CLK | Digital I/O | SDIO Clock |
+| 32–40 | GPIO7–GPIO15 | Digital I/O | GPIO / RF FEM CTRL |
+| 41 | JTAG\_TDO | Digital I/O | JTAG Data Out |
+| 42 | JTAG\_TMS | Digital I/O | JTAG Mode Select |
+| 43 | JTAG\_TDI | Digital I/O | JTAG Data In |
+| 44 | JTAG\_TRST | Digital I/O | JTAG Reset |
+| 45 | JTAG\_TCK | Digital I/O | JTAG Clock |
+| 46 | XON | Analog | 32 MHz crystal connection |
+| 47 | XOP | Analog | 32 MHz crystal connection |
+| 48 | XTAL\_BIAS | Analog | Crystal Bias |
+| — | GND pad | Ground | Exposed ground pad — must connect to PCB ground |
+
+**Notes:**
+
+1. JTAG pins should be tied to GND via a 10 kΩ pull-down resistor.
+2. All unused GPIO should be tied to GND via a 10 kΩ pull-down resistor.
+3. All SDIO bus pins should be pulled up with 10 kΩ–100 kΩ resistors per the SDIO standard.
+4. WAKE and RESET\_N are supplied from the VBAT domain; other pins from VDDIO.
+
+---
+
+## 3 Functional Description
+
+### 3.1 Functional Block Diagram
+
+The MM6108 SoC integrates a Sub-GHz RF Frontend (LNA, PA, ADC, DAC), RF PLL and Digital PLL (clocked by 32 MHz XTAL), 802.11ah PHY (FEC, OFDM, scrambling/descrambling), 802.11ah MAC with AES security, Wi-Fi HaLow API layer, SDIO/SPI Slave Interface, and a Power Management and Deep Sleep Unit.
+
+### 3.2 Clocks
+
+The MM6108 uses a 32 MHz crystal connected between XOP and XON via a Pierce oscillator circuit. Load capacitors C1 and C2 should be high-accuracy NP0 dielectric: **C1 = C2 = 2 x CL**.
+
+| Parameter | Min | Max | Unit |
+| --- | --- | --- | --- |
+| Frequency tolerance | −20 | \+20 | ppm |
+| ESR | 10 | 50 | ohm |
+
+### 3.3 Power Management
+
+All power is derived from a 3.0–3.6V supply on VBAT\_PWR and VBAT\_AON. VDDIO must not exceed VBAT. An internal buck converter requires a 10 µH inductor between IND and VBUCK\_FB, plus ceramic decoupling capacitors at CAPR, CAPD, and VBAT\_AON. For regular boot operation, JTAG\_TRST must be pulled to GND with a 10 kΩ resistor.
+
+---
+
+## 4 Digital Interfaces
+
+### 4.1 SDIO Device
+
+SDIO 2.0 interface operating at 3.3V. Pin 28 (EXT\_HOST\_SEL) must be pulled up to VDDIO to enable the interface.
+
+#### 4.1.1 Pins
+
+| Pin | Name | SDIO 4-bit | SDIO 1-bit |
+| --- | --- | --- | --- |
+| 25 | D3 | Data pin 3 | Unused |
+| 26 | D2 | Data pin 2 | Unused |
+| 27 | D1 | Data pin 1 | IRQ |
+| 28 | EXT\_HOST\_SEL | Interface enable strap (tie high) | Interface enable strap |
+| 29 | D0 | Data pin 0 | Data pin 0 |
+| 30 | CMD | Command pin | Command pin |
+| 31 | CLK | Clock (input) | Clock (input) |
+
+#### 4.1.2 Functions
+
+The SDIO presents two functions beyond mandatory Function 0. Function 1 supports transactions up to 8 bytes; Function 2 supports up to 512 bytes for bulk data transfers.
+
+#### 4.1.3 Bus Timing
+
+| Parameter | Min | Max | Unit |
+| --- | --- | --- | --- |
+| Clock frequency | 0 | 50 | MHz |
+| Clock low time (tWL) | 7 | — | ns |
+| Clock high time (tWH) | 7 | — | ns |
+| Clock rise time (tLH) | 3 | — | ns |
+| Clock fall time (tHL) | 3 | — | ns |
+| Input setup time (tISU) | 6 | — | ns |
+| Input hold time (tIH) | 2 | — | ns |
+| Output delay max | — | 14 | ns |
+| Output hold time min | 2.5 | — | ns |
+| System capacitance per line | — | 40 | pF |
+
+### 4.2 SPI Device
+
+#### 4.2.1 Pins
+
+| Pin | Name | SPI Function |
+| --- | --- | --- |
+| 25 | CS | Chip select (active low) |
+| 26 | NC | Not connected (tie to VDDIO) |
+| 27 | INT | Interrupt |
+| 28 | EXT\_HOST\_SEL | Interface enable strap (tie to VDDIO) |
+| 29 | MISO | Master in / slave out |
+| 30 | MOSI | Master out / slave in |
+| 31 | CLK | Clock (input) |
+
+#### 4.2.2 Initialization
+
+To switch to SPI mode, the host sends CMD0 while holding CS low after power-on. See SD Specification Part E1 ("SDIO Simplified Specification," v2.00) for protocol details.
+
+#### 4.2.3 Bus Timing
+
+SPI clock rate supports up to 50 MHz. Timing is identical to the SDIO specification. Defaults to CPOL=0; can be configured for CPHA=0 after initialization.
+
+### 4.3 GPIO
+
+16 GPIO pins are high-impedance at reset and during power save modes. All unused pins should be pulled up or down to ensure the lowest sleep currents.
+
+### 4.4 Sleep/Wake Sequencing
+
+#### 4.4.1 Host Wakes MM6108 from Sleep
+
+1. Driver raises the wake pin and waits 10 ms before initializing the shared bus.
+2. After communication, the driver waits 5–90 ms before lowering the wake pin.
+3. After the wake pin falls, the MM6108 waits a dynamic period before initiating hardware sleep.
+
+#### 4.4.2 MM6108 Wakes Host from Sleep (Host Interface Disabled)
+
+1. MM6108 wakes and asserts the busy pin.
+2. Host receives interrupt, raises the wake pin, waits 10 ms, and enables the host interface.
+3. MM6108 initiates communication immediately after asserting busy.
+4. Busy drops once communication is complete; the host waits before dropping the wake pin.
+5. After the wake pin falls, the MM6108 initiates hardware sleep.
+
+#### 4.4.3 MM6108 Initiates Communication (Host Interface Enabled)
+
+1. MM6108 was previously woken by the host.
+2. MM6108 asserts the busy pin to send data back to the host.
+3. The host processes the interrupt but takes no further action — wake pin and host interface are already active.
+4. After communication completes, hardware sleep is initiated.
+
+---
+
+## 5 Electrical Characteristics
+
+### 5.1 Absolute Maximum Ratings
+
+<Warning>
+  Stress beyond absolute maximum ratings may cause permanent damage. Functional operation is guaranteed for recommended operating conditions only.
+</Warning>
+
+| Parameter | Min | Max | Unit |
+| --- | --- | --- | --- |
+| VBAT voltage | −0.3 | 4.3 | V |
+| Voltage on digital I/O pin | −0.3 | 4.3 | V |
+| Voltage on analog/RF pin | −0.3 | 1.32 | V |
+| Storage Temperature | −40 | 125 | °C |
+| RF Input Power (CW) | — | 6 | dBm |
+
+### 5.2 Immunity (ESD)
+
+| Test | Pins | Min | Max | Unit |
+| --- | --- | --- | --- | --- |
+| HBM (ANSI/ESDA/JEDEC JS001) | RF Input | −500 | 500 | V |
+| HBM | All other pins | −2000 | 2000 | V |
+| CDM (JESD22-C101) | All pins | −500 | 500 | V |
+
+### 5.3 Recommended Operating Conditions
+
+| Parameter | Min | Typ | Max | Unit |
+| --- | --- | --- | --- | --- |
+| Ambient Temperature (MM6108IQ) | −40 | 25 | 85 | °C |
+| VBAT / VBAT\_AON | 3.0 | 3.3 | 3.6 | V |
+| VDDIO | 1.62 | 3.3 | 3.6 | V |
+| Digital I/O voltage | 0 | 3.3 | VDDIO | V |
+
+### 5.4 Power Consumption
+
+#### Transmit (TA = 25°C, VBAT/VDDIO = 3.3V)
+
+| Mode | BW | Min (mA) | Typ (mA) | Max (mA) |
+| --- | --- | --- | --- | --- |
+| MCS7, 3 dBm, 100% DC | 1 MHz | 33 | 43 | 53 |
+| MCS7, 3 dBm, 100% DC | 2 MHz | 39 | 45 | 52 |
+| MCS7, 3 dBm, 100% DC | 4 MHz | 46 | 52 | 60 |
+| MCS7, 3 dBm, 100% DC | 8 MHz | 56 | 63 | 76 |
+| MCS0, 6 dBm, 100% DC | 1 MHz | 43 | 58 | 76 |
+| MCS0, 6 dBm, 100% DC | 2 MHz | 37 | 47 | 60 |
+| MCS0, 6 dBm, 100% DC | 4 MHz | 45 | 54 | 62 |
+| MCS0, 6 dBm, 100% DC | 8 MHz | 57 | 67 | 77 |
+
+#### Receive (TA = 25°C, VBAT/VDDIO = 3.3V)
+
+| Mode | BW | Min (mA) | Typ (mA) | Max (mA) |
+| --- | --- | --- | --- | --- |
+| Listen | 1 MHz | 22 | 26 | 31 |
+| Listen | 2 MHz | 24 | 28 | 33 |
+| Listen | 4 MHz | 27 | 32 | 38 |
+| Listen | 8 MHz | 32 | 37 | 43 |
+| Active Rx MCS7 | 1 MHz | 24 | 26 | 35 |
+| Active Rx MCS7 | 8 MHz | 45 | 53 | 61 |
+| Active Rx MCS0 | 1 MHz | 20 | 26 | 35 |
+| Active Rx MCS0 | 8 MHz | 45 | 48 | 59 |
+
+#### Sleep (TA = 25°C, VBAT/VDDIO = 3.3V)
+
+| Mode | Description | Min | Typ | Max | Unit |
+| --- | --- | --- | --- | --- | --- |
+| Snooze | RC Osc on, memory retained, wake timer | 9.5 | 42 | 370 | µA |
+| Deep sleep | RC Osc on, wake timer | 0.8 | 1 | 1.8 | µA |
+| Hibernate | Power off, external interrupt wake | 0.03 | 0.05 | 1 | µA |
+
+#### DTIM3 Power Consumption (102.4 ms Beacon Interval)
+
+| Mode | BW | Min (µA) | Typ (µA) | Max (µA) |
+| --- | --- | --- | --- | --- |
+| S1G beacons | 1/2 MHz | 370 | 385 | 395 |
+| S1G beacons | 4/8 MHz | 265 | 275 | 285 |
+| With proprietary DTIM signaling | 1/2 MHz | 170 | 188 | 200 |
+| With proprietary DTIM signaling | 4/8 MHz | 165 | 175 | 185 |
+
+#### DTIM10 Power Consumption (102.4 ms Beacon Interval)
+
+| Mode | BW | Min (µA) | Typ (µA) | Max (µA) |
+| --- | --- | --- | --- | --- |
+| S1G beacons | 1/2 MHz | 135 | 140 | 155 |
+| S1G beacons | 4/8 MHz | 95 | 105 | 120 |
+| With proprietary DTIM signaling | 1/2 MHz | 80 | 85 | 100 |
+| With proprietary DTIM signaling | 4/8 MHz | 75 | 80 | 95 |
+
+### 5.5 RF Specifications
+
+#### Frequency Range
+
+| Region | Sub-1 GHz Bands (MHz) | Total BW (MHz) |
+| --- | --- | --- |
+| USA | 902–928 | 26 |
+| Europe | 863–868, 917.4–919.4 | 7 |
+| Australia | 915–928 | 13 |
+| Japan | 915.9–928.1 | 11 |
+| Singapore | 866–869, 920–925 | 8 |
+| India | 865–868 | 3 |
+
+#### Receiver Sensitivity (10% PER, 1000-byte packets)
+
+| MCS | Modulation | Code Rate | 1 MHz (dBm) | 2 MHz (dBm) | 4 MHz (dBm) | 8 MHz (dBm) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 10 | BPSK | 1/2 x2 | −107 | N/A | N/A | N/A |
+| 0 | BPSK | 1/2 | −105 | −103 | −101 | −97 |
+| 1 | QPSK | 1/2 | −102 | −100 | −97 | −93 |
+| 2 | QPSK | 3/4 | −99 | −97 | −95 | −91 |
+| 3 | 16-QAM | 1/2 | −96 | −94 | −91 | −88 |
+| 4 | 16-QAM | 3/4 | −93 | −90 | −88 | −85 |
+| 5 | 64-QAM | 2/3 | −89 | −87 | −84 | −80 |
+| 6 | 64-QAM | 3/4 | −88 | −85 | −83 | −79 |
+| 7 | 64-QAM | 5/6 | −87 | −84 | −81 | −77 |
+
+#### Transmitter Output Power (1/2 MHz BW)
+
+<Note>
+  These power levels are for IEEE 802.11ah compliance only and do not account for regional spectrum backoffs (FCC, IC, TELEC, etc.).
+</Note>
+
+|  | Min (dBm) | Typ (dBm) | Max (dBm) |
+| --- | --- | --- | --- |
+| MCS 0 | 5.3 | 6.4 | 7.4 |
+| MCS 7 | 1.4 | 2.8 | 4.1 |
+
+### 5.6 Digital Specifications
+
+#### Power-on and Reset Timing
+
+| Parameter | Description | Min | Max | Unit |
+| --- | --- | --- | --- | --- |
+| VIL\_nRST | Reset threshold | — | 450 | mV |
+| t0 | Time between VBAT at 3.3V and RESET\_N activation | 50 | — | µs |
+| t1 | RESET\_N duration to reset chip | 1000 | — | µs |
+| tB | Boot Time | — | 6 | ms |
+
+---
+
+## 6 Package Information
+
+**Package:** 48-pin QFN 6x6 mm
+
+| Symbol | Description | Min (mm) | Nom (mm) | Max (mm) |
+| --- | --- | --- | --- | --- |
+| A | Total thickness | 0.80 | 0.85 | 0.90 |
+| D / E | Package size | 5.9 | 6.0 | 6.1 |
+| D1 / E1 | Exposed pad size | 4.4 | 4.5 | 4.6 |
+| L | Lead length | 0.3 | 0.4 | 0.5 |
+| e | Lead pitch | — | 0.4 | — |
+| b | Lead width | 0.15 | 0.20 | 0.25 |
+
+### Thermal Properties
+
+| Package | Power (W) | Ta (°C) | Theta JA (°C/W) | Psi JT (°C/W) | Theta JC (°C/W) |
+| --- | --- | --- | --- | --- | --- |
+| 48 QFN 6x6 | 1 | 25 | 31.22 | 0.26 | 15.703 |
+
+Maximum junction temperature: 125°C.
+
+### IC Markings
+
+| Line | Format | Example | Description |
+| --- | --- | --- | --- |
+| 1 | MMXXXXMDSn | MM6108MIQ | Device number, temperature grade, package type |
+| 2 | TA12 YYWW | TA2103 | Fab/assembly codes, silicon revision, date code |
+| 3 | XXXXXXX | MOR946N001 | 8-digit assembly lot number |
+
+All Morse Micro ICs are lead-free.
+
+---
+
+## 7 PCB Land Pattern
+
+| Key | Dimension (mm) |
+| --- | --- |
+| A | 0.90 |
+| B | 0.20 |
+| C | 0.40 |
+| D / E | 5.80 |
+| F / G | 4.50 |
+
+---
+
+## 8 Solder Stencil Pattern
+
+| Key | Dimension (mm) |
+| --- | --- |
+| A | 0.80 |
+| B | 0.15 |
+| C | 0.40 |
+| D / E | 5.80 |
+| X / Y | 2.00 |
+| Z | 0.50 |
+
+---
+
+## 9 Recommended Soldering Profile
+
+| Package Thickness | less than 350 mm3 | 350–2000 mm3 | greater than 2000 mm3 |
+| --- | --- | --- | --- |
+| less than 1.6 mm | 260°C | 260°C | 260°C |
+| 1.6–2.5 mm | 260°C | 250°C | 245°C |
+| greater than 2.5 mm | 250°C | 245°C | 245°C |
+
+| Profile Feature | Pb-free Assembly |
+| --- | --- |
+| Preheat Tsmin to Tsmax | 150°C to 200°C, 60–120 s |
+| Ramp-up rate (TL to TP) | 3°C/s max |
+| Liquidus temperature (TL) | 217°C, maintained 60–150 s |
+| Time within 5°C of TC | 30 s |
+| Ramp-down rate | 6°C/s max |
+| Total time 25°C to peak | 8 minutes max |
+
+---
+
+## 10 Packaging and Labeling
+
+### Tape and Reel
+
+| Term | Value |
+| --- | --- |
+| Units per reel | 3,000 |
+| Reel size | 13 inches |
+| Dry Bake | 125°C / 24 hours (MSL3) |
+| Vacuum Seal | Yes |
+
+### Tray
+
+| Term | Value |
+| --- | --- |
+| Units per tray | 490 |
+| Tray size | 322.6 mm x 135.9 mm |
+| Dry Bake | 125°C / 24 hours (MSL3) |
+| Vacuum Seal | Yes |
+
+---
+
+## 11 Handling and Storage
+
+The MM6108IQ is rated at **Moisture Sensitive Level 3 (MSL3)** per IPC/JEDEC J-STD-20.
+
+After opening the moisture-sealed bag, modules must be:
+
+1. Mounted within **168 hours** at conditions of 30°C or less and less than 60% RH, **OR**
+2. Stored continuously per IPC/JEDEC J-STD-033.
+
+ICs exposed to out-of-spec conditions **must be baked** per IPC/JEDEC J-STD-033 before mounting. Failure to comply will result in irreparable damage during solder reflow.
+
+---
+
+## 12 Part Number and Ordering Information
+
+| Part Number | Packing | MOQ | Package | Description | Temp Range |
+| --- | --- | --- | --- | --- | --- |
+| MM6108IQ-T | Tray | 490 | QFN 6x6 | IEEE 802.11ah Sub-1 GHz Wi-Fi HaLow SoC | −40°C to 85°C |
+| MM6108IQ-TR | Tape and Reel | 3,000 | QFN 6x6 | IEEE 802.11ah Sub-1 GHz Wi-Fi HaLow SoC | −40°C to 85°C |
+
+---
+
+## 13 Revision History
+
+| Release | Date | Notes |
+| --- | --- | --- |
+| DS104 | 17 Jun 2025 | Updated formatting |
+| DS103 | 15 Dec 2023 | Added power sequencing, Vih/Vil/Voh/Vol specs, solder profile, packaging, chip markings, sleep/wake sequencing |
+| DS102 | 8 Apr 2022 | Updated RF spectrum range, added PCB land pattern and solder stencil, updated electrical characteristics |
+| DS101 | 4 Nov 2021 | Updated recommended operating conditions, Tx/Rx power, Adjacent Channel Rejection |
+| DS100 | 1 Jun 2021 | Initial release |
+
+---
+
+_Copyright © Morse Micro Pty. Ltd. · Level 8, 10–14 Waterloo Street, Surry Hills NSW 2010, Australia · [sales@morsemicro.com](mailto:sales@morsemicro.com)_
+
+_Refer to the online version for up-to-date content. Proprietary and Confidential._
