@@ -49,7 +49,9 @@
               {
                 "group": "Modules",
                 "icon": "microchip",
-                "pages": []
+                "pages": [
+                  "MM8108-MF15457_Data_Sheet"
+                ]
               }
             ]
           },
