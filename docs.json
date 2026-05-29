@@ -694,7 +694,9 @@
   "footer": {
     "socials": {
       "linkedin": "https://www.linkedin.com/company/morse-micro",
-      "github": "https://github.com/MorseMicro"
+      "github": "https://github.com/MorseMicro",
+      "facebook": "https://www.facebook.com/morsemicro",
+      "x": "https://x.com/MorseMicro"
     }
   }
 }
