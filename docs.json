@@ -257,11 +257,13 @@
     "links": [
       {
         "href": "https://github.com/MorseMicro/morse_cli",
-        "type": "github"
+        "type": "button",
+        "label": "GitHub"
       },
       {
         "href": "https://community.morsemicro.com/",
-        "label": "Community"
+        "label": "Community",
+        "type": "button"
       }
     ],
     "primary": {
