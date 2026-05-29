@@ -6,11 +6,11 @@ description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
 Everything you need to design, build, and deploy with Wi-Fi HaLow — the world's leading sub-1 GHz IoT wireless standard.
 
 <CardGroup cols={2}>
-  <Card title="Get Started" icon="rocket" href="/HaLowLink_User_Guide_0_1_4">
+  <Card title="Get Started" color="#571C76" icon="rocket" href="/HaLowLink_User_Guide_0_1_4">
     New to Morse Micro? Start with the HaLowLink User Guide to get up and running quickly.
   </Card>
 
-  <Card title="Community" icon="users" href="https://community.morsemicro.com/">
+  <Card title="Community" color="#571C76" icon="users" href="https://community.morsemicro.com/">
     Join the Morse Micro community forum for support, discussion, and shared resources.
   </Card>
 </CardGroup>
