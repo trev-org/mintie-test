@@ -5,20 +5,6 @@ description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
 
 Everything you need to design, build, and deploy with Wi-Fi HaLow — the world's leading sub-1 GHz IoT wireless standard.
 
-<CardGroup cols={2}>
-  <Card title="Get Started" color="#571C76" icon="rocket" href="/HaLowLink_User_Guide_0_1_4">
-    New to Morse Micro? Start with the HaLowLink User Guide to get up and running quickly.
-  </Card>
-
-  <Card title="Community" color="#571C76" icon="users" href="https://community.morsemicro.com/">
-    Join the Morse Micro community forum for support, discussion, and shared resources.
-  </Card>
-</CardGroup>
-
----
-
-## Browse Documentation
-
 <CardGroup cols={3}>
   <Card title="User Guides" icon="book-open-cover" href="/HaLowLink_User_Guide_0_1_4">
     Step-by-step guides for HaLowLink, evaluation kits, and getting started with Morse Micro hardware.
@@ -42,48 +28,6 @@ Everything you need to design, build, and deploy with Wi-Fi HaLow — the world'
 
   <Card title="Linux" icon="book-blank">
     Linux driver documentation and OS images for HaLowLink and Evaluation Kit hardware.
-  </Card>
-</CardGroup>
-
----
-
-## Why Wi-Fi HaLow?
-
-Wi-Fi HaLow (IEEE 802.11ah) is purpose-built for IoT — operating in the sub-1 GHz band for greater range, lower power, and massive device density compared to traditional Wi-Fi.
-
-<CardGroup cols={2}>
-  <Card title="Longer Range" icon="signal">
-    Up to 10x the range of traditional Wi-Fi, covering entire buildings, campuses, and outdoor environments from a single access point.
-  </Card>
-
-  <Card title="Lower Power" icon="battery-low">
-    Extended sleep modes and efficient MAC protocols enable battery life measured in years, not days — ideal for always-on IoT deployments.
-  </Card>
-
-  <Card title="Massive Scale" icon="network-wired">
-    Connect up to 8191 devices to a single access point with RAW scheduling and Target Wake Time (TWT) power saving.
-  </Card>
-
-  <Card title="Global Standard" icon="globe">
-    An open, globally certified Wi-Fi standard — no proprietary lock-in, no monthly fees, and full WFA HaLow certification support.
-  </Card>
-</CardGroup>
-
----
-
-## Featured Products
-
-<CardGroup cols={2}>
-  <Card title="MM6108 SoC" icon="microchip" href="/MM6108_Data_Sheet">
-    **Wi-Fi HaLow MAC/PHY/Radio SoC**
-
-    Single-chip IEEE 802.11ah solution with integrated Radio, PHY, and MAC. Up to 32.5 Mbps across 1/2/4/8 MHz channels in the 850–950 MHz band. SDIO 2.0/SPI host interface, WPA3 security, hibernate down to 0.03 µA.
-  </Card>
-
-  <Card title="HaLowLink" icon="link-horizontal" href="/HaLowLink_User_Guide_0_1_4">
-    **Wi-Fi HaLow Linux Module**
-
-    A compact, production-ready Wi-Fi HaLow module running Linux. Plug-and-play USB connectivity, pre-built Linux drivers, AP and STA mode support, and OpenWrt compatible.
   </Card>
 </CardGroup>
 
