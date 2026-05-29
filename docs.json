@@ -261,7 +261,9 @@
               {
                 "group": "模组",
                 "icon": "microchip",
-                "pages": []
+                "pages": [
+                  "cn/MM8108-MF15457_Data_Sheet"
+                ]
               }
             ]
           },
@@ -471,7 +473,9 @@
               {
                 "group": "モジュール",
                 "icon": "microchip",
-                "pages": []
+                "pages": [
+                  "ja/MM8108-MF15457_Data_Sheet"
+                ]
               }
             ]
           },
