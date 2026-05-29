@@ -1,0 +1,468 @@
+---
+title: "MM8108-MF15457 Wi-Fi HaLow Module data sheet"
+description: "Technical specifications for the MM8108-MF15457 multi-region Wi-Fi HaLow (IEEE 802.11ah) module, with sub-1 GHz radio, integrated 26 dBm PA, USB 2.0 and SDIO/SPI host interfaces, and PHY rates up to 43.3 Mbps."
+icon: "microchip"
+---
+
+# MM8108-MF15457 Module Data Sheet
+
+Multi-region Wi-Fi HaLow / IEEE 802.11ah Module · USB Host Interface and Integrated Amplifiers · Sub-1 GHz 1/2/4/8 MHz Bandwidth
+
+---
+
+## 1 Product Overview
+
+### 1.1 Introduction
+
+Wi-Fi HaLow (pronounced HEY-low) is the first global Wi-Fi standard (IEEE 802.11ah) specifically designed to meet the needs of the Internet of Things (IoT). It is an open-standard wireless technology operating in the sub-1 GHz license-exempt RF bands (850–950 MHz range), so it does not incur the ongoing monthly costs of cellular connections. Operating in the sub-1 GHz range lets this low-power protocol connect more IoT devices over much longer distances and with significantly lower power than traditional Wi-Fi.
+
+The MM8108-MF15457 is a fully integrated Wi-Fi HaLow module with long range, low power consumption, and excellent RF performance, built around the second-generation MM8108 Wi-Fi HaLow SoC. It is compliant with IEEE 802.11ah, supports PHY rates up to 43.3 Mbps, and operates in the sub-1 GHz license-exempt RF bands worldwide, spanning 850 MHz to 950 MHz.
+
+The MM8108's integrated power amplifier (PA) offers world-leading transmit performance and energy efficiency with on-chip amplification up to 26 dBm. An ultra-high-linearity integrated low-noise amplifier (LNA) provides exceptional receive sensitivity. Combined with digital transmit filtering and pre-distortion circuits, the result is an advanced transceiver that ensures out-of-the-box compatibility with all global Wi-Fi HaLow regulatory environments.
+
+The module supports a USB 2.0 High-Speed host interface and an SDIO/SPI host interface, giving solution architects flexibility when integrating Wi-Fi HaLow into an existing design. With a footprint of only 11 mm x 10 mm, the MM8108-MF15457 showcases the cost and size benefits of the second-generation SoC, and it supports WPA3 and all standard security features required for Wi-Fi HaLow product certifications.
+
+### 1.2 Features
+
+**Radio**
+
+- Single-stream maximum PHY rate of 43.3 Mbps at 8 MHz bandwidth
+- Worldwide Sub-1 GHz frequency bands: 850–950 MHz
+- Channel bandwidth options: 1/2/4/8 MHz
+- High-power, high-efficiency integrated PA with maximum 26 dBm (400 mW) output power at 45% PA efficiency and 37% SoC efficiency
+- Novel PA architecture maintains efficiency at power backoff
+- Low-power receiver with integrated LNA, NF less than 4 dB
+
+**802.11ah OFDM PHY (Wi-Fi Alliance Wi-Fi HaLow certified)**
+
+- BPSK, QPSK, 16-QAM, 64-QAM and 256-QAM modulation
+- Automatic frequency and gain control
+- Packet detection and channel equalization
+- Forward Error Correction (FEC) coding and decoding
+- MCS levels 0–10
+- 1 MHz duplicate mode and optional traveling pilots
+
+**802.11ah MAC (Wi-Fi Alliance Wi-Fi HaLow certified)**
+
+- Station (STA) and Access Point (AP) roles
+- Listen-Before-Talk (LBT) access with energy detection
+- 802.11 power save, fragmentation, and defragmentation
+- Power-Saving Target Wake Time (TWT) for extended battery life
+- Automatic and manual MCS rate selection
+- On-chip software stack assisting host offload of Wi-Fi connection management
+
+**Host Interface**
+
+- USB 2.0 High-Speed compliant device interface (integrated PHY), up to 480 Mbps
+- SDIO 2.0 High-Speed at 50 MHz max for 200 Mbps, 1-bit and 4-bit data modes
+- SPI mode operation up to 80 MHz for 80 Mbps
+
+**Power Management**
+
+- Power Management Unit (PMU) with integrated DC-DCs and LDOs
+- Single supply 3.0–3.6 V
+- Multiple low-power modes (hibernate, deep sleep, snooze)
+
+**Security**
+
+- WPA3, Protected Management Frames (PMF), and Opportunistic Wireless Encryption (OWE)
+- Hardware AES and SHA-2 (SHA-256, SHA-384, SHA-512) support
+
+### 1.3 Applications
+
+IoT and M2M applications including: Surveillance Cameras and Sensors, Cloud Connectivity, Low-power Sensor Networks, Building Automation, Asset Tracking, Building Access Control and Security, Drone Video and Navigation, Connected Toys, Rural Internet Access, Agricultural Networks, Utility Smart Meters and Intelligent Grid, Industrial Automation Controls, Smart Home Automation, EV Car Chargers, Appliances, Retail Point-of-Sale, Vehicle-to-Vehicle Communications, Biometric IDs and Keypads, Warehouse Connectivity, Intelligent Lighting Controls, BT/ZigBee/Z-Wave to Wi-Fi HaLow Gateways, Wi-Fi to Wi-Fi HaLow Bridges, Wi-Fi HaLow Client Adapters/Dongles, and Smart City Networks.
+
+---
+
+## 2 Pin Descriptions
+
+The MM8108-MF15457 module features 38 pins.
+
+| Pin | Pin Name | Type | Description | Alternative |
+| --- | --- | --- | --- | --- |
+| 1 | GND | Ground | Ground |  |
+| 2 | ANT | Analog | Antenna |  |
+| 3 | GND | Ground | Ground |  |
+| 4 | RESET\_N | Digital I/O | Asynchronous chip reset (active low) |  |
+| 5 | WAKE | Digital I/O | External wake from Deep Sleep and Snooze |  |
+| 6 | JTAG\_TMS | Digital I/O | JTAG Mode Select | GPIO15 |
+| 7 | JTAG\_TCK | Digital I/O | JTAG Clock | GPIO13 |
+| 8 | JTAG\_TDO | Digital I/O | JTAG Data Out | GPIO16 |
+| 9 | JTAG\_TDI | Digital I/O | JTAG Data In | GPIO14 |
+| 10 | VBAT | Supply | 3.3 V VBAT Supply |  |
+| 11 | GND | Ground | Ground |  |
+| 12 | SDIO\_D0 | Digital I/O | SDIO Data line | SPI\_MISO |
+| 13 | SDIO\_D3 | Digital I/O | SDIO Data line | SPI\_CS |
+| 14 | SDIO\_D1 | Digital I/O | SDIO Data line | SPI\_INT |
+| 15 | SDIO\_D2 | Digital I/O | SDIO Data line |  |
+| 16 | SDIO\_CMD | Digital I/O | SDIO Command line | SPI\_MOSI |
+| 17 | SDIO\_CLK | Digital I/O | SDIO Clock input | SPI\_SCK |
+| 18 | GPIO5 | Digital I/O | Programmable digital I/O |  |
+| 19 | GPIO4 | Digital I/O | Programmable digital I/O |  |
+| 20 | GND | Ground | Ground |  |
+| 21 | GPIO3 | Digital I/O | Programmable digital I/O |  |
+| 22 | VDDIO | Supply | Host supply for digital I/O |  |
+| 23 | GND | Ground | Ground |  |
+| 24 | VBAT\_TX | Supply | 3.3 V VBAT-TX Supply |  |
+| 25 | VDD\_USB | Supply | USB Supply |  |
+| 26 | GND | Ground | Ground |  |
+| 27 | USB\_D\_N | Digital I/O | USB DM line |  |
+| 28 | USB\_D\_P | Digital I/O | USB DP line |  |
+| 29 | BUSY | Digital I/O | BUSY signal output |  |
+| 30 | GND | Ground | Ground |  |
+| 31 | GPIO1 | Digital I/O | Programmable digital I/O |  |
+| 32 | GPIO0 | Digital I/O | Programmable digital I/O |  |
+| 33 | GPIO6 | Digital I/O | Programmable digital I/O |  |
+| 34 | GPIO7 | Digital I/O | Programmable digital I/O |  |
+| 35 | GPIO8 | Digital I/O | Programmable digital I/O |  |
+| 36 | GPIO9 | Digital I/O | Programmable digital I/O |  |
+| 37 | GPIO10 | Digital I/O | Programmable digital I/O |  |
+| 38 | GND | Ground | Ground |  |
+
+**Notes:**
+
+1. All SDIO bus pins except SDIO\_CLK should be pulled up with a 10 kΩ to 100 kΩ resistor per the SDIO standard.
+2. RESET\_N and WAKE are supplied from the VBAT domain; the VDDIO domain drives the other digital pins.
+3. GPIOs 0 to 10 may provide alternative functions, including SPI master, I2C master, PWM, and UART. This functionality requires custom software, which Morse Micro can develop on request.
+
+---
+
+## 3 Functional Description
+
+### 3.1 Block Diagram
+
+The module integrates the MM8108 Wi-Fi HaLow SoC together with a 32 kHz crystal, a 32 MHz crystal, an antenna switch (SW), and the RF filters and matching components. The SoC exposes the host interfaces (SDIO, SPI, USB 2.0, UART) and is powered from VBAT, with VBAT\_TX feeding the transmit supply and VDD\_IO setting the digital I/O voltage. The antenna connects through pin ANT.
+
+### 3.2 Power Supply Requirements
+
+Module power is derived from a 3.0 to 3.6 V supply on pins VBAT and VBAT\_TX. VDDIO sets the I/O voltage of the module; it has an input range of 2.25 V to 3.6 V and should be connected to the same supply as the host MCU. There are no strict power-up sequencing requirements.
+
+### 3.3 USB Host Interface
+
+The module supports a USB 2.0 High-Speed host interface. The USB\_D\_P and USB\_D\_N lines connect to the host's USB data lines, with the module's supplies (VDD\_USB, VBAT, VBAT\_TX, VDDIO) decoupled with 10 µF and 100 nF capacitors. RESET\_N is driven from a host GPIO output (WIFI\_RESET\_N).
+
+### 3.4 USB Network Adapter Interface
+
+For a USB network adapter (dongle) design, VBUS from the USB-A connector feeds a 3.3 V regulator that supplies VDD\_3V3 to the module's VDD\_USB, VBAT, and VBAT\_TX rails. A power-on reset network (220 kΩ pull-up and 2.2 µF capacitor on WIFI\_RESET\_N) holds the module in reset until the supply is stable.
+
+### 3.5 SDIO Host Interface
+
+When interfacing via SDIO, ensure the host supports SDIO 2.0 with clock speeds up to 50 MHz; slower clocks reduce maximum throughput. The SDIO data and command lines should be pulled up with 10 kΩ to 100 kΩ resistors per the SDIO 2.0 specification.
+
+For proper operation and to use the power-saving features, connect RESET\_N and WAKE to standard digital outputs (CMOS logic levels), and connect BUSY to a digital input (also CMOS levels). Do not use open-collector or open-drain circuits, as they will cause incorrect behavior.
+
+In always-on applications where power-saving features are not used, such as access points, the WAKE pin can be left unconnected, reducing the host GPIO requirement to a single pin.
+
+### 3.6 SPI Host Interface
+
+When interfacing via SPI, the following are recommended for best throughput:
+
+- The host must support level-triggered interrupts.
+- The host must support full-duplex SPI mode.
+- The host must support DMA-backed transactions on the SPI bus.
+
+Standard SPI can achieve up to 25 Mbps at 50 MHz, which is significantly reduced without DMA support. For example, an SPI interface with an 8-byte buffer per transaction might only achieve 2 Mbps throughput on the bus.
+
+As with SDIO, connect RESET\_N and WAKE to standard digital outputs and BUSY to a digital input (CMOS levels), and avoid open-collector or open-drain circuits. In always-on applications, the WAKE pin can be left unconnected.
+
+### 3.7 Boot/Reset Sequencing
+
+#### 3.7.1 Boot Timing
+
+| Parameter | Description | Min | Max | Unit |
+| --- | --- | --- | --- | --- |
+| VIL\_nRST | Reset threshold | — | 450 | mV |
+| t0 | Time between VBAT brought up (3.3 V) and RESET\_N being activated | 50 | — | µs |
+| tB | Boot time | — | 10 | ms |
+
+#### 3.7.2 Reset Timing
+
+| Parameter | Description | Min | Max | Unit |
+| --- | --- | --- | --- | --- |
+| VIL\_nRST | Reset threshold | — | 450 | mV |
+| t1 | Duration of RESET\_N level below VIL\_nRST to reset the chip | 1000 | — | µs |
+| tB | Boot time | — | 10 | ms |
+
+---
+
+## 4 Electrical Characteristics
+
+### 4.1 Absolute Maximum Ratings
+
+<Warning>
+  Stress beyond absolute maximum ratings may cause permanent damage to the module. Operation is only guaranteed within the recommended operating conditions; operation outside them may reduce lifetime and reliability even if the absolute maximum ratings are not exceeded.
+</Warning>
+
+| Parameter | Min | Max | Unit |
+| --- | --- | --- | --- |
+| VBAT voltage | −0.3 | 3.6 | V |
+| VBAT\_TX voltage | −0.3 | 3.6 | V |
+| RESET\_N / WAKE | −0.3 | 3.6 | V |
+| VDDIO | −0.3 | 3.6 | V |
+| Analog/RF pin | −0.3 | 1.0 | V |
+| Storage temperature | −40 | 125 | °C |
+| RF input power (CW) | — | 6 | dBm |
+
+### 4.2 ESD Immunity
+
+| Test | Pins | Min | Max | Unit |
+| --- | --- | --- | --- | --- |
+| HBM (ANSI/ESDA/JEDEC JS001) | RF Input | −1000 | 1000 | V |
+| HBM | All pins except RF Input | −2000 | 2000 | V |
+| CDM (JESD22-C101) | All pins | −500 | 500 | V |
+
+### 4.3 Recommended Operating Conditions
+
+| Parameter | Min | Typ | Max | Unit |
+| --- | --- | --- | --- | --- |
+| Ambient temperature | −40 | — | 85 | °C |
+| Storage temperature | −40 | — | 125 | °C |
+| VBAT | 3.0 | 3.3 | 3.6 | V |
+| VBAT\_TX | 3.0 | 3.3 | 3.6 | V |
+| VDDIO | 2.25 | 3.3 | 3.6 | V |
+
+### 4.4 Power Consumption
+
+#### 4.4.1 Active Transmit Current (100% duty cycle, TA = 25°C, VBAT = VDDIO = 3.3 V)
+
+Current consumption per bandwidth, given separately for the VBAT and VBAT\_TX supplies. All values in mA.
+
+| MCS | VBAT 1 MHz | VBAT 2 MHz | VBAT 4 MHz | VBAT 8 MHz | VBAT\_TX 1 MHz | VBAT\_TX 2 MHz | VBAT\_TX 4 MHz | VBAT\_TX 8 MHz |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 10 | 51 | N/A | N/A | N/A | 281 | N/A | N/A | N/A |
+| 0 | 52 | 51 | 50 | 59 | 279 | 243 | 160 | 132 |
+| 1 | 52 | 51 | 50 | 59 | 278 | 243 | 159 | 131 |
+| 2 | 51 | 51 | 50 | 59 | 277 | 243 | 158 | 130 |
+| 3 | 51 | 51 | 50 | 59 | 266 | 242 | 158 | 130 |
+| 4 | 49 | 50 | 50 | 59 | 221 | 221 | 152 | 130 |
+| 5 | 44 | 47 | 48 | 58 | 144 | 174 | 128 | 125 |
+| 6 | 42 | 44 | 46 | 57 | 118 | 119 | 109 | 106 |
+| 7 | 36 | 39 | 44 | 54 | 88 | 96 | 98 | 95 |
+| 8 | 34 | 38 | 43 | 52 | 69 | 78 | 83 | 81 |
+| 9 | 32 | N/A | 40 | 49 | 54 | N/A | 63 | 58 |
+
+#### 4.4.2 Active Receive Current (VBAT \+ VBAT\_TX \+ VDDIO, 100% duty cycle, TA = 25°C, Rx at −70 dBm)
+
+All values in mA.
+
+| MCS | 1 MHz | 2 MHz | 4 MHz | 8 MHz |
+| --- | --- | --- | --- | --- |
+| 0 | 20 | 21 | 24 | 32 |
+| Max | 20 (MCS9) | 21 (MCS8) | 26 (MCS9) | 34 (MCS9) |
+
+#### 4.4.3 Listen Receive Current (VBAT \+ VBAT\_TX \+ VDDIO, TA = 25°C, Rx at −70 dBm)
+
+All values in mA.
+
+| 1 MHz | 2 MHz | 4 MHz | 8 MHz |
+| --- | --- | --- | --- |
+| 19 | 20 | 23 | 29 |
+
+#### 4.4.4 Low Power Current (TA = 25°C, VBAT = VDDIO = 3.3 V)
+
+| Power Mode | VBAT \+ VBAT\_TX | VDDIO | Unit |
+| --- | --- | --- | --- |
+| Hibernate | less than 1 | less than 1 | µA |
+| Deep Sleep | less than 2 | less than 1 | µA |
+| Snooze | less than 20 | less than 1 | µA |
+| USB snooze | less than 500 | less than 1 | µA |
+
+#### 4.4.5 Standby Current using SDIO/SPI Host Interface (2 MHz channel, RTC = RTC\_XTAL, TA = 25°C, VBAT = VDDIO = 3.3 V)
+
+| Mode | Beacon | VBAT \+ VBAT\_TX | VDDIO | Unit |
+| --- | --- | --- | --- | --- |
+| DTIM3 | long | 176 | less than 1 | µA |
+| DTIM10 | long | 68 | less than 1 | µA |
+| DTIM40 | long | 33 | less than 1 | µA |
+| DTIM3 | short | 126 | less than 1 | µA |
+| DTIM10 | short | 52 | less than 1 | µA |
+| DTIM40 | short | 29 | less than 1 | µA |
+
+<Note>
+  The DTIM (Delivery Traffic Indication Message) number indicates how often a station in Snooze mode wakes to receive traffic from the access point, expressed as a multiple of beacon intervals (multiples of 102.4 ms). DTIM1 wakes every 102.4 ms; DTIM40 wakes every 4.1 s. Increasing DTIM reduces average power consumption but increases latency, so it should be optimized per use case.
+</Note>
+
+### 4.5 RF Specifications
+
+#### 4.5.1 Frequency Range
+
+The radio operates from 850 MHz to 950 MHz.
+
+#### 4.5.2 Receiver Sensitivity (10% PER, 256-byte packets, VBAT = VBAT\_TX = 3.3 V, 25°C)
+
+| MCS | Modulation | Code Rate | Sens 1 MHz (dBm) | Sens 2 MHz (dBm) | Sens 4 MHz (dBm) | Sens 8 MHz (dBm) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 10 | BPSK | 1/2 x2 | −107 | N/A | N/A | N/A |
+| 0 | BPSK | 1/2 | −106 | −103 | −102 | −98 |
+| 1 | QPSK | 1/2 | −104 | −101 | −99 | −95 |
+| 2 | QPSK | 3/4 | −102 | −99 | −97 | −93 |
+| 3 | 16-QAM | 1/2 | −99 | −96 | −94 | −90 |
+| 4 | 16-QAM | 3/4 | −96 | −93 | −90 | −87 |
+| 5 | 64-QAM | 2/3 | −92 | −89 | −86 | −83 |
+| 6 | 64-QAM | 3/4 | −90 | −87 | −85 | −81 |
+| 7 | 64-QAM | 5/6 | −89 | −86 | −83 | −80 |
+| 8 | 256-QAM | 3/4 | −85 | −82 | −79 | −76 |
+| 9 | 256-QAM | 5/6 | −83 | N/A | −78 | −74 |
+
+PHY rates (Mbps) per bandwidth:
+
+| MCS | 1 MHz | 2 MHz | 4 MHz | 8 MHz |
+| --- | --- | --- | --- | --- |
+| 10 | 0.1 | N/A | N/A | N/A |
+| 0 | 0.3 | 0.7 | 1.5 | 3.3 |
+| 1 | 0.7 | 1.4 | 3.0 | 6.5 |
+| 2 | 1.0 | 2.2 | 4.5 | 9.8 |
+| 3 | 1.3 | 2.9 | 6.0 | 13 |
+| 4 | 2.0 | 4.3 | 9.0 | 20 |
+| 5 | 2.7 | 5.8 | 12 | 26 |
+| 6 | 3.0 | 6.5 | 14 | 29 |
+| 7 | 3.3 | 7.2 | 15 | 33 |
+| 8 | 4.0 | 8.9 | 18 | 39 |
+| 9 | 4.4 | N/A | 20 | 43 |
+
+#### 4.5.3 Transmitter Output Power at the ANT pin (TA = 25°C, VBAT = VDDIO = 3.3 V, IEEE-compliant with 1.5 dB SEM margin)
+
+<Note>
+  These transmit power levels are for IEEE 802.11ah compliance only and do not account for regional spectrum backoffs (FCC, IC, TELEC, etc.). TX power in edge channels is limited by the restricted band edge in each regulatory region.
+</Note>
+
+| MCS | 1 MHz (dBm) | 2 MHz (dBm) | 4 MHz (dBm) | 8 MHz (dBm) |
+| --- | --- | --- | --- | --- |
+| 10 | 25.5 | N/A | N/A | N/A |
+| 0 | 25.5 | 25.0 | 22.5 | 22.5 |
+| 1 | 25.5 | 25.0 | 22.5 | 22.0 |
+| 2 | 25.5 | 25.0 | 22.5 | 22.0 |
+| 3 | 25.0 | 25.0 | 22.5 | 22.0 |
+| 4 | 24.0 | 24.5 | 22.5 | 22.0 |
+| 5 | 21.5 | 23.0 | 21.5 | 21.5 |
+| 6 | 22.5 | 21.5 | 20.5 | 20.5 |
+| 7 | 19.0 | 20.0 | 19.5 | 20.0 |
+| 8 | 17.5 | 18.0 | 19.0 | 19.0 |
+| 9 | 15.5 | N/A | 17.0 | 16.0 |
+
+### 4.6 Digital IO Voltage Specifications
+
+| Parameter | Description | VDDIO | Min | Max | Unit |
+| --- | --- | --- | --- | --- | --- |
+| VIL\_VDDIO | Low input threshold for all GPIO and SDIO pins | 3.3 | — | 1.2 | V |
+| VIH\_VDDIO | High input threshold for all GPIO and SDIO pins | 3.3 | 1.7 | — | V |
+| VOL\_VDDIO | Low output voltage for all GPIO and SDIO pins (8 mA load) | 3.3 | — | 0.25 | V |
+| VOH\_VDDIO | High output voltage for all GPIO and SDIO pins (8 mA load) | 3.3 | 2.9 | — | V |
+
+---
+
+## 5 Module Dimensions
+
+The module measures 11 mm (width) x 10 mm (length) x 2 mm (height).
+
+| Dimension | Value (mm) |
+| --- | --- |
+| Width | 11 |
+| Length | 10 |
+| Height | 2 |
+
+---
+
+## 6 Recommended PCB Footprint
+
+The recommended land pattern spans 11 mm x 10 mm. Key footprint dimensions:
+
+| Key | Dimension (mm) |
+| --- | --- |
+| Overall width | 11 |
+| Overall length | 10 |
+| Edge pad pitch | 1.0 |
+| Pad length | 0.6 |
+| Pad width | 0.5 |
+| Corner offset | 0.6 |
+
+---
+
+## 7 Certification
+
+### 7.1 FCC
+
+The MM8108-MF15457 has been tested and found to comply with the limits for a Class B digital device, pursuant to Part 15 of the FCC Rules. These limits provide reasonable protection against harmful interference in a residential installation. This equipment generates, uses, and can radiate radio-frequency energy and, if not installed and used per the instructions, may cause harmful interference to radio communications. There is no guarantee that interference will not occur in a particular installation. If interference to radio or television reception occurs (determined by turning the equipment off and on), the user is encouraged to try to correct it by:
+
+- Reorienting or relocating the receiving antenna
+- Increasing the separation between the equipment and receiver
+- Connecting the equipment to an outlet on a different circuit from the receiver
+- Consulting the dealer or an experienced radio/TV technician for help
+
+<Warning>
+  FCC caution: Any changes or modifications not expressly approved by the party responsible for compliance could void the user's authority to operate this equipment.
+</Warning>
+
+This device complies with Part 15 of the FCC Rules. Operation is subject to the following two conditions: (1) this device may not cause harmful interference, and (2) this device must accept any interference received, including interference that may cause undesired operation.
+
+#### 7.1.1 FCC Radiation Exposure Statement
+
+This equipment complies with FCC radiation exposure limits set forth for an uncontrolled environment. It should be installed and operated with a minimum distance of 20 cm between the radiator and your body.
+
+#### 7.1.2 Important Note to Integrators
+
+This module is intended for OEM integrators. It is only FCC authorized for the specific rule parts listed on the grant, and the host product manufacturer is responsible for compliance with any other FCC rules that apply to the host not covered by the modular transmitter grant of certification. The final host product still requires Part 15 Subpart B compliance testing with the modular transmitter installed. Additional testing and certification may be necessary when multiple modules are used.
+
+#### 7.1.3 End Product User Manual Requirement
+
+In the end product's user manual, the end user must be informed to keep at least 20 cm of separation from the antenna while the product is installed and operated, so the FCC RF-exposure guidelines for an uncontrolled environment are satisfied. The end user must also be informed that changes or modifications not expressly approved by the manufacturer could void their authority to operate the equipment.
+
+#### 7.1.4 End Product Label Requirement
+
+The end product must be labeled in a visible area with: **Contains FCC ID: 2A74O-737B5B**. The label must also carry the standard Part 15 two-condition compliance statement.
+
+### 7.2 IC (Innovation, Science and Economic Development Canada)
+
+This device contains licence-exempt transmitter(s)/receiver(s) that comply with ISED Canada's licence-exempt RSS(s). Operation is subject to: (1) this device may not cause interference, and (2) this device must accept any interference, including interference that may cause undesired operation.
+
+Radio transmitter 29791-737B5B has been approved by ISED Canada to operate with the antenna types listed in the grant, with the maximum permissible gain indicated. Antenna types not in that list, or having a gain greater than the maximum indicated, are strictly prohibited for use with this device.
+
+#### 7.2.1 IC Radiation Exposure Statement
+
+This equipment complies with IC RSS-102 radiation exposure limits set forth for an uncontrolled environment. It should be installed and operated with a minimum distance of 20 cm between the radiator and your body.
+
+#### 7.2.2 Important Note to Integrators
+
+This module is intended for OEM integrators. The OEM integrator is responsible for complying with all rules that apply to the product into which the certified RF module is integrated. Additional testing and certification may be necessary when multiple modules are used. Changes or modifications not expressly approved by the manufacturer could void the user's authority to operate the equipment.
+
+#### 7.2.3 End Product Label Requirement
+
+The end product must be labeled in a visible area with: **Contains IC: 29791-737B5B**. The Host Model Number (HMN) must appear somewhere on the exterior of the end product, its packaging, or its literature.
+
+---
+
+## 8 Part Numbers and Ordering Information
+
+| Part Number | Packing Type | MOQ and Order Multiples | Part Size (mm) | Description |
+| --- | --- | --- | --- | --- |
+| MM8108-MF15457 | Tray | 100 | 10 x 11 x 2 | IEEE 802.11ah Sub-1 GHz 1/2/4/8 MHz Wi-Fi HaLow Module |
+
+---
+
+## 9 Handling and Storage
+
+The MM8108-MF15457 module is a moisture-sensitive device rated at **Moisture Sensitive Level 3 (MSL3)** per IPC/JEDEC J-STD-20.
+
+After opening the moisture-sealed storage bag, modules subjected to reflow solder or other high-temperature processes must be:
+
+1. Mounted to a circuit board within **168 hours** at factory conditions (30°C or less and less than 60% RH), **OR**
+2. Stored continuously per IPC/JEDEC J-STD-033.
+
+Modules exposed to conditions exceeding the packaging and storage limits **must be baked** before mounting, per IPC/JEDEC J-STD-033. Failure to meet packaging and storage conditions will result in irreparable damage during the solder reflow process.
+
+---
+
+## 10 Revision History
+
+| Release | Date | Notes |
+| --- | --- | --- |
+| Version 4 | 30 Sep 2025 | Updated pin descriptions; updated host interface schematic designs |
+| Version 3 | 18 Sep 2025 | Updated formatting; added USB dongle reference design; updated power management; updated timing graphs; updated electrical and RF specifications; added digital IO specifications |
+| DS101 | 28 Feb 2025 | Added power-on and reset timing details; updated standby power consumption |
+| DS100 | 8 Jan 2025 | Initial release |
+
+---
+
+_Copyright © Morse Micro Pty. Ltd. · Level 8, 10–14 Waterloo Street, Surry Hills NSW 2010, Australia · [sales@morsemicro.com](mailto:sales@morsemicro.com)_
+
+_Refer to the online version for up-to-date content. Proprietary and Confidential._
