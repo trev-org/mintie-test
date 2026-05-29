@@ -1,10 +1,10 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "willow",
-  "name": "Morse Micro Documentation",
+  "name": "Morse Micro",
   "colors": {
     "primary": "#571C76",
-    "light": "#FFFFFF",
+    "light": "#7719AA",
     "dark": "#3D1A50"
   },
   "navigation": {
@@ -218,7 +218,8 @@
   },
   "logo": {
     "light": "/images/LOGO_ICONBLACKFULL.png",
-    "dark": "/images/LOGO_ICONWHITEEMPTY.png"
+    "dark": "/images/LOGO_ICONWHITEEMPTY.png",
+    "href": "/"
   },
   "fonts": {
     "heading": {
@@ -235,8 +236,8 @@
   },
   "background": {
     "color": {
-      "light": "#EDEACE",
-      "dark": "#000000"
+      "light": "#FFFFFF",
+      "dark": "#0F0A14"
     }
   },
   "contextual": {
@@ -270,6 +271,12 @@
       "type": "button",
       "label": "Contact Us",
       "href": "https://www.morsemicro.com/contact/"
+    }
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/morse-micro",
+      "github": "https://github.com/MorseMicro"
     }
   }
 }

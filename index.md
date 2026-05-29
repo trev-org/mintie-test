@@ -3,27 +3,17 @@ title: "Morse Micro Documentation"
 description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
 ---
 
-<div style={{textAlign: "center", padding: "60px 24px 48px"}}>
-  <img src="/images/LOGO_ICONBLACKFULL.png" alt="Morse Micro" style={{height: "56px", display: "block", margin: "0 auto 32px"}} className="block dark:hidden" />
+Everything you need to design, build, and deploy with Wi-Fi HaLow — the world's leading sub-1 GHz IoT wireless standard.
 
-  <img src="/images/LOGO_ICONWHITEEMPTY.png" alt="Morse Micro" style={{height: "56px", display: "block", margin: "0 auto 32px"}} className="hidden dark:block" />
+<CardGroup cols={2}>
+  <Card title="Get Started" icon="rocket" href="/HaLowLink_User_Guide_0_1_4">
+    New to Morse Micro? Start with the HaLowLink User Guide to get up and running quickly.
+  </Card>
 
-  <h1 style={{fontSize: "2.75rem", fontWeight: "700", marginBottom: "16px", letterSpacing: "-0.02em"}}>Morse Micro Documentation</h1>
-
-  <p style={{fontSize: "1.2rem", color: "var(--colors-content-secondary)", maxWidth: "600px", margin: "0 auto 36px", lineHeight: "1.6"}}>
-    Everything you need to design, build, and deploy with Wi-Fi HaLow — the world's leading sub-1 GHz IoT wireless standard.
-  </p>
-
-  <div style={{display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap"}}>
-    <a href="/HaLowLink_User_Guide_0_1_4" style={{display: "inline-flex", alignItems: "center", backgroundColor: "var(--colors-accent-DEFAULT)", color: "white", padding: "12px 24px", borderRadius: "8px", fontWeight: "600", textDecoration: "none", fontSize: "0.95rem"}}>
-      Get Started
-    </a>
-
-    <a href="https://community.morsemicro.com/" target="_blank" style={{display: "inline-flex", alignItems: "center", border: "1px solid var(--colors-border-DEFAULT)", color: "var(--colors-content-DEFAULT)", padding: "12px 24px", borderRadius: "8px", fontWeight: "600", textDecoration: "none", fontSize: "0.95rem"}}>
-      Community
-    </a>
-  </div>
-</div>
+  <Card title="Community" icon="users" href="https://community.morsemicro.com/">
+    Join the Morse Micro community forum for support, discussion, and shared resources.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -59,21 +49,23 @@ description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
 
 ## Why Wi-Fi HaLow?
 
+Wi-Fi HaLow (IEEE 802.11ah) is purpose-built for IoT — operating in the sub-1 GHz band for greater range, lower power, and massive device density compared to traditional Wi-Fi.
+
 <CardGroup cols={2}>
   <Card title="Longer Range" icon="signal">
-    Wi-Fi HaLow operates in the sub-1 GHz band, delivering up to 10x the range of traditional Wi-Fi — covering entire buildings, campuses, and outdoor environments.
+    Up to 10x the range of traditional Wi-Fi, covering entire buildings, campuses, and outdoor environments from a single access point.
   </Card>
 
   <Card title="Lower Power" icon="battery-low">
-    Extended sleep modes and efficient MAC protocols enable battery life measured in years — ideal for always-on IoT deployments.
+    Extended sleep modes and efficient MAC protocols enable battery life measured in years, not days — ideal for always-on IoT deployments.
   </Card>
 
   <Card title="Massive Scale" icon="network-wired">
-    Connect thousands of devices to a single access point with RAW scheduling, TWT power saving, and support for up to 8191 stations.
+    Connect up to 8191 devices to a single access point with RAW scheduling and Target Wake Time (TWT) power saving.
   </Card>
 
   <Card title="Global Standard" icon="globe">
-    IEEE 802.11ah is an open, globally certified Wi-Fi standard — no proprietary lock-in, no monthly fees, and full WFA HaLow certification support.
+    An open, globally certified Wi-Fi standard — no proprietary lock-in, no monthly fees, and full WFA HaLow certification support.
   </Card>
 </CardGroup>
 
@@ -85,13 +77,13 @@ description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
   <Card title="MM6108 SoC" icon="microchip" href="/MM6108_Data_Sheet">
     **Wi-Fi HaLow MAC/PHY/Radio SoC**
 
-    Single-chip IEEE 802.11ah solution with integrated Radio, PHY, and MAC. Up to 32.5 Mbps across 1/2/4/8 MHz channels in the 850-950 MHz band. SDIO 2.0 / SPI host interface, WPA3 security, and hibernate mode down to 0.03 uA.
+    Single-chip IEEE 802.11ah solution with integrated Radio, PHY, and MAC. Up to 32.5 Mbps across 1/2/4/8 MHz channels in the 850–950 MHz band. SDIO 2.0/SPI host interface, WPA3 security, hibernate down to 0.03 µA.
   </Card>
 
   <Card title="HaLowLink" icon="link-horizontal" href="/HaLowLink_User_Guide_0_1_4">
     **Wi-Fi HaLow Linux Module**
 
-    A compact, production-ready Wi-Fi HaLow module running Linux, designed for rapid prototyping and deployment. Plug-and-play USB connectivity, pre-built Linux drivers, AP and STA mode support, and OpenWrt compatible.
+    A compact, production-ready Wi-Fi HaLow module running Linux. Plug-and-play USB connectivity, pre-built Linux drivers, AP and STA mode support, and OpenWrt compatible.
   </Card>
 </CardGroup>
 
@@ -112,17 +104,7 @@ description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
     Open source tools
   </Card>
 
-  <Card title="Community" icon="users" href="https://community.morsemicro.com/">
-    Forum and support
+  <Card title="Contact Us" icon="envelope" href="https://www.morsemicro.com/contact/">
+    Get in touch
   </Card>
 </CardGroup>
-
----
-
-<div style={{textAlign: "center", padding: "40px 24px"}}>
-  <p style={{color: "var(--colors-content-secondary)", marginBottom: "16px"}}>Can't find what you're looking for?</p>
-
-  <a href="https://www.morsemicro.com/contact/" target="_blank" style={{display: "inline-flex", alignItems: "center", backgroundColor: "var(--colors-accent-DEFAULT)", color: "white", padding: "10px 20px", borderRadius: "8px", fontWeight: "600", textDecoration: "none", fontSize: "0.9rem"}}>
-    Contact Us
-  </a>
-</div>
