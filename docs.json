@@ -227,7 +227,7 @@
     },
     "body": {
       "family": "Lato",
-      "weight": 500
+      "weight": 400
     }
   },
   "appearance": {
@@ -238,5 +238,19 @@
       "light": "#EDEACE",
       "dark": "#000000"
     }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "assistant",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "aistudio"
+    ],
+    "display": "header"
+  },
+  "interaction": {
+    "drilldown": true
   }
 }
