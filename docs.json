@@ -8,210 +8,636 @@
     "dark": "#3D1A50"
   },
   "navigation": {
-    "groups": [
+    "languages": [
       {
-        "group": "Home",
-        "pages": [
-          "index"
-        ],
-        "icon": "house"
-      },
-      {
-        "group": "User Guides",
-        "pages": [
-          "HaLowLink_User_Guide_0_1_4",
-          "EKH05_Evaluation_Kit_User_Guide_0_1_4"
-        ],
-        "icon": "book-open-cover"
-      },
-      {
-        "group": "Application Notes",
-        "icon": "pencil-mechanical",
-        "pages": [
-          "AppNote_38_version_0_1_3"
-        ]
-      },
-      {
-        "group": "Datasheets",
-        "icon": "database",
-        "pages": [
+        "language": "en",
+        "default": true,
+        "groups": [
           {
-            "group": "Chips",
-            "icon": "microchip",
+            "group": "Home",
             "pages": [
-              "MM6108_Data_Sheet"
+              "index"
+            ],
+            "icon": "house"
+          },
+          {
+            "group": "User Guides",
+            "pages": [
+              "HaLowLink_User_Guide_0_1_4",
+              "EKH05_Evaluation_Kit_User_Guide_0_1_4"
+            ],
+            "icon": "book-open-cover"
+          },
+          {
+            "group": "Application Notes",
+            "icon": "pencil-mechanical",
+            "pages": [
+              "AppNote_38_version_0_1_3"
             ]
           },
           {
-            "group": "Modules",
-            "icon": "microchip",
-            "pages": []
-          }
-        ]
-      },
-      {
-        "group": "Software Releases",
-        "icon": "keyboard",
-        "pages": [
+            "group": "Datasheets",
+            "icon": "database",
+            "pages": [
+              {
+                "group": "Chips",
+                "icon": "microchip",
+                "pages": [
+                  "MM6108_Data_Sheet"
+                ]
+              },
+              {
+                "group": "Modules",
+                "icon": "microchip",
+                "pages": []
+              }
+            ]
+          },
           {
-            "group": "IoT (FreeRTOS)",
+            "group": "Software Releases",
             "icon": "keyboard",
             "pages": [
               {
-                "group": "v2.11.2",
+                "group": "IoT (FreeRTOS)",
                 "icon": "keyboard",
-                "pages": []
-              },
-              {
-                "group": "v2.10.4",
-                "icon": "keyboard",
-                "pages": []
-              },
-              {
-                "group": "CMSIS Pack",
-                "icon": "keyboard",
-                "pages": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "group": "Linux",
-        "icon": "book-blank",
-        "pages": [
-          {
-            "group": "HaLowLink 2",
-            "icon": "link-horizontal",
-            "pages": []
-          },
-          {
-            "group": "HaLowLink 1",
-            "icon": "link-horizontal",
-            "pages": []
-          },
-          {
-            "group": "Evaluation Kit Images",
-            "icon": "camera",
-            "pages": [
-              {
-                "group": "MM8108-EKH01",
-                "icon": "camera",
-                "pages": []
-              },
-              {
-                "group": "MM8108-EKH19",
-                "icon": "camera",
-                "pages": []
-              },
-              {
-                "group": "MM6108-EKH01-05-US",
-                "icon": "camera",
-                "pages": []
-              },
-              {
-                "group": "MM6108-EKH03",
-                "icon": "camera",
-                "pages": []
+                "pages": [
+                  {
+                    "group": "v2.11.2",
+                    "icon": "keyboard",
+                    "pages": []
+                  },
+                  {
+                    "group": "v2.10.4",
+                    "icon": "keyboard",
+                    "pages": []
+                  },
+                  {
+                    "group": "CMSIS Pack",
+                    "icon": "keyboard",
+                    "pages": []
+                  }
+                ]
               }
             ]
           },
           {
-            "group": "Driver",
-            "icon": "usb-drive",
+            "group": "Linux",
+            "icon": "book-blank",
             "pages": [
               {
-                "group": "v1.17.9",
-                "icon": "usb-drive",
+                "group": "HaLowLink 2",
+                "icon": "link-horizontal",
                 "pages": []
               },
               {
-                "group": "v1.17.8",
-                "icon": "usb-drive",
+                "group": "HaLowLink 1",
+                "icon": "link-horizontal",
                 "pages": []
               },
               {
-                "group": "v1.16.4",
-                "icon": "usb-drive",
-                "pages": []
-              }
-            ]
-          },
-          {
-            "group": "OpenWrt",
-            "icon": "book-open",
-            "pages": [
+                "group": "Evaluation Kit Images",
+                "icon": "camera",
+                "pages": [
+                  {
+                    "group": "MM8108-EKH01",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM8108-EKH19",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM6108-EKH01-05-US",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM6108-EKH03",
+                    "icon": "camera",
+                    "pages": []
+                  }
+                ]
+              },
               {
-                "group": "v2.11.12",
+                "group": "Driver",
+                "icon": "usb-drive",
+                "pages": [
+                  {
+                    "group": "v1.17.9",
+                    "icon": "usb-drive",
+                    "pages": []
+                  },
+                  {
+                    "group": "v1.17.8",
+                    "icon": "usb-drive",
+                    "pages": []
+                  },
+                  {
+                    "group": "v1.16.4",
+                    "icon": "usb-drive",
+                    "pages": []
+                  }
+                ]
+              },
+              {
+                "group": "OpenWrt",
                 "icon": "book-open",
+                "pages": [
+                  {
+                    "group": "v2.11.12",
+                    "icon": "book-open",
+                    "pages": []
+                  },
+                  {
+                    "group": "V2.9.3",
+                    "icon": "book-open",
+                    "pages": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Design Resources",
+            "icon": "pencil",
+            "pages": [
+              {
+                "group": "Hardware Design Resources",
+                "icon": "pencil",
+                "pages": [
+                  "MM8108-MF15457_Hardware_Design_Guide_0_1_1"
+                ]
+              },
+              {
+                "group": "Carrier Board Design Packages",
+                "icon": "pencil",
                 "pages": []
               },
               {
-                "group": "V2.9.3",
-                "icon": "book-open",
+                "group": "Module Design Packages",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "Reference Design Packages",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "Tool Design Packages",
+                "icon": "pencil",
                 "pages": []
               }
             ]
-          }
-        ]
-      },
-      {
-        "group": "Design Resources",
-        "icon": "pencil",
-        "pages": [
-          {
-            "group": "Hardware Design Resources",
-            "icon": "pencil",
-            "pages": [
-              "MM8108-MF15457_Hardware_Design_Guide_0_1_1"
-            ]
           },
           {
-            "group": "Carrier Board Design Packages",
-            "icon": "pencil",
-            "pages": []
-          },
-          {
-            "group": "Module Design Packages",
-            "icon": "pencil",
-            "pages": []
-          },
-          {
-            "group": "Reference Design Packages",
-            "icon": "pencil",
-            "pages": []
-          },
-          {
-            "group": "Tool Design Packages",
-            "icon": "pencil",
-            "pages": []
-          }
-        ]
-      },
-      {
-        "group": "Tools",
-        "icon": "toolbox",
-        "pages": [
-          {
-            "group": "BCF Editor",
+            "group": "Tools",
             "icon": "toolbox",
             "pages": [
-              "v3-4-1",
-              "v2-9-1"
+              {
+                "group": "BCF Editor",
+                "icon": "toolbox",
+                "pages": [
+                  "v3-4-1",
+                  "v2-9-1"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Certifications",
+            "icon": "square-check",
+            "pages": []
+          },
+          {
+            "group": "Changelog",
+            "icon": "clock-rotate-left",
+            "pages": [
+              "changelog/2026-05-28"
             ]
           }
         ]
       },
       {
-        "group": "Certifications",
-        "icon": "square-check",
-        "pages": []
+        "language": "cn",
+        "groups": [
+          {
+            "group": "首页",
+            "pages": [
+              "cn/index"
+            ],
+            "icon": "house"
+          },
+          {
+            "group": "用户指南",
+            "pages": [
+              "cn/HaLowLink_User_Guide_0_1_4",
+              "cn/EKH05_Evaluation_Kit_User_Guide_0_1_4"
+            ],
+            "icon": "book-open-cover"
+          },
+          {
+            "group": "应用笔记",
+            "icon": "pencil-mechanical",
+            "pages": [
+              "cn/AppNote_38_version_0_1_3"
+            ]
+          },
+          {
+            "group": "数据手册",
+            "icon": "database",
+            "pages": [
+              {
+                "group": "芯片",
+                "icon": "microchip",
+                "pages": [
+                  "cn/MM6108_Data_Sheet"
+                ]
+              },
+              {
+                "group": "模组",
+                "icon": "microchip",
+                "pages": []
+              }
+            ]
+          },
+          {
+            "group": "软件发布",
+            "icon": "keyboard",
+            "pages": [
+              {
+                "group": "IoT (FreeRTOS)",
+                "icon": "keyboard",
+                "pages": [
+                  {
+                    "group": "v2.11.2",
+                    "icon": "keyboard",
+                    "pages": []
+                  },
+                  {
+                    "group": "v2.10.4",
+                    "icon": "keyboard",
+                    "pages": []
+                  },
+                  {
+                    "group": "CMSIS Pack",
+                    "icon": "keyboard",
+                    "pages": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Linux",
+            "icon": "book-blank",
+            "pages": [
+              {
+                "group": "HaLowLink 2",
+                "icon": "link-horizontal",
+                "pages": []
+              },
+              {
+                "group": "HaLowLink 1",
+                "icon": "link-horizontal",
+                "pages": []
+              },
+              {
+                "group": "评估套件镜像",
+                "icon": "camera",
+                "pages": [
+                  {
+                    "group": "MM8108-EKH01",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM8108-EKH19",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM6108-EKH01-05-US",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM6108-EKH03",
+                    "icon": "camera",
+                    "pages": []
+                  }
+                ]
+              },
+              {
+                "group": "驱动",
+                "icon": "usb-drive",
+                "pages": [
+                  {
+                    "group": "v1.17.9",
+                    "icon": "usb-drive",
+                    "pages": []
+                  },
+                  {
+                    "group": "v1.17.8",
+                    "icon": "usb-drive",
+                    "pages": []
+                  },
+                  {
+                    "group": "v1.16.4",
+                    "icon": "usb-drive",
+                    "pages": []
+                  }
+                ]
+              },
+              {
+                "group": "OpenWrt",
+                "icon": "book-open",
+                "pages": [
+                  {
+                    "group": "v2.11.12",
+                    "icon": "book-open",
+                    "pages": []
+                  },
+                  {
+                    "group": "V2.9.3",
+                    "icon": "book-open",
+                    "pages": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "设计资源",
+            "icon": "pencil",
+            "pages": [
+              {
+                "group": "硬件设计资源",
+                "icon": "pencil",
+                "pages": [
+                  "cn/MM8108-MF15457_Hardware_Design_Guide_0_1_1"
+                ]
+              },
+              {
+                "group": "载板设计包",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "模组设计包",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "参考设计包",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "工具设计包",
+                "icon": "pencil",
+                "pages": []
+              }
+            ]
+          },
+          {
+            "group": "工具",
+            "icon": "toolbox",
+            "pages": [
+              {
+                "group": "BCF 编辑器",
+                "icon": "toolbox",
+                "pages": [
+                  "cn/v3-4-1",
+                  "cn/v2-9-1"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "认证",
+            "icon": "square-check",
+            "pages": []
+          },
+          {
+            "group": "更新日志",
+            "icon": "clock-rotate-left",
+            "pages": [
+              "cn/changelog/2026-05-28"
+            ]
+          }
+        ]
       },
       {
-        "group": "Changelog",
-        "icon": "clock-rotate-left",
-        "pages": [
-          "changelog/2026-05-28"
+        "language": "ja",
+        "groups": [
+          {
+            "group": "ホーム",
+            "pages": [
+              "ja/index"
+            ],
+            "icon": "house"
+          },
+          {
+            "group": "ユーザーガイド",
+            "pages": [
+              "ja/HaLowLink_User_Guide_0_1_4",
+              "ja/EKH05_Evaluation_Kit_User_Guide_0_1_4"
+            ],
+            "icon": "book-open-cover"
+          },
+          {
+            "group": "アプリケーションノート",
+            "icon": "pencil-mechanical",
+            "pages": [
+              "ja/AppNote_38_version_0_1_3"
+            ]
+          },
+          {
+            "group": "データシート",
+            "icon": "database",
+            "pages": [
+              {
+                "group": "チップ",
+                "icon": "microchip",
+                "pages": [
+                  "ja/MM6108_Data_Sheet"
+                ]
+              },
+              {
+                "group": "モジュール",
+                "icon": "microchip",
+                "pages": []
+              }
+            ]
+          },
+          {
+            "group": "ソフトウェアリリース",
+            "icon": "keyboard",
+            "pages": [
+              {
+                "group": "IoT (FreeRTOS)",
+                "icon": "keyboard",
+                "pages": [
+                  {
+                    "group": "v2.11.2",
+                    "icon": "keyboard",
+                    "pages": []
+                  },
+                  {
+                    "group": "v2.10.4",
+                    "icon": "keyboard",
+                    "pages": []
+                  },
+                  {
+                    "group": "CMSIS Pack",
+                    "icon": "keyboard",
+                    "pages": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Linux",
+            "icon": "book-blank",
+            "pages": [
+              {
+                "group": "HaLowLink 2",
+                "icon": "link-horizontal",
+                "pages": []
+              },
+              {
+                "group": "HaLowLink 1",
+                "icon": "link-horizontal",
+                "pages": []
+              },
+              {
+                "group": "評価キットイメージ",
+                "icon": "camera",
+                "pages": [
+                  {
+                    "group": "MM8108-EKH01",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM8108-EKH19",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM6108-EKH01-05-US",
+                    "icon": "camera",
+                    "pages": []
+                  },
+                  {
+                    "group": "MM6108-EKH03",
+                    "icon": "camera",
+                    "pages": []
+                  }
+                ]
+              },
+              {
+                "group": "ドライバー",
+                "icon": "usb-drive",
+                "pages": [
+                  {
+                    "group": "v1.17.9",
+                    "icon": "usb-drive",
+                    "pages": []
+                  },
+                  {
+                    "group": "v1.17.8",
+                    "icon": "usb-drive",
+                    "pages": []
+                  },
+                  {
+                    "group": "v1.16.4",
+                    "icon": "usb-drive",
+                    "pages": []
+                  }
+                ]
+              },
+              {
+                "group": "OpenWrt",
+                "icon": "book-open",
+                "pages": [
+                  {
+                    "group": "v2.11.12",
+                    "icon": "book-open",
+                    "pages": []
+                  },
+                  {
+                    "group": "V2.9.3",
+                    "icon": "book-open",
+                    "pages": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "設計リソース",
+            "icon": "pencil",
+            "pages": [
+              {
+                "group": "ハードウェア設計リソース",
+                "icon": "pencil",
+                "pages": [
+                  "ja/MM8108-MF15457_Hardware_Design_Guide_0_1_1"
+                ]
+              },
+              {
+                "group": "キャリアボード設計パッケージ",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "モジュール設計パッケージ",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "リファレンスデザインパッケージ",
+                "icon": "pencil",
+                "pages": []
+              },
+              {
+                "group": "ツール設計パッケージ",
+                "icon": "pencil",
+                "pages": []
+              }
+            ]
+          },
+          {
+            "group": "ツール",
+            "icon": "toolbox",
+            "pages": [
+              {
+                "group": "BCF エディター",
+                "icon": "toolbox",
+                "pages": [
+                  "ja/v3-4-1",
+                  "ja/v2-9-1"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "認証",
+            "icon": "square-check",
+            "pages": []
+          },
+          {
+            "group": "変更履歴",
+            "icon": "clock-rotate-left",
+            "pages": [
+              "ja/changelog/2026-05-28"
+            ]
+          }
         ]
       }
     ]
