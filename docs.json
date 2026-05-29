@@ -222,14 +222,6 @@
     "href": "/"
   },
   "fonts": {
-    "heading": {
-      "family": "Lato",
-      "weight": 900
-    },
-    "body": {
-      "family": "Lato",
-      "weight": 300
-    }
   },
   "appearance": {
     "strict": false
