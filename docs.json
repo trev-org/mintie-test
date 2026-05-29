@@ -252,5 +252,22 @@
   },
   "interaction": {
     "drilldown": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "href": "https://github.com/MorseMicro/morse_cli",
+        "type": "github"
+      },
+      {
+        "href": "https://community.morsemicro.com/",
+        "label": "Community"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Contact Us",
+      "href": "https://www.morsemicro.com/contact/"
+    }
   }
 }
