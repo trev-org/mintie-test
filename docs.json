@@ -76,7 +76,9 @@
                   {
                     "group": "CMSIS Pack",
                     "icon": "keyboard",
-                    "pages": []
+                    "pages": [
+                      "MM-IoT_CMSIS-Pack_User_Guide"
+                    ]
                   }
                 ]
               }

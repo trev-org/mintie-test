@@ -1,0 +1,608 @@
+---
+title: "MM-IoT CMSIS-Pack User Guide"
+description: "Get started with embedded HaLow development using the Morse Micro MM-IoT CMSIS-Pack in STM32CubeIDE: installation, running examples, custom BCF files, porting platforms, and creating new projects."
+icon: "microchip"
+---
+
+<Note>
+  Refer to the [online version](https://morsemicro.com) for up-to-date content. This guide was written for STM32CubeIDE v1.18.0.
+</Note>
+
+## Introduction
+
+This user guide demonstrates how to get started with embedded development using the MM-IoT CMSIS-Pack.
+
+A CMSIS-Pack is a way to add support for software components, device parameters, and EVB support that can be used in ARM projects across a range of IDEs. This document focuses on STM32CubeIDE, where the CMSIS-Pack is used to add HaLow support to CubeIDE-based projects.
+
+The MM-IoT CMSIS-Pack is a rebundled version of the Morse Micro IoT-SDK for embedded devices. Further details of the APIs and examples contained in the IoT-SDK can be found at [github.com/MorseMicro/mm-iot-sdk](https://github.com/MorseMicro/mm-iot-sdk).
+
+<Note>
+  This guide was written for STM32CubeIDE v1.18.0. From STM32Cube v2.0.0 onwards, ST separated the IDE from the STM32CubeMX code generation tool. The steps in this guide still apply, but you should perform the CMSIS-Pack installation and code generation / IOC file editing with the STM32CubeMX tool directly (instead of the version bundled into the IDE).
+</Note>
+
+---
+
+## Installing STM32CubeIDE
+
+First, install STM32CubeIDE on your machine. Download the latest version from [st.com/en/development-tools/stm32cubeide.html](https://www.st.com/en/development-tools/stm32cubeide.html), which provides a zip file. At the time of writing, v1.18.0 was the latest version.
+
+1. Unzip the downloaded file using any compression tool to obtain the installation file.
+2. Double-click the installation file to open the setup, then follow the wizard.
+3. Accept the license agreement (click **I Agree**).
+4. Select an install location and click **Next** (preferably leave it at the default path).
+5. Leave both components (**SEGGER J-Link drivers** and **ST-LINK drivers**) checked and click **Install**.
+6. Wait for the installation to finish, then click **Next**.
+7. Click **Finish** to close the installation window.
+
+---
+
+## Starting STM32CubeIDE
+
+1. Open STM32CubeIDE by double-clicking its icon.
+2. When prompted for the workspace directory, leave the default value and click **Launch**.
+3. After loading, if the **Features Usage Statistics Agreement** appears, click **OK** to close it.
+
+<Note>
+  You need to log in with your myST account in STM32CubeIDE to download the packages required for your projects. If you haven't logged in already, go to **Help → STM32Cube Updates → Connection to myST**.
+</Note>
+
+To log in:
+
+1. From **Help → STM32Cube Updates**, select **Connection to myST**.
+2. Click **Enter myST account information** in the dialog.
+3. Enter your email and password to log in.
+
+If your credentials are correct, the dialog closes and your account stays active on STM32CubeIDE until you remove it.
+
+---
+
+## Installing the Morse Micro CMSIS-Pack
+
+If you haven't already downloaded the Morse Micro CMSIS-Pack, you can download it from [github.com/MorseMicro/mm-iot-cmsis/releases](https://github.com/MorseMicro/mm-iot-cmsis/releases).
+
+1. After starting STM32CubeIDE, from the **Help** menu click **Manage Embedded Software Packages**.
+2. In the **Embedded Software Packages Manager** window, click the **From Local…** button.
+3. Navigate to where the Morse Micro CMSIS-Pack was downloaded, select the package (e.g. `MorseMicro.MM_IoT.2.5.2.pack`), and click **Open**.
+4. Read the License Agreement, select **I have read, and I agree to the terms of this license agreement**, and click **Finish**.
+5. The `MM_IoT` package should now appear under the **MorseMicro** tab. Click **Close** to close the package manager.
+
+---
+
+## Trying the HaLow example in STM32CubeIDE
+
+After installing the Morse Micro CMSIS-Pack, you can open the example shipped with the pack.
+
+1. From the **File** menu, click **Open Projects from File System…**.
+2. In the **Import Projects** window, click **Directory…**.
+3. Navigate to where the STM32 packages are installed. The path is typically:
+   On Windows:
+   ```text
+   C:\Users\USER_NAME\STM32Cube\Repository\Packs\MorseMicro\MM_IoT\2.5.0\HaLow_example_spi
+   ```
+   On Linux:
+   ```text
+   /home/USER_NAME/STM32Cube/Repository/Packs/MorseMicro/MM_IoT/2.5.1/HaLow_example_spi
+   ```
+   <Note>
+     Use `HaLow_example_sdio` instead of `HaLow_example_spi` depending on your EKH05 resistor configuration.
+   </Note>
+4. Click **Select Folder**, then click **Finish**.
+5. To see the project file tree, close the **Information Center** tab and click the restore icon on the left toolbar.
+6. Expand the `HaLow_example_spi` project and double-click `HaLow_example_spi.ioc` to open the Cube configuration.
+
+Normally you'll encounter a warning about the old version of the `.ioc` file. You can choose either **Continue** or **Migrate**.
+
+If this is the first time opening the project, STM32CubeMX will download packages needed for the example:
+
+- If prompted to download more packages, select **Download now**.
+- During download/installation, you may be asked to agree to terms and conditions a few times. Agree to all terms and conditions and click **Finish**.
+
+Once the CubeMX window is visible, from the **Project** menu click **Generate Code**. It will probably download more packages; if a license agreement dialog appears again, agree and click **Finish**.
+
+### Build and run
+
+1. Connect the EKH05 board to your PC using the USB micro connector on the ST-Link module.
+2. Click the **Run** button to build and run the example.
+3. The first time you run it, the **Edit Configuration** dialog appears to select the debugger. Leave everything at default and click **OK**.
+4. Watch the programmer's log; when it finishes programming successfully you'll see the success output (`Download verified successfully`).
+
+Your EKH05 is now running the IPerf program.
+
+### Connecting to the serial port
+
+Open a serial port on the USB COM port of the EKH05's ST-Link with these settings: **115200 baud, no hardware flow control, no parity, 1 stop bit**.
+
+<Tabs>
+  <Tab title="Windows">
+    Find the correct COM port number from Device Manager (e.g. **STMicroelectronics STLink Virtual COM Port (COM4)**).
+
+    You can use any serial terminal application (the guide uses PuTTY). After opening the serial port, press the **STM RESET** button on the board to restart the program. It will connect to your AP, and you can try the throughput by running the commands shown in the terminal.
+  </Tab>
+  <Tab title="Linux">
+    Find the correct `ttyACMx` number from `/dev` (for example `/dev/ttyACM0`).
+
+    Use `minicom` or PuTTY to open a serial port on the USB COM port of the EKH05's ST-Link with 115200 baud, no hardware flow control, no parity, and 1 stop bit.
+  </Tab>
+</Tabs>
+
+---
+
+## Changing example configuration
+
+To change configurations such as country, SSID, and password, open `configs.c` from the project tree (under **Core → Src → configs.c**). You can change all the configurations in this file, including:
+
+| Configuration | Example value | Notes |
+| --- | --- | --- |
+| `wlan.ssid` | `MorseMicro` | The Wi-Fi SSID. |
+| `wlan.password` | `12345678` | The Wi-Fi password (not required if `wlan.security` is open). |
+| `wlan.security` | `sae` | The Wi-Fi security to use. Valid values are `sae`, `owe`, and `open`. |
+| `wlan.country_code` | `AU` | The 2-letter country code to ensure the correct regulatory domain is used. |
+| `ip.dhcp_enabled` | `true` | If true, use DHCP; otherwise the static IP configuration is used. |
+| `ping.size` | `56` | Ping packet size. |
+
+---
+
+## Custom BCF file
+
+If you want to use a custom BCF mbin file, first convert the mbin file into a C source file that contains the BCF data:
+
+```bash
+xxd -i bcf_custom.mbin > bcf_custom.c
+```
+
+That creates a C file containing an unsigned char array and an unsigned int variable. In the example above they will be:
+
+```c
+unsigned char bcf_custom_mbin[];
+unsigned int bcf_custom_mbin_len;
+```
+
+Replace the selected BCF in `main.h` with the newly generated one — for example, update the `BCF_DATA_3V3` and `BCF_DATA_3V3_LEN` defines to point to `bcf_custom_mbin` and `bcf_custom_mbin_len`.
+
+---
+
+## Build and run other example apps
+
+In the MM-IoT CMSIS-Pack, the examples are provided as a software component with several variants.
+
+<Note>
+  All the example variants in the MM-IoT CMSIS-Pack (except the EKH05-Demo example) are replicas of MM-IoT-SDK examples. For more information on how to use a particular example, refer to the "Example Applications" section of the MM-IoT-SDK at each [release](https://github.com/MorseMicro/mm-iot-sdk/releases).
+</Note>
+
+1. Open the `HaLow_example.ioc` file.
+2. Open the **Software Packs Component Selector** dialog from **Pinout & Configuration → Software Packs → Select Components**.
+3. Expand the **MorseMicro.MM\_IoT** component, select the desired example variant, and click **OK**.
+
+<Note>
+  Each example needs its own components. If you see a yellow warning sign in the **Status** column, you need to select the dependency as well. The missing dependencies are displayed by selecting the warning icon.
+</Note>
+
+### Common pitfall — unnecessary components selected
+
+When you change the chosen example application, the CMSIS tooling does **not** automatically select or deselect other components. For example, if changing from the EKH05-Demo example to the iperf example, many components remain selected but will not compile as part of the new example (errors with `mbedtls_x509_crt` are common).
+
+To resolve this, you must remove unused components. If you don't know which components to remove, we recommend:
+
+1. Remove all components under the **MorseMicro.MM-IoT** pack.
+2. Use the yellow warnings to guide selecting all necessary components. This may require several passes to get all dependencies enabled.
+
+<Note>
+  We recommend choosing **mmLwIP** over **FreeRTOS-Plus-TCP**, but both are supported as dependencies to mmipal. FreeRTOS-Plus-TCP will be deprecated in the next SDK release.
+</Note>
+
+### Common pitfall — CMSIS bundle deselected
+
+If you have previously had all of the subcomponents from the **AWS AWS-Libraries** or **FreeRTOS-Libs FreeRTOS-libraries** bundles deselected, then CubeMX will automatically deselect the bundle too. If you then switch back to enabling the subcomponents, CubeMX does not automatically re-select the bundle.
+
+Some common build errors for this situation are:
+
+- Failing to find `shadow_device_task.h` — this likely means the **AWS AWS-libraries** bundle is not selected.
+- Failing to find `mqtt_agent_task.h` — this likely means the **FreeRTOS-Libs FreeRTOS-libraries** bundle is not selected.
+
+To resolve this, ensure that all items in **Categories → Middleware and Software Packs → MM\_IoT** are selected. After selecting the bundle, ensure you **Generate Code** to add source and components to the project, then clean and rebuild.
+
+---
+
+## Switching a project between MM6108 and MM8108
+
+The Morse Micro library binary (`libmorse.a`) provided with CMSIS-Pack 1.8.0\+ supports both MM6108 and MM8108 chips. The targeted chip is controlled by the `MM_CHIP` definition in `main.h`.
+
+To change the chip used by a project, edit `main.h` to specify the required chip:
+
+```c
+#define MM6108 1
+#define MM8108 2
+
+/* Define MM_CHIP as either:
+ *   #define MM_CHIP MM6108
+ *   #define MM_CHIP MM8108
+ */
+#define MM_CHIP MM8108
+```
+
+---
+
+## Create a new HaLow project in CubeIDE
+
+This section provides a walkthrough for creating a new project in STM32CubeIDE for the STM32U585VIT6 target presented on the EKH05.
+
+The project's code components, at a high level, are:
+
+- **Example component** — porting assistant, iperf, ping, etc.
+- **Core** — hardware initialization.
+- **Driver** — STM32 HAL.
+- **Middlewares** — FreeRTOS and MM-IoT (Morselib, LwIP, hardware shim).
+
+Most of this section explains how to prepare the Core code that initializes the hardware peripherals.
+
+### Create the project
+
+1. Open the **STM32 Project** dialog from **File → New → STM32 Project**.
+2. Select the desired component by searching in **Commercial Part Number** (here, `STM32U585VIT6`) and click **Next**.
+3. Choose a name for the project and click **Finish**. This creates the project with only the CubeMX `.ioc` file in it, where you can configure your peripherals.
+
+### Select components
+
+1. Open the **Software Packs Components selector** from **Pinout & Configuration → Software Packs → Select Components**.
+2. Select **porting\_assistant** from the **MorseMicro.MM\_IoT → MM\_IoT example** dropdown.
+   <Note>
+     The porting assistant example application runs all the necessary hardware tests (at the time of writing, except for the SPI\_IRQ pin interrupt) to make sure that your hardware and hardware abstraction layer are set up correctly.
+   </Note>
+3. Click the yellow warning sign to highlight the missing components. Click **Resolve** to let CubeMX select the missing components as much as it can. Repeat for the rest of the components that have missing dependencies.
+4. For **morselib**, choose **BSP-EKH05/MMx108/Variant SPI**. If creating the project for a new hardware platform, select **MM\_IoT → MMx6108-template/Variant SPI or SDIO** and skip the SPI settings of this chapter to set up your own SPI or SDIO settings (see [Porting a new platform](#porting-a-new-platform)).
+5. For **mmipal**, select **mmpktmem/Variant static** and **mmLwIP**. Then close the components dialog.
+
+### Configure GPIO outputs
+
+Select GPIO outputs and add the following user labels:
+
+| User label | Pin |
+| --- | --- |
+| `RESET_N` | PE0 |
+| `SPI_CS` | PB4 |
+| `WAKE` | PD0 |
+| `GPIO_LED_GREEN` | PE7 |
+| `GPIO_LED_BLUE` | PE8 |
+| `GPIO_LED_RED` | PE11 |
+| `MM_DEBUG_0` | PA10 |
+| `MM_DEBUG_1` | PA9 |
+
+### Configure GPIO interrupts
+
+Select two pins to be `GPIO_EXTI` and label them as follows:
+
+| User label | Pin |
+| --- | --- |
+| `BUSY` | PB5 (EXTI\_LINE\_5) |
+| `SPI_IRQ` | PB15 (EXTI\_LINE\_15) |
+
+Select 3 SPI pins and label them `SPI_MOSI`, `SPI_MISO`, and `SPI_SCK`.
+
+### Clock configuration
+
+In **Clock Configuration**, set the system clock (HCLK) to **160 MHz**, press Enter, and let CubeMX find the best clock configuration for that frequency.
+
+### Configure SPI
+
+Enable your SPI peripheral with these settings:
+
+| Parameter | Value |
+| --- | --- |
+| Mode | Full-Duplex Master |
+| Hardware NSS Signal | Disable |
+| Data Size | 8 Bits |
+| First Bit | MSB First |
+| Prescaler (Baud Rate) | 50 MHz or lower (e.g. 40.0 MBits/s) |
+| Clock Polarity (CPOL) | Low |
+| Clock Phase (CPHA) | 1 Edge |
+| NSSP Mode | Disabled |
+
+Then set the SPI GPIOs' speed to **Very High**.
+
+### Configure UART for logs
+
+Enable a UART port for logs. When enabling the UART, make sure to label the pins:
+
+| User label | Pin |
+| --- | --- |
+| `LOG_USART_RX` | PC0 |
+| `LOG_USART_TX` | PC1 |
+
+Set the UART mode to **Asynchronous**, Hardware Flow Control to **Disable**, and Baud Rate to **115200 Bits/s**.
+
+### Enable MM-IoT and RTOS components
+
+1. Enable MM-IoT components from **MM-IoT** (check **MM IoT Example** and **MM IoT MM IoT**).
+2. Enable **CMSIS RTOS2** from **X-CUBE-FREERTOS**.
+3. Set the FreeRTOS parameters as follows:
+   | Parameter | Value |
+   | --- | --- |
+   | `ENABLE_FPU` | Enabled |
+   | `MINIMAL_STACK_SIZE` | 256 |
+   | `USE_TICKLESS_IDLE` | User defined functionality enabled |
+   | `TOTAL_HEAP_SIZE` | 95\*1024 |
+
+### Configure interrupts and DMA
+
+1. From **GPIO → GPIO**, select the row for the **BUSY** pin and set it as a **rising edge** interrupt with a **pull down**.
+2. Select the row for the **SPI\_IRQ** pin and set it as a **falling edge** interrupt.
+3. Enable interrupts for **EXTI 5** and **EXTI 15** from the **NVIC** tab.
+4. From **GPDMA1 → Mode**, select **Standard Request Mode** for channels 15 and 14.
+
+Select the **CH15** tab and set these parameters:
+
+| Parameter | Value |
+| --- | --- |
+| Request | SPI2\_TX |
+| Direction | Memory To Peripheral |
+| Source Address Increment After Transfer | Enabled |
+
+Select the **CH14** tab and set these parameters:
+
+| Parameter | Value |
+| --- | --- |
+| Request | SPI2\_RX |
+| Direction | Peripheral To Memory |
+| Destination Address Increment After Transfer | Enabled |
+
+### Enable RNG and timers
+
+1. Enable the **Random Number Generator** from **Security → RNG**.
+2. Enable a **low power timer** with an internal clock source and set its prescaler to **divide by 4** (LPTIM1).
+3. Change the **LPTIM1** clock source to **LSI**.
+4. Enable **RTC** from **Timers** and leave everything at default.
+
+### Set library types to LL
+
+Change the library type for **GPIO, LPUART, RTC, LPTIM, SPI, and GPDMA** to **LL** from **Project Manager → Advanced Settings**.
+
+From **NVIC → NVIC**, uncheck the tickbox for **Force DMA channel interrupts**. Then:
+
+- Disable **GPDMA1 Channel 15 interrupt**.
+- Enable **LPUART1** and **LPTIM1** interrupts.
+- Reduce the **LPUART** and **GPDMA1 Channel 14** priority to 15.
+
+From **NVIC → Code generation**, uncheck **Generate IRQ handler** for the peripherals you've configured.
+
+Save the project and generate the code from **Project → Generate Code**.
+
+### Edit the linker script
+
+Open the linker script (`STM32U585VITXQ_FLASH.ld`), assign a part of the flash memory to the `CONFIG` section, and add the definition of its boundaries:
+
+```ld
+/* Memories definition */
+MEMORY
+{
+  RAM    (xrw)  : ORIGIN = 0x20000000,  LENGTH = 768K
+  SRAM4  (xrw)  : ORIGIN = 0x28000000,  LENGTH = 16K
+  FLASH  (rx)   : ORIGIN = 0x08000000,  LENGTH = 2032K
+  CONFIG (r)    : ORIGIN = 0x081FC000,  LENGTH = 16K
+}
+
+/* Sections */
+SECTIONS
+{
+  /* The startup code into "FLASH" Rom type memory */
+  .isr_vector :
+  {
+    KEEP(*(.isr_vector)) /* Startup code */
+  } >FLASH
+
+  .mmconfig :
+  {
+    mmconfig_start = ORIGIN(CONFIG);
+    mmconfig_end   = ORIGIN(CONFIG) + LENGTH(CONFIG);
+  }
+}
+```
+
+### Edit main.h and main.c
+
+Open `main.h` and add the following to the `USER CODE BEGIN/END EM` section:
+
+```c
+/* USER CODE BEGIN EM */
+#define SPI_PERIPH              (SPI2)
+
+#define SPI_DMA_PERIPH          (GPDMA1)
+#define SPI_RX_DMA_CHANNEL      (LL_DMA_CHANNEL_14)
+#define SPI_TX_DMA_CHANNEL      (LL_DMA_CHANNEL_15)
+
+#define SPI_IRQn                (EXTI15_IRQn)
+#define SPI_IRQ_LINE            (LL_EXTI_LINE_15)
+#define SPI_IRQ_HANDLER         EXTI15_IRQHandler
+
+#define BUSY_IRQn               (EXTI5_IRQn)
+#define BUSY_IRQ_LINE           (LL_EXTI_LINE_5)
+#define BUSY_IRQ_HANDLER        EXTI5_IRQHandler
+
+#define LOG_USART               (LPUART1)
+#define LOG_USART_IRQ           (LPUART1_IRQn)
+#define LOG_USART_IRQ_HANDLER   LPUART1_IRQHandler
+
+#define BCF_DATA_3V3            bcf_aw_hm593
+#define BCF_DATA_3V3_LEN        bcf_aw_hm593_len
+/* USER CODE END EM */
+```
+
+Add the `mmosal.h` header in the `USER CODE Includes` section:
+
+```c
+/* USER CODE BEGIN Includes */
+#include "mmosal.h"
+/* USER CODE END Includes */
+```
+
+Add the `app_init` function declaration to the `USER CODE PFP` section:
+
+```c
+/* USER CODE BEGIN PFP */
+void app_init(void);
+/* USER CODE END PFP */
+```
+
+Add the following call to the `USER CODE 2` section:
+
+```c
+/* USER CODE BEGIN 2 */
+LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_14);
+LL_LPTIM_Enable(LPTIM1);
+LL_LPTIM_ClearFlag_DIEROK(LPTIM1);
+LL_LPTIM_EnableIT_CC1(LPTIM1);
+while (!LL_LPTIM_IsActiveFlag_DIEROK(LPTIM1))
+{
+}
+LL_LPTIM_StartCounter(LPTIM1, LL_LPTIM_OPERATING_MODE_CONTINUOUS);
+/* Enable LPTIM1 autonomous mode to wake up from stop modes. */
+LL_SRDAMR_GRP1_EnableAutonomousClock(LL_SRDAMR_GRP1_PERIPH_LPTIM1AMEN);
+mmosal_main(app_init);
+/* USER CODE END 2 */
+```
+
+<Note>
+  `mmosal_main` starts the RTOS kernel and will never return from it.
+</Note>
+
+### Add global definitions
+
+Open the project properties from **Project → Properties**. Go to **C/C\+\+ build → Settings → MCU/MPU GCC Compiler → Preprocessor** to open the symbols page. Click **Add…** to add the following definitions:
+
+```text
+MBEDTLS_CONFIG_FILE="prj_mbedtls_config.h"
+MMPKTMEM_TX_POOL_N_BLOCKS=32
+MMPKTMEM_RX_POOL_N_BLOCKS=32
+```
+
+---
+
+## Porting a new platform
+
+<Note>
+  The templates described in this section are available from CMSIS-Pack release 1.6.0 onwards.
+</Note>
+
+If you are creating support for a new hardware platform, you'll need to use the **MMx108-template** component from the MM-IoT CMSIS-Pack and create your own hardware shim layer.
+
+You can find several examples for different platforms at [github.com/MorseMicro/mm-iot-sdk/tree/main/framework/src/platforms](https://github.com/MorseMicro/mm-iot-sdk/tree/main/framework/src/platforms).
+
+When using the **MMx108-template** component, you'll find `wlan_hal.c`, `mmhal_app.c`, `mmhal_uart.c`, `mmhal_flash.c`, and `mmhal.c` files in the `MM_IoT/Target` directory in your STM32CubeIDE project.
+
+These files contain a set of empty weak function implementations (functions that will be replaced by a function with the same name if defined elsewhere) required by morselib and the examples.
+
+<Warning>
+  Copy these files from the `MM_IoT/Target` directory to somewhere else in your project (for example the `Core` directory) before modifying them. Otherwise, every time you ask STM32CubeMX to generate code, it will replace these files with clean templates. After copying them, remove the `weak` attribute from all the functions so they override the functions in the original template files.
+</Warning>
+
+The shim files and their purposes:
+
+| File | Purpose | Reference header |
+| --- | --- | --- |
+| `wlan_hal.c` | Hardware interface code responsible for handling SPI or SDIO read/write and interrupt handling. | `morselib/MMx108/with_wpa_supplicant/include/mmhal_wlan.h` |
+| `mmhal.c` | Code morselib needs for handling system-level functionality related to hardware, such as sleeping. | `morselib/MMx108/with_wpa_supplicant/include/mmhal.h` |
+| `mmhal_app.c` | Application-related hardware functions such as buttons, LEDs, and RTC. | `morselib/MMx108/with_wpa_supplicant/include/mmhal.h` |
+| `mmhal_uart.c` | Only needed for the rf-test example to work. Provides the UART mid layer to pass data between the app and the UART. | `morselib/MMx108/with_wpa_supplicant/include/mmhal_uart.h` |
+| `mmhal_flash.c` | Only needed if you need the mmconfig component to change or write new configurations into non-volatile memory. Contains read/write/erase implementations. | `morselib/MMx108/with_wpa_supplicant/include/mmhal_flash.h` |
+
+Reference headers are located under `Middlewares/Third_Party/MorseMicro_MM_IoT_MM_IoT/`.
+
+---
+
+## Importing a platform from mm-iot-sdk
+
+This chapter explains the process of importing a platform from [github.com/MorseMicro/mm-iot-sdk/tree/main/framework/src/platforms](https://github.com/MorseMicro/mm-iot-sdk/tree/main/framework/src/platforms) into STM32CubeIDE to be used with the CMSIS-Pack. As an example, we import the `mm-ekh08-u575` platform.
+
+<Note>
+  Make sure the Morse Micro MM-IoT CMSIS-Pack is installed before proceeding.
+</Note>
+
+1. Download [github.com/MorseMicro/mm-iot-sdk](https://github.com/MorseMicro/mm-iot-sdk) to your computer.
+2. Start a new project by selecting **STM32 Project from an Existing STM32CubeMX Configuration File (.ioc)** from **File → New**.
+3. Click **Browse** and select the CubeMX project file at `framework\src\platforms\mm-ekh08-u575\bsp\cube.ioc` inside the mm-iot-sdk.
+4. Choose a project name and click **Finish**.
+5. If you encounter a message about updating package versions, press **Continue** to keep the same versions.
+6. After the project is created, open the **Software Packs Component Selector** from **Software Packs → Select Components** or by pressing **Alt\+O**.
+7. Select **porting\_assistant** from the **MorseMicro.MM\_IoT → MM\_IoT example** dropdown.
+8. Click the yellow warning sign to highlight missing components, then click **Resolve** to let CubeMX select them. Repeat for the rest of the components that have missing dependencies. For **morselib**, choose **MM\_IoT → MMx6108-template/Variant SPI**.
+9. Click **OK** to close the component selector dialog.
+
+### Enable components and set parameters
+
+1. Enable MM\_IoT components by selecting all the check boxes from **Pinout & Configuration → MM\_IoT**.
+2. Enable **CMSIS RTOS2** from **X-CUBE-FREERTOS**.
+3. Set the FreeRTOS parameters as follows:
+   | Parameter | Value |
+   | --- | --- |
+   | `ENABLE_FPU` | Enabled |
+   | `MINIMAL_STACK_SIZE` | 256 |
+   | `USE_TICKLESS_IDLE` | User defined functionality enabled |
+   | `TOTAL_HEAP_SIZE` | 95\*1024 |
+
+### Copy the shim files
+
+From `framework\src\platforms\mm-ekh08-u575\mm_shims` inside the mm-iot-sdk, copy `mmekh08_hal_common.h`, `mmhal_flash.c`, `mmhal_uart.c`, `mmhal.c`, and `wlan_hal.c` into your project.
+
+Also copy the lines inside `USER CODE` in `main.c` and `main.h` from the mm-iot-sdk. (Alternatively, replace `main.c` and `main.h` with the ones from the mm-iot-sdk and re-generate the code.)
+
+### Edit the linker script and add definitions
+
+Open the linker script (`STM32U575ZITXQ_FLASH.ld`), assign a part of the flash memory to the `CONFIG` section, and add the definition of its boundaries:
+
+```ld
+/* Memories definition */
+MEMORY
+{
+  RAM    (xrw)  : ORIGIN = 0x20000000,  LENGTH = 768K
+  SRAM4  (xrw)  : ORIGIN = 0x28000000,  LENGTH = 16K
+  FLASH  (rx)   : ORIGIN = 0x08000000,  LENGTH = 2032K
+  CONFIG (r)    : ORIGIN = 0x081FC000,  LENGTH = 16K
+}
+
+/* Sections */
+SECTIONS
+{
+  /* The startup code into "FLASH" Rom type memory */
+  .isr_vector :
+  {
+    KEEP(*(.isr_vector)) /* Startup code */
+  } >FLASH
+
+  .mmconfig :
+  {
+    mmconfig_start = ORIGIN(CONFIG);
+    mmconfig_end   = ORIGIN(CONFIG) + LENGTH(CONFIG);
+  }
+}
+```
+
+Add the necessary global definitions. Open the project properties from **File → Properties**, go to **C/C\+\+ build → Settings → MCU/MPU GCC Compiler → Preprocessor**, and click **Add…** to add:
+
+```text
+MBEDTLS_CONFIG_FILE="prj_mbedtls_config.h"
+MMPKTMEM_TX_POOL_N_BLOCKS=32
+MMPKTMEM_RX_POOL_N_BLOCKS=32
+```
+
+Save everything, re-generate the code, and build the project.
+
+---
+
+## Modifying an existing example to make a new application
+
+If you need to modify an existing example to create a new application, the best approach is to copy the example code from the generated directories and place it somewhere else that doesn't get overwritten every time you generate code (for example, in the root directory).
+
+For example, suppose you've opened the EKH05-Demo example in your workspace and can build it, and now you want to modify its code:
+
+1. From the project tree, copy `EKH05-Demo` from `Middlewares/Third_Party/MorseMicro_MM_IoT/Example/EKH05-Demo` and paste it in the root directory, then delete the original code. You can also rename the directory (for example, `my_app`).
+2. Disable the example component from the component selector to avoid code duplication when you regenerate the code — set the **MM\_IoT Example** dropdown to **Not selected**.
+
+---
+
+## Revision history
+
+| Release Number | Release Date | Release Notes |
+| --- | --- | --- |
+| 04 | 05-Feb-2026 | Update for 1.8.2 release, including new method for switching between MM6108 and MM8108, and simpler changing between examples. |
+| 03 | 01-Sep-2025 | Update rf-test section. Added a section for modifying the examples. Added a section for the cli example. |
+| 02 | 14-May-2025 | Added section for switching between MM6108 and MM8108. Added login instruction. Added GitHub release page link. Added a note to refer to MM-IoT-SDK documentation for examples. |
+| 01 | 14-Apr-2025 | Initial Release. |
