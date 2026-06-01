@@ -220,6 +220,9 @@
             "group": "Changelog",
             "icon": "clock-rotate-left",
             "pages": [
+              "changelog/2026-06-01",
+              "changelog/2026-05-31",
+              "changelog/2026-05-29",
               "changelog/2026-05-28"
             ]
           }
@@ -433,6 +436,9 @@
             "group": "更新日志",
             "icon": "clock-rotate-left",
             "pages": [
+              "cn/changelog/2026-06-01",
+              "cn/changelog/2026-05-31",
+              "cn/changelog/2026-05-29",
               "cn/changelog/2026-05-28"
             ]
           }
@@ -646,6 +652,9 @@
             "group": "変更履歴",
             "icon": "clock-rotate-left",
             "pages": [
+              "ja/changelog/2026-06-01",
+              "ja/changelog/2026-05-31",
+              "ja/changelog/2026-05-29",
               "ja/changelog/2026-05-28"
             ]
           }
