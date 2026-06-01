@@ -1,0 +1,712 @@
+---
+title: "HaLow RF Test Guide"
+sidebarTitle: "Application note 43"
+description: "APPNOTE-43 — Detailed guidance for conducting and interpreting cabled RF measurements of MM6108 and MM8108 Wi-Fi HaLow devices using LitePoint testers."
+---
+
+# HaLow RF Test Guide
+
+<Info>
+  APPNOTE-43 · RF Test Guide v1 · Proprietary and Confidential
+</Info>
+
+## 1. Scope
+
+This application note offers detailed technical guidance and foundational background for conducting and interpreting cabled RF measurements of MM6108 and MM8108 Wi-Fi HaLow devices.
+
+This application note introduces foundational theoretical concepts, including essential RF measurement parameters, HaLow test modes, and the use of Vector Signal Transceivers (VSTs) for conducting Transmit (TX) and Receive (RX) evaluations. It also provides a comprehensive overview of the test environment setup, detailing each critical component — such as LitePoint testers, HaLow devices under test (DUT), and associated RF instrumentation. In addition, it includes guidance on using the RF Tester software package provided by Morse Micro to configure and control the HaLow device under test.
+
+By the end of this document, readers should be able to:
+
+- Understand the key measurement parameters essential for evaluating the quality of HaLow TX and RX performance
+- Configure a complete RF test setup for HaLow TX and RX measurement
+- Execute consistent and repeatable RF measurements using standard equipment
+- Identify and resolve typical device behavior issues
+
+This document is intended for RF test engineers, validation teams, and embedded developers working with Morse Micro's HaLow chipsets, particularly in environments where accurate wireless performance evaluation is critical.
+
+## 2. Background Information
+
+### 2.1. HaLow Test Modes
+
+#### 2.1.1. Random Packet Generator (RPG)
+
+To evaluate the quality of a Wi-Fi HaLow transmit signal, the Device Under Test (DUT) must actively transmit. Rather than establishing a HaLow connection with another device, the MM6108 and MM8108 offer several test modes designed specifically for this purpose. One such mode is Random Packet Generator (RPG) mode, which enables the DUT to continuously transmit packets with randomized payloads. These packets can then be captured by RF test equipment, and analyzed to evaluate key signal metrics and overall transmit performance.
+
+<Note>
+  RPG mode is not included in standard production firmware. Specialized test firmware is required. Please contact your Morse Micro representative to obtain access.
+</Note>
+
+#### 2.1.2. Fast Symbol Generator (FSG)
+
+The Fast Symbol Generator (FSG) is a test mode to allow testing of higher duty cycles than is possible with RPG mode. RPG mode is limited to ~90% duty cycle due to interframe spacing requirements, and internal overhead within the HaLow chip. FSG mode is used for regulatory testing where the minimum duty cycle is more than RPG is capable of. Note that FSG packets may not be able to be decoded by VSTs, and this mode should **only** be used for regulatory testing, not for any transmitter or receiver verification.
+
+<Note>
+  FSG mode is not included in standard production firmware. Specialized test firmware is required. If needed, contact your Morse Micro representative to obtain access.
+</Note>
+
+### 2.2. Vector Signal Transceiver
+
+For Wi-Fi HaLow testing, a Vector Signal Transceiver (VST) is employed as a near-ideal transceiver to both generate the RF transmission signal and receive the response signal, enabling accurate characterization of the device under test (DUT) with minimal distortion or noise introduced by the test equipment.
+
+This application note specifically details the use of LitePoint testers as the Vector Signal Transceiver (VST) for RF measurements. Although other test equipment may be compatible, they have not been officially validated by Morse Micro.
+
+#### 2.2.1. Recommended LitePoint Model
+
+The recommended LitePoint model is the IQxel-MW 7G. As the latest generation hardware, it offers full support for all Wi-Fi HaLow features and benefits from ongoing firmware updates and active technical support from LitePoint.
+
+<Frame caption="Figure 1. LitePoint IQXel-MW 7G model with 8 ports.">
+  ![LitePoint IQXel-MW 7G model with 8 ports](/images/appnote-43/figure-01.png)
+</Frame>
+
+#### 2.2.2. Discontinued LitePoint Models
+
+LitePoint no longer supports legacy test instruments such as the IQxel-MW and IQxel-M. Continued use of these models is not recommended. For full support, ongoing firmware updates, and optimal RF performance, migration to the IQxel-MW 7G is advised.
+
+Due to firmware limitations on older models, RF metric reporting differs from that of the IQxel-MW 7G. Comparative testing conducted by Morse Micro shows that transmit power and EVM measurements remain aligned across units. However, SEM results from legacy testers are less accurate due to the inability to upgrade their firmware.
+
+At power levels where SEM limits become marginal, inaccuracies from older units may lead to false module failures. In such cases, the module may be operating within acceptable parameters, but the outdated LitePoint model incorrectly reports a failure.
+
+To ensure accurate test outcomes, it is recommended the IQxel-MW 7G model is used in production workflows. This avoids inconsistencies caused by unsupported hardware and ensures reliable RF performance assessment.
+
+#### 2.2.3. LitePoint Firmware Version
+
+Maintaining up-to-date LitePoint firmware is critical to ensure accurate and reliable RF measurements. As firmware versions may vary by model, it is recommended to contact LitePoint support to verify that the correct and latest version is installed.
+
+## 3. Key Measurement Metrics
+
+This section outlines key RF metrics captured by VSTs and the HaLow devices to evaluate the quality of TX and RX performance. While not an exhaustive list of all parameters measured by the VST, the metrics presented here represent the core set used by Morse Micro to validate device performance and ensure compliance with the IEEE 802.11ah specification.
+
+### 3.1. Transmit (TX) Metrics
+
+#### 3.1.1. Power
+
+**Description:**
+
+Power is the strength of the transmitted RF signal; used to verify signal levels and regulatory compliance. There are typically two power measurements of interest, average power and peak power. Average power is calculated over the full packet duration, and is used as the primary indicator of TX output performance. Peak power reflects the highest instantaneous power observed, and is critical for meeting regulatory requirements. Both measurements are specified in dBm.
+
+**Typical Measurement:**
+
+On a LitePoint, this is typically observed either through the TX Quality Orthogonal Frequency-Division Multiplexing (OFDM) plot, and the spectrum plot. Instructions for accessing these plots are provided in the [Performing HaLow Measurements](#5-performing-halow-measurements) section. Note that the LitePoint reports the channel power, rather than the total power. In the example shown below, this means it is the power across the 8 MHz signal, and does not include any of the sidelobes or harmonics.
+
+<Frame caption="Figure 2. Example power measurement in the LitePoint GUI.">
+  ![Example power measurement in the LitePoint GUI](/images/appnote-43/figure-02.png)
+</Frame>
+
+<Frame caption="Figure 3. Spectrum plot within the LitePoint GUI.">
+  ![Spectrum plot within the LitePoint GUI](/images/appnote-43/figure-03.png)
+</Frame>
+
+**Expected Result:**
+
+The expected result will vary upon the device being used, bandwidth, channel, and Modulation and Coding Scheme (MCS) rate. Please consult the relevant chip or module datasheet for expected power numbers.
+
+The measured power reflects the signal level received at the LitePoint connector. It does not account for any cable losses or external attenuation present in the signal path by default. Instructions for compensating for path loss are found in the [Inputting External Attenuation](#4-3-2-inputting-external-attenuation-optional) section.
+
+**Common Failure Modes:**
+
+- Incorrect or misconfigured Board Configuration File (BCF).
+- Components on the transmit path with high insertion loss are unaccounted for.
+- Inaccurate path loss has been applied.
+
+#### 3.1.2. Error Vector Magnitude (EVM)
+
+**Description:**
+
+Error Vector Magnitude quantifies the modulation accuracy of a transmitted OFDM signal. It measures the difference between the ideal (reference) constellation points and the actual received points for the In-phase and Quadrature (I/Q) plane. Mathematically, EVM is expressed as a percentage or in decibels (dB), and is defined as:
+
+$$
+\text{EVM}_\% = \frac{\text{RMS of error vectors}}{\text{RMS of reference vectors}} \times 100\%
+$$
+
+$$
+\text{EVM}_{\text{dB}} = 20 \log_{10}\left(\frac{\text{EVM}_\%}{100}\right)
+$$
+
+Lower EVM values indicate better modulation accuracy and overall signal quality. In Wi-Fi HaLow, maintaining EVM within specified limits is critical for ensuring reliable communication and compliance with the standard's Physical (PHY) layer requirements.
+
+**Typical Measurement:**
+
+On a LitePoint tester, this is typically observed using the TX Quality OFDM table as a value or the Constellation OFDM plot.
+
+<Frame caption="Figure 5. Example EVM measurement in the LitePoint GUI.">
+  ![Example EVM measurement in the LitePoint GUI](/images/appnote-43/figure-05.png)
+</Frame>
+
+<Frame caption="Figure 6. Example constellation of a 64-QAM signal.">
+  ![Example constellation of a 64-QAM signal](/images/appnote-43/figure-06.png)
+</Frame>
+
+**Expected Result:**
+
+EVM limits are MCS rate dependent. Table 23-30 from the IEEE 802.11ah specification document shows the specification limits. An individual device must meet or exceed the IEEE limit in all circumstances. For example: MCS8 must have an EVM ≤ 30 dB.
+
+<Warning>
+  For volume production, the manufacturer must apply an additional limit margin to accommodate process variation and sample size variability. See [Test Margin Considerations](#3-3-test-margin-considerations) for detailed guidance.
+</Warning>
+
+| MCS | Limit (dB) |
+| --- | --- |
+| 10 | -4 |
+| 0 | -5 |
+| 1 | -10 |
+| 2 | -13 |
+| 3 | -16 |
+| 4 | -19 |
+| 5 | -22 |
+| 6 | -25 |
+| 7 | -27 |
+| 8 | -30 |
+| 9 | -32 |
+
+**Common Failure Modes:**
+
+- Incorrect or misconfigured BCF.
+- Impedance mismatches on the DUT's transmission line.
+- Driving the Power Amplifier (PA) near its saturation regions.
+- Poor cable quality.
+
+#### 3.1.3. Spectrum Emissions Mask (SEM)
+
+**Description:**
+
+The spectrum emissions mask specifies the maximum permissible signal power levels at various frequency offsets from the centre frequency of a transmitted signal. The image below is taken from the IEEE 802.11ah specification document, and shows the mask of an 8 MHz signal.
+
+<Frame caption="Figure 7. Example spectrum mask from the IEEE 802.11ah specification (Figure 23-25 — Transmit spectral mask for 8 MHz channel).">
+  ![Example spectrum mask from the IEEE 802.11ah specification](/images/appnote-43/figure-07.png)
+</Frame>
+
+This measurement is critical to ensure compliance for both specification and regulatory requirements.
+
+<Note>
+  It is important to clarify that the LitePoint SEM measurement does not report absolute power (in dBm). Instead, it calculates the **margin** (in dB) between the spectral mask (internal limit) and the measured power levels at various frequency offsets.
+</Note>
+
+**Typical Measurement:**
+
+The SEM value is displayed in the Spectrum Mask Margins plot on the LitePoint system. It provides individual margin values for each spectral mask segment.
+
+For SEM margin measurements, LitePoint divides the analysis bandwidth into segments based on the IEEE 802.11ah spectral mask. These segments are organized into lower and upper regions relative to the channel center frequency. Each region includes segments 1 through 4, progressing outward from the center frequency. Segment 1 corresponds to the edge of the occupied bandwidth, approximately 0.5 times the channel bandwidth from the center. Segment 2 spans from the edge of segment 1 to 1× the channel bandwidth. Segment 3 extends from 1× to 1.5× the channel bandwidth, and segment 4 covers the region beyond 1.5× the channel bandwidth.
+
+If a single SEM value is required, it is typically reported as the minimum margin observed across all spectral mask segments.
+
+<Frame caption="Figure 8. Example SEM measurement in the LitePoint GUI.">
+  ![Example SEM measurement in the LitePoint GUI](/images/appnote-43/figure-08.png)
+</Frame>
+
+In the example above, the lowest (minimum) margin across all measured frequency offsets is 5.85 dB, which is reported as the final SEM result for this segment.
+
+**Expected Result:**
+
+All SEM margin points must be ≥ 0 dB to be IEEE compliant.
+
+<Warning>
+  For volume production, the manufacturer must apply an additional limit margin to accommodate process variation and sample size variability. See [Test Margin Considerations](#3-3-test-margin-considerations) for detailed guidance.
+</Warning>
+
+**Common Failure Modes:**
+
+- Incorrect or misconfigured BCF.
+- Impedance mismatches on the DUT's transmission line.
+- Driving the Power Amplifier (PA) near its saturation regions.
+- Poor cable quality.
+- Shielding issues.
+
+#### 3.1.4. Spectral Flatness (SF)
+
+**Description:**
+
+Spectral flatness ensures that the transmitted signal maintains uniform power distribution across its occupied bandwidth. The specification defines allowable power deviations across individual subcarriers, and accordingly, the LitePoint reports spectral flatness measurements in dB per subcarrier.
+
+**Typical Measurement:**
+
+This can be seen on the LitePoint's Spectral Flatness OFDM measurement.
+
+<Frame caption="Figure 9. Example SF measurement in the LitePoint GUI.">
+  ![Example SF measurement in the LitePoint GUI](/images/appnote-43/figure-09.png)
+</Frame>
+
+The lowest (minimum) value across all subcarriers is recorded and compared against the defined spectral flatness limits.
+
+**Expected Result:**
+
+All Spectral Flatness measurements must remain within the defined limit lines under all conditions. Similar to SEM, the minimum margin across the subcarriers is typically used as the reported Spectral Flatness value. If this minimum exceeds the limit (0 dB), the Spectral Flatness test passes for that subcarrier.
+
+For example, in Figure 9 the subcarrier measurement line (purple) is above the lower limit and below the upper red limit line. Therefore, all values pass the requirement.
+
+<Warning>
+  For volume production, the manufacturer must apply an additional limit margin to accommodate process variation and sample size variability. See [Test Margin Considerations](#3-3-test-margin-considerations) for detailed guidance.
+</Warning>
+
+**Common Failure Modes:**
+
+- Incorrect or misconfigured BCF.
+- IQ imbalance or DC offsets in the transmit chain.
+- Nonlinearities in the power amplifier.
+- High frequency error and phase noise.
+
+#### 3.1.5. Frequency Error
+
+**Description:**
+
+Frequency error is the difference between the measured frequency and the nominal (expected) frequency. For example, a signal intended to transmit at 924 MHz may actually be transmitting at 924.1 MHz due to frequency error. This measurement is essential for regulatory compliance — ensuring the signal stays within its allocated spectrum — and to reduce RX PER for the receiver.
+
+Frequency error can be defined in either Hz or PPM (Parts Per Million). The IEEE 802.11ah specification defines a frequency error limit of ±20 PPM. Frequency error can be converted from Hz to PPM as per:
+
+$$
+\text{Frequency Error (PPM)} = \frac{\text{Frequency Error (Hz)}}{\text{Center Frequency (Hz)}} \times 10^{6}
+$$
+
+**Typical Measurement:**
+
+On a LitePoint tester, frequency error is typically seen on the TX Quality OFDM measurement. Here, the LitePoint presents the measurement in Hz.
+
+<Frame caption="Figure 11. Example frequency error measurement in the LitePoint GUI.">
+  ![Example frequency error measurement in the LitePoint GUI](/images/appnote-43/figure-11.png)
+</Frame>
+
+Using the formula above and a center frequency of 924 MHz, the calculated frequency error is -7.07 PPM. This falls within the ±20 PPM limit and is therefore considered a pass.
+
+**Expected Result:**
+
+All frequency error values must be within ±20 PPM in all circumstances.
+
+<Warning>
+  For volume production, the manufacturer must apply an additional limit margin to accommodate process variation and sample size variability. See [Test Margin Considerations](#3-3-test-margin-considerations) for detailed guidance.
+</Warning>
+
+**Common Failure Modes:**
+
+- Crystal oscillator inaccuracy.
+- Incorrect or untuned load capacitors on the crystal oscillator.
+- Temperature drift.
+- Increased RX PER for the receiver.
+
+#### 3.1.6. Local Oscillator (LO) Leakage
+
+**Description:**
+
+Local oscillator leakage verifies that the transmitter does not leak significant energy at the carrier frequency when transmitting modulated signals. LO leakage is typically caused by IQ imbalance or Direct Current (DC) offsets in the transmit chain, can impact receiver performance, as well as cause issues for meeting CE regulatory requirements. This is given by the LitePoint in dB.
+
+**Typical Measurement:**
+
+This can also be viewed in the TX Quality OFDM measurement.
+
+<Frame caption="Figure 12. Example LO leakage measurement in the LitePoint GUI.">
+  ![Example LO leakage measurement in the LitePoint GUI](/images/appnote-43/figure-12.png)
+</Frame>
+
+**Expected Result:**
+
+LO leakage must meet or exceed the specified limits under all conditions, as outlined in the table below for each bandwidth.
+
+| Bandwidth (MHz) | Specification Limit (dB) |
+| --- | --- |
+| 1 | -14.2 |
+| 2 | -17.5 |
+| 4 | -20.6 |
+| 8 | -23.8 |
+
+**Common Failure Modes:**
+
+- Incorrect or misconfigured BCF.
+- IQ imbalance or DC offsets in the transmit chain.
+- Improper VSA reference level.
+- Path loss not accounted for.
+
+### 3.2. RX Items
+
+#### 3.2.1. Packet Error Rate (PER)
+
+**Description:**
+
+Packet error rate is the ratio of incorrectly received packets to the total number of transmitted packets. It reflects the overall reliability of the communication link and includes the effects of noise, interference, and signal quality. PER is especially useful for validating receiver sensitivity and end-to-end system performance.
+
+**Typical Measurement:**
+
+Packet Error Rate (PER) is performed by transmitting a known number of packets from the Vector Signal Generator (VSG) — in this case, the LitePoint tester. The HaLow device tracks statistics indicating how many packets were successfully received. By dividing the number of correctly received packets by the total number sent, the PER can be calculated as a percentage. Detailed steps for configuring both the LitePoint and the HaLow device to perform this measurement are provided in the [Performing HaLow Measurements](#5-performing-halow-measurements) section.
+
+**Expected Result:**
+
+The PER will change depending on the bandwidth, MCS rate, and power level of the transmitter. More guidelines on expected RX sensitivity which reflects PER can be found in the [RX Sensitivity](#3-2-2-rx-sensitivity) section.
+
+**Common Failure Modes:**
+
+- Low signal power.
+- Poor Signal to Noise Ratio (SNR).
+- High EVM.
+- External RF interference.
+- Path loss unaccounted for.
+- Impedance mismatches on the DUT's transmission line.
+- Poor cable quality.
+
+#### 3.2.2. RX Sensitivity
+
+**Description:**
+
+RX sensitivity, as defined by the IEEE 802.11ah standard, is the minimum signal level at which the packet error rate (PER) remains below 10%. In practical terms, higher sensitivity allows a device to detect weaker signals, improving its performance at longer ranges or in high-interference environments.
+
+**Typical Measurement:**
+
+This measurement is typically performed by sweeping the input power across a range of fixed levels while monitoring the PER. The RX sensitivity is defined as the lowest input power at which the PER remains at or below 10%. Results are often presented as a graph, such as the example shown below, which depicts PER versus input power for a 1 MHz, MCS0 signal. The red line at 10% PER serves as the threshold; in this case, the RX sensitivity is determined to be approximately -107 dBm.
+
+<Frame caption="Figure 13. Example RX sensitivity graph for a 1 MHz MCS0 signal.">
+  ![Example RX sensitivity graph for a 1 MHz MCS0 signal](/images/appnote-43/figure-13.png)
+</Frame>
+
+**Expected Result:**
+
+RX sensitivity must meet or exceed the IEEE 802.11ah specification limits across all bandwidths (see Table 3). Morse Micro devices consistently and significantly surpass these requirements, offering enhanced performance and reliability. Therefore, it is recommended to align with Morse Micro targets rather than the minimum IEEE limits. For the latest approved RX sensitivity targets, please contact your Morse Micro representative.
+
+| MCS | 1 MHz (dBm) | 2 MHz (dBm) | 4 MHz (dBm) | 8 MHz (dBm) |
+| --- | --- | --- | --- | --- |
+| 10 | -98 | N/A | N/A | N/A |
+| 0 | -95 | -92 | -89 | -86 |
+| 1 | -92 | -89 | -86 | -83 |
+| 2 | -90 | -87 | -84 | -81 |
+| 3 | -87 | -84 | -81 | -78 |
+| 4 | -83 | -80 | -77 | -74 |
+| 5 | -79 | -76 | -73 | -70 |
+| 6 | -78 | -75 | -72 | -69 |
+| 7 | -77 | -74 | -71 | -68 |
+| 8 | -72 | -69 | -66 | -63 |
+| 9 | -70 | -67 | -64 | -61 |
+
+**Common Failure Modes:**
+
+RX sensitivity shares all the same common failure modes of RX PER.
+
+### 3.3. Test Margin Considerations
+
+#### 3.3.1. Production Manufacturing
+
+For module manufacturing, LitePoint testing is automated using test scripts. Morse Micro has developed a script suite called "Manufacturing Test" to evaluate module performance with the LitePoint system. This suite is maintained by the Morse Micro team and is updated and released as changes are implemented.
+
+For more information on Manufacturing Test, please contact your Morse Micro representative.
+
+#### 3.3.2. Inherent Process Variation
+
+All manufacturing processes exhibit inherent variation, typically modeled as a normal distribution characterized by a mean (μ) and standard deviation (σ). This variation results in a statistical spread of measured outcomes for any given parameter (e.g. Power, EVM, SEM), even under controlled conditions.
+
+As a theoretical example, transmit power measurements for MCS0 BW1 across 100,000 modules may show a normal distribution with a mean of 25 dBm and standard deviation of 0.2 dB.
+
+<Frame caption="Figure 14. Transmit Power Normal distribution for MCS0 BW1 across 100,000 modules.">
+  ![Transmit Power Normal distribution for MCS0 BW1 across 100,000 modules](/images/appnote-43/figure-14.png)
+</Frame>
+
+#### 3.3.3. Tuning RF Parameters for Production Yield
+
+For RF devices, transmit power is the primary factor influencing other RF metrics such as EVM and SEM. This is especially critical when tuning for maximum output power, where small variations can significantly impact these parameters. As a result, transmit power should be set at the highest practical level that maintains adequate margin across all key RF parameters, accommodates for process variation, and ensures high yield in volume production.
+
+Consider MCS9 BW8, which has an IEEE EVM limit of -32 dB. EVM is typically directly influenced by transmit power; decreasing transmit power likely improves EVM and vice-versa. A non-robust approach is selecting transmit power using a limited sample size (e.g., 5 modules) and targeting an EVM that just meets the -32 dB limit.
+
+This approach overlooks process variation and in high-volume production is likely to result in low yield. While the mean EVM may match the small-sample result of -32 dB, the standard deviation was not considered. With a standard deviation of 0.2 dB, the resulting distribution (as shown below) has a yield of approximately 50%.
+
+<Frame caption="Figure 15. Normal distribution showing the consequences of inadequate margin from IEEE limits.">
+  ![Normal distribution showing the consequences of inadequate margin from IEEE limits](/images/appnote-43/figure-15.png)
+</Frame>
+
+In contrast, the recommended approach is to characterize RF parameters process variation (e.g., EVM, SEM) using a larger sample size (e.g., 100 modules). This allows selection of transmit power levels with sufficient margin to account for both module-to-module and run-to-run variation. In the image below, the transmit power has been reduced so the mean EVM has been improved to -34 dB. With the same standard deviation as the previous case, the expected yield in high-volume production is likely 100%.
+
+<Frame caption="Figure 16. Normal distribution showing higher yield when designing in margin from IEEE limits.">
+  ![Normal distribution showing higher yield when designing in margin from IEEE limits](/images/appnote-43/figure-16.png)
+</Frame>
+
+Furthermore, RF parameters are commonly interdependent. For example, a module with poor EVM that exceeds the IEEE limit increases the likelihood of packet errors (PER) under field conditions, resulting in reduced average data throughput in practical environments.
+
+#### 3.3.4. Importance of Margin in Test Limits
+
+To achieve target yield in high-volume production, test limits must be defined with sufficient margin beyond nominal IEEE specifications. This margin accounts for process variation, measurement uncertainty, and run-to-run variability, ensuring yield targets are met.
+
+#### 3.3.5. Risk of Inadequate Margin
+
+Failure to account for process variation during limit definition may result in either low yield (due to over-constraining limits) or poor field performance (due to under-constraining limits). Therefore, test limit definition must be based on a statistical understanding of process capability and aligned with yield targets.
+
+<Note>
+  All Morse Micro reference designs have undergone test limit selection and validation to achieve strong field performance and high manufacturing yield. Morse Micro limits and recommendations are available upon request.
+</Note>
+
+#### 3.3.6. Morse Micro Approach to Yield and Limit Optimization
+
+The Morse Micro team analyzes module statistical distributions in conjunction with Process, Voltage, Temperature (PVT) data to account for process variation and external factors (e.g. temperature effects). Using measured data, we define performance targets and test limits to ensure high yield and robust field performance.
+
+We follow a process of continuous improvement, routinely refining our manufacturing, design, and test methodologies to enhance module performance and yield. As a result, limit recommendations may be updated over time to reflect the latest characterization data. For this reason, this document does not specify Morse Micro limits.
+
+For the most current target limits across all RF parameters, please contact your Morse Micro representative.
+
+## 4. Test Environment Setup
+
+This section will detail the environment setup to perform RF measurements on a HaLow device. This guide will focus exclusively on using an IQxel-MW 7G as the tester, and a Morse Micro HaLowLink 1 as the HaLow device under test. This guide will give limited details into configuring the HaLowLink 1, focusing more on the RF testing process as a whole.
+
+### 4.1. Block Diagram
+
+<Frame caption="Figure 17. Block diagram of an example test setup.">
+  ![Block diagram of an example test setup](/images/appnote-43/figure-17.png)
+</Frame>
+
+An Ethernet connection is required to interface with both the LitePoint tester and the HaLowLink 1 device. A shielded RF cable must be used between the DUT and the LitePoint port to prevent external interference, which can significantly affect measurement accuracy — particularly RX sensitivity. A barrel attenuator should be placed in-line to ensure the received signal does not exceed the LitePoint's maximum input power. Note that LitePoint does not automatically account for any external attenuation; instructions for manually entering path loss compensation are provided in the [LitePoint](#4-3-litepoint) section of this document. Depending on the cabling, an RP-SMA to SMA adapter may also be required for connecting to the HaLowLink 1.
+
+Some recommended parts are listed below:
+
+- 20 dB barrel attenuator (500 mW): `CATTEN-0200`
+- RP-SMA to SMA adaptor: `ADP-RPSM-SMAF-G`
+- Shielded cable: `CCSMA-MM-086-18`
+
+<Warning>
+  Ensure the barrel attenuator is rated to handle the maximum output power of the device under test. For example, using a DUT that transmits at 30 dBm with an attenuator rated \< 1 Watt (W) may result in damage or degraded performance, and should be avoided. Recommended 2W barrel attenuator: `BW-S20W2+` (Mini-Circuits).
+</Warning>
+
+### 4.2. Measuring Cable Loss
+
+To obtain accurate TX power and RX sensitivity measurements, it is essential to compensate for cable loss between the DUT and the LitePoint tester. The recommended method is to use a Vector Network Analyzer (VNA) to perform an S21 (insertion loss) test.
+
+Taking the block diagram from the previous section, the LitePoint and the HaLowLink 1 have been disconnected, and the exact same RF cables — including any intermediate connections or shielded enclosures — are instead connected to a calibrated VNA. This ensures that the measured path loss accurately reflects the real test configuration. Then, an S21 test will characterize the insertion loss across the frequency range of interest and can be used to inform and compensate future measurements.
+
+<Frame caption="Figure 18. Block diagram of a path loss measurement with a VNA.">
+  ![Block diagram of a path loss measurement with a VNA](/images/appnote-43/figure-18.png)
+</Frame>
+
+### 4.3. LitePoint
+
+#### 4.3.1. LitePoint Firmware Version
+
+The LitePoint firmware version can be checked by navigating to the LitePoint web Graphical User Interface (GUI), and clicking the **Admin → Information** tab.
+
+<Frame caption="Figure 19. How to view firmware versions in the LitePoint GUI.">
+  ![How to view firmware versions in the LitePoint GUI](/images/appnote-43/figure-19.png)
+</Frame>
+
+The "Instrument SW Version" field indicates the firmware version. As stated earlier, it is recommended to check with LitePoint support that this version remains up to date.
+
+<Frame caption="Figure 20. Information tab within the LitePoint GUI.">
+  ![Information tab within the LitePoint GUI](/images/appnote-43/figure-20.png)
+</Frame>
+
+#### 4.3.2. Inputting External Attenuation (Optional)
+
+The LitePoint tester allows users to manually input path loss values to compensate for external attenuation in the RF setup. This adjustment affects only power-related measurements, such as TX output power and RX sensitivity.
+
+<Steps>
+  <Step title="Open Port Routing">
+    Click on the **Tools → Port Routing** tab.
+
+    <Frame caption="Figure 21. Port routing tab within LitePoint GUI.">
+      ![Port routing tab within LitePoint GUI](/images/appnote-43/figure-21.png)
+    </Frame>
+  </Step>
+  <Step title="Open PathLoss Info">
+    Click on the **PathLoss Info** tab from the window that pops up.
+
+    <Frame caption="Figure 22. Where to configure path loss in the LitePoint GUI.">
+      ![Where to configure path loss in the LitePoint GUI](/images/appnote-43/figure-22.png)
+    </Frame>
+
+    Users are presented with the following interface.
+
+    <Frame caption="Figure 23. Blank path loss information within the LitePoint GUI.">
+      ![Blank path loss information within the LitePoint GUI](/images/appnote-43/figure-23.png)
+    </Frame>
+  </Step>
+  <Step title="Populate and apply the path loss table">
+    Begin by setting a "Table Name" for the path loss profile. Then, enter the relevant frequencies (in MHz) and their corresponding correction values (in dB) into the table. For example, if the measured path loss is 11.2 dB at 920 MHz and 11.3 dB at 924 MHz, enter these as separate rows. Once the data is populated, assign the correction table to specific LitePoint ports by selecting the appropriate checkboxes for the desired VSG and/or VSA paths, then clicking **Apply**.
+
+    <Note>
+      This step must be repeated for each port requiring path loss compensation.
+    </Note>
+
+    In the example below, corrections of the name "Example" are applied to port RF1A for both the VSA and VSG.
+
+    <Frame caption="Figure 24. Example path loss inputs for 920 and 924 MHz.">
+      ![Example path loss inputs for 920 and 924 MHz](/images/appnote-43/figure-24.png)
+    </Frame>
+  </Step>
+</Steps>
+
+Optionally, these settings can also be saved and applied later from the **Load** and **Save** buttons.
+
+### 4.4. RF Tester Software
+
+The RF Tester software is a GUI application developed by Morse Micro to support engineers conducting RF measurements. It provides a point and click interface to do the following:
+
+- Connect to a DUT.
+- Set radio parameters such as Bandwidth, Channel, MCS rate etc.
+- Start/Stop transmitting or receiving packets.
+- Retrieve the RPG statistics.
+- Clear the RPG statistics for isolated testing.
+
+<Frame caption="Figure 25. RF Tester software initial screen.">
+  ![RF Tester software initial screen](/images/appnote-43/figure-25.png)
+</Frame>
+
+<Note>
+  Access to this software is restricted. To obtain access, please contact your Morse Micro representative.
+</Note>
+
+## 5. Performing HaLow Measurements
+
+### 5.1. Transmit Tests
+
+To perform TX tests, configure the LitePoint port as a Vector Signal Analyzer (VSA).
+
+<Steps>
+  <Step title="Select WiFi SISO">
+    Click **Technology → WiFi SISO**.
+
+    <Frame caption="Figure 26. WiFi SISO menu within the LitePoint GUI.">
+      ![WiFi SISO menu within the LitePoint GUI](/images/appnote-43/figure-26.png)
+    </Frame>
+  </Step>
+  <Step title="Set the port to VSA">
+    Click the dots below "LED STATUS". Then set the port being used to VSA. In this case, RF1A.
+
+    <Frame caption="Figure 27. How to configure the LitePoint port as a VSA.">
+      ![How to configure the LitePoint port as a VSA](/images/appnote-43/figure-27.png)
+    </Frame>
+  </Step>
+  <Step title="Choose result measurements">
+    Set up the results to measure the parameters of interest. Click the **Results** tab, and then drag the options of interest to the empty windows to the right. In this example, the Spectrum, TX Quality OFDM, Spectrum Mask Margins, and Spectral Flatness OFDM tabs are chosen. These give all of the main parameters mentioned in the [Key Measurement Metrics](#3-key-measurement-metrics) section.
+
+    <Frame caption="Figure 28. Results tab showing different measurement options available.">
+      ![Results tab showing different measurement options available](/images/appnote-43/figure-28.png)
+    </Frame>
+
+    <Frame caption="Figure 29. Example layout with 4 different result tabs open.">
+      ![Example layout with 4 different result tabs open](/images/appnote-43/figure-29.png)
+    </Frame>
+  </Step>
+  <Step title="Configure VSA settings">
+    Navigate to the **Hardware** tab and expand the **VSA Settings** dropdown. This is where the center frequency is configured to match the transmission frequency of the DUT. The reference level can also be set in this section to optimize signal capture.
+
+    <Frame caption="Figure 30. VSA settings menu within the LitePoint GUI.">
+      ![VSA settings menu within the LitePoint GUI](/images/appnote-43/figure-30.png)
+    </Frame>
+
+    It is also recommended to set the "Symbol Clock Correction Type" to "TIME" in order to achieve best EVM results. This can be found and set in the **Settings** tab, under the **OFDM** menu.
+
+    <Frame caption="Figure 31. Setting the Symbol Clock Correction Type parameter.">
+      ![Setting the Symbol Clock Correction Type parameter](/images/appnote-43/figure-31.png)
+    </Frame>
+  </Step>
+  <Step title="Begin continuous analysis">
+    Once the settings are confirmed, the Continuous Analysis button can then be clicked to begin continuous measurement acquisition.
+
+    <Frame caption="Figure 32. Continuous analysis button to take measurements.">
+      ![Continuous analysis button to take measurements](/images/appnote-43/figure-32.png)
+    </Frame>
+  </Step>
+  <Step title="Configure the DUT to transmit">
+    Next, the DUT can be configured through the RF Tester. The first step is to establish a connection to the DUT, then configure the desired radio parameters such as bandwidth and MCS rate. Transmission can then be initiated by clicking the "Start" button. In this example, the DUT is transmitting an 8 MHz, MCS 0 signal at 924 MHz.
+
+    <Frame caption="Figure 33. RF Tester configuring the DUT to transmit.">
+      ![RF Tester configuring the DUT to transmit](/images/appnote-43/figure-33.png)
+    </Frame>
+
+    This signal and associated measurements can then be seen on the LitePoint. The Automatic Gain Control (AGC) button may need to be pressed to set a sensible reference level.
+
+    <Frame caption="Figure 34. AGC button in the LitePoint GUI.">
+      ![AGC button in the LitePoint GUI](/images/appnote-43/figure-34.png)
+    </Frame>
+  </Step>
+</Steps>
+
+### 5.2. Receive Tests
+
+To perform receive tests, the LitePoint needs to be configured as a Vector Signal Generator (VSG).
+
+<Steps>
+  <Step title="Set the port to VSG">
+    Click the two dots below "LED Status" again, and set the port being used to VSG instead of VSA. The VSG menu can then be clicked on the left hand side to open the VSG settings.
+
+    <Frame caption="Figure 35. How to configure the LitePoint port as a VSG.">
+      ![How to configure the LitePoint port as a VSG](/images/appnote-43/figure-35.png)
+    </Frame>
+  </Step>
+  <Step title="Configure VSG settings">
+    In this example, the LitePoint is set to transmit on 924 MHz at -20 dBm.
+
+    <Frame caption="Figure 36. VSG setting menu.">
+      ![VSG setting menu](/images/appnote-43/figure-36.png)
+    </Frame>
+  </Step>
+  <Step title="Select the waveform">
+    Select the waveform to transmit through the **Waveforms** tab. Here, the **Load** button is used to select an 8 MHz, MCS0 waveform from the LitePoint memory. Please contact your Morse Micro representative for access to Wi-Fi HaLow example waveforms. Then, a count of 1000 packets is set. Ensure **Wave** and **RF(on)** are selected.
+
+    <Frame caption="Figure 37. Waveforms menu used to set the parameters of the signal to be transmitted.">
+      ![Waveforms menu used to set the parameters of the signal to be transmitted](/images/appnote-43/figure-37.png)
+    </Frame>
+  </Step>
+  <Step title="Set the channel bandwidth">
+    The channel bandwidth must next be set on the LitePoint. This can be done through the **Settings → Technology Module** tab. This must match the bandwidth to be transmitted.
+
+    <Frame caption="Figure 38. Applying channel bandwidth settings.">
+      ![Applying channel bandwidth settings](/images/appnote-43/figure-38.png)
+    </Frame>
+  </Step>
+  <Step title="Prepare the DUT to receive">
+    Next, the DUT can be prepared through the RF Tester. Connect to the DUT, and set the radio parameters that match the waveform to be transmitted by the VSG. After that, the "RX" radio button should be selected, followed by clicking "Start" to set the device into receive mode on the specified channel. It is recommended to click "Clear Stats" before beginning transmission to ensure accurate measurement results.
+
+    <Frame caption="Figure 39. Preparing the RF Tester to receive packets.">
+      ![Preparing the RF Tester to receive packets](/images/appnote-43/figure-39.png)
+    </Frame>
+  </Step>
+  <Step title="Transmit the waveform">
+    Next, the Play button on the LitePoint can be pressed to begin waveform transmission. The packet count will decrement in real time as packets are transmitted.
+
+    <Frame caption="Figure 40. Instructing the LitePoint to transmit the loaded waveform.">
+      ![Instructing the LitePoint to transmit the loaded waveform](/images/appnote-43/figure-40.png)
+    </Frame>
+  </Step>
+  <Step title="Retrieve the statistics">
+    Once all packets have been transmitted, the user can use the RF Tester to retrieve the statistics. In this example, the RX Passed statistic shows 1000 packets, resulting in a PER of 0%.
+
+    <Frame caption="Figure 41. Example RX measurement showing 0% PER in the RF Tester.">
+      ![Example RX measurement showing 0% PER in the RF Tester](/images/appnote-43/figure-41.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Note>
+  It is important to note that RX Count represents the number of packets for which the header was successfully decoded, whereas RX Passed indicates packets where both the header and payload were correctly decoded. For PER calculations, only RX Passed should be used.
+</Note>
+
+## 6. Glossary
+
+| Abbreviation | Full Term | Description / Context |
+| --- | --- | --- |
+| RF | Radio Frequency | Refers to electromagnetic wave frequencies used in wireless communication. |
+| VST | Vector Signal Transceiver | Test equipment capable of both signal generation and analysis with magnitude and phase information. |
+| TX | Transmit / Transmission | The process of sending RF signals from a device. |
+| RX | Receive / Reception | The process of receiving RF signals by a device. |
+| DUT | Device Under Test | The hardware unit being tested in RF measurements. |
+| RPG | Random Packet Generator | A test mode where the DUT transmits random packets without establishing a full connection. |
+| FAE | Field Application Engineer | Technical specialist providing customer support and guidance on engineering products. |
+| EVM | Error Vector Magnitude | A key RF metric measuring the modulation accuracy of a signal. |
+| SEM | Spectrum Emissions Mask | Defines maximum allowed signal power at various frequency offsets from the carrier. |
+| SF | Spectral Flatness | Measures how evenly power is distributed across all subcarriers in an OFDM signal. |
+| LO | Local Oscillator | Refers to the signal generator inside the RF system; leakage is an unwanted emission at the carrier frequency. |
+| PER | Packet Error Rate | The ratio of incorrectly received packets to total packets sent, used to evaluate communication reliability. |
+| PPM | Parts Per Million | Unit for expressing small frequency variations or tolerances. |
+| Hz | Hertz | Unit of frequency, indicating cycles per second. |
+| dB / dBm | Decibel / Decibel-milliwatts | Logarithmic units for expressing signal strength or power level. |
+| OFDM | Orthogonal Frequency-Division Multiplexing | A modulation scheme used in Wi-Fi and other communication standards. |
+| MCS | Modulation and Coding Scheme | Defines data rates and robustness in Wi-Fi standards. |
+| PHY | Physical Layer | The lowest layer in the OSI model, responsible for raw bit transmission over a physical medium. |
+| BCF | Board Configuration File | A configuration file defining DUT-specific settings for RF testing. |
+| PA | Power Amplifier | A component that amplifies the RF signal before transmission. |
+| IQ | In-phase and Quadrature | The two components of a modulated RF signal used to carry information. |
+| DC | Direct Current | In this context, refers to DC offsets that may distort RF signals. |
+| AGC | Automatic Gain Control | A feature that adjusts the receiver gain to maintain optimal signal levels. |
+| VSA | Vector Signal Analyzer | Equipment for analyzing both the amplitude and phase of incoming RF signals. |
+| VSG | Vector Signal Generator | Equipment that generates modulated RF signals with defined amplitude and phase. |
+| GUI | Graphical User Interface | A user interface that allows interaction with electronic devices through graphical icons. |
+| SNR | Signal-to-Noise Ratio | A metric expressing how much stronger a signal is compared to background noise. |
+| S21 | Scattering Parameter 21 | A measurement of forward transmission gain or loss in a network (used in VNAs). |
+| VNA | Vector Network Analyzer | Test equipment used to measure S-parameters, especially insertion and return loss. |
+| USL | Upper Specification Limit | The maximum allowable value of a measured parameter as defined by design or regulatory specifications. |
+| PVT | Process Voltage Temperature | A reliability and performance verification method that evaluates a device across variations in semiconductor manufacturing process, supply voltage, and operating temperature. |
+
+## 7. Revision History
+
+| Release Number | Release Date | Release Notes |
+| --- | --- | --- |
+| 01 | 27/06/2025 | Initial release. |
