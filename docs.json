@@ -247,7 +247,8 @@
             "group": "应用笔记",
             "icon": "pencil-mechanical",
             "pages": [
-              "cn/AppNote_38_version_0_1_3"
+              "cn/AppNote_38_version_0_1_3",
+              "cn/AppNote_43_RF_Test_Guide"
             ]
           },
           {
@@ -459,7 +460,8 @@
             "group": "アプリケーションノート",
             "icon": "pencil-mechanical",
             "pages": [
-              "ja/AppNote_38_version_0_1_3"
+              "ja/AppNote_38_version_0_1_3",
+              "ja/AppNote_43_RF_Test_Guide"
             ]
           },
           {
