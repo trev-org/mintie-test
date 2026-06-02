@@ -18,7 +18,8 @@
             "pages": [
               "index"
             ],
-            "icon": "house"
+            "icon": "house",
+            "public": true
           },
           {
             "group": "User Guides",
@@ -26,7 +27,8 @@
               "HaLowLink_User_Guide_0_1_4",
               "EKH05_Evaluation_Kit_User_Guide_0_1_4"
             ],
-            "icon": "book-open-cover"
+            "icon": "book-open-cover",
+            "public": true
           },
           {
             "group": "Application Notes",
@@ -34,7 +36,8 @@
             "pages": [
               "AppNote_38_version_0_1_3",
               "AppNote_43_RF_Test_Guide"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Datasheets",
@@ -54,7 +57,8 @@
                   "MM8108-MF15457_Data_Sheet"
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Software Releases",
@@ -83,7 +87,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Linux",
@@ -162,7 +167,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Design Resources",
@@ -195,7 +201,8 @@
                 "icon": "pencil",
                 "pages": []
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Tools",
@@ -209,12 +216,14 @@
                   "v2-9-1"
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Certifications",
             "icon": "square-check",
-            "pages": []
+            "pages": [],
+            "public": true
           },
           {
             "group": "Changelog",
@@ -224,7 +233,8 @@
               "changelog/2026-05-31",
               "changelog/2026-05-29",
               "changelog/2026-05-28"
-            ]
+            ],
+            "public": true
           }
         ]
       },
@@ -236,7 +246,8 @@
             "pages": [
               "cn/index"
             ],
-            "icon": "house"
+            "icon": "house",
+            "public": true
           },
           {
             "group": "用户指南",
@@ -244,7 +255,8 @@
               "cn/HaLowLink_User_Guide_0_1_4",
               "cn/EKH05_Evaluation_Kit_User_Guide_0_1_4"
             ],
-            "icon": "book-open-cover"
+            "icon": "book-open-cover",
+            "public": true
           },
           {
             "group": "应用笔记",
@@ -252,7 +264,8 @@
             "pages": [
               "cn/AppNote_38_version_0_1_3",
               "cn/AppNote_43_RF_Test_Guide"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "数据手册",
@@ -272,7 +285,8 @@
                   "cn/MM8108-MF15457_Data_Sheet"
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "软件发布",
@@ -299,7 +313,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Linux",
@@ -378,7 +393,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "设计资源",
@@ -411,7 +427,8 @@
                 "icon": "pencil",
                 "pages": []
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "工具",
@@ -425,12 +442,14 @@
                   "cn/v2-9-1"
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "认证",
             "icon": "square-check",
-            "pages": []
+            "pages": [],
+            "public": true
           },
           {
             "group": "更新日志",
@@ -440,7 +459,8 @@
               "cn/changelog/2026-05-31",
               "cn/changelog/2026-05-29",
               "cn/changelog/2026-05-28"
-            ]
+            ],
+            "public": true
           }
         ]
       },
@@ -452,7 +472,8 @@
             "pages": [
               "ja/index"
             ],
-            "icon": "house"
+            "icon": "house",
+            "public": true
           },
           {
             "group": "ユーザーガイド",
@@ -460,7 +481,8 @@
               "ja/HaLowLink_User_Guide_0_1_4",
               "ja/EKH05_Evaluation_Kit_User_Guide_0_1_4"
             ],
-            "icon": "book-open-cover"
+            "icon": "book-open-cover",
+            "public": true
           },
           {
             "group": "アプリケーションノート",
@@ -468,7 +490,8 @@
             "pages": [
               "ja/AppNote_38_version_0_1_3",
               "ja/AppNote_43_RF_Test_Guide"
-            ]
+            ],
+            "public": true
           },
           {
             "group": "データシート",
@@ -488,7 +511,8 @@
                   "ja/MM8108-MF15457_Data_Sheet"
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "ソフトウェアリリース",
@@ -515,7 +539,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "Linux",
@@ -594,7 +619,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "設計リソース",
@@ -627,7 +653,8 @@
                 "icon": "pencil",
                 "pages": []
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "ツール",
@@ -641,12 +668,14 @@
                   "ja/v2-9-1"
                 ]
               }
-            ]
+            ],
+            "public": true
           },
           {
             "group": "認証",
             "icon": "square-check",
-            "pages": []
+            "pages": [],
+            "public": true
           },
           {
             "group": "変更履歴",
@@ -656,7 +685,8 @@
               "ja/changelog/2026-05-31",
               "ja/changelog/2026-05-29",
               "ja/changelog/2026-05-28"
-            ]
+            ],
+            "public": true
           }
         ]
       }
