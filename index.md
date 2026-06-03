@@ -1,9 +1,7 @@
 ---
 title: "Morse Micro Documentation"
-description: "Technical documentation for Morse Micro Wi-Fi HaLow products"
+description: "Welcome to the Morse Micro Customer Portal, your one-stop shop for sourcing the documentation and support you need for your designs. Please navigate through the folders below to gain access to our latest files."
 ---
-
-Everything you need to design, build, and deploy with Wi-Fi HaLow — the world's leading sub-1 GHz IoT wireless standard.
 
 <CardGroup cols={3}>
   <Card title="User Guides" icon="book-open-cover" href="/HaLowLink_User_Guide_0_1_4">

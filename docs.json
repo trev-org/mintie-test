@@ -25,7 +25,8 @@
             "group": "User Guides",
             "pages": [
               "HaLowLink_User_Guide_0_1_4",
-              "EKH05_Evaluation_Kit_User_Guide_0_1_4"
+              "EKH05_Evaluation_Kit_User_Guide_0_1_4",
+              "MM-IoT_CMSIS-Pack_User_Guide"
             ],
             "icon": "book-open-cover",
             "public": true
@@ -81,9 +82,7 @@
                   {
                     "group": "CMSIS Pack",
                     "icon": "keyboard",
-                    "pages": [
-                      "MM-IoT_CMSIS-Pack_User_Guide"
-                    ]
+                    "pages": []
                   }
                 ]
               }
@@ -107,28 +106,7 @@
               {
                 "group": "Evaluation Kit Images",
                 "icon": "camera",
-                "pages": [
-                  {
-                    "group": "MM8108-EKH01",
-                    "icon": "camera",
-                    "pages": []
-                  },
-                  {
-                    "group": "MM8108-EKH19",
-                    "icon": "camera",
-                    "pages": []
-                  },
-                  {
-                    "group": "MM6108-EKH01-05-US",
-                    "icon": "camera",
-                    "pages": []
-                  },
-                  {
-                    "group": "MM6108-EKH03",
-                    "icon": "camera",
-                    "pages": []
-                  }
-                ]
+                "pages": []
               },
               {
                 "group": "Driver",
@@ -698,6 +676,14 @@
     "href": "/"
   },
   "fonts": {
+    "heading": {
+      "family": "Lato",
+      "weight": 700
+    },
+    "body": {
+      "family": "Lato",
+      "weight": 400
+    }
   },
   "appearance": {
     "strict": false
@@ -746,7 +732,26 @@
       "linkedin": "https://www.linkedin.com/company/morse-micro",
       "github": "https://github.com/MorseMicro",
       "facebook": "https://www.facebook.com/morsemicro",
-      "x": "https://x.com/MorseMicro"
+      "x": "https://x.com/MorseMicro",
+      "instagram": "https://www.google.com/search?q=morse+micro+instagram&sca_esv=001908dfaac62674&sxsrf=ANbL-n5Erf5ATEXaR4KpC6rucLOtXR0UZg%3A1780466777655&ei=WcQfau3aJ4iPvr0P86nRuQg&ved=0ahUKEwit68POs-qUAxWIh68BHfNUNIcQ4dUDCBA&uact=5&oq=morse+micro+instagram&gs_lp=Egxnd3Mtd2l6LXNlcnAiFW1vcnNlIG1pY3JvIGluc3RhZ3JhbTIIEAAYgAQYogQyBRAAGO8FMgUQABjvBTIFEAAY7wUyCBAAGIkFGKIESOYVUIULWLsTcAR4AJABAZgB2QGgAbsOqgEFMC44LjK4AQPIAQD4AQGYAg2gAs0NwgIHEAAYHhiwA8ICDhAAGIAEGIoFGIYDGLADwgIIEAAY7wUYsAPCAgsQABiABBiiBBiwA8ICBRAAGIAEwgIGEAAYFhgewgIFECEYoAHCAgcQIRgKGKABmAMAiAYBkAYIkgcFNC43LjKgB-sXsgcFMC43LjK4B74NwgcFMi45LjLIBxmACAE&sclient=gws-wiz-serp"
     }
+  },
+  "favicon": {
+    "light": "/images/ICONWHITEFULL.png",
+    "dark": "/images/ICONWHITEFULL.png"
+  },
+  "banner": {
+    "content": "Morse Micro Announces MM8108-M20 High-Power Module",
+    "dismissible": true,
+    "color": {
+      "light": "#571C76",
+      "dark": "#571C76"
+    }
+  },
+  "metadata": {
+    "timestamp": true
+  },
+  "search": {
+    "prompt": "Ask Morse Micro..."
   }
 }
