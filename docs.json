@@ -693,7 +693,7 @@
       "light": "#FFFFFF",
       "dark": "#030204"
     },
-    "decoration": "gradient"
+    "decoration": "windows"
   },
   "contextual": {
     "options": [
