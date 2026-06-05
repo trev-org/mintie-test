@@ -1,10 +1,8 @@
 ---
-title: "Application note 38"
+title: "Application Note 38: How to use Wi-Fi EasyConnect on the HaLowLink with Device Provisioning Protocol URIs"
 ---
 
-# How to use Wi-Fi EasyConnect on the HaLowLink with Device Provisioning Protocol URIs
 
-## 
 
 Almost every IoT ‘thing’ necessarily lacks the input devices and sophisticated UIs we’re accustomed to working with when we enter Wi-Fi credentials into a computer or a network infrastructure device. So how can we provision IoT devices? And how can we make the process reliable and secure?
 

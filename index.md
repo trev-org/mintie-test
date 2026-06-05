@@ -1,5 +1,5 @@
 ---
-title: "Morse Micro Documentation"
+title: "Morse Micro Customer Portal"
 description: "Welcome to the Morse Micro Customer Portal, your one-stop shop for sourcing the documentation and support you need for your designs. Please navigate through the folders below to gain access to our latest files."
 ---
 
