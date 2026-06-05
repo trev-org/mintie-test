@@ -3,7 +3,7 @@
   "theme": "sequoia",
   "name": "Morse Micro",
   "colors": {
-    "primary": "#571C76",
+    "primary": "#7719AA",
     "light": "#7719AA",
     "dark": "#3D1A50"
   },
@@ -691,8 +691,9 @@
   "background": {
     "color": {
       "light": "#FFFFFF",
-      "dark": "#0F0A14"
-    }
+      "dark": "#030204"
+    },
+    "decoration": "gradient"
   },
   "contextual": {
     "options": [
@@ -700,8 +701,7 @@
       "assistant",
       "chatgpt",
       "claude",
-      "perplexity",
-      "aistudio"
+      "download-pdf"
     ],
     "display": "header"
   },
