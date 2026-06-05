@@ -1,5 +1,5 @@
 ---
-title: "Application Note 38: How to use Wi-Fi EasyConnect on the HaLowLink with Device Provisioning Protocol URIs"
+title: "Application Note 38: Wi-Fi EasyConnect HaLowLink Guide"
 ---
 
 
