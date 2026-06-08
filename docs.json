@@ -23,7 +23,10 @@
       "mcp",
       "cursor",
       "vscode",
-      "devin-mcp"
+      "devin-mcp",
+      "add-mcp",
+      "download-spec",
+      "download-pdf"
     ]
   },
   "favicon": "/favicon.svg",
