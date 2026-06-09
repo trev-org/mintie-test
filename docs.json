@@ -699,8 +699,7 @@
     "color": {
       "light": "#FFFFFF",
       "dark": "#030204"
-    },
-    "decoration": "gradient"
+    }
   },
   "contextual": {
     "options": [
