@@ -213,6 +213,13 @@
               "changelog/2026-05-28"
             ],
             "public": true
+          },
+          {
+            "group": "Assistant Demo",
+            "icon": "robot",
+            "pages": [
+              "test-environment"
+            ]
           }
         ]
       },
