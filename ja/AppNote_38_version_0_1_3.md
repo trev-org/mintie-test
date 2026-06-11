@@ -1,5 +1,6 @@
 ---
 title: "アプリケーションノート 38"
+groups: ["enterprise"]
 ---
 
 # HaLowLink でデバイスプロビジョニングプロトコル (DPP) URI を用いて Wi-Fi EasyConnect を使用する方法

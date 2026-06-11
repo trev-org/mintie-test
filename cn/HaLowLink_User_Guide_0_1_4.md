@@ -1,5 +1,6 @@
 ---
 title: "HaLowLink 用户指南"
+groups: ["enterprise"]
 ---
 
 <Note>

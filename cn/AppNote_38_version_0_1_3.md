@@ -1,5 +1,6 @@
 ---
 title: "应用笔记 38"
+groups: ["enterprise"]
 ---
 
 # 如何在 HaLowLink 上结合设备配网协议 (DPP) URI 使用 Wi-Fi EasyConnect

@@ -1,5 +1,6 @@
 ---
 title: 'Application Note 38: Wi-Fi EasyConnect HaLowLink Guide'
+groups: ["enterprise"]
 ---
 
 # Application Note 38: Wi-Fi EasyConnect HaLowLink Guide

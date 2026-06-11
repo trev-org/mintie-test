@@ -18,8 +18,7 @@
             "pages": [
               "index"
             ],
-            "icon": "house",
-            "public": true
+            "icon": "house"
           },
           {
             "group": "User Guides",
@@ -28,8 +27,7 @@
               "EKH05_Evaluation_Kit_User_Guide_0_1_4",
               "MM-IoT_CMSIS-Pack_User_Guide"
             ],
-            "icon": "book-open-cover",
-            "public": true
+            "icon": "book-open-cover"
           },
           {
             "group": "Application Notes",
@@ -37,8 +35,7 @@
             "pages": [
               "AppNote_38_version_0_1_3",
               "AppNote_43_RF_Test_Guide"
-            ],
-            "public": true
+            ]
           },
           {
             "group": "Datasheets",
@@ -86,8 +83,7 @@
                   }
                 ]
               }
-            ],
-            "public": true
+            ]
           },
           {
             "group": "Linux",
@@ -145,8 +141,7 @@
                   }
                 ]
               }
-            ],
-            "public": true
+            ]
           },
           {
             "group": "Design Resources",
@@ -200,8 +195,7 @@
           {
             "group": "Certifications",
             "icon": "square-check",
-            "pages": [],
-            "public": true
+            "pages": []
           },
           {
             "group": "Changelog",
@@ -232,8 +226,7 @@
             "pages": [
               "cn/index"
             ],
-            "icon": "house",
-            "public": true
+            "icon": "house"
           },
           {
             "group": "用户指南",
@@ -241,8 +234,7 @@
               "cn/HaLowLink_User_Guide_0_1_4",
               "cn/EKH05_Evaluation_Kit_User_Guide_0_1_4"
             ],
-            "icon": "book-open-cover",
-            "public": true
+            "icon": "book-open-cover"
           },
           {
             "group": "应用笔记",
@@ -250,8 +242,7 @@
             "pages": [
               "cn/AppNote_38_version_0_1_3",
               "cn/AppNote_43_RF_Test_Guide"
-            ],
-            "public": true
+            ]
           },
           {
             "group": "数据手册",
@@ -271,8 +262,7 @@
                   "cn/MM8108-MF15457_Data_Sheet"
                 ]
               }
-            ],
-            "public": true
+            ]
           },
           {
             "group": "软件发布",
@@ -379,8 +369,7 @@
                   }
                 ]
               }
-            ],
-            "public": true
+            ]
           },
           {
             "group": "设计资源",
@@ -434,8 +423,7 @@
           {
             "group": "认证",
             "icon": "square-check",
-            "pages": [],
-            "public": true
+            "pages": []
           },
           {
             "group": "更新日志",
@@ -459,8 +447,7 @@
             "pages": [
               "ja/index"
             ],
-            "icon": "house",
-            "public": true
+            "icon": "house"
           },
           {
             "group": "ユーザーガイド",
@@ -468,8 +455,7 @@
               "ja/HaLowLink_User_Guide_0_1_4",
               "ja/EKH05_Evaluation_Kit_User_Guide_0_1_4"
             ],
-            "icon": "book-open-cover",
-            "public": true
+            "icon": "book-open-cover"
           },
           {
             "group": "アプリケーションノート",
@@ -477,8 +463,7 @@
             "pages": [
               "ja/AppNote_38_version_0_1_3",
               "ja/AppNote_43_RF_Test_Guide"
-            ],
-            "public": true
+            ]
           },
           {
             "group": "データシート",
@@ -498,8 +483,7 @@
                   "ja/MM8108-MF15457_Data_Sheet"
                 ]
               }
-            ],
-            "public": true
+            ]
           },
           {
             "group": "ソフトウェアリリース",
@@ -606,8 +590,7 @@
                   }
                 ]
               }
-            ],
-            "public": true
+            ]
           },
           {
             "group": "設計リソース",
@@ -661,8 +644,7 @@
           {
             "group": "認証",
             "icon": "square-check",
-            "pages": [],
-            "public": true
+            "pages": []
           },
           {
             "group": "変更履歴",
