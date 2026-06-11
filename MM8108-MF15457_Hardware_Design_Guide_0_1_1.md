@@ -182,7 +182,7 @@ USB nets between MM8108-MF15457 and connector should be designated as length-mat
 
 The `VBAT`, `VBAT_TX` and `VDD_USB` pins should be decoupled with a 10μF ceramic capacitor and a 100nF ceramic capacitor, both rated for at least 6.3V. This is shown below. Either X7R or X5R are recommended.
 
-The `VDDIO` pin should be decoupled with a 100 nF ceramic capacitor, rated for at least 6.3 V. Either X7R or X5R are recommended.<br>
+The `VDDIO` pin should be decoupled with a 100 nF ceramic capacitor, rated for at least 6.3 V. Either X7R or X5R are recommended.<br />
 
 | WARNING The effective capacitance of ceramic capacitors can drop significantly under applied DC bias, especially in smaller packages. For example, a nominal 4.7µF capacitor in an 0402 package may deliver less than 2µF at 3.3V. When selecting capacitors for bulk storage, consult the manufacturer’s bias de-rating curves to ensure that sufficient capacitance remains available under load. If necessary use a larger case size or a higher voltage rating to reduce the percentage loss. |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
