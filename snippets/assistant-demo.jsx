@@ -1,293 +1,4 @@
-const assistantThemeStyles = `
-  .mintlify-assistant-demo {
-    --assistant-shell-bg: linear-gradient(135deg, rgba(119, 25, 170, 0.06), rgba(248, 250, 252, 0.94));
-    --assistant-shell-border: rgba(148, 163, 184, 0.35);
-    --assistant-panel-bg: #ffffff;
-    --assistant-panel-border: rgba(148, 163, 184, 0.28);
-    --assistant-chat-bg: #f8fafc;
-    --assistant-text: #0f172a;
-    --assistant-muted: #64748b;
-    --assistant-label: #334155;
-    --assistant-input-bg: #ffffff;
-    --assistant-input-text: #0f172a;
-    --assistant-placeholder: #94a3b8;
-    --assistant-composer-bg: #ffffff;
-    --assistant-assistant-message-bg: #ffffff;
-    --assistant-error-bg: #fef2f2;
-    --assistant-error-border: #fecaca;
-    --assistant-error-text: #991b1b;
-    --assistant-focus-ring: rgba(119, 25, 170, 0.18);
-    --assistant-disabled-button: #d9a9ef;
-    color-scheme: light;
-  }
-
-  :where(.dark, [data-theme="dark"]) .mintlify-assistant-demo {
-    --assistant-shell-bg: linear-gradient(135deg, rgba(119, 25, 170, 0.24), rgba(15, 23, 42, 0.95));
-    --assistant-shell-border: rgba(148, 163, 184, 0.24);
-    --assistant-panel-bg: #111827;
-    --assistant-panel-border: rgba(148, 163, 184, 0.22);
-    --assistant-chat-bg: rgba(15, 23, 42, 0.72);
-    --assistant-text: #f8fafc;
-    --assistant-muted: #cbd5e1;
-    --assistant-label: #e2e8f0;
-    --assistant-input-bg: #0f172a;
-    --assistant-input-text: #f8fafc;
-    --assistant-placeholder: #94a3b8;
-    --assistant-composer-bg: #0f172a;
-    --assistant-assistant-message-bg: #1e293b;
-    --assistant-error-bg: rgba(127, 29, 29, 0.28);
-    --assistant-error-border: rgba(248, 113, 113, 0.36);
-    --assistant-error-text: #fecaca;
-    --assistant-focus-ring: rgba(217, 169, 239, 0.22);
-    --assistant-disabled-button: #6b3a82;
-    color-scheme: dark;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :where(html:not(.light):not([data-theme="light"])) .mintlify-assistant-demo {
-      --assistant-shell-bg: linear-gradient(135deg, rgba(119, 25, 170, 0.24), rgba(15, 23, 42, 0.95));
-      --assistant-shell-border: rgba(148, 163, 184, 0.24);
-      --assistant-panel-bg: #111827;
-      --assistant-panel-border: rgba(148, 163, 184, 0.22);
-      --assistant-chat-bg: rgba(15, 23, 42, 0.72);
-      --assistant-text: #f8fafc;
-      --assistant-muted: #cbd5e1;
-      --assistant-label: #e2e8f0;
-      --assistant-input-bg: #0f172a;
-      --assistant-input-text: #f8fafc;
-      --assistant-placeholder: #94a3b8;
-      --assistant-composer-bg: #0f172a;
-      --assistant-assistant-message-bg: #1e293b;
-      --assistant-error-bg: rgba(127, 29, 29, 0.28);
-      --assistant-error-border: rgba(248, 113, 113, 0.36);
-      --assistant-error-text: #fecaca;
-      --assistant-focus-ring: rgba(217, 169, 239, 0.22);
-      --assistant-disabled-button: #6b3a82;
-      color-scheme: dark;
-    }
-  }
-
-  .mintlify-assistant-input,
-  .mintlify-assistant-composer-input {
-    color: var(--assistant-input-text);
-  }
-
-  .mintlify-assistant-input::placeholder,
-  .mintlify-assistant-composer-input::placeholder {
-    color: var(--assistant-placeholder);
-    opacity: 1;
-  }
-
-  .mintlify-assistant-input:focus,
-  .mintlify-assistant-composer:focus-within {
-    border-color: #7719aa !important;
-    box-shadow: 0 0 0 3px var(--assistant-focus-ring);
-  }
-`;
-
 export const MintlifyAssistant = () => {
-  const styles = {
-    shell: {
-      background: "var(--assistant-shell-bg)",
-      border: "1px solid var(--assistant-shell-border)",
-      borderRadius: 20,
-      color: "var(--assistant-text)",
-      display: "grid",
-      gap: 20,
-      marginTop: 24,
-      overflow: "hidden",
-      padding: 20,
-    },
-    header: {
-      alignItems: "center",
-      display: "flex",
-      gap: 16,
-      justifyContent: "space-between",
-    },
-    content: {
-      display: "grid",
-      gap: 16,
-      width: "100%",
-    },
-    configRow: {
-      display: "flex",
-      gap: 14,
-      width: "100%",
-    },
-    configField: {
-      boxSizing: "border-box",
-      flex: "1 1 0",
-      minWidth: 0,
-    },
-    assistantPanel: {
-      background: "var(--assistant-panel-bg)",
-      border: "1px solid var(--assistant-panel-border)",
-      borderRadius: 18,
-      boxSizing: "border-box",
-      display: "grid",
-      gap: 14,
-      padding: 16,
-    },
-    eyebrow: {
-      color: "#7719AA",
-      fontSize: 13,
-      fontWeight: 700,
-      letterSpacing: "0.08em",
-      margin: 0,
-      textTransform: "uppercase",
-    },
-    title: {
-      fontSize: 28,
-      lineHeight: 1.1,
-      margin: "6px 0",
-    },
-    description: {
-      color: "var(--assistant-muted)",
-      margin: 0,
-    },
-    controls: {
-      display: "grid",
-      alignContent: "start",
-      gap: 16,
-    },
-    label: {
-      color: "var(--assistant-label)",
-      display: "grid",
-      fontSize: 14,
-      fontWeight: 700,
-      gap: 8,
-    },
-    input: {
-      background: "var(--assistant-input-bg)",
-      border: "1px solid rgba(148, 163, 184, 0.55)",
-      borderRadius: 12,
-      boxSizing: "border-box",
-      color: "var(--assistant-input-text)",
-      font: "inherit",
-      outline: "none",
-      padding: "10px 12px",
-      width: "100%",
-    },
-    textarea: {
-      minHeight: 96,
-      resize: "vertical",
-    },
-    composerInput: {
-      background: "transparent",
-      border: 0,
-      boxSizing: "border-box",
-      color: "var(--assistant-input-text)",
-      flex: "1 1 auto",
-      font: "inherit",
-      minHeight: 34,
-      outline: "none",
-      padding: "0 8px 0 0",
-      resize: "none",
-      width: "100%",
-    },
-    button: {
-      alignItems: "center",
-      background: "#7719AA",
-      border: 0,
-      borderRadius: 12,
-      color: "#ffffff",
-      cursor: "pointer",
-      display: "inline-flex",
-      fontWeight: 700,
-      justifyContent: "center",
-      padding: "12px 16px",
-    },
-    error: {
-      background: "var(--assistant-error-bg)",
-      border: "1px solid var(--assistant-error-border)",
-      borderRadius: 12,
-      color: "var(--assistant-error-text)",
-      padding: 12,
-    },
-    chat: {
-      background: "var(--assistant-chat-bg)",
-      border: "1px solid var(--assistant-panel-border)",
-      borderRadius: 14,
-      display: "grid",
-      gap: 14,
-      alignContent: "start",
-      minHeight: 320,
-      maxHeight: 480,
-      overflowY: "auto",
-      padding: 18,
-    },
-    composer: {
-      alignItems: "center",
-      background: "var(--assistant-composer-bg)",
-      border: "1px solid rgba(148, 163, 184, 0.45)",
-      borderRadius: 15,
-      display: "flex",
-      gap: 10,
-      padding: "12px 12px 12px 18px",
-    },
-    composerActions: {
-      alignItems: "center",
-      display: "flex",
-      flex: "0 0 auto",
-      gap: 10,
-    },
-    shortcut: {
-      color: "var(--assistant-placeholder)",
-      fontSize: 13,
-      whiteSpace: "nowrap",
-    },
-    sendButton: {
-      alignItems: "center",
-      background: "#7719AA",
-      border: 0,
-      borderRadius: 16,
-      color: "#ffffff",
-      cursor: "pointer",
-      display: "inline-flex",
-      fontSize: 20,
-      fontWeight: 800,
-      height: 38,
-      justifyContent: "center",
-      lineHeight: 1,
-      padding: 0,
-      transition:
-        "background 160ms ease, opacity 160ms ease, transform 160ms ease",
-      width: 38,
-    },
-    messageRow: {
-      display: "flex",
-    },
-    message: {
-      borderRadius: 16,
-      maxWidth: "92%",
-      minWidth: 0,
-      padding: "12px 14px",
-    },
-    userMessage: {
-      background: "#7719AA",
-      color: "#ffffff",
-    },
-    assistantMessage: {
-      background: "var(--assistant-assistant-message-bg)",
-      color: "var(--assistant-text)",
-    },
-    messageLabel: {
-      display: "block",
-      fontSize: 12,
-      fontWeight: 800,
-      marginBottom: 4,
-      opacity: 0.78,
-      textTransform: "uppercase",
-    },
-    messageText: {
-      lineHeight: 1.55,
-      margin: 0,
-      overflowWrap: "anywhere",
-      whiteSpace: "pre-wrap",
-      wordBreak: "normal",
-    },
-  };
-
   const initialMessages = [
     {
       id: "welcome",
@@ -303,11 +14,24 @@ export const MintlifyAssistant = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const enterHandledRef = useRef(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const canSubmit = Boolean(
     assistantKey.trim() && subdomain.trim() && query.trim() && !isLoading,
   );
+
+  if (!isMounted) {
+    return (
+      <div className="not-prose mt-6 rounded-2xl border border-slate-200 bg-white p-5 text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
+        Loading assistant demo...
+      </div>
+    );
+  }
 
   const makeMessage = (role, content) => {
     return {
@@ -514,77 +238,83 @@ export const MintlifyAssistant = () => {
   };
 
   return (
-    <div className="mintlify-assistant-demo" style={styles.shell}>
-      <style>{assistantThemeStyles}</style>
-      <div style={styles.header}>
+    <div className="not-prose mt-6 grid gap-5 overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 text-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-50">
+      <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 style={styles.title}>Morse Micro Assistant Demo</h2>
+          <h2 className="m-0 text-3xl font-bold leading-tight">
+            Morse Micro Assistant Demo
+          </h2>
         </div>
       </div>
 
-      <div style={styles.content}>
-        <form onSubmit={handleSubmit} style={styles.controls}>
-          <div style={styles.configRow}>
-            <label style={{ ...styles.label, ...styles.configField }}>
+      <div className="grid w-full gap-4">
+        <form className="grid content-start gap-4" onSubmit={handleSubmit}>
+          <div className="flex w-full flex-col gap-4 md:flex-row">
+            <label className="grid min-w-0 flex-1 gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
               Assistant Key
               <input
-                className="mintlify-assistant-input"
+                className="w-full box-border rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-950 outline-none placeholder:text-slate-400 focus:border-slate-400 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-slate-50 dark:placeholder:text-slate-500 dark:focus:border-slate-500"
                 value={assistantKey}
                 onChange={(event) => setAssistantKey(event.target.value)}
                 placeholder="mint_dsc_..."
-                style={styles.input}
                 type="text"
               />
             </label>
 
-            <label style={{ ...styles.label, ...styles.configField }}>
+            <label className="grid min-w-0 flex-1 gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
               Subdomain
               <input
-                className="mintlify-assistant-input"
+                className="w-full box-border rounded-xl border border-slate-300 bg-white px-3 py-2 text-slate-950 outline-none placeholder:text-slate-400 focus:border-slate-400 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-slate-50 dark:placeholder:text-slate-500 dark:focus:border-slate-500"
                 value={subdomain}
                 onChange={(event) => setSubdomain(event.target.value)}
                 placeholder="your-docs-subdomain"
-                style={styles.input}
                 type="text"
               />
             </label>
           </div>
 
-          {error ? <div style={styles.error}>{error}</div> : null}
+          {error ? (
+            <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-800 dark:border-red-400 dark:bg-red-950 dark:text-red-100">
+              {error}
+            </div>
+          ) : null}
 
-          <div aria-live="polite" style={styles.chat}>
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                style={{
-                  ...styles.messageRow,
-                  justifyContent:
-                    message.role === "user" ? "flex-end" : "flex-start",
-                }}
-              >
-                <div
-                  style={{
-                    ...styles.message,
-                    ...(message.role === "user"
-                      ? styles.userMessage
-                      : styles.assistantMessage),
-                  }}
-                >
-                  <span style={styles.messageLabel}>
-                    {message.role === "user" ? "You" : "Assistant"}
-                  </span>
-                  <p style={styles.messageText}>
-                    {message.content || "Thinking..."}
-                  </p>
+          <div
+            aria-busy={isLoading}
+            aria-live="polite"
+            className="grid max-h-96 min-h-80 content-start gap-4 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-900"
+          >
+            {messages.map((message) =>
+              message.role === "user" ? (
+                <div key={message.id} className="flex justify-end">
+                  <div className="max-w-3xl rounded-2xl bg-purple-700 px-4 py-3 text-white">
+                    <span className="mb-1 block text-xs font-extrabold uppercase opacity-75">
+                      You
+                    </span>
+                    <p className="m-0 whitespace-pre-wrap break-words leading-relaxed">
+                      {message.content || "Thinking..."}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ) : (
+                <div key={message.id} className="flex justify-start">
+                  <div className="max-w-3xl rounded-2xl bg-white px-4 py-3 text-slate-950 dark:bg-slate-800 dark:text-slate-50">
+                    <span className="mb-1 block text-xs font-extrabold uppercase opacity-75">
+                      Assistant
+                    </span>
+                    <p className="m-0 whitespace-pre-wrap break-words leading-relaxed">
+                      {message.content || "Thinking..."}
+                    </p>
+                  </div>
+                </div>
+              ),
+            )}
           </div>
 
-          <div className="mintlify-assistant-composer" style={styles.composer}>
+          <div className="flex items-center gap-3 rounded-2xl border border-slate-300 bg-white px-5 py-3 focus-within:border-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:focus-within:border-slate-500">
             <textarea
               aria-label="Ask a question"
-              className="mintlify-assistant-composer-input"
+              className="min-h-9 flex-1 resize-none appearance-none rounded-none border-0 bg-transparent pr-2 text-slate-950 shadow-none outline-none ring-0 placeholder:text-slate-400 !border-0 !shadow-none !outline-none !ring-0 focus:!border-0 focus:!shadow-none focus:!outline-none focus:!ring-0 focus-visible:!border-0 focus-visible:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 dark:text-slate-50 dark:placeholder:text-slate-500"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={(event) => {
@@ -614,24 +344,14 @@ export const MintlifyAssistant = () => {
               }}
               placeholder="Ask a question..."
               rows={1}
-              style={styles.composerInput}
             />
 
-            <div style={styles.composerActions}>
+            <div className="flex shrink-0 items-center gap-3">
               <button
                 aria-label="Send query"
+                className="flex h-10 w-10 items-center justify-center rounded-2xl bg-purple-700 text-xl font-extrabold leading-none text-white transition hover:-translate-y-px hover:bg-purple-800 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:bg-purple-300 disabled:opacity-70 dark:disabled:bg-purple-950"
+                disabled={!canSubmit}
                 onClick={handleComposerSend}
-                style={{
-                  ...styles.sendButton,
-                  background:
-                    query.trim() && !isLoading
-                      ? "#7719AA"
-                      : "var(--assistant-disabled-button)",
-                  cursor: isLoading ? "wait" : "pointer",
-                  opacity: isLoading ? 0.7 : 1,
-                  transform:
-                    query.trim() && !isLoading ? "translateY(-1px)" : "none",
-                }}
                 type="button"
               >
                 ↑
