@@ -18,7 +18,8 @@
             "pages": [
               "index"
             ],
-            "icon": "house"
+            "icon": "house",
+            "public": true
           },
           {
             "group": "User Guides",
