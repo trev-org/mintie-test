@@ -1,8 +1,97 @@
+const assistantThemeStyles = `
+  .mintlify-assistant-demo {
+    --assistant-shell-bg: linear-gradient(135deg, rgba(119, 25, 170, 0.06), rgba(248, 250, 252, 0.94));
+    --assistant-shell-border: rgba(148, 163, 184, 0.35);
+    --assistant-panel-bg: #ffffff;
+    --assistant-panel-border: rgba(148, 163, 184, 0.28);
+    --assistant-chat-bg: #f8fafc;
+    --assistant-text: #0f172a;
+    --assistant-muted: #64748b;
+    --assistant-label: #334155;
+    --assistant-input-bg: #ffffff;
+    --assistant-input-text: #0f172a;
+    --assistant-placeholder: #94a3b8;
+    --assistant-composer-bg: #ffffff;
+    --assistant-assistant-message-bg: #ffffff;
+    --assistant-error-bg: #fef2f2;
+    --assistant-error-border: #fecaca;
+    --assistant-error-text: #991b1b;
+    --assistant-focus-ring: rgba(119, 25, 170, 0.18);
+    --assistant-disabled-button: #d9a9ef;
+    color-scheme: light;
+  }
+
+  :where(.dark, [data-theme="dark"]) .mintlify-assistant-demo {
+    --assistant-shell-bg: linear-gradient(135deg, rgba(119, 25, 170, 0.24), rgba(15, 23, 42, 0.95));
+    --assistant-shell-border: rgba(148, 163, 184, 0.24);
+    --assistant-panel-bg: #111827;
+    --assistant-panel-border: rgba(148, 163, 184, 0.22);
+    --assistant-chat-bg: rgba(15, 23, 42, 0.72);
+    --assistant-text: #f8fafc;
+    --assistant-muted: #cbd5e1;
+    --assistant-label: #e2e8f0;
+    --assistant-input-bg: #0f172a;
+    --assistant-input-text: #f8fafc;
+    --assistant-placeholder: #94a3b8;
+    --assistant-composer-bg: #0f172a;
+    --assistant-assistant-message-bg: #1e293b;
+    --assistant-error-bg: rgba(127, 29, 29, 0.28);
+    --assistant-error-border: rgba(248, 113, 113, 0.36);
+    --assistant-error-text: #fecaca;
+    --assistant-focus-ring: rgba(217, 169, 239, 0.22);
+    --assistant-disabled-button: #6b3a82;
+    color-scheme: dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :where(html:not(.light):not([data-theme="light"])) .mintlify-assistant-demo {
+      --assistant-shell-bg: linear-gradient(135deg, rgba(119, 25, 170, 0.24), rgba(15, 23, 42, 0.95));
+      --assistant-shell-border: rgba(148, 163, 184, 0.24);
+      --assistant-panel-bg: #111827;
+      --assistant-panel-border: rgba(148, 163, 184, 0.22);
+      --assistant-chat-bg: rgba(15, 23, 42, 0.72);
+      --assistant-text: #f8fafc;
+      --assistant-muted: #cbd5e1;
+      --assistant-label: #e2e8f0;
+      --assistant-input-bg: #0f172a;
+      --assistant-input-text: #f8fafc;
+      --assistant-placeholder: #94a3b8;
+      --assistant-composer-bg: #0f172a;
+      --assistant-assistant-message-bg: #1e293b;
+      --assistant-error-bg: rgba(127, 29, 29, 0.28);
+      --assistant-error-border: rgba(248, 113, 113, 0.36);
+      --assistant-error-text: #fecaca;
+      --assistant-focus-ring: rgba(217, 169, 239, 0.22);
+      --assistant-disabled-button: #6b3a82;
+      color-scheme: dark;
+    }
+  }
+
+  .mintlify-assistant-input,
+  .mintlify-assistant-composer-input {
+    color: var(--assistant-input-text);
+  }
+
+  .mintlify-assistant-input::placeholder,
+  .mintlify-assistant-composer-input::placeholder {
+    color: var(--assistant-placeholder);
+    opacity: 1;
+  }
+
+  .mintlify-assistant-input:focus,
+  .mintlify-assistant-composer:focus-within {
+    border-color: #7719aa !important;
+    box-shadow: 0 0 0 3px var(--assistant-focus-ring);
+  }
+`;
+
 export const MintlifyAssistant = () => {
   const styles = {
     shell: {
-      border: "1px solid rgba(148, 163, 184, 0.35)",
+      background: "var(--assistant-shell-bg)",
+      border: "1px solid var(--assistant-shell-border)",
       borderRadius: 20,
+      color: "var(--assistant-text)",
       display: "grid",
       gap: 20,
       marginTop: 24,
@@ -31,8 +120,8 @@ export const MintlifyAssistant = () => {
       minWidth: 0,
     },
     assistantPanel: {
-      background: "#ffffff",
-      border: "1px solid rgba(148, 163, 184, 0.28)",
+      background: "var(--assistant-panel-bg)",
+      border: "1px solid var(--assistant-panel-border)",
       borderRadius: 18,
       boxSizing: "border-box",
       display: "grid",
@@ -53,7 +142,7 @@ export const MintlifyAssistant = () => {
       margin: "6px 0",
     },
     description: {
-      color: "#64748b",
+      color: "var(--assistant-muted)",
       margin: 0,
     },
     controls: {
@@ -62,16 +151,18 @@ export const MintlifyAssistant = () => {
       gap: 16,
     },
     label: {
-      color: "#334155",
+      color: "var(--assistant-label)",
       display: "grid",
       fontSize: 14,
       fontWeight: 700,
       gap: 8,
     },
     input: {
+      background: "var(--assistant-input-bg)",
       border: "1px solid rgba(148, 163, 184, 0.55)",
       borderRadius: 12,
       boxSizing: "border-box",
+      color: "var(--assistant-input-text)",
       font: "inherit",
       outline: "none",
       padding: "10px 12px",
@@ -82,8 +173,10 @@ export const MintlifyAssistant = () => {
       resize: "vertical",
     },
     composerInput: {
+      background: "transparent",
       border: 0,
       boxSizing: "border-box",
+      color: "var(--assistant-input-text)",
       flex: "1 1 auto",
       font: "inherit",
       minHeight: 34,
@@ -105,15 +198,15 @@ export const MintlifyAssistant = () => {
       padding: "12px 16px",
     },
     error: {
-      background: "#fef2f2",
-      border: "1px solid #fecaca",
+      background: "var(--assistant-error-bg)",
+      border: "1px solid var(--assistant-error-border)",
       borderRadius: 12,
-      color: "#991b1b",
+      color: "var(--assistant-error-text)",
       padding: 12,
     },
     chat: {
-      background: "#f8fafc",
-      border: "1px solid rgba(148, 163, 184, 0.28)",
+      background: "var(--assistant-chat-bg)",
+      border: "1px solid var(--assistant-panel-border)",
       borderRadius: 14,
       display: "grid",
       gap: 14,
@@ -125,6 +218,7 @@ export const MintlifyAssistant = () => {
     },
     composer: {
       alignItems: "center",
+      background: "var(--assistant-composer-bg)",
       border: "1px solid rgba(148, 163, 184, 0.45)",
       borderRadius: 15,
       display: "flex",
@@ -138,7 +232,7 @@ export const MintlifyAssistant = () => {
       gap: 10,
     },
     shortcut: {
-      color: "#94a3b8",
+      color: "var(--assistant-placeholder)",
       fontSize: 13,
       whiteSpace: "nowrap",
     },
@@ -174,8 +268,8 @@ export const MintlifyAssistant = () => {
       color: "#ffffff",
     },
     assistantMessage: {
-      background: "#ffffff",
-      color: "#0f172a",
+      background: "var(--assistant-assistant-message-bg)",
+      color: "var(--assistant-text)",
     },
     messageLabel: {
       display: "block",
@@ -204,7 +298,7 @@ export const MintlifyAssistant = () => {
   ];
 
   const [assistantKey, setAssistantKey] = useState("");
-  const [subdomain, setSubdomain] = useState("morsemicro");
+  const [subdomain, setSubdomain] = useState("morsemicrodemo");
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState(initialMessages);
   const [error, setError] = useState("");
@@ -420,7 +514,8 @@ export const MintlifyAssistant = () => {
   };
 
   return (
-    <div style={styles.shell}>
+    <div className="mintlify-assistant-demo" style={styles.shell}>
+      <style>{assistantThemeStyles}</style>
       <div style={styles.header}>
         <div>
           <h2 style={styles.title}>Morse Micro Assistant Demo</h2>
@@ -433,6 +528,7 @@ export const MintlifyAssistant = () => {
             <label style={{ ...styles.label, ...styles.configField }}>
               Assistant Key
               <input
+                className="mintlify-assistant-input"
                 value={assistantKey}
                 onChange={(event) => setAssistantKey(event.target.value)}
                 placeholder="mint_dsc_..."
@@ -444,6 +540,7 @@ export const MintlifyAssistant = () => {
             <label style={{ ...styles.label, ...styles.configField }}>
               Subdomain
               <input
+                className="mintlify-assistant-input"
                 value={subdomain}
                 onChange={(event) => setSubdomain(event.target.value)}
                 placeholder="your-docs-subdomain"
@@ -484,9 +581,10 @@ export const MintlifyAssistant = () => {
             ))}
           </div>
 
-          <div style={styles.composer}>
+          <div className="mintlify-assistant-composer" style={styles.composer}>
             <textarea
               aria-label="Ask a question"
+              className="mintlify-assistant-composer-input"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={(event) => {
@@ -526,7 +624,9 @@ export const MintlifyAssistant = () => {
                 style={{
                   ...styles.sendButton,
                   background:
-                    query.trim() && !isLoading ? "#7719AA" : "#D9A9EF",
+                    query.trim() && !isLoading
+                      ? "#7719AA"
+                      : "var(--assistant-disabled-button)",
                   cursor: isLoading ? "wait" : "pointer",
                   opacity: isLoading ? 0.7 : 1,
                   transform:
