@@ -1,0 +1,340 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mintie SSO API",
+    "version": "1.0.0",
+    "description": "Enterprise SSO, SCIM provisioning, and identity API for Mintie. This is the **v1** surface. It mirrors the endpoints implemented in the `mintie-test-code` server (`server/src/auth` and `server/src/scim`)."
+  },
+  "servers": [
+    {
+      "url": "https://api.mintie.example",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/auth/idp-lookup": {
+      "post": {
+        "operationId": "idpLookup",
+        "summary": "Look up SSO for an email",
+        "description": "Email-first sign-in. Given an email address, returns whether SSO is enabled for the associated organization and, if so, the IdP authorization URL to redirect the user to. If SSO is not enabled, the client falls back to password authentication.",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "jordan@acme.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lookup result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdpLookupResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/api-keys": {
+      "get": {
+        "operationId": "listApiKeys",
+        "summary": "List API keys",
+        "description": "Returns the API keys for the authenticated organization. In v1, keys are tied to the SSO identity (`idpUserId`); when the underlying IdP user is deactivated, the key stops authenticating within the propagation window.",
+        "tags": ["API keys"],
+        "responses": {
+          "200": {
+            "description": "The organization's API keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ApiKey"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/admin/sso/okta": {
+      "post": {
+        "operationId": "connectOktaSso",
+        "summary": "Connect an Okta SSO connection",
+        "description": "Creates or updates the Okta SSO connection for the authenticated organization. Called from the SSO settings page. Requires an admin principal with an organization context.",
+        "tags": ["Admin"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OktaConnectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The created or updated connection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SsoConnection"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/scim/v2/Users": {
+      "get": {
+        "operationId": "scimListUsers",
+        "summary": "List SCIM users",
+        "description": "SCIM 2.0 list endpoint. Returns provisioned users for the organization associated with the bearer token.",
+        "tags": ["SCIM"],
+        "parameters": [
+          {
+            "name": "startIndex",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 },
+            "description": "1-based index of the first result to return."
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": { "type": "integer", "default": 100 },
+            "description": "Maximum number of results to return."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SCIM ListResponse",
+            "content": {
+              "application/scim+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScimListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "operationId": "scimCreateUser",
+        "summary": "Provision a SCIM user",
+        "description": "SCIM 2.0 create endpoint. Provisions a new user in the organization associated with the bearer token.",
+        "tags": ["SCIM"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/scim+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScimUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The provisioned user",
+            "content": {
+              "application/scim+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScimUser"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/scim/v2/Users/{id}": {
+      "delete": {
+        "operationId": "scimDeleteUser",
+        "summary": "Deactivate a SCIM user",
+        "description": "SCIM 2.0 delete endpoint. Soft-deletes (deactivates) the user; the underlying record is never hard-deleted.",
+        "tags": ["SCIM"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The SCIM user id."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deactivated"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Organization API key or SCIM bearer token, sent as `Authorization: Bearer <token>`."
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Missing or invalid credentials",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "IdpLookupResult": {
+        "type": "object",
+        "required": ["ssoEnabled"],
+        "properties": {
+          "ssoEnabled": {
+            "type": "boolean",
+            "description": "Whether SSO is enabled for the resolved organization."
+          },
+          "redirectUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "IdP authorization URL. Present only when `ssoEnabled` is `true`.",
+            "example": "https://auth.mintie.example/authorize?organization=org_123"
+          }
+        }
+      },
+      "ApiKey": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "key_9f2c" },
+          "name": { "type": "string", "example": "CI deploy key" },
+          "idpUserId": {
+            "type": ["string", "null"],
+            "description": "IdP user the key is bound to. Null for legacy password-era keys.",
+            "example": "00u1a2b3c4"
+          },
+          "isServiceAccount": { "type": "boolean", "example": false },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "OktaConnectionRequest": {
+        "type": "object",
+        "required": ["metadataUrl"],
+        "properties": {
+          "metadataUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Okta IdP metadata URL.",
+            "example": "https://acme.okta.com/app/exk.../sso/saml/metadata"
+          },
+          "defaultRole": {
+            "type": "string",
+            "description": "Role assigned to JIT-provisioned users.",
+            "example": "member"
+          }
+        }
+      },
+      "SsoConnection": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "conn_okta_123" },
+          "orgId": { "type": "string", "example": "org_123" },
+          "provider": {
+            "type": "string",
+            "enum": ["okta", "google", "generic-saml", "generic-oidc"],
+            "example": "okta"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "pending"],
+            "example": "active"
+          }
+        }
+      },
+      "ScimUser": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "8f7e6d5c" },
+          "userName": { "type": "string", "example": "jordan@acme.com" },
+          "active": { "type": "boolean", "example": true },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "string", "example": "jordan@acme.com" },
+                "primary": { "type": "boolean", "example": true }
+              }
+            }
+          }
+        }
+      },
+      "ScimListResponse": {
+        "type": "object",
+        "properties": {
+          "totalResults": { "type": "integer", "example": 0 },
+          "Resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScimUser"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "example": "no_org" }
+        }
+      }
+    }
+  }
+}

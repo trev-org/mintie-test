@@ -1,0 +1,26 @@
+---
+title: "API overview"
+description: "Authentication, versioning, and conventions for the Mintie SSO API."
+---
+
+The Mintie SSO API lets you manage SSO connections, API keys, and SCIM user provisioning programmatically.
+
+## Base URL
+
+```
+https://api.mintie.example
+```
+
+## Authentication
+
+All endpoints except `POST /api/auth/idp-lookup` require a bearer token:
+
+```bash
+Authorization: Bearer <token>
+```
+
+Use an organization API key for the `/api/auth` endpoints and a per-organization SCIM token for the `/scim/v2` endpoints.
+
+## Versioning
+
+Use the version selector in the top navigation to switch between API versions. The current default is **v1**. When a newer version ships it becomes the default, and older versions remain available under the **Legacy** badge.
