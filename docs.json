@@ -35,6 +35,13 @@
       {
         "language": "en",
         "default": true,
+        "versions": [
+          {
+            "version": "v1",
+            "default": true,
+            "tag": "Latest"
+          }
+        ],
         "tabs": [
           {
             "tab": "Documentation",
@@ -85,6 +92,20 @@
                   "migration/user-comms",
                   "migration/faq"
                 ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "version": "v1",
+            "groups": [
+              {
+                "group": "API Reference",
+                "pages": ["api-reference/overview"]
+              },
+              {
+                "group": "Endpoints",
+                "openapi": "api-reference/openapi.v1.json"
               }
             ]
           },
