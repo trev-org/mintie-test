@@ -1,0 +1,367 @@
+---
+title: Search
+description: Search results from the Mintlify documentation search API
+hidden: true
+mode: custom
+---
+
+export const DOMAIN = "mintietest";
+export const ASSISTANT_API_KEY = "mint_dsc_8a6AWSsoiMsbwKfCpFct2s";
+export const RESULTS_PER_PAGE = 10;
+
+export const SearchIcon = ({ className = "h-5 w-5" }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.35-4.35" />
+  </svg>
+);
+
+export const LeftArrowIcon = ({ className = "h-4 w-4" }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M19 12H5" />
+    <path d="m11 18-6-6 6-6" />
+  </svg>
+);
+
+export const RightArrowIcon = ({ className = "h-4 w-4" }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M5 12h14" />
+    <path d="m13 6 6 6-6 6" />
+  </svg>
+);
+
+export const SearchResults = () => {
+  const [query, setQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [results, setResults] = useState([]);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+useEffect(() => {
+const params = new URLSearchParams(window.location.search);
+const q = (params.get("q") || "").trim();
+setQuery(q);
+setInputValue(q);
+
+    if (!q) {
+      setResults([]);
+      setStatus("empty");
+      setError(null);
+      setCurrentPage(1);
+      return;
+    }
+
+    let cancelled = false;
+
+    const runSearch = async () => {
+      setStatus("loading");
+      setError(null);
+
+      try {
+        const response = await fetch(
+          `https://api.mintlify.com/discovery/v1/search/${DOMAIN}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${ASSISTANT_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: q,
+              pageSize: 50,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          const body = await response.text();
+          throw new Error(
+            `Search failed (${response.status})${body ? `: ${body}` : ""}`
+          );
+        }
+
+        const data = await response.json();
+        if (cancelled) return;
+
+        setResults(Array.isArray(data) ? data : []);
+        setCurrentPage(1);
+        setStatus("success");
+      } catch (err) {
+        if (cancelled) return;
+        setResults([]);
+        setStatus("error");
+        setError(err?.message || "Something went wrong while searching.");
+      }
+    };
+
+    runSearch();
+
+    return () => {
+      cancelled = true;
+    };
+
+}, []);
+
+const isLoading = status === "idle" || status === "loading";
+const totalPages = Math.ceil(results.length / RESULTS_PER_PAGE);
+const pageStart = Math.imul(currentPage - 1, RESULTS_PER_PAGE);
+const pageEnd = Math.min(pageStart + RESULTS_PER_PAGE, results.length);
+const visibleResults = results.slice(pageStart, pageEnd);
+
+const goToPage = (page) => {
+const nextPage = Math.min(Math.max(page, 1), totalPages);
+setCurrentPage(nextPage);
+
+    window.requestAnimationFrame(() => {
+      document
+        .getElementById("search-results")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+};
+
+return (
+
+<div className="not-prose min-h-screen bg-background-light text-gray-500 antialiased dark:bg-background-dark dark:text-gray-400">
+<header className="bg-background-light dark:bg-background-dark">
+<div className="mx-auto w-full px-6 pt-6 lg:max-w-[43.5rem]">
+<div className="h-5 text-xs font-medium leading-4 tracking-normal text-primary dark:text-primary-light">
+Documentation
+</div>
+
+          <h1 className="mt-2.5 text-[1.875rem] font-medium leading-9 tracking-[-0.03125rem] text-gray-900 sm:text-4xl dark:text-gray-100">
+            Find what you need, faster.
+          </h1>
+          <p className="mt-2 text-lg leading-8 tracking-[-0.0125rem] text-gray-600 dark:text-gray-400">
+            Search setup guides, concepts, API references, and troubleshooting
+            resources across the Mintie docs.
+          </p>
+
+          <form
+            action="/search"
+            method="get"
+            className="group/search mt-8 flex h-9 w-full items-center justify-between gap-2 truncate rounded-full border-none bg-gray-950/[0.03] p-1 text-sm leading-6 text-gray-500 shadow-none ring-0 transition-colors hover:bg-gray-950/[0.06] focus-within:bg-gray-950/[0.06] dark:bg-white/[0.06] dark:text-gray-400 dark:hover:bg-white/10 dark:focus-within:bg-white/10"
+          >
+            <label htmlFor="docs-search" className="sr-only">
+              Search the documentation
+            </label>
+            <SearchIcon className="ml-2.5 h-4 w-4 min-w-4 flex-none text-gray-600 transition-colors group-hover/search:text-gray-900 dark:text-gray-400 dark:group-hover/search:text-gray-200" />
+            <input
+              id="docs-search"
+              type="search"
+              name="q"
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              placeholder="Search..."
+              autoComplete="off"
+              style={{ border: "none", outline: "none", boxShadow: "none" }}
+              className="h-full min-w-0 flex-1 appearance-none border-0 bg-transparent px-0 text-sm leading-6 text-gray-900 outline-0 placeholder:text-gray-500 focus:border-0 focus:outline-0 focus:ring-0 focus-visible:outline-0 focus-visible:ring-0 dark:text-gray-100 dark:placeholder:text-gray-400"
+            />
+            <button
+              type="submit"
+              disabled={!inputValue.trim()}
+              className="inline-flex h-7 shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#0C8C5E] px-3 text-xs font-semibold text-white ring-0 transition-opacity hover:opacity-90 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-gray-400 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-[#0C8C5E] dark:text-white dark:focus-visible:outline-gray-600"
+            >
+              <span className="hidden sm:inline">Search</span>
+              <SearchIcon className="h-4 w-4 sm:hidden" />
+            </button>
+          </form>
+        </div>
+      </header>
+
+      <main
+        className="mx-auto w-full px-6 py-10 lg:max-w-[43.5rem]"
+        aria-live="polite"
+        aria-busy={isLoading}
+      >
+        {isLoading && (
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 dark:text-gray-400">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary dark:bg-primary-light" />
+            Searching the documentation…
+          </div>
+        )}
+
+        {status === "empty" && (
+          <div className="flex min-h-56 flex-col items-center justify-center rounded-2xl border border-gray-950/10 bg-white px-6 py-12 text-center dark:border-white/10 dark:bg-white/[0.03]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary dark:bg-primary-light/10 dark:text-primary-light">
+              <SearchIcon className="h-6 w-6" />
+            </div>
+            <h2 className="mt-5 text-lg font-medium text-gray-900 dark:text-gray-100">
+              Start with a search
+            </h2>
+            <p className="mt-2 max-w-md text-sm leading-6 text-gray-600 dark:text-gray-400">
+              Enter a topic above, or pass it directly in the URL using the{" "}
+              <code className="rounded-md bg-gray-100 px-1.5 py-0.5 font-mono text-xs text-gray-700 dark:bg-white/10 dark:text-gray-300">
+                q
+              </code>{" "}
+              query parameter.
+            </p>
+          </div>
+        )}
+
+        {status === "error" && (
+          <div className="rounded-2xl border border-red-200 bg-red-50 px-6 py-5 text-red-700 dark:border-red-400/20 dark:bg-red-400/10 dark:text-red-300">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-lg font-medium text-red-700 dark:bg-red-400/10 dark:text-red-300">
+                !
+              </div>
+              <div>
+                <h2 className="font-medium text-red-950 dark:text-red-100">
+                  Search request failed
+                </h2>
+                <p className="mt-1 break-words text-sm leading-6 text-red-700 dark:text-red-300/80">
+                  {error}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {status === "success" && (
+          <div id="search-results" className="scroll-mt-6">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="mt-2 text-2xl font-medium tracking-[-0.025rem] text-gray-900 dark:text-gray-100">
+                  Results for “{query}”
+                </h2>
+              </div>
+              <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                {results.length > 0
+                  ? `Showing ${pageStart + 1}–${pageEnd} of ${results.length}`
+                  : "0 results"}
+              </p>
+            </div>
+
+            {results.length === 0 ? (
+              <div className="rounded-2xl border border-gray-950/10 bg-white px-6 py-12 text-center dark:border-white/10 dark:bg-white/[0.03]">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                  No results found
+                </h3>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-600 dark:text-gray-400">
+                  Try a shorter phrase, use fewer filters, or search for a
+                  related term.
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-4">
+                {visibleResults.map((result, index) => {
+                  const href = result.path?.startsWith("http")
+                    ? result.path
+                    : `/${String(result.path || "").replace(/^\//, "")}`;
+                  const title =
+                    result.metadata?.title ||
+                    result.metadata?.name ||
+                    result.path ||
+                    `Result ${pageStart + index + 1}`;
+
+                  return (
+                    <Card
+                      key={`${result.path || "result"}-${pageStart + index}`}
+                      title={title}
+                      href={href}
+                    >
+                      {result.path && (
+                        <span className="mb-2 block truncate text-xs font-medium text-primary dark:text-primary-light">
+                          {result.path}
+                        </span>
+                      )}
+                      {result.content && (
+                        <span className="line-clamp-3">{result.content}</span>
+                      )}
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
+
+            {totalPages > 1 && (
+              <nav
+                className="mt-8 flex flex-col items-center justify-between gap-3 sm:flex-row"
+                aria-label="Search results pagination"
+              >
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                  Page {currentPage} of {totalPages}
+                </p>
+
+                <div className="flex items-center gap-1 rounded-full bg-gray-950/[0.03] p-1 dark:bg-white/[0.06]">
+                  <button
+                    type="button"
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="inline-flex h-8 items-center gap-1.5 rounded-full border-none px-3 text-xs font-medium text-gray-500 shadow-none ring-0 transition-colors hover:bg-gray-950/[0.05] hover:text-[#0C8C5E] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-gray-400 disabled:cursor-not-allowed disabled:opacity-40 dark:text-gray-400 dark:hover:bg-white/[0.06] dark:hover:text-[#0C8C5E] dark:focus-visible:outline-gray-600"
+                  >
+                    <LeftArrowIcon className="h-3.5 w-3.5" />
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, index) => {
+                      const page = index + 1;
+                      const isCurrent = page === currentPage;
+
+                      return (
+                        <button
+                          key={page}
+                          type="button"
+                          onClick={() => goToPage(page)}
+                          aria-label={`Go to page ${page}`}
+                          aria-current={isCurrent ? "page" : undefined}
+                          className={`flex h-8 w-8 items-center justify-center rounded-full border-none text-xs font-semibold shadow-none ring-0 transition-colors focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-gray-400 dark:focus-visible:outline-gray-600 ${
+                            isCurrent
+                              ? "bg-white text-[#0C8C5E] ring-1 ring-gray-950/5 dark:bg-white/10 dark:text-[#0C8C5E] dark:ring-white/10"
+                              : "text-gray-500 hover:bg-gray-950/[0.05] hover:text-[#0C8C5E] dark:text-gray-400 dark:hover:bg-white/[0.06] dark:hover:text-[#0C8C5E]"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="inline-flex h-8 items-center gap-1.5 rounded-full border-none px-3 text-xs font-medium text-gray-500 shadow-none ring-0 transition-colors hover:bg-gray-950/[0.05] hover:text-[#0C8C5E] focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-gray-400 disabled:cursor-not-allowed disabled:opacity-40 dark:text-gray-400 dark:hover:bg-white/[0.06] dark:hover:text-[#0C8C5E] dark:focus-visible:outline-gray-600"
+                  >
+                    <RightArrowIcon className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </nav>
+            )}
+          </div>
+        )}
+      </main>
+    </div>
+
+);
+};
+
+<SearchResults />
