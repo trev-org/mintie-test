@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "luma",
+  "theme": "sequoia",
   "name": "Mintie SSO",
   "description": "Enterprise SSO, SCIM, and identity for Mintie",
   "colors": {
@@ -41,7 +41,7 @@
             "groups": [
               {
                 "group": "Get started",
-                "pages": ["introduction", "quickstart"]
+                "pages": ["index", "introduction", "quickstart"]
               },
               {
                 "group": "Concepts",
@@ -84,6 +84,58 @@
                   "migration/timeline",
                   "migration/user-comms",
                   "migration/faq"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "References",
+            "menu": [
+              {
+                "item": "OpenAPI",
+                "icon": "brackets-curly",
+                "description": "REST API reference generated from a sample OpenAPI spec",
+                "openapi": {
+                  "source": "reference/openapi.json",
+                  "directory": "reference/openapi"
+                }
+              },
+              {
+                "item": "AsyncAPI",
+                "icon": "bolt",
+                "description": "WebSocket event reference generated from a sample AsyncAPI spec",
+                "asyncapi": {
+                  "source": "reference/asyncapi.yaml",
+                  "directory": "reference/asyncapi"
+                }
+              },
+              {
+                "item": "GraphQL",
+                "icon": "diagram-project",
+                "description": "GraphQL API reference generated from a sample schema",
+                "tabs": [
+                  {
+                    "tab": "GraphQL",
+                    "graphql": {
+                      "source": "reference/schema.graphql",
+                      "directory": "reference/graphql"
+                    }
+                  }
+                ]
+              },
+              {
+                "item": "TypeScript SDK",
+                "icon": "code",
+                "description": "SDK reference generated from a sample TypeDoc artifact",
+                "tabs": [
+                  {
+                    "tab": "TypeScript SDK",
+                    "sdk": {
+                      "format": "typedoc",
+                      "source": "https://raw.githubusercontent.com/trev-org/mintie-test-code/main/sdk/typedoc.json",
+                      "directory": "reference/typescript-sdk"
+                    }
+                  }
                 ]
               }
             ]

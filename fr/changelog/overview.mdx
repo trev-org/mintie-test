@@ -3,6 +3,71 @@ title: "Journal des modifications"
 description: "Dernières mises à jour produit de Mintie SSO"
 ---
 
+<Update label="10 août 2026" description="Documentation de référence des API et du SDK" tags={["Documentation"]}>
+
+## Nouvelles fonctionnalités
+
+**Onglet References.** La documentation dispose désormais d'un onglet References dédié avec une documentation de référence générée pour chaque surface de Mintie SSO :
+
+- **API REST** : pages d'endpoints générées à partir de la spécification OpenAPI, couvrant les connexions et les sessions, avec un playground interactif pour tester les requêtes.
+- **Événements WebSocket** : référence des canaux et des messages générée à partir de la spécification AsyncAPI, couvrant les événements de provisioning et de session avec des exemples de payloads et un playground connectable.
+- **API GraphQL** : pages de requêtes, de mutations et de types générées à partir du schéma GraphQL, avec des types liés et des opérations d'exemple.
+- **SDK TypeScript** : référence des classes et des méthodes du SDK `@mintie/sso`, générée à partir de la sortie TypeDoc et synchronisée avec le dépôt du SDK à chaque build de la documentation.
+
+</Update>
+
+<Update label="7 août 2026" description="Page dédiée aux résultats de recherche" tags={["Documentation"]}>
+
+## Nouvelles fonctionnalités
+
+**Page complète de résultats de recherche.** Appuyez sur Entrée dans la barre de recherche pour ouvrir une page dédiée aux résultats de votre requête. Les résultats sont chargés directement depuis l'API de recherche de la documentation, regroupés par section, avec pagination et navigation complète au clavier.
+
+</Update>
+
+<Update label="8 juin 2026" description="Nouvelles actions dans le menu contextuel" tags={["Documentation"]}>
+
+## Mises à jour
+
+**Plus de façons d'utiliser la documentation avec vos outils.** Le menu contextuel de chaque page propose trois nouvelles actions :
+
+- **Copier la commande d'installation MCP** : copie la commande `npx add-mcp` pour ajouter le serveur MCP de la documentation Mintie à vos outils d'IA.
+- **Télécharger la spécification de l'API** : télécharge la spécification OpenAPI depuis n'importe quelle page de référence de l'API.
+- **Télécharger le PDF** : enregistre la page actuelle au format PDF pour une lecture hors ligne.
+
+</Update>
+
+<Update label="3 mai 2026" description="Interface d'administration SSO en libre-service et connecteurs dédiés" tags={["Lancement"]}>
+
+## Nouvelles fonctionnalités
+
+**Interface d'administration SSO en libre-service.** Les administrateurs d'organisation peuvent désormais gérer les fournisseurs d'identité de bout en bout depuis **Settings → Auth → SSO**, sans ticket de support. Connectez un fournisseur, consultez l'état de la connexion et activez ou désactivez l'application du SSO depuis une seule page. Consultez [Activer le SSO](/fr/setup/enable-sso).
+
+**Connecteur Okta dédié.** Connectez Okta en collant une URL de métadonnées ou en téléversant le XML de métadonnées. Remplace le parcours SAML générique manuel. Consultez [Configuration d'Okta](/fr/setup/okta).
+
+**Connecteur Google Workspace dédié.** Connectez Google Workspace avec un flux OAuth administrateur : saisissez votre domaine principal et approuvez les autorisations SSO et Directory Sync en tant que super-administrateur. Consultez [Configuration de Google Workspace](/fr/setup/google-workspace).
+
+**Test de connexion.** Exécutez un aller-retour réel vers votre IdP depuis la page des paramètres SSO avant d'imposer le SSO. Les échecs affichent la raison exacte pour corriger la configuration immédiatement. Consultez [Activer le SSO](/fr/setup/enable-sso).
+
+**Déconnexion en libre-service.** Supprimez une connexion IdP depuis l'interface d'administration. Les sessions existantes restent actives jusqu'à leur expiration ; les nouvelles connexions SSO sont refusées immédiatement. Consultez [Activer le SSO](/fr/setup/enable-sso).
+
+## Mises à jour
+
+**État de la connexion en un coup d'œil.** La page des paramètres SSO affiche désormais un badge d'état (`Active`, `Awaiting verification`, `Disconnected`), l'ID de la connexion, ainsi que l'horodatage et le résultat de votre dernier test de connexion.
+
+**Modale de confirmation pour imposer le SSO.** L'activation du SSO à l'échelle de l'organisation ouvre désormais une modale de confirmation expliquant les conséquences de la migration des sessions avant toute modification. L'interrupteur reste désactivé tant qu'aucun IdP n'est connecté. Consultez [Activer le SSO](/fr/setup/enable-sso).
+
+**API d'administration pour automatiser le SSO.** Les endpoints derrière la page des paramètres sont documentés pour l'automatisation serveur à serveur, y compris les appels de connexion, d'état, de test, d'application et de déconnexion. Consultez [Activer le SSO](/fr/setup/enable-sso).
+
+</Update>
+
+<Update label="29 avril 2026" description="Documentation en espagnol et en français" tags={["Documentation"]}>
+
+## Mises à jour
+
+**La documentation est désormais disponible en espagnol et en français.** Utilisez le sélecteur de langue dans la barre de navigation pour lire l'ensemble de la documentation en [espagnol](/es/introduction) ou en [français](/fr/introduction).
+
+</Update>
+
 <Update label="29 avril 2026" description="Disponibilité générale de Mintie SSO" tags={["Lancement"]}>
 
 ## Nouvelles fonctionnalités

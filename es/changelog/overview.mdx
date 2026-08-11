@@ -3,6 +3,71 @@ title: "Registro de cambios"
 description: "Últimas actualizaciones de producto de Mintie SSO"
 ---
 
+<Update label="10 de agosto de 2026" description="Documentación de referencia de API y SDK" tags={["Documentación"]}>
+
+## Nuevas funciones
+
+**Pestaña References.** La documentación ahora tiene una pestaña References dedicada con documentación de referencia generada para cada superficie de Mintie SSO:
+
+- **API REST**: páginas de endpoints generadas a partir de la especificación OpenAPI, que cubren conexiones y sesiones, con un playground interactivo para probar solicitudes.
+- **Eventos WebSocket**: referencia de canales y mensajes generada a partir de la especificación AsyncAPI, que cubre eventos de aprovisionamiento y de sesión con cargas de ejemplo y un playground con conexión.
+- **API GraphQL**: páginas de consultas, mutaciones y tipos generadas a partir del esquema GraphQL, con tipos enlazados y operaciones de ejemplo.
+- **SDK de TypeScript**: referencia de clases y métodos del SDK `@mintie/sso`, generada a partir de la salida de TypeDoc y sincronizada con el repositorio del SDK en cada compilación de la documentación.
+
+</Update>
+
+<Update label="7 de agosto de 2026" description="Página dedicada de resultados de búsqueda" tags={["Documentación"]}>
+
+## Nuevas funciones
+
+**Página completa de resultados de búsqueda.** Pulsa Enter en la barra de búsqueda para abrir una página dedicada con los resultados de tu consulta. Los resultados se cargan directamente desde la API de búsqueda de la documentación, agrupados por sección, con paginación y navegación completa por teclado.
+
+</Update>
+
+<Update label="8 de junio de 2026" description="Nuevas acciones en el menú contextual" tags={["Documentación"]}>
+
+## Actualizaciones
+
+**Más formas de usar la documentación con tus herramientas.** El menú contextual de cada página tiene tres acciones nuevas:
+
+- **Copiar comando de instalación de MCP**: copia el comando `npx add-mcp` para añadir el servidor MCP de la documentación de Mintie a tus herramientas de IA.
+- **Descargar especificación de la API**: descarga la especificación OpenAPI desde cualquier página de referencia de la API.
+- **Descargar PDF**: guarda la página actual como PDF para leerla sin conexión.
+
+</Update>
+
+<Update label="3 de mayo de 2026" description="UI de administración SSO autoservicio y conectores dedicados" tags={["Lanzamiento"]}>
+
+## Nuevas funciones
+
+**UI de administración SSO autoservicio.** Los administradores de la organización ahora pueden gestionar proveedores de identidad de principio a fin desde **Settings → Auth → SSO**, sin necesidad de tickets de soporte. Conecta un proveedor, consulta el estado de la conexión y activa o desactiva la exigencia de SSO desde una sola página. Consulta [Habilitar SSO](/es/setup/enable-sso).
+
+**Conector dedicado de Okta.** Conecta Okta pegando una URL de metadatos o subiendo el XML de metadatos. Sustituye el flujo manual de SAML genérico. Consulta [Configuración de Okta](/es/setup/okta).
+
+**Conector dedicado de Google Workspace.** Conecta Google Workspace con un flujo OAuth de administrador: introduce tu dominio principal y aprueba los permisos de SSO y Directory Sync como superadministrador. Consulta [Configuración de Google Workspace](/es/setup/google-workspace).
+
+**Prueba de inicio de sesión.** Ejecuta un recorrido real contra tu IdP desde la página de configuración de SSO antes de exigir SSO. Los fallos muestran el motivo exacto para que corrijas la configuración al momento. Consulta [Habilitar SSO](/es/setup/enable-sso).
+
+**Desconexión autoservicio.** Elimina la conexión con un IdP desde la UI de administración. Las sesiones existentes permanecen activas hasta expirar; los nuevos inicios de sesión SSO se rechazan de inmediato. Consulta [Habilitar SSO](/es/setup/enable-sso).
+
+## Actualizaciones
+
+**Estado de la conexión de un vistazo.** La página de configuración de SSO ahora muestra una insignia de estado (`Active`, `Awaiting verification`, `Disconnected`), el ID de la conexión y la marca de tiempo y el resultado de tu prueba de inicio de sesión más reciente.
+
+**Modal de confirmación para exigir SSO.** Activar SSO para toda la organización ahora abre un modal de confirmación que explica las consecuencias de la migración de sesiones antes de aplicar cambios. El interruptor permanece deshabilitado hasta que haya un IdP conectado. Consulta [Habilitar SSO](/es/setup/enable-sso).
+
+**API de administración para automatizar SSO.** Los endpoints detrás de la página de configuración están documentados para automatización servidor a servidor, incluidas las llamadas de conexión, estado, prueba, exigencia y desconexión. Consulta [Habilitar SSO](/es/setup/enable-sso).
+
+</Update>
+
+<Update label="29 de abril de 2026" description="Documentación en español y francés" tags={["Documentación"]}>
+
+## Actualizaciones
+
+**La documentación ya está disponible en español y francés.** Usa el selector de idioma en la barra de navegación para leer toda la documentación en [español](/es/introduction) o [francés](/fr/introduction).
+
+</Update>
+
 <Update label="29 de abril de 2026" description="Disponibilidad general de Mintie SSO" tags={["Lanzamiento"]}>
 
 ## Nuevas funciones

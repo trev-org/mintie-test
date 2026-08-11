@@ -3,6 +3,39 @@ title: "Changelog"
 description: "Latest product updates from Mintie SSO"
 ---
 
+<Update label="August 10, 2026" description="API and SDK reference documentation" tags={["Docs"]}>
+
+## New features
+
+**References tab.** The docs now have a dedicated References tab with generated reference documentation for every Mintie SSO surface:
+
+- **REST API** — endpoint pages generated from the OpenAPI specification, covering connections and sessions, with an interactive playground for trying requests.
+- **WebSocket events** — channel and message reference generated from the AsyncAPI specification, covering provisioning and session events with example payloads and a connectable playground.
+- **GraphQL API** — query, mutation, and type pages generated from the GraphQL schema, with linked types and example operations.
+- **TypeScript SDK** — class and method reference for the `@mintie/sso` SDK, generated from TypeDoc output and kept in sync with the SDK repository on every docs build.
+
+</Update>
+
+<Update label="August 7, 2026" description="Dedicated search results page" tags={["Docs"]}>
+
+## New features
+
+**Full search results page.** Press Enter in the search bar to open a dedicated results page for your query. Results load straight from the docs search API, grouped by section, with pagination and full keyboard navigation.
+
+</Update>
+
+<Update label="June 8, 2026" description="New contextual menu actions" tags={["Docs"]}>
+
+## Updates
+
+**More ways to use the docs with your tools.** The contextual menu on every page has three new actions:
+
+- **Copy MCP install command** — copy the `npx add-mcp` command to add the Mintie docs MCP server to your AI tools.
+- **Download API spec** — download the OpenAPI specification from any API reference page.
+- **Download PDF** — save the current page as a PDF for offline reading.
+
+</Update>
+
 <Update label="May 3, 2026" description="Self-serve SSO admin UI and dedicated connectors" tags={["Release"]}>
 
 ## New features
@@ -24,6 +57,14 @@ description: "Latest product updates from Mintie SSO"
 **Require SSO confirmation modal.** Enabling org-wide SSO now opens a confirmation modal that explains session-migration consequences before any change happens. The toggle stays disabled until an IdP is connected. See [Require SSO for your org](/setup/enable-sso#require-sso-for-your-org).
 
 **Admin API for SSO automation.** The endpoints behind the settings page are documented for server-to-server automation, including connect, status, test, require, and disconnect calls. See the [admin API reference](/setup/enable-sso#admin-api-reference).
+
+</Update>
+
+<Update label="April 29, 2026" description="Documentation in Spanish and French" tags={["Docs"]}>
+
+## Updates
+
+**Documentation now available in Spanish and French.** Use the language switcher in the navigation bar to read the full docs in [Spanish](/es/introduction) or [French](/fr/introduction).
 
 </Update>
 

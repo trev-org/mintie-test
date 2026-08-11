@@ -1,0 +1,357 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mintie SSO API",
+    "description": "Manage SSO connections and user sessions for your Mintie organization. Authenticate every request with an API key created in the dashboard.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Mintie Support",
+      "email": "support@mintie.example"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.mintie.example/v1",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Connections",
+      "description": "SSO connections link an identity provider to your organization."
+    },
+    {
+      "name": "Sessions",
+      "description": "Active user sessions created through SSO sign-in."
+    }
+  ],
+  "paths": {
+    "/connections": {
+      "get": {
+        "tags": ["Connections"],
+        "summary": "List connections",
+        "description": "Returns all SSO connections in your organization, ordered by creation date.",
+        "operationId": "listConnections",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter connections by lifecycle status.",
+            "schema": {
+              "$ref": "#/components/schemas/ConnectionStatus"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of connections to return.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of connections.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Connection"
+                      }
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "description": "Whether more connections exist beyond this page."
+                    }
+                  },
+                  "required": ["data", "hasMore"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Connections"],
+        "summary": "Create a connection",
+        "description": "Creates a new SSO connection. The connection starts in `pending` status until the identity provider metadata is verified.",
+        "operationId": "createConnection",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConnectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The created connection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Connection"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/connections/{connectionId}": {
+      "get": {
+        "tags": ["Connections"],
+        "summary": "Get a connection",
+        "description": "Returns a single SSO connection by ID.",
+        "operationId": "getConnection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConnectionId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The connection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Connection"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Connections"],
+        "summary": "Delete a connection",
+        "description": "Permanently deletes an SSO connection. Users who signed in through this connection keep their accounts but must use another sign-in method.",
+        "operationId": "deleteConnection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConnectionId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The connection was deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/sessions/{sessionId}": {
+      "delete": {
+        "tags": ["Sessions"],
+        "summary": "Revoke a session",
+        "description": "Revokes an active user session. The user is signed out on their next request.",
+        "operationId": "revokeSession",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the session.",
+            "schema": {
+              "type": "string",
+              "example": "sess_01j9x4qkfa"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The session was revoked."
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key created in the Mintie dashboard, passed as a bearer token."
+      }
+    },
+    "parameters": {
+      "ConnectionId": {
+        "name": "connectionId",
+        "in": "path",
+        "required": true,
+        "description": "Unique identifier of the connection.",
+        "schema": {
+          "type": "string",
+          "example": "conn_01j9x3wq8e"
+        }
+      }
+    },
+    "schemas": {
+      "ConnectionStatus": {
+        "type": "string",
+        "description": "Lifecycle status of a connection.",
+        "enum": ["active", "pending", "disabled"]
+      },
+      "Connection": {
+        "type": "object",
+        "description": "An SSO connection linking an identity provider to your organization.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the connection.",
+            "example": "conn_01j9x3wq8e"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name shown on the sign-in page.",
+            "example": "Acme Okta"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Identity provider type.",
+            "enum": ["okta", "google-workspace", "generic-saml"],
+            "example": "okta"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ConnectionStatus"
+          },
+          "domains": {
+            "type": "array",
+            "description": "Email domains routed to this connection during sign-in.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["acme.com"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the connection was created."
+          }
+        },
+        "required": ["id", "name", "provider", "status", "domains", "createdAt"]
+      },
+      "CreateConnectionRequest": {
+        "type": "object",
+        "description": "Fields for creating a new SSO connection.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name shown on the sign-in page.",
+            "example": "Acme Okta"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Identity provider type.",
+            "enum": ["okta", "google-workspace", "generic-saml"]
+          },
+          "domains": {
+            "type": "array",
+            "description": "Email domains routed to this connection during sign-in.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["acme.com"]
+          },
+          "metadataUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the identity provider's SAML metadata document. Required for `generic-saml` connections.",
+            "example": "https://idp.acme.com/saml/metadata"
+          }
+        },
+        "required": ["name", "provider", "domains"]
+      },
+      "Error": {
+        "type": "object",
+        "description": "A structured API error.",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Machine-readable error code.",
+            "example": "not_found"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable description of the error.",
+            "example": "Connection conn_01j9x3wq8e does not exist."
+          }
+        },
+        "required": ["code", "message"]
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "The request body or parameters are invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "The API key is missing, invalid, or revoked.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The requested resource does not exist.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

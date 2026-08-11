@@ -1,0 +1,181 @@
+asyncapi: 3.0.0
+defaultContentType: application/json
+info:
+  title: Mintie SSO Events
+  version: 1.0.0
+  description: |
+    Real-time identity events over WebSocket. Connect to the event stream to
+    receive provisioning and session events for your organization as they
+    happen, without polling the REST API.
+  contact:
+    name: Mintie Support
+    email: support@mintie.example
+  tags:
+    - name: identity
+      description: Provisioning and session lifecycle events.
+servers:
+  production:
+    host: events.mintie.example
+    protocol: wss
+    description: Production event stream. Authenticate with an API key passed as a bearer token in the connection request.
+channels:
+  identityEvents:
+    address: /v1/events
+    title: Identity events
+    description: Stream of provisioning and session events for your organization.
+    messages:
+      subscribe:
+        name: subscribe
+        title: Subscribe to events
+        summary: Sent by the client to choose which event types to receive.
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            action:
+              type: string
+              const: subscribe
+              description: Must be `subscribe`.
+            eventTypes:
+              type: array
+              description: Event types to receive. Omit to receive all event types.
+              items:
+                type: string
+                enum:
+                  - user.provisioned
+                  - user.deprovisioned
+                  - session.revoked
+          required:
+            - action
+        examples:
+          - name: subscribeToProvisioningEvents
+            summary: Subscribe to provisioning events only
+            payload:
+              action: subscribe
+              eventTypes:
+                - user.provisioned
+                - user.deprovisioned
+      userProvisioned:
+        name: userProvisioned
+        title: User provisioned
+        summary: A user account was created through SCIM or just-in-time provisioning.
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            type:
+              type: string
+              const: user.provisioned
+              description: Event type discriminator.
+            userId:
+              type: string
+              description: Unique identifier of the provisioned user.
+            email:
+              type: string
+              format: email
+              description: Email address of the provisioned user.
+            connectionId:
+              type: string
+              description: SSO connection that provisioned the user.
+            occurredAt:
+              type: string
+              format: date-time
+              description: Timestamp when the event occurred.
+          required:
+            - type
+            - userId
+            - email
+            - occurredAt
+        examples:
+          - name: userProvisionedExample
+            summary: A user provisioned through Okta SCIM
+            payload:
+              type: user.provisioned
+              userId: user_01j9x5b2kd
+              email: jamie@acme.com
+              connectionId: conn_01j9x3wq8e
+              occurredAt: '2026-08-10T12:00:00Z'
+      userDeprovisioned:
+        name: userDeprovisioned
+        title: User deprovisioned
+        summary: A user account was deactivated by the identity provider.
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            type:
+              type: string
+              const: user.deprovisioned
+              description: Event type discriminator.
+            userId:
+              type: string
+              description: Unique identifier of the deprovisioned user.
+            occurredAt:
+              type: string
+              format: date-time
+              description: Timestamp when the event occurred.
+          required:
+            - type
+            - userId
+            - occurredAt
+        examples:
+          - name: userDeprovisionedExample
+            summary: A user deactivated in the identity provider
+            payload:
+              type: user.deprovisioned
+              userId: user_01j9x5b2kd
+              occurredAt: '2026-08-10T12:05:00Z'
+      sessionRevoked:
+        name: sessionRevoked
+        title: Session revoked
+        summary: A user session was revoked by an administrator or the API.
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            type:
+              type: string
+              const: session.revoked
+              description: Event type discriminator.
+            sessionId:
+              type: string
+              description: Unique identifier of the revoked session.
+            userId:
+              type: string
+              description: User the session belonged to.
+            occurredAt:
+              type: string
+              format: date-time
+              description: Timestamp when the event occurred.
+          required:
+            - type
+            - sessionId
+            - userId
+            - occurredAt
+        examples:
+          - name: sessionRevokedExample
+            summary: A session revoked by an administrator
+            payload:
+              type: session.revoked
+              sessionId: sess_01j9x4qkfa
+              userId: user_01j9x5b2kd
+              occurredAt: '2026-08-10T12:10:00Z'
+operations:
+  subscribeToEvents:
+    action: send
+    channel:
+      $ref: '#/channels/identityEvents'
+    title: Subscribe to events
+    summary: Choose which event types the connection receives.
+    messages:
+      - $ref: '#/channels/identityEvents/messages/subscribe'
+  receiveIdentityEvents:
+    action: receive
+    channel:
+      $ref: '#/channels/identityEvents'
+    title: Receive identity events
+    summary: Events pushed to the client as they occur.
+    messages:
+      - $ref: '#/channels/identityEvents/messages/userProvisioned'
+      - $ref: '#/channels/identityEvents/messages/userDeprovisioned'
+      - $ref: '#/channels/identityEvents/messages/sessionRevoked'

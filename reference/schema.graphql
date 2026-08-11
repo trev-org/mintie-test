@@ -1,0 +1,125 @@
+"""
+An ISO 8601 date-time string, such as `2026-08-10T12:00:00Z`.
+"""
+scalar DateTime
+
+"""
+An object with a globally unique identifier.
+"""
+interface Node {
+  "Globally unique identifier of the object."
+  id: ID!
+}
+
+"""
+Lifecycle status of an SSO connection.
+"""
+enum ConnectionStatus {
+  "The connection is verified and users can sign in through it."
+  ACTIVE
+  "The connection is awaiting identity provider metadata verification."
+  PENDING
+  "The connection is disabled and rejects sign-in attempts."
+  DISABLED
+}
+
+"""
+Identity provider type backing a connection.
+"""
+enum IdentityProvider {
+  OKTA
+  GOOGLE_WORKSPACE
+  GENERIC_SAML
+}
+
+"""
+An organization on Mintie.
+"""
+type Organization implements Node {
+  "Globally unique identifier of the organization."
+  id: ID!
+  "Display name of the organization."
+  name: String!
+  "SSO connections configured for the organization."
+  connections(status: ConnectionStatus): [Connection!]!
+  "Timestamp when the organization was created."
+  createdAt: DateTime!
+}
+
+"""
+An SSO connection linking an identity provider to an organization.
+"""
+type Connection implements Node {
+  "Globally unique identifier of the connection."
+  id: ID!
+  "Human-readable name shown on the sign-in page."
+  name: String!
+  "Identity provider type backing the connection."
+  provider: IdentityProvider!
+  "Lifecycle status of the connection."
+  status: ConnectionStatus!
+  "Email domains routed to this connection during sign-in."
+  domains: [String!]!
+  "URL of the identity provider's SAML metadata document."
+  metadataUrl: String @deprecated(reason: "Use `metadata { url }` instead.")
+  "SAML metadata for the connection."
+  metadata: ConnectionMetadata
+  "Timestamp when the connection was created."
+  createdAt: DateTime!
+}
+
+"""
+SAML metadata associated with a connection.
+"""
+type ConnectionMetadata {
+  "URL of the identity provider's SAML metadata document."
+  url: String!
+  "Timestamp when the metadata was last fetched and verified."
+  verifiedAt: DateTime
+}
+
+"""
+An active user session created through SSO sign-in.
+"""
+type Session implements Node {
+  "Globally unique identifier of the session."
+  id: ID!
+  "Identifier of the user the session belongs to."
+  userId: ID!
+  "Connection the user signed in through."
+  connection: Connection!
+  "Timestamp when the session expires."
+  expiresAt: DateTime!
+}
+
+"""
+Fields for creating a new SSO connection.
+"""
+input CreateConnectionInput {
+  "Human-readable name shown on the sign-in page."
+  name: String!
+  "Identity provider type backing the connection."
+  provider: IdentityProvider!
+  "Email domains routed to this connection during sign-in."
+  domains: [String!]!
+  "URL of the identity provider's SAML metadata document. Required for GENERIC_SAML connections."
+  metadataUrl: String
+}
+
+type Query {
+  "Fetch an organization by ID."
+  organization(id: ID!): Organization
+  "Fetch a single SSO connection by ID."
+  connection(id: ID!): Connection
+  "List SSO connections, optionally filtered by status."
+  connections(status: ConnectionStatus): [Connection!]!
+}
+
+type Mutation {
+  "Create a new SSO connection. The connection starts in PENDING status until its metadata is verified."
+  createConnection(input: CreateConnectionInput!): Connection!
+  "Disable a connection so it rejects new sign-in attempts."
+  disableConnection(id: ID!): Connection!
+  "Revoke an active user session. Returns true if a session was revoked."
+  revokeSession(id: ID!): Boolean!
+}

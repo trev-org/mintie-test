@@ -1,0 +1,91 @@
+---
+title: "Welcome"
+sidebarTitle: "Welcome"
+description: "A Mintlify sample site that showcases docs, API references, SDKs, i18n, and more"
+---
+
+This repository is a living sample of what you can ship on [Mintlify](https://mintlify.com) — product docs, API playgrounds, SDK references, multilingual navigation, changelogs, and AI-ready surfaces — all in one site.
+
+Use it as a tour: click through the tabs and pages below, then open the source repos to see how each piece is wired up.
+
+<CardGroup cols={2}>
+  <Card
+    title="Start with the product docs"
+    icon="book-open"
+    href="/introduction"
+  >
+    Sample SSO / identity documentation with components, callouts, tables, and
+    steps.
+  </Card>
+  <Card title="Run the quickstart" icon="rocket" href="/quickstart">
+    A guided walkthrough page — the pattern most docs sites lead with.
+  </Card>
+</CardGroup>
+
+## Explore what this sample covers
+
+Open the **References** tab in the top nav for the generated API surfaces. Everything else lives in the Documentation and Changelog tabs.
+
+<CardGroup cols={2}>
+  <Card title="OpenAPI playground" icon="brackets-curly">
+    Interactive REST docs generated from `reference/openapi.json` on the **References → OpenAPI** menu.
+  </Card>
+  <Card title="AsyncAPI events" icon="bolt">
+    WebSocket / event reference generated from `reference/asyncapi.yaml` on **References → AsyncAPI**.
+  </Card>
+  <Card title="GraphQL schema" icon="diagram-project">
+    GraphQL API docs generated from `reference/schema.graphql` on **References → GraphQL**.
+  </Card>
+  <Card title="TypeScript SDK" icon="code">
+    SDK reference generated from a TypeDoc artifact under `sdk-artifacts/` on **References → TypeScript SDK**.
+  </Card>
+  <Card title="Changelog" icon="megaphone" href="/changelog/overview">
+    Product updates with the `<Update>` component and tag filters.
+  </Card>
+  <Card title="Internationalization" icon="language" href="/es/introduction">
+    Parallel Spanish and French navigation trees for the same content.
+  </Card>
+</CardGroup>
+
+## Source code
+
+These public repos are the source of truth for this sample — docs content on one side, companion application code on the other.
+
+<Columns cols={2}>
+  <GitHub.Repo repo="trev-org/mintie-test" variant="inset" />
+  <GitHub.Repo repo="trev-org/mintie-test-code" variant="inset" />
+</Columns>
+
+| Repo                                                                        | What's inside                                                                                  |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`trev-org/mintie-test`](https://github.com/trev-org/mintie-test)           | This Mintlify docs site — MDX pages, `docs.json`, OpenAPI / AsyncAPI / GraphQL / TypeDoc specs |
+| [`trev-org/mintie-test-code`](https://github.com/trev-org/mintie-test-code) | Companion sample application code that pairs with the docs                                     |
+
+## How to tour the site
+
+<Steps>
+  <Step title="Read the product narrative">
+    Start at [Introduction](/introduction), then skim
+    [Concepts](/concepts/how-sso-works) and [Setup](/setup/enable-sso) for
+    component-heavy guides.
+  </Step>
+  <Step title="Open the References tab">
+    Switch to **References** in the top nav for OpenAPI, AsyncAPI, GraphQL, and
+    the TypeScript SDK — each generated from a spec file in this repo.
+  </Step>
+  <Step title="Check the Changelog tab">
+    See tagged release notes on [Changelog](/changelog/overview).
+  </Step>
+  <Step title="Fork the source">
+    Clone [`mintie-test`](https://github.com/trev-org/mintie-test) (docs) and
+    [`mintie-test-code`](https://github.com/trev-org/mintie-test-code) (app
+    code), then run `mint dev` locally to iterate.
+  </Step>
+</Steps>
+
+<Tip>
+  Prefer the Mintlify docs over this sample when you need canonical guidance:
+  [Components](https://www.mintlify.com/docs/components), [API
+  playground](https://www.mintlify.com/docs/api-playground/overview), and
+  [docs.json](https://www.mintlify.com/docs.json).
+</Tip>
