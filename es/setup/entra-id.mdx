@@ -1,0 +1,68 @@
+---
+title: "Microsoft Entra ID"
+description: "Conecta Microsoft Entra ID como tu proveedor de identidad para Mintie"
+---
+
+El conector dedicado de Microsoft Entra ID está disponible en **Configuración → Autenticación → SSO**. Selecciona **Entra ID** en el selector de proveedor, pega la URL de metadatos de federación de tu app o sube el XML de metadatos y haz clic en **Conectar**. Consulta [Habilitar SSO](/es/setup/enable-sso) para el recorrido completo.
+
+## Qué ofrece el conector
+
+<CardGroup cols={2}>
+  <Card title="URL de metadatos o subida de XML" icon="file-import">
+    Pega la URL de metadatos de federación de tu app empresarial de Entra ID
+    o sube el XML. Sin copiar y pegar manualmente el emisor, ACS ni
+    certificados de firma.
+  </Card>
+  <Card title="Mapeo de claims de grupo" icon="users-rectangle">
+    Mapea los claims de grupo de Entra ID a los roles de Mintie. Funciona
+    tanto con apps empresariales SAML como OIDC.
+  </Card>
+  <Card title="URL ACS visible en la UI" icon="link">
+    Tras conectar, la página de configuración muestra la URL ACS de Mintie
+    para pegarla en el campo **Reply URL** de tu app de Entra ID.
+  </Card>
+  <Card title="Listo para SCIM" icon="arrows-rotate">
+    Se combina con el [aprovisionamiento SCIM 2.0](/es/provisioning/scim)
+    para que el agente de aprovisionamiento de Entra ID pueda aprovisionar
+    y desaprovisionar usuarios automáticamente.
+  </Card>
+</CardGroup>
+
+## Conectar Entra ID
+
+<Steps>
+  <Step title="Crea la app empresarial de Entra ID">
+    En el centro de administración de Entra, crea una nueva aplicación
+    empresarial para Mintie y habilita el inicio de sesión basado en SAML.
+  </Step>
+  <Step title="Copia los metadatos de federación">
+    En la página de inicio de sesión SAML, copia la **App Federation
+    Metadata Url** o descarga el **Federation Metadata XML**.
+  </Step>
+  <Step title="Pégalo en Mintie">
+    En Mintie, ve a **Configuración → Autenticación → SSO**, elige
+    **Entra ID**, selecciona **URL de metadatos** o **XML de metadatos**,
+    pega el valor y haz clic en **Conectar**.
+  </Step>
+  <Step title="Establece la Reply URL en Entra ID">
+    Copia la URL ACS que se muestra en la página de configuración de Mintie
+    y pégala en el campo **Reply URL (Assertion Consumer Service URL)** de
+    tu app de Entra ID.
+  </Step>
+  <Step title="Ejecuta un inicio de sesión de prueba">
+    Haz clic en **Test sign-in** para confirmar que el viaje funciona antes
+    de activar [Requerir SSO](/es/setup/enable-sso#requerir-sso-para-tu-organización).
+  </Step>
+</Steps>
+
+### Alternativa: SAML / OIDC genérico
+
+Si no puedes usar el flujo de metadatos, el [conector SAML / OIDC genérico](/es/setup/generic-saml) acepta los mismos valores de Entra ID:
+
+| Campo Mintie | Dónde encontrarlo en Entra ID |
+| --- | --- |
+| Emisor | App Entra → Endpoints → Federation metadata document |
+| URL de autorización | App Entra → Endpoints → OAuth 2.0 authorization endpoint (v2) |
+| URL de token | App Entra → Endpoints → OAuth 2.0 token endpoint (v2) |
+| URL de JWKS | App Entra → Endpoints → OpenID Connect metadata document |
+| ID de cliente / Secreto | App Entra → Overview / Certificates & secrets |
