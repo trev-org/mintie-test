@@ -72,7 +72,7 @@
               },
               {
                 "group": "API & integrations",
-                "pages": ["api-and-keys/api-keys"]
+                "pages": ["api-and-keys/api-keys", "api-and-keys/webhooks"]
               },
               {
                 "group": "Security",
@@ -190,7 +190,7 @@
               },
               {
                 "group": "API e integraciones",
-                "pages": ["es/api-and-keys/api-keys"]
+                "pages": ["es/api-and-keys/api-keys", "es/api-and-keys/webhooks"]
               },
               {
                 "group": "Seguridad",
@@ -256,7 +256,7 @@
               },
               {
                 "group": "API et intégrations",
-                "pages": ["fr/api-and-keys/api-keys"]
+                "pages": ["fr/api-and-keys/api-keys", "fr/api-and-keys/webhooks"]
               },
               {
                 "group": "Sécurité",

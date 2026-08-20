@@ -1,0 +1,169 @@
+---
+title: "Webhooks"
+description: "Notificaciones push firmadas para eventos de identidad y auditoría"
+---
+
+<Info>
+  **Próximamente.** Los webhooks firmados exponen la misma taxonomía de eventos
+  que el registro de auditoría como un feed push, para que puedas automatizar
+  sobre eventos de identidad en lugar de sondear la API REST.
+</Info>
+
+## Descripción general
+
+Los webhooks permiten que tus servicios reaccionen a eventos de identidad casi
+en tiempo real. Mintie entrega cada evento suscrito como un `POST` HTTPS
+firmado a tu endpoint. Las cargas útiles están versionadas (`v1`) y utilizan
+la misma forma que la exportación del [registro de auditoría](/security/audit-logs),
+por lo que los parsers escritos para la exportación de auditoría pueden
+consumir eventos de webhook sin modificaciones.
+
+Automatizaciones típicas:
+
+- Iniciar una lista de tareas de baja cuando SCIM desactiva a un usuario.
+- Alertar sobre el primer inicio de sesión SSO desde un nuevo usuario.
+- Sincronizar eventos de aprovisionamiento con un sistema interno de registro.
+
+## Crear un endpoint
+
+Los webhooks se configuran por organización en **Configuración → Auth → Webhooks**.
+
+<Steps>
+  <Step title="Añadir un endpoint">
+    Introduce la URL de destino (solo HTTPS) y elige a qué tipos de eventos
+    suscribirte. Deja el filtro vacío para recibir todos los eventos.
+  </Step>
+  <Step title="Copiar el secreto de firma">
+    Mintie genera un secreto de firma cuando se crea el endpoint. Guárdalo en
+    tu gestor de secretos; lo usarás para verificar las firmas.
+  </Step>
+  <Step title="Verificar con un envío de prueba">
+    Usa el botón **Enviar evento de muestra** para entregar un evento
+    `webhook.test` al endpoint. El registro de entregas muestra el código de
+    respuesta y el cuerpo.
+  </Step>
+</Steps>
+
+Crear, editar, deshabilitar o rotar el secreto de un endpoint de webhook es
+una acción sensible. Mintie requiere MFA reforzada antes de aplicar el
+cambio, y el cambio en sí se registra en el registro de auditoría.
+
+## Formato de la carga útil
+
+Cada entrega tiene el mismo envoltorio:
+
+```json
+{
+  "id": "evt_01j9x7c4pk",
+  "version": "v1",
+  "type": "scim.user.deactivated",
+  "occurredAt": "2026-08-20T20:48:01.423Z",
+  "orgId": "org_01j9x3wq8e",
+  "data": {
+    "userId": "user_01j9x5b2kd",
+    "email": "jamie@acme.com",
+    "connectionId": "conn_01j9x3wq8e"
+  }
+}
+```
+
+El campo `type` coincide con los valores de `AuditEventKind` documentados en
+la [tabla de eventos del registro de auditoría](/security/audit-logs). La
+forma del objeto `data` es específica de cada tipo de evento. Consulta la
+referencia de AsyncAPI en la pestaña **References** para ver el esquema
+completo de cada evento.
+
+## Verificar firmas
+
+Cada solicitud lleva dos cabeceras:
+
+| Cabecera | Valor |
+| --- | --- |
+| `Mintie-Signature` | HMAC-SHA256 codificado en hexadecimal de `{timestamp}.{raw_body}` usando el secreto del endpoint |
+| `Mintie-Timestamp` | Segundos Unix cuando Mintie generó la firma |
+
+Verifica tanto la firma como la marca de tiempo antes de confiar en la carga
+útil. Rechaza las solicitudes en las que la marca de tiempo tenga una
+diferencia de más de 5 minutos con el reloj de tu servidor para evitar
+reenvíos.
+
+```ts Node.js
+import { createHmac, timingSafeEqual } from "node:crypto";
+
+const MAX_SKEW_SECONDS = 5 * 60;
+
+export function verifyMintieWebhook(
+  rawBody: string,
+  signatureHeader: string,
+  timestampHeader: string,
+  secret: string,
+): boolean {
+  const timestamp = Number(timestampHeader);
+  if (!Number.isFinite(timestamp)) return false;
+
+  const skew = Math.abs(Math.floor(Date.now() / 1000) - timestamp);
+  if (skew > MAX_SKEW_SECONDS) return false;
+
+  const expected = createHmac("sha256", secret)
+    .update(`${timestampHeader}.${rawBody}`)
+    .digest("hex");
+
+  const a = Buffer.from(expected, "hex");
+  const b = Buffer.from(signatureHeader, "hex");
+  if (a.length !== b.length) return false;
+
+  return timingSafeEqual(a, b);
+}
+```
+
+<Warning>
+  Verifica contra el cuerpo bruto de la solicitud, antes de cualquier parseo
+  JSON o reserialización. Reordenar claves o cambiar los espacios en blanco
+  invalida la firma.
+</Warning>
+
+## Entrega y reintentos
+
+Mintie intenta cada entrega al menos una vez. Un endpoint se considera
+exitoso cuando devuelve una respuesta `2xx` en menos de 10 segundos.
+
+Las entregas fallidas se reintentan con backoff exponencial a los 30s, 2m,
+10m, 1h y 6h. Después del último intento, la entrega se marca como fallida
+en el registro y no se realizan más reintentos automáticos.
+
+<Info>
+  Como la entrega es al menos una vez, tu handler debe ser idempotente. Usa
+  el campo `id` del evento como clave de idempotencia.
+</Info>
+
+## Registro de entregas
+
+**Configuración → Auth → Webhooks → Entregas** lista cada intento de entrega,
+incluyendo:
+
+- `id`, `type` y marca de tiempo del evento
+- Código de respuesta HTTP, cuerpo de la respuesta (primeros 4 KB) y latencia
+- Número de reintentos y próximo reintento programado, si lo hay
+
+Los administradores pueden reenviar cualquier evento manualmente desde el
+registro — útil cuando un servicio downstream ha estado caído brevemente o
+cuando necesitas reproducir eventos después de arreglar un bug en un handler.
+
+## Catálogo de eventos
+
+Los tipos de eventos a los que puedes suscribirte coinciden con la taxonomía
+del registro de auditoría. Consulta la referencia de AsyncAPI en la pestaña
+**References** para los esquemas completos de las cargas útiles.
+
+| Evento | Se emite cuando |
+| --- | --- |
+| `auth.signin.success` | Un usuario inicia sesión (contraseña o SSO) |
+| `auth.signin.failure` | Falla el inicio de sesión |
+| `auth.sso.linked` | Un usuario de Mintie se vincula a una identidad del IdP |
+| `auth.sso.unlinked` | Un administrador elimina el vínculo |
+| `auth.session.forced_relogin` | El job de migración de sesiones marcó una sesión |
+| `scim.user.provisioned` | `POST /Users` de SCIM tuvo éxito |
+| `scim.user.deactivated` | `DELETE /Users/{id}` de SCIM tuvo éxito |
+| `apikey.created` | Se emitió una clave de API |
+| `apikey.revoked` | Clave de API revocada manualmente o por desactivación del IdP |
+| `webhook.test` | Envío de prueba desde la interfaz de administración |
