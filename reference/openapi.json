@@ -28,6 +28,10 @@
     {
       "name": "Sessions",
       "description": "Active user sessions created through SSO sign-in."
+    },
+    {
+      "name": "Service accounts",
+      "description": "Org-owned identities used for automation. Service account keys survive user offboarding and are scoped to least privilege."
     }
   ],
   "paths": {
@@ -175,6 +179,261 @@
         }
       }
     },
+    "/service-accounts": {
+      "get": {
+        "tags": ["Service accounts"],
+        "summary": "List service accounts",
+        "description": "Returns all service accounts in your organization, ordered by creation date.",
+        "operationId": "listServiceAccounts",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of service accounts to return.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of service accounts.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ServiceAccount"
+                      }
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "description": "Whether more service accounts exist beyond this page."
+                    }
+                  },
+                  "required": ["data", "hasMore"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Service accounts"],
+        "summary": "Create a service account",
+        "description": "Creates a new org-owned service account. Requires step-up MFA for the `apikey.create` sensitive action.",
+        "operationId": "createServiceAccount",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceAccountRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The created service account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceAccount"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/MfaRequired"
+          }
+        }
+      }
+    },
+    "/service-accounts/{serviceAccountId}": {
+      "get": {
+        "tags": ["Service accounts"],
+        "summary": "Get a service account",
+        "description": "Returns a single service account by ID.",
+        "operationId": "getServiceAccount",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceAccountId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The service account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceAccount"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Service accounts"],
+        "summary": "Delete a service account",
+        "description": "Deletes a service account and revokes all of its keys. The change is effective immediately.",
+        "operationId": "deleteServiceAccount",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceAccountId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The service account was deleted."
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/service-accounts/{serviceAccountId}/keys": {
+      "get": {
+        "tags": ["Service accounts"],
+        "summary": "List keys for a service account",
+        "description": "Returns the keys issued to a service account. Up to two keys may be active at once during rotation.",
+        "operationId": "listServiceAccountKeys",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceAccountId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of keys.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ServiceAccountKey"
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Service accounts"],
+        "summary": "Issue a new key",
+        "description": "Issues a new key for a service account. If one key is already active, the new key is added alongside it to support an overlap window (up to two active keys). Requires step-up MFA for the `apikey.create` sensitive action. The plaintext key `token` is returned only in this response.",
+        "operationId": "issueServiceAccountKey",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceAccountId"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The issued key, including the plaintext token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssuedServiceAccountKey"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/MfaRequired"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "description": "The service account already has two active keys. Revoke one before issuing another.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/service-accounts/{serviceAccountId}/keys/{keyId}": {
+      "delete": {
+        "tags": ["Service accounts"],
+        "summary": "Revoke a key",
+        "description": "Revokes a service account key immediately. Emits an `apikey.revoked` audit event with `meta.serviceAccount: true`.",
+        "operationId": "revokeServiceAccountKey",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ServiceAccountId"
+          },
+          {
+            "name": "keyId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the key.",
+            "schema": {
+              "type": "string",
+              "example": "sak_01j9x5r2b7"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The key was revoked."
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/sessions/{sessionId}": {
       "delete": {
         "tags": ["Sessions"],
@@ -224,6 +483,16 @@
         "schema": {
           "type": "string",
           "example": "conn_01j9x3wq8e"
+        }
+      },
+      "ServiceAccountId": {
+        "name": "serviceAccountId",
+        "in": "path",
+        "required": true,
+        "description": "Unique identifier of the service account.",
+        "schema": {
+          "type": "string",
+          "example": "sa_01j9x5r0k3"
         }
       }
     },
@@ -303,6 +572,126 @@
         },
         "required": ["name", "provider", "domains"]
       },
+      "ServiceAccount": {
+        "type": "object",
+        "description": "An org-owned identity used by automation. Not usable for interactive sign-in.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the service account.",
+            "example": "sa_01j9x5r0k3"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name shown in the admin keys UI.",
+            "example": "ci-github-actions"
+          },
+          "description": {
+            "type": "string",
+            "description": "What the service account is used for.",
+            "example": "GitHub Actions deploy pipeline for the api repo."
+          },
+          "owningTeam": {
+            "type": "string",
+            "description": "Team that owns this service account. Ownership does not follow any individual user.",
+            "example": "platform"
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Scopes granted to keys issued for this service account. Enforced on every request.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["read:connections", "write:sessions"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the service account was created."
+          }
+        },
+        "required": ["id", "name", "owningTeam", "scopes", "createdAt"]
+      },
+      "CreateServiceAccountRequest": {
+        "type": "object",
+        "description": "Fields for creating a new service account.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name shown in the admin keys UI.",
+            "example": "ci-github-actions"
+          },
+          "description": {
+            "type": "string",
+            "description": "What the service account is used for."
+          },
+          "owningTeam": {
+            "type": "string",
+            "description": "Team that owns this service account.",
+            "example": "platform"
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Scopes granted to keys issued for this service account.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["read:connections"]
+          }
+        },
+        "required": ["name", "owningTeam", "scopes"]
+      },
+      "ServiceAccountKey": {
+        "type": "object",
+        "description": "A key issued to a service account. The plaintext token is only returned at issuance.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the key.",
+            "example": "sak_01j9x5r2b7"
+          },
+          "serviceAccountId": {
+            "type": "string",
+            "description": "Service account this key belongs to.",
+            "example": "sa_01j9x5r0k3"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the key was issued."
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the most recent successful request authenticated with this key. `null` if the key has never been used."
+          },
+          "revokedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the key was revoked. Absent if the key is still active."
+          }
+        },
+        "required": ["id", "serviceAccountId", "createdAt"]
+      },
+      "IssuedServiceAccountKey": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ServiceAccountKey"
+          },
+          {
+            "type": "object",
+            "description": "Extends `ServiceAccountKey` with the plaintext token returned only at issuance.",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Plaintext bearer token. Store this immediately — it is not returned by any subsequent request.",
+                "example": "msa_live_9f3c8e2a7b1d4f5e6c0a2b3d4e5f6a7b"
+              }
+            },
+            "required": ["token"]
+          }
+        ]
+      },
       "Error": {
         "type": "object",
         "description": "A structured API error.",
@@ -344,6 +733,16 @@
       },
       "NotFound": {
         "description": "The requested resource does not exist.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "MfaRequired": {
+        "description": "The request requires step-up MFA. Complete the MFA challenge and retry.",
         "content": {
           "application/json": {
             "schema": {
