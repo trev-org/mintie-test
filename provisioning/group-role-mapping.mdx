@@ -1,0 +1,92 @@
+---
+title: "Group to role mapping"
+description: "Map IdP groups to Mintie roles so SCIM group sync assigns the right access"
+---
+
+<Warning>
+  **Coming soon.** Group to role mapping ships with SCIM 2.0. The behavior
+  documented here is the planned spec.
+</Warning>
+
+SCIM group sync creates and updates groups in Mintie, but a group by itself does not grant access. Each Mintie org keeps a mapping from IdP groups to Mintie roles. When a user joins or leaves a mapped group, Mintie recomputes that user's effective role.
+
+## Roles
+
+Mintie has three roles:
+
+| Role | Purpose |
+| --- | --- |
+| `admin` | Full org access, including SSO and SCIM settings. |
+| `member` | Read and write access to product data. |
+| `viewer` | Read-only access. |
+
+## Set up the mapping
+
+Prerequisites:
+
+- SSO is enabled for the org.
+- SCIM is configured and at least one group has been pushed from the IdP.
+- You are signed in as a Mintie `admin`.
+
+<Steps>
+  <Step title="Open the mapping table">
+    Go to **Settings → Auth → SSO → Group role mapping**.
+  </Step>
+  <Step title="Add a row">
+    Pick a synced IdP group from the dropdown and choose the Mintie role it
+    grants. The dropdown lists groups Mintie has already received via SCIM.
+  </Step>
+  <Step title="Save">
+    Save the row. Mintie recomputes the effective role for every member of
+    that group on the next sync.
+  </Step>
+</Steps>
+
+Rows are per-org. Removing a row does not delete the group in Mintie; it only stops that group from granting a role.
+
+## Multi-group precedence
+
+A user can belong to more than one mapped group. Mintie resolves the effective role by picking the **highest** role across all of the user's mapped groups. The order, highest to lowest, is:
+
+1. `admin`
+2. `member`
+3. `viewer`
+
+Examples:
+
+- A user in `eng-all` (mapped to `member`) and `sso-admins` (mapped to `admin`) becomes `admin`.
+- A user in `eng-all` (mapped to `member`) and `contractors` (mapped to `viewer`) becomes `member`.
+- A user in only `contractors` (mapped to `viewer`) becomes `viewer`.
+
+When a user is removed from a mapped group, Mintie recomputes across their remaining mapped groups. If none remain, the user keeps their account but is downgraded to `viewer`.
+
+## Okta example
+
+Okta sends group **names** in the SCIM `displayName` attribute. Map the group name directly.
+
+1. In Okta, push the group `sso-admins` to Mintie via the SCIM app.
+2. In Mintie, open **Settings → Auth → SSO → Group role mapping**.
+3. Add a row: `sso-admins` → `admin`.
+4. Add users to `sso-admins` in Okta. On the next sync, each user becomes an admin in Mintie.
+
+## Microsoft Entra ID example
+
+Entra sends group **GUIDs**, not display names, in the SCIM `externalId` and `displayName` attributes. The mapping table matches on the value Entra sends, so pick the group by GUID.
+
+1. In Entra, add the group `SSO Admins` to the Mintie provisioning scope.
+2. Wait for the first sync so Mintie has received the group. The mapping dropdown will show the group by its GUID (for example, `b7d8f6e2-1c4a-4e0f-9c2a-3f2f0b7d8f6e`), with the display name as a hint.
+3. Add a row: `b7d8f6e2-1c4a-4e0f-9c2a-3f2f0b7d8f6e` → `admin`.
+4. Add users to `SSO Admins` in Entra. On the next sync, each user becomes an admin in Mintie.
+
+<Note>
+  If you rename an Entra group, the GUID does not change and the mapping
+  keeps working. If you delete and recreate the group, you get a new GUID
+  and need to add a new mapping row.
+</Note>
+
+## Audit events
+
+Group sync and mapping changes emit dedicated audit events. See [audit logs](/security/audit-logs) for the full schema.
+
+- `scim.group.provisioned` — a group was created, updated, or soft-deleted via SCIM.
+- `scim.group.membership_changed` — one or more users were added to or removed from a group, with the list of affected user ids and the resulting role for each.

@@ -26,8 +26,22 @@ The base URL is `https://app.mintie.example/scim/v2`.
 | `DELETE` | `/Users/{id}` | Soft-delete a user |
 | `GET` | `/Groups` | List groups |
 | `POST` | `/Groups` | Create a group |
-| `PATCH` | `/Groups/{id}` | Update group membership |
+| `GET` | `/Groups/{id}` | Get a group |
+| `PATCH` | `/Groups/{id}` | Update a group (name and membership) |
+| `PUT` | `/Groups/{id}` | Replace a group |
 | `DELETE` | `/Groups/{id}` | Soft-delete a group |
+
+### Groups PATCH operations
+
+`PATCH /Groups/{id}` accepts the standard SCIM 2.0 operations against the `members` attribute:
+
+| Op | Effect |
+| --- | --- |
+| `add` | Add the listed users to the group. |
+| `remove` | Remove the listed users from the group. Accepts either a filtered path (`members[value eq "<userId>"]`) or a `members` value list. |
+| `replace` | Replace the entire membership set with the provided list. |
+
+Every membership change triggers a role recomputation for each affected user. See [Group to role mapping](/provisioning/group-role-mapping) for how memberships resolve to Mintie roles.
 
 ## Authentication
 
@@ -44,7 +58,11 @@ Authorization: Bearer scim_live_<token>
 
 ## Soft-delete semantics
 
-`DELETE /Users/{id}` does **not** drop the row. It sets `deactivated_at = now()` and revokes all sessions. The row is preserved for audit purposes — see [audit logs](/security/audit-logs).
+`DELETE /Users/{id}` does **not** drop the row. It sets `deactivated_at = now()` and revokes all sessions. The row is preserved for audit purposes.
+
+`DELETE /Groups/{id}` behaves the same way. The group row is retained with `deactivated_at = now()`, its membership is cleared, and every user that was in the group has their effective role recomputed. Deleting a group never deletes its members.
+
+See [audit logs](/security/audit-logs) for the events emitted by these operations, including `scim.group.provisioned` and `scim.group.membership_changed`.
 
 ## Conformance
 
