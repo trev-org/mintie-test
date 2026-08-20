@@ -46,6 +46,15 @@ Mintie's SSO flow is OIDC-based by default. SAML providers are tunneled through 
   </Card>
 </CardGroup>
 
+## Supported providers
+
+Mintie ships dedicated connectors for the identity providers below. Every connector produces the same OIDC-shaped callback described above.
+
+- [Okta](/setup/okta) — SAML 2.0 via metadata URL or XML.
+- [Google Workspace](/setup/google-workspace) — OAuth admin connect with Directory Sync.
+- [Microsoft Entra ID](/setup/entra-id) — SAML 2.0 via federation metadata URL, with GUID-based group mapping.
+- [Generic SAML / OIDC](/setup/generic-saml) — any standards-compliant IdP.
+
 ## Security guarantees
 
 - ID tokens are cryptographically verified against the IdP's JWKS
