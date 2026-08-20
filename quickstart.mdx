@@ -29,6 +29,12 @@ This walkthrough takes you from zero to enforced SSO for your organization. The 
     - [Google Workspace](/setup/google-workspace)
     - [Generic SAML / OIDC](/setup/generic-saml)
   </Step>
+  <Step title="Verify your email domain">
+    Claim your organization's email domain in the **Domains** section and
+    publish the DNS TXT record Mintie shows you. Email-first lookup only
+    routes users to your IdP once the domain is verified. See
+    [Verify a domain](/setup/domain-verification) for the full walkthrough.
+  </Step>
   <Step title="Run a test sign-in">
     The admin UI surfaces a "Test sign-in" link that triggers a real
     round-trip to your IdP. Use it before enforcing SSO — it's the safest

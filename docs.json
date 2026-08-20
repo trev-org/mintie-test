@@ -57,6 +57,7 @@
                 "pages": [
                   "setup/sign-in-experience",
                   "setup/enable-sso",
+                  "setup/domain-verification",
                   "setup/okta",
                   "setup/google-workspace",
                   "setup/generic-saml"
@@ -175,6 +176,7 @@
                 "pages": [
                   "es/setup/sign-in-experience",
                   "es/setup/enable-sso",
+                  "es/setup/domain-verification",
                   "es/setup/okta",
                   "es/setup/google-workspace",
                   "es/setup/generic-saml"
@@ -241,6 +243,7 @@
                 "pages": [
                   "fr/setup/sign-in-experience",
                   "fr/setup/enable-sso",
+                  "fr/setup/domain-verification",
                   "fr/setup/okta",
                   "fr/setup/google-workspace",
                   "fr/setup/generic-saml"

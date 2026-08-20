@@ -1,0 +1,114 @@
+---
+title: "Verificar un dominio"
+description: "Reclama un dominio de correo y verifícalo con DNS para que el inicio de sesión por correo enrute a tus usuarios a tu IdP"
+---
+
+El inicio de sesión por correo electrónico solo enruta a un usuario al IdP de tu organización después de que reclames su dominio de correo y lo verifiques con un registro DNS TXT. Los reclamos sin verificar se ignoran, así una organización hostil no puede capturar inicios de sesión de un dominio que no le pertenece.
+
+## Requisitos previos
+
+- Eres administrador de la organización en Mintie
+- Tienes un IdP conectado en **Configuración → Autenticación → SSO**; consulta [Habilitar SSO](/es/setup/enable-sso)
+- Puedes crear un registro TXT en el proveedor de DNS de tu dominio
+
+## Reclamar un dominio
+
+1. Ve a **Configuración → Autenticación → SSO** (`/settings/auth/sso`) y abre la sección **Dominios**.
+2. Haz clic en **Añadir dominio** e introduce el dominio que quieres reclamar (por ejemplo, `acme.com`).
+3. Mintie genera un token de verificación y muestra el registro TXT exacto que debes publicar.
+
+Reclamar registra un evento `sso.domain.claim` en el [registro de auditoría](/es/security/audit-logs). El reclamo comienza como `pending` y no afecta al enrutamiento de inicio de sesión hasta que se verifica.
+
+<Note>
+  Los proveedores de correo público (`gmail.com`, `outlook.com`, `yahoo.com` y proveedores compartidos similares) no pueden reclamarse. El formulario devuelve `400 { "code": "public_domain" }` si lo intentas.
+</Note>
+
+## Añadir el registro DNS TXT
+
+En tu proveedor de DNS, crea un registro TXT en el ápice del dominio que estás reclamando:
+
+| Campo | Valor |
+| --- | --- |
+| Host / Nombre | `@` (el ápice, por ejemplo `acme.com`) |
+| Tipo | `TXT` |
+| Valor | `mintie-verify=<token>` |
+| TTL | Cualquier valor; un TTL bajo como 300 segundos acelera la primera verificación |
+
+El token es único por reclamo. Si eliminas y vuelves a añadir el dominio, Mintie emite un nuevo token y el registro TXT anterior deja de verificar.
+
+## Esperar a la verificación
+
+Un job en segundo plano consulta DNS para cada dominio `pending` cada 5 minutos. Cuando encuentra un registro `mintie-verify=<token>` coincidente, Mintie sella `verified_at`, cambia el estado a `Verified` y escribe un evento `sso.domain.verify`.
+
+La sección Dominios muestra uno de tres estados:
+
+- **Pending** — Mintie aún no ha observado el registro TXT.
+- **Verified** — se encontró el registro TXT; la búsqueda por correo ahora enruta este dominio.
+- **Failed** — no se encontró el registro TXT en 72 horas. Vuelve a publicar el registro y haz clic en **Reintentar verificación** para volver a encolar la comprobación.
+
+Puedes lanzar una comprobación inmediata desde la acción **Verificar ahora** de la fila en lugar de esperar al siguiente sondeo.
+
+## Qué cambia con la verificación
+
+Una vez verificado un dominio, `orgFromEmail()` resuelve cualquier correo de ese dominio a tu organización. Los usuarios que escriban `alice@acme.com` en `/login` se redirigen a tu IdP sin ver el respaldo "Continuar con SSO". Consulta [Cómo funciona el SSO](/es/concepts/how-sso-works) para el flujo completo.
+
+Un dominio solo puede estar verificado para una organización a la vez. Si otra organización ya verificó el mismo dominio, el reclamo se rechaza con `409 { "code": "domain_taken" }`.
+
+## Eliminar un dominio
+
+Haz clic en **Eliminar** en la fila del dominio y confirma. Mintie:
+
+1. Borra la fila de `org_domains`.
+2. Deja de enrutar los correos de ese dominio a tu IdP en el próximo inicio de sesión.
+3. Escribe un evento `sso.domain.remove` en el [registro de auditoría](/es/security/audit-logs).
+
+El registro TXT en tu proveedor de DNS no se toca. Bórralo tú mismo si ya no quieres publicar la señal de reclamo.
+
+## Solución de problemas de propagación
+
+Si un dominio permanece en `Pending` durante más de unos minutos:
+
+<AccordionGroup>
+  <Accordion title="Confirma que el registro TXT está publicado">
+    Ejecuta `dig TXT acme.com +short` (o el panel de tu proveedor) y comprueba que la respuesta incluya `"mintie-verify=<token>"` con el token exacto que te mostró Mintie. Las comillas son opcionales; los espacios dentro del valor no.
+  </Accordion>
+  <Accordion title="Publica en el ápice, no en un subdominio">
+    El registro debe estar en el ápice del dominio reclamado. Un registro en `_mintie.acme.com` o `www.acme.com` no verificará un reclamo para `acme.com`.
+  </Accordion>
+  <Accordion title="Espera al TTL anterior">
+    Si antes publicaste un valor `mintie-verify=` distinto en el mismo host, los resolvers pueden seguir devolviendo el valor antiguo hasta que expire el TTL anterior. Baja el TTL antes de hacer cambios para que la siguiente actualización se propague rápido.
+  </Accordion>
+  <Accordion title="Reintenta tras republicar">
+    Después de arreglar el registro, usa **Verificar ahora** en la fila. El sondeo programado corre cada 5 minutos; un reintento manual es instantáneo.
+  </Accordion>
+</AccordionGroup>
+
+## API de administración
+
+La sección Dominios llama a los mismos endpoints de administración que puedes usar desde automatizaciones servidor-a-servidor. Todos los endpoints requieren una sesión de administrador para la organización que llama.
+
+| Método | Ruta | Propósito |
+| --- | --- | --- |
+| `GET` | `/api/auth/admin/sso/domains` | Lista los dominios reclamados por la organización con su estado y `verifiedAt`. |
+| `POST` | `/api/auth/admin/sso/domains` | Reclama un dominio. Cuerpo: `{ "domain": "acme.com" }`. Devuelve el token de verificación. |
+| `POST` | `/api/auth/admin/sso/domains/{domain}/verify` | Fuerza una comprobación DNS inmediata para un dominio pendiente. |
+| `DELETE` | `/api/auth/admin/sso/domains/{domain}` | Elimina un dominio reclamado. |
+
+### Ejemplo: reclamar un dominio
+
+```bash
+curl -X POST https://app.mintie.example/api/auth/admin/sso/domains \
+  -H "content-type: application/json" \
+  --cookie "$ADMIN_COOKIE" \
+  -d '{ "domain": "acme.com" }'
+```
+
+```json
+{
+  "domain": "acme.com",
+  "status": "pending",
+  "verificationToken": "3f9a...c1",
+  "txtRecord": "mintie-verify=3f9a...c1",
+  "createdAt": "2026-08-20T20:47:17.000Z"
+}
+```
