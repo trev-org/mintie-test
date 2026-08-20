@@ -4,24 +4,84 @@ info:
   title: Mintie SSO Events
   version: 1.0.0
   description: |
-    Real-time identity events over WebSocket. Connect to the event stream to
-    receive provisioning and session events for your organization as they
-    happen, without polling the REST API.
+    Real-time identity events for your organization, delivered two ways:
+
+    - **WebSocket** — connect to the event stream and receive events as they
+      happen without polling the REST API.
+    - **Webhooks** — subscribe an HTTPS endpoint to receive signed `POST`
+      deliveries with retries. See [Webhooks](/api-and-keys/webhooks) for
+      endpoint setup, signature verification, and delivery semantics.
+
+    Webhook and WebSocket payloads share the same shape (envelope + typed
+    `data`) so parsers written for one work for the other.
   contact:
     name: Mintie Support
     email: support@mintie.example
   tags:
     - name: identity
       description: Provisioning and session lifecycle events.
+    - name: webhooks
+      description: Push delivery of identity and audit events over HTTPS.
 servers:
   production:
     host: events.mintie.example
     protocol: wss
-    description: Production event stream. Authenticate with an API key passed as a bearer token in the connection request.
+    description: Production WebSocket event stream. Authenticate with an API key passed as a bearer token in the connection request.
+  webhooks:
+    host: your-endpoint.example.com
+    protocol: https
+    description: Your HTTPS endpoint. Mintie POSTs signed events here for every subscribed event kind.
+components:
+  schemas:
+    eventEnvelope:
+      type: object
+      description: Common envelope shared by every identity event.
+      properties:
+        id:
+          type: string
+          description: Unique event id. Use as an idempotency key when handling deliveries.
+        version:
+          type: string
+          const: v1
+          description: Payload schema version.
+        type:
+          type: string
+          description: Event kind. Matches the `AuditEventKind` taxonomy.
+        occurredAt:
+          type: string
+          format: date-time
+          description: Timestamp when the event occurred.
+        orgId:
+          type: string
+          description: Organization the event belongs to.
+        data:
+          type: object
+          description: Event-specific payload. See individual message schemas.
+      required:
+        - id
+        - version
+        - type
+        - occurredAt
+        - orgId
+        - data
+  messageTraits:
+    signedWebhook:
+      headers:
+        type: object
+        properties:
+          Mintie-Signature:
+            type: string
+            description: Hex-encoded HMAC-SHA256 of `{Mintie-Timestamp}.{raw_body}` using the endpoint signing secret.
+          Mintie-Timestamp:
+            type: string
+            description: Unix seconds when Mintie generated the signature. Reject requests with skew greater than 5 minutes.
+        required:
+          - Mintie-Signature
+          - Mintie-Timestamp
 channels:
   identityEvents:
     address: /v1/events
-    title: Identity events
+    title: Identity events (WebSocket)
     description: Stream of provisioning and session events for your organization.
     messages:
       subscribe:
@@ -160,6 +220,294 @@ channels:
               sessionId: sess_01j9x4qkfa
               userId: user_01j9x5b2kd
               occurredAt: '2026-08-10T12:10:00Z'
+  webhookDeliveries:
+    address: /
+    title: Webhook deliveries
+    description: |
+      Signed HTTPS `POST` deliveries to a customer-configured endpoint. Every
+      request includes `Mintie-Signature` (HMAC-SHA256 of `{timestamp}.{body}`)
+      and `Mintie-Timestamp` headers. Mintie treats any `2xx` response
+      returned within 10 seconds as success. Failed deliveries retry with
+      exponential backoff at 30s, 2m, 10m, 1h, and 6h. Deliveries are
+      at-least-once; use the event `id` as an idempotency key.
+    messages:
+      authSigninSuccess:
+        name: authSigninSuccess
+        title: Sign-in succeeded
+        summary: User signed in with password or SSO.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: auth.signin.success
+            data:
+              type: object
+              properties:
+                userId:
+                  type: string
+                method:
+                  type: string
+                  enum: [password, sso]
+                connectionId:
+                  type: string
+                  description: SSO connection id when `method` is `sso`.
+              required:
+                - userId
+                - method
+      authSigninFailure:
+        name: authSigninFailure
+        title: Sign-in failed
+        summary: Sign-in attempt failed. Reason is redacted for privacy.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: auth.signin.failure
+            data:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                reasonCode:
+                  type: string
+                  description: Redacted machine-readable reason (e.g. `invalid_credentials`, `mfa_required`).
+              required:
+                - reasonCode
+      authSsoLinked:
+        name: authSsoLinked
+        title: SSO identity linked
+        summary: A Mintie user was linked to an IdP identity.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: auth.sso.linked
+            data:
+              type: object
+              properties:
+                userId:
+                  type: string
+                connectionId:
+                  type: string
+                idpUserId:
+                  type: string
+              required:
+                - userId
+                - connectionId
+                - idpUserId
+      authSsoUnlinked:
+        name: authSsoUnlinked
+        title: SSO identity unlinked
+        summary: An admin removed the link between a Mintie user and an IdP identity.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: auth.sso.unlinked
+            data:
+              type: object
+              properties:
+                userId:
+                  type: string
+                connectionId:
+                  type: string
+              required:
+                - userId
+                - connectionId
+      authSessionForcedRelogin:
+        name: authSessionForcedRelogin
+        title: Session forced re-login
+        summary: The session-migration job stamped a session and forced re-authentication.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: auth.session.forced_relogin
+            data:
+              type: object
+              properties:
+                userId:
+                  type: string
+                sessionId:
+                  type: string
+              required:
+                - userId
+                - sessionId
+      scimUserProvisioned:
+        name: scimUserProvisioned
+        title: SCIM user provisioned
+        summary: SCIM `POST /Users` succeeded.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: scim.user.provisioned
+            data:
+              type: object
+              properties:
+                userId:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                connectionId:
+                  type: string
+              required:
+                - userId
+                - email
+                - connectionId
+        examples:
+          - name: scimUserProvisionedExample
+            summary: SCIM provisioning delivered as a signed webhook
+            headers:
+              Mintie-Signature: 6f8b1e0c9e6d4b5f2a3d8c7e1b9a0d4c5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
+              Mintie-Timestamp: '1755720481'
+            payload:
+              id: evt_01j9x7c4pk
+              version: v1
+              type: scim.user.provisioned
+              occurredAt: '2026-08-20T20:48:01.423Z'
+              orgId: org_01j9x3wq8e
+              data:
+                userId: user_01j9x5b2kd
+                email: jamie@acme.com
+                connectionId: conn_01j9x3wq8e
+      scimUserDeactivated:
+        name: scimUserDeactivated
+        title: SCIM user deactivated
+        summary: SCIM `DELETE /Users/{id}` succeeded. Typical trigger for downstream offboarding automation.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: scim.user.deactivated
+            data:
+              type: object
+              properties:
+                userId:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                connectionId:
+                  type: string
+              required:
+                - userId
+                - connectionId
+        examples:
+          - name: scimUserDeactivatedExample
+            summary: A user deactivated by the IdP, delivered as a signed webhook
+            headers:
+              Mintie-Signature: 6f8b1e0c9e6d4b5f2a3d8c7e1b9a0d4c5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
+              Mintie-Timestamp: '1755720481'
+            payload:
+              id: evt_01j9x7c4pk
+              version: v1
+              type: scim.user.deactivated
+              occurredAt: '2026-08-20T20:48:01.423Z'
+              orgId: org_01j9x3wq8e
+              data:
+                userId: user_01j9x5b2kd
+                email: jamie@acme.com
+                connectionId: conn_01j9x3wq8e
+      apikeyCreated:
+        name: apikeyCreated
+        title: API key created
+        summary: An API key was issued.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: apikey.created
+            data:
+              type: object
+              properties:
+                keyId:
+                  type: string
+                userId:
+                  type: string
+              required:
+                - keyId
+                - userId
+      apikeyRevoked:
+        name: apikeyRevoked
+        title: API key revoked
+        summary: An API key was revoked manually or by IdP deactivation.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: apikey.revoked
+            data:
+              type: object
+              properties:
+                keyId:
+                  type: string
+                userId:
+                  type: string
+                reason:
+                  type: string
+                  enum: [manual, idp_deactivated]
+              required:
+                - keyId
+                - userId
+                - reason
+      webhookTest:
+        name: webhookTest
+        title: Test fire
+        summary: Sent by the **Send sample event** button. Payload contains no real data.
+        contentType: application/json
+        traits:
+          - $ref: '#/components/messageTraits/signedWebhook'
+        payload:
+          allOf:
+            - $ref: '#/components/schemas/eventEnvelope'
+          properties:
+            type:
+              const: webhook.test
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Human-readable ping string.
 operations:
   subscribeToEvents:
     action: send
@@ -179,3 +527,20 @@ operations:
       - $ref: '#/channels/identityEvents/messages/userProvisioned'
       - $ref: '#/channels/identityEvents/messages/userDeprovisioned'
       - $ref: '#/channels/identityEvents/messages/sessionRevoked'
+  receiveWebhookDeliveries:
+    action: receive
+    channel:
+      $ref: '#/channels/webhookDeliveries'
+    title: Receive webhook deliveries
+    summary: Signed HTTPS event deliveries to your endpoint.
+    messages:
+      - $ref: '#/channels/webhookDeliveries/messages/authSigninSuccess'
+      - $ref: '#/channels/webhookDeliveries/messages/authSigninFailure'
+      - $ref: '#/channels/webhookDeliveries/messages/authSsoLinked'
+      - $ref: '#/channels/webhookDeliveries/messages/authSsoUnlinked'
+      - $ref: '#/channels/webhookDeliveries/messages/authSessionForcedRelogin'
+      - $ref: '#/channels/webhookDeliveries/messages/scimUserProvisioned'
+      - $ref: '#/channels/webhookDeliveries/messages/scimUserDeactivated'
+      - $ref: '#/channels/webhookDeliveries/messages/apikeyCreated'
+      - $ref: '#/channels/webhookDeliveries/messages/apikeyRevoked'
+      - $ref: '#/channels/webhookDeliveries/messages/webhookTest'
