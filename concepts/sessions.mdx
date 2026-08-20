@@ -46,6 +46,25 @@ When an org flips **Require SSO**, in-flight password sessions are migrated to S
   </Step>
 </Steps>
 
+## Admin session management
+
+Admins can act on a single user's sessions without touching the rest of the org. Two actions are available:
+
+| Action | What the user sees | When to use it |
+| --- | --- | --- |
+| **Revoke** | Next request returns `401 { reason: "session_revoked" }`. The client drops the session and prompts for a fresh sign-in. | Lost laptop, suspected compromise, offboarded contractor. Immediate cut-off. |
+| **Force SSO re-login** | Next request returns `401 { reason: "sso_required" }`. The frontend interceptor redirects to the IdP and the user lands back where they were. | Rotating a single user onto SSO, or re-asserting IdP claims after a role change. |
+
+Force re-login reuses the `force_sso_relogin_at` stamp and the same `AuthGuard` path as the org-wide migration job, so the frontend interceptor flow is identical.
+
+Users can also list and revoke their own sessions from account settings.
+
+<Note>
+  Both actions are gated by the `session.revoke` sensitive action, so the admin
+  (or user) must have completed step-up MFA recently. Each call writes a
+  `session.revoked` or `session.force_relogin` entry to the audit log.
+</Note>
+
 ## AuthGuard and principals
 
 The auth middleware (`AuthGuard`) returns an `AuthenticatedPrincipal`. Two implementations exist:
