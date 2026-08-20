@@ -28,6 +28,10 @@
     {
       "name": "Sessions",
       "description": "Active user sessions created through SSO sign-in."
+    },
+    {
+      "name": "Audit events",
+      "description": "Query, export, and stream auth and identity events for your organization. Requires an API key with the `audit:read` scope."
     }
   ],
   "paths": {
@@ -175,6 +179,186 @@
         }
       }
     },
+    "/audit-events": {
+      "get": {
+        "tags": ["Audit events"],
+        "summary": "List audit events",
+        "description": "Returns a cursor-paginated list of audit events for the caller's organization. Requires an API key with the `audit:read` scope.",
+        "operationId": "listAuditEvents",
+        "parameters": [
+          {
+            "name": "kind",
+            "in": "query",
+            "description": "Filter by event kind. Repeat the parameter to combine multiple kinds.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/AuditEventKind"
+              }
+            },
+            "style": "form",
+            "explode": true
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "Restrict to events attributed to a single user.",
+            "schema": {
+              "type": "string",
+              "example": "user_01j9x3aa22"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Lower bound (inclusive) on `occurredAt`.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Upper bound (exclusive) on `occurredAt`.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Opaque cursor returned as `nextCursor` from a previous response.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of events to return.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of audit events.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AuditEvent"
+                      }
+                    },
+                    "nextCursor": {
+                      "type": "string",
+                      "description": "Cursor for the next page. Absent when the last page has been returned."
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/audit-events/exports": {
+      "post": {
+        "tags": ["Audit events"],
+        "summary": "Create an export job",
+        "description": "Creates an audit log export for a date range. Small ranges return `ready` synchronously with an inline `downloadUrl`; larger ranges are processed asynchronously. Poll `GET /audit-events/exports/{exportId}` until `status` is `ready`. Requires an API key with the `audit:read` scope.",
+        "operationId": "createAuditExport",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAuditExportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The created export job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditExport"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/audit-events/exports/{exportId}": {
+      "get": {
+        "tags": ["Audit events"],
+        "summary": "Get an export job",
+        "description": "Returns the status of an audit export job. When `status` is `ready`, `downloadUrl` is a signed URL valid for 24 hours.",
+        "operationId": "getAuditExport",
+        "parameters": [
+          {
+            "name": "exportId",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the export job.",
+            "schema": {
+              "type": "string",
+              "example": "exp_01j9z1n7cb"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The export job.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditExport"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/sessions/{sessionId}": {
       "delete": {
         "tags": ["Sessions"],
@@ -303,6 +487,174 @@
         },
         "required": ["name", "provider", "domains"]
       },
+      "AuditEventKind": {
+        "type": "string",
+        "description": "Kind of audit event. Matches `AuditEventKind` in the server.",
+        "enum": [
+          "auth.signin.success",
+          "auth.signin.failure",
+          "auth.sso.linked",
+          "auth.sso.unlinked",
+          "auth.session.forced_relogin",
+          "scim.user.provisioned",
+          "scim.user.deactivated",
+          "apikey.created",
+          "apikey.revoked",
+          "audit.exported"
+        ]
+      },
+      "AuditEventActor": {
+        "type": "object",
+        "description": "Who or what caused the event.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["user", "api_key", "system"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the actor. A user id, API key id, or system component name.",
+            "example": "user_01j9x3aa22"
+          },
+          "ip": {
+            "type": "string",
+            "description": "IP address the event originated from, if known.",
+            "example": "203.0.113.42"
+          },
+          "userAgent": {
+            "type": "string",
+            "description": "User agent string, if known."
+          }
+        },
+        "required": ["type", "id"]
+      },
+      "AuditEvent": {
+        "type": "object",
+        "description": "A single audit event scoped to an organization.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the event.",
+            "example": "evt_01j9y2m6xa"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/AuditEventKind"
+          },
+          "orgId": {
+            "type": "string",
+            "description": "Organization the event belongs to.",
+            "example": "org_01j9x2wq8e"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User the event is attributed to, when applicable.",
+            "example": "user_01j9x3aa22"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp the event occurred."
+          },
+          "actor": {
+            "$ref": "#/components/schemas/AuditEventActor"
+          },
+          "data": {
+            "type": "object",
+            "description": "Event-specific payload. Shape depends on `kind`.",
+            "additionalProperties": true
+          }
+        },
+        "required": ["id", "kind", "orgId", "occurredAt", "actor", "data"]
+      },
+      "AuditExportFormat": {
+        "type": "string",
+        "description": "Serialization format for the export payload.",
+        "enum": ["ndjson", "csv"]
+      },
+      "AuditExportStatus": {
+        "type": "string",
+        "description": "Lifecycle status of an export job.",
+        "enum": ["pending", "ready", "failed"]
+      },
+      "CreateAuditExportRequest": {
+        "type": "object",
+        "description": "Fields for creating an audit log export job.",
+        "properties": {
+          "since": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Lower bound (inclusive) on `occurredAt`."
+          },
+          "until": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Upper bound (exclusive) on `occurredAt`."
+          },
+          "format": {
+            "$ref": "#/components/schemas/AuditExportFormat"
+          },
+          "kind": {
+            "type": "array",
+            "description": "Optional filter on event kinds.",
+            "items": {
+              "$ref": "#/components/schemas/AuditEventKind"
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Optional filter to a single user."
+          }
+        },
+        "required": ["since", "until", "format"]
+      },
+      "AuditExport": {
+        "type": "object",
+        "description": "An audit log export job.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the export job.",
+            "example": "exp_01j9z1n7cb"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AuditExportStatus"
+          },
+          "format": {
+            "$ref": "#/components/schemas/AuditExportFormat"
+          },
+          "since": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "until": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rowCount": {
+            "type": "integer",
+            "description": "Number of events in the export. Present once `status` is `ready`."
+          },
+          "downloadUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Signed URL to download the export. Valid for 24 hours after issue. Present once `status` is `ready`."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "readyAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp the export finished. Present once `status` is `ready`."
+          },
+          "error": {
+            "type": "string",
+            "description": "Failure reason. Present when `status` is `failed`."
+          }
+        },
+        "required": ["id", "status", "format", "since", "until", "createdAt"]
+      },
       "Error": {
         "type": "object",
         "description": "A structured API error.",
@@ -334,6 +686,16 @@
       },
       "Unauthorized": {
         "description": "The API key is missing, invalid, or revoked.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The API key does not have the scope required for this endpoint.",
         "content": {
           "application/json": {
             "schema": {
