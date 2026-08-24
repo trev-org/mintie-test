@@ -1,0 +1,75 @@
+---
+title: "Identity incident response"
+description: "Contain an SSO or provisioning outage and restore access safely"
+---
+
+Use this runbook when SSO fails broadly, users are provisioned incorrectly, deactivated users retain access, or identity credentials may be exposed.
+
+## First 15 minutes
+
+<Steps>
+  <Step title="Preserve access">
+    Keep existing administrator sessions open. Do not sign out, disconnect the
+    provider, or revoke credentials until you understand the blast radius.
+  </Step>
+  <Step title="Declare and assign">
+    Name an incident lead, an IdP owner, a Mintie owner, and a communications
+    owner. Use one channel and one timeline.
+  </Step>
+  <Step title="Determine scope">
+    Identify the first failure time and whether the incident affects one user,
+    one group, all users, SSO, SCIM, API access, or several systems.
+  </Step>
+  <Step title="Stop unrelated changes">
+    Pause configuration edits and bulk provisioning. Preserve provider events,
+    timestamps, and connection IDs.
+  </Step>
+</Steps>
+
+## Choose containment
+
+| Incident | Initial containment |
+| --- | --- |
+| IdP service outage | Keep active sessions open and monitor provider status |
+| Bad claim or app assignment | Roll back the specific IdP change |
+| Expired certificate or secret | Follow the [credential rotation](/operations/rotate-credentials) runbook |
+| Incorrect SCIM updates | Pause provisioning in the IdP before correcting records |
+| Suspected credential exposure | Replace the credential, then revoke the exposed value |
+| SSO locks out the organization | Use your approved emergency-access procedure |
+
+<Warning>
+  Disconnecting the provider rejects new SSO sign-ins immediately. Disabling
+  **Require SSO** restores password sign-in, but only helps users who still
+  have a usable password. Treat either action as a deliberate mitigation.
+</Warning>
+
+## Emergency-access preparation
+
+Because SSO enforcement is organization-wide, establish the recovery process before an incident:
+
+- Maintain at least two organization administrators.
+- Store recovery instructions in an approved, access-controlled system.
+- Define who may temporarily disable **Require SSO**.
+- Test the procedure during a scheduled exercise.
+- Review it whenever administrators or IdP ownership changes.
+
+## Support bundle
+
+Collect:
+
+- Mintie organization and connection ID
+- Incident start time, time zone, and last known successful sign-in
+- Affected users and estimated scope
+- IdP name, protocol, provider event IDs, and service-status result
+- Recent changes to metadata, claims, assignments, policies, or credentials
+- Redacted screenshots or response bodies
+
+Never include passwords, tokens, client secrets, session cookies, private keys, or complete SAML assertions.
+
+## Recovery and follow-up
+
+1. Validate an administrator and a standard-user sign-in.
+2. If SCIM was affected, run one create, update, and deactivate cycle.
+3. Resume paused assignments or provisioning gradually.
+4. Monitor failures and support volume until they return to baseline.
+5. Document the cause, impact, remediation, and a prevention owner.

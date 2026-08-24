@@ -1,0 +1,78 @@
+---
+title: "Respuesta a incidentes de identidad"
+description: "Contén una interrupción del SSO o del aprovisionamiento y restaura el acceso de forma segura"
+---
+
+Utiliza este procedimiento cuando el SSO falle de forma generalizada, los usuarios se aprovisionen incorrectamente, los usuarios desactivados conserven el acceso o las credenciales de identidad puedan haber quedado expuestas.
+
+## Primeros 15 minutos
+
+<Steps>
+  <Step title="Conserva el acceso">
+    Mantén abiertas las sesiones de administrador existentes. No cierres sesión,
+    desconectes el proveedor ni revoques credenciales hasta comprender el alcance
+    del incidente.
+  </Step>
+  <Step title="Declara el incidente y asigna responsables">
+    Designa a un responsable del incidente, uno del IdP, uno de Mintie y uno de
+    comunicaciones. Utiliza un único canal y una única cronología.
+  </Step>
+  <Step title="Determina el alcance">
+    Identifica la hora del primer fallo y si el incidente afecta a un usuario,
+    un grupo, todos los usuarios, el SSO, SCIM, el acceso a la API o varios
+    sistemas.
+  </Step>
+  <Step title="Detén los cambios no relacionados">
+    Pausa las modificaciones de configuración y el aprovisionamiento masivo.
+    Conserva los eventos del proveedor, las marcas de tiempo y los ID de conexión.
+  </Step>
+</Steps>
+
+## Elegir medidas de contención
+
+| Incidente | Contención inicial |
+| --- | --- |
+| Interrupción del servicio del IdP | Mantén abiertas las sesiones activas y supervisa el estado del proveedor |
+| Claim o asignación de aplicación incorrectos | Revierte el cambio concreto en el IdP |
+| Certificado o secreto caducado | Sigue el procedimiento de [rotación de credenciales](/es/operations/rotate-credentials) |
+| Actualizaciones de SCIM incorrectas | Pausa el aprovisionamiento en el IdP antes de corregir los registros |
+| Posible exposición de credenciales | Sustituye la credencial y después revoca el valor expuesto |
+| El SSO bloquea el acceso a la organización | Utiliza el procedimiento aprobado de acceso de emergencia |
+
+<Warning>
+  Desconectar el proveedor rechaza inmediatamente los nuevos inicios de sesión
+  SSO. Desactivar **Requerir SSO** restaura el inicio de sesión con contraseña,
+  pero solo ayuda a los usuarios que aún tienen una contraseña válida. Trata
+  cualquiera de estas acciones como una medida de mitigación deliberada.
+</Warning>
+
+## Preparación del acceso de emergencia
+
+Como el SSO se requiere en toda la organización, establece el proceso de recuperación antes de que ocurra un incidente:
+
+- Mantén al menos dos administradores de la organización.
+- Guarda las instrucciones de recuperación en un sistema aprobado con acceso controlado.
+- Define quién puede desactivar temporalmente **Requerir SSO**.
+- Prueba el procedimiento durante un ejercicio programado.
+- Revísalo siempre que cambien los administradores o los responsables del IdP.
+
+## Paquete para soporte
+
+Recopila:
+
+- Organización de Mintie e ID de conexión
+- Hora de inicio del incidente, zona horaria y último inicio de sesión correcto conocido
+- Usuarios afectados y alcance estimado
+- Nombre del IdP, protocolo, ID de eventos del proveedor y resultado de la consulta del estado del servicio
+- Cambios recientes en metadatos, claims, asignaciones, políticas o credenciales
+- Capturas de pantalla o cuerpos de respuesta con los datos sensibles ocultos
+
+No incluyas nunca contraseñas, tokens, secretos de cliente, cookies de sesión, claves privadas ni aserciones SAML completas.
+
+## Recuperación y seguimiento
+
+1. Valida el inicio de sesión de un administrador y de un usuario estándar.
+2. Si SCIM se vio afectado, ejecuta un ciclo de creación, actualización y desactivación.
+3. Reanuda gradualmente las asignaciones o el aprovisionamiento que hayas pausado.
+4. Supervisa los fallos y el volumen de soporte hasta que vuelvan a la línea base.
+5. Documenta la causa, el impacto y las medidas correctivas, y asigna un responsable de prevención.

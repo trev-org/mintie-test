@@ -38,6 +38,7 @@
         "tabs": [
           {
             "tab": "Documentation",
+            "public": true,
             "groups": [
               {
                 "group": "Get started",
@@ -89,7 +90,38 @@
             ]
           },
           {
+            "tab": "Operations",
+            "groups": [
+              {
+                "group": "Run and monitor",
+                "groups": ["enterprise"],
+                "pages": [
+                  "operations/overview",
+                  "operations/launch-readiness",
+                  "operations/monitoring"
+                ]
+              },
+              {
+                "group": "Troubleshooting",
+                "groups": ["enterprise"],
+                "pages": [
+                  "operations/troubleshoot-sso",
+                  "operations/troubleshoot-scim"
+                ]
+              },
+              {
+                "group": "Security and recovery",
+                "groups": ["enterprise"],
+                "pages": [
+                  "operations/rotate-credentials",
+                  "operations/incident-response"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "References",
+            "public": true,
             "menu": [
               {
                 "item": "OpenAPI",
@@ -142,6 +174,7 @@
           },
           {
             "tab": "Changelog",
+            "public": true,
             "groups": [
               {
                 "group": "Changelog",
@@ -156,6 +189,7 @@
         "tabs": [
           {
             "tab": "Documentación",
+            "public": true,
             "groups": [
               {
                 "group": "Empezar",
@@ -207,7 +241,38 @@
             ]
           },
           {
+            "tab": "Operaciones",
+            "groups": [
+              {
+                "group": "Puesta en marcha y supervisión",
+                "groups": ["enterprise"],
+                "pages": [
+                  "es/operations/overview",
+                  "es/operations/launch-readiness",
+                  "es/operations/monitoring"
+                ]
+              },
+              {
+                "group": "Resolución de problemas",
+                "groups": ["enterprise"],
+                "pages": [
+                  "es/operations/troubleshoot-sso",
+                  "es/operations/troubleshoot-scim"
+                ]
+              },
+              {
+                "group": "Seguridad y recuperación",
+                "groups": ["enterprise"],
+                "pages": [
+                  "es/operations/rotate-credentials",
+                  "es/operations/incident-response"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Registro de cambios",
+            "public": true,
             "groups": [
               {
                 "group": "Registro de cambios",
@@ -222,6 +287,7 @@
         "tabs": [
           {
             "tab": "Documentation",
+            "public": true,
             "groups": [
               {
                 "group": "Démarrer",
@@ -273,7 +339,38 @@
             ]
           },
           {
+            "tab": "Opérations",
+            "groups": [
+              {
+                "group": "Mise en service et suivi",
+                "groups": ["enterprise"],
+                "pages": [
+                  "fr/operations/overview",
+                  "fr/operations/launch-readiness",
+                  "fr/operations/monitoring"
+                ]
+              },
+              {
+                "group": "Dépannage",
+                "groups": ["enterprise"],
+                "pages": [
+                  "fr/operations/troubleshoot-sso",
+                  "fr/operations/troubleshoot-scim"
+                ]
+              },
+              {
+                "group": "Sécurité et reprise",
+                "groups": ["enterprise"],
+                "pages": [
+                  "fr/operations/rotate-credentials",
+                  "fr/operations/incident-response"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Journal des modifications",
+            "public": true,
             "groups": [
               {
                 "group": "Journal des modifications",

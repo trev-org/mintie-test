@@ -1,0 +1,60 @@
+---
+title: "Supervisar los servicios de identidad"
+description: "Establece una línea base y detecta a tiempo los fallos de SSO o aprovisionamiento"
+---
+
+Supervisa Mintie junto con tu proveedor de identidad. Los informes de inicio de sesión y aprovisionamiento del proveedor son la principal fuente de datos operativos mientras se desarrolla el [panel de registros de auditoría](/es/security/audit-logs) de Mintie.
+
+## Registrar una línea base de funcionamiento correcto
+
+Después del lanzamiento, guarda los siguientes valores en el procedimiento operativo de tu equipo:
+
+| Señal | Línea base esperada |
+| --- | --- |
+| Estado de la conexión | `Active` |
+| Inicio de sesión de prueba | Funciona para un usuario estándar asignado |
+| Aplicación SAML u OIDC | Habilitada y asignada a los grupos esperados |
+| Usuario de prueba de SCIM | Las operaciones de creación, actualización y desactivación se completan correctamente |
+| Responsables de administración | Al menos dos administradores en activo |
+
+Nunca registres secretos de cliente, claves de firma, tokens SCIM ni claves de API en el procedimiento operativo.
+
+## Comprobación semanal
+
+<Steps>
+  <Step title="Inspecciona la conexión">
+    Abre **Configuración → Autenticación → SSO** y confirma que el proveedor, el
+    ID de conexión, el estado y el resultado de la última prueba sean los esperados.
+  </Step>
+  <Step title="Ejecuta un inicio de sesión de prueba">
+    Utiliza una cuenta estándar de prueba. Que una sesión de administrador
+    funcione no demuestra por sí solo que las asignaciones de la aplicación y
+    los claims de los miembros sean correctos.
+  </Step>
+  <Step title="Revisa los informes del proveedor">
+    Busca cambios en los inicios de sesión fallidos, los usuarios sin asignar,
+    los reintentos de SCIM y los conectores deshabilitados.
+  </Step>
+  <Step title="Comprueba los cambios recientes">
+    Averigua si alguien ha modificado los URI de redirección, los metadatos SAML,
+    los claims, los mapeos de grupos, las credenciales o las políticas de acceso
+    condicional.
+  </Step>
+</Steps>
+
+## Señales que deben investigarse
+
+- Un inicio de sesión de prueba pasa de funcionar a fallar.
+- Los fallos afectan a varios usuarios o a más de una red.
+- El IdP informa de una audiencia, un issuer, un URI de redirección o una firma no válidos.
+- Aumentan los reintentos de aprovisionamiento o un usuario desactivado sigue activo.
+- Una conexión vuelve inesperadamente a `Awaiting verification` o `Disconnected`.
+- Las solicitudes de soporte aumentan de forma repentina tras un cambio de política o certificado en el IdP.
+
+## Cuando falla una comprobación
+
+1. Registra la hora del primer fallo y la última prueba que funcionó.
+2. Determina si el problema afecta a un usuario, un grupo o toda la organización.
+3. Comprueba el estado del servicio de tu IdP y los cambios de configuración recientes.
+4. Sigue el procedimiento de [resolución de problemas de SSO](/es/operations/troubleshoot-sso) o de [resolución de problemas de SCIM](/es/operations/troubleshoot-scim).
+5. Si el acceso se ve afectado de forma generalizada, inicia el [procedimiento de respuesta a incidentes](/es/operations/incident-response).

@@ -1,0 +1,43 @@
+---
+title: "Resumen de operaciones"
+description: "Mantén fiables el SSO y el aprovisionamiento de usuarios después del lanzamiento"
+---
+
+Utiliza estos procedimientos operativos después de conectar y probar tu proveedor de identidad. Cubren la preparación para el lanzamiento, las comprobaciones rutinarias, la resolución de problemas, la rotación de credenciales y la respuesta a incidentes.
+
+<CardGroup cols={2}>
+  <Card title="Preparación para el lanzamiento" icon="clipboard-check" href="/es/operations/launch-readiness">
+    Valida el acceso, los responsables y las vías de recuperación antes de requerir SSO.
+  </Card>
+  <Card title="Supervisar los servicios de identidad" icon="chart-line" href="/es/operations/monitoring">
+    Establece una línea base y comprueba el estado del SSO y del aprovisionamiento.
+  </Card>
+  <Card title="Solucionar problemas de SSO" icon="screwdriver-wrench" href="/es/operations/troubleshoot-sso">
+    Aísla los fallos de conexión, del proveedor, de los claims y de usuarios concretos.
+  </Card>
+  <Card title="Solucionar problemas de SCIM" icon="users-gear" href="/es/operations/troubleshoot-scim">
+    Diagnostica problemas de aprovisionamiento, desaprovisionamiento y sincronización de grupos.
+  </Card>
+  <Card title="Rotar credenciales" icon="arrows-rotate" href="/es/operations/rotate-credentials">
+    Sustituye de forma segura certificados, secretos de cliente, tokens SCIM y claves de API.
+  </Card>
+  <Card title="Responder a incidentes" icon="shield-exclamation" href="/es/operations/incident-response">
+    Contén una interrupción de los servicios de identidad, restaura el acceso y recopila diagnósticos.
+  </Card>
+</CardGroup>
+
+## Cadencia operativa recomendada
+
+| Frecuencia | Tarea |
+| --- | --- |
+| Antes del lanzamiento | Completa la lista de preparación y realiza una prueba piloto |
+| Semanalmente | Ejecuta un inicio de sesión de prueba y revisa los fallos del proveedor |
+| Mensualmente | Confirma los responsables de administración y los contactos de recuperación |
+| Trimestralmente | Revisa las credenciales, las asignaciones y las cuentas sin uso |
+| Después de cualquier cambio en el IdP | Vuelve a probar el inicio de sesión y un ciclo de vida de usuario completo |
+
+<Info>
+  SCIM, el panel de registros de auditoría y algunas partes de la migración de
+  sesiones siguen en desarrollo. Estos procedimientos indican qué comprobaciones
+  dependen de esas funcionalidades.
+</Info>

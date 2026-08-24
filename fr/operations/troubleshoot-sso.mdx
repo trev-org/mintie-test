@@ -1,0 +1,71 @@
+---
+title: "Dépanner le SSO"
+description: "Diagnostiquez les échecs de connexion dans Mintie et chez votre fournisseur d’identité"
+---
+
+Commencez par déterminer l’étendue de la défaillance. Un même symptôme peut avoir une cause différente selon qu’il touche un seul utilisateur ou l’ensemble de l’organisation.
+
+## Évaluer l’étendue
+
+| Périmètre | Premier contrôle |
+| --- | --- |
+| Un utilisateur | Affectation à l’application, claim d’e-mail, statut du compte et liaison d’identité |
+| Un groupe | Affectation du groupe dans l’IdP et filtrage des claims de groupe |
+| Tous les utilisateurs | Statut de la connexion, certificat ou secret client et disponibilité du fournisseur |
+| Un navigateur ou un appareil | Blocage des popups, cookies, horloge système et politique réseau |
+
+<Steps>
+  <Step title="Documentez l’échec">
+    Consignez l’heure, l’utilisateur concerné, le navigateur, l’erreur de l’IdP,
+    l’erreur Mintie et précisez si l’échec s’est produit pendant un test ou une
+    connexion normale.
+  </Step>
+  <Step title="Vérifiez l’état de la connexion">
+    Ouvrez **Paramètres → Authentification → SSO**. Vérifiez que le fournisseur
+    attendu est connecté et copiez l’ID de connexion.
+  </Step>
+  <Step title="Reproduisez le problème avec un compte de test">
+    Utilisez **Test sign-in** avec un utilisateur standard affecté. Essayez
+    également dans une fenêtre de navigation privée afin de ne pas dépendre
+    d’une session IdP existante.
+  </Step>
+  <Step title="Examinez l’événement dans l’IdP">
+    Recherchez l’horodatage et l’utilisateur correspondants dans le journal
+    système de l’IdP. Les erreurs du fournisseur permettent généralement
+    d’identifier les problèmes d’affectation, de politique, de redirection,
+    d’audience ou de signature.
+  </Step>
+</Steps>
+
+## Symptômes courants
+
+| Symptôme | Cause probable | Action |
+| --- | --- | --- |
+| L’utilisateur n’atteint jamais Mintie | L’utilisateur n’est pas affecté ou est bloqué par une politique de l’IdP | Vérifiez l’affectation à l’application et l’évaluation de la politique |
+| Erreur d’URI de redirection ou d’ACS | L’endpoint du fournisseur ne correspond pas à celui de Mintie | Comparez-le aux [endpoints Mintie](/fr/setup/generic-saml#endpoints-mintie) documentés |
+| Émetteur ou audience non valide | L’ID d’entité SAML ou l’émetteur OIDC est incorrect | Corrigez les valeurs du fournisseur et relancez le test |
+| Signature non valide | Le certificat de signature a changé ou les métadonnées sont obsolètes | Actualisez les métadonnées SAML ou coordonnez la rotation du certificat |
+| E-mail manquant | Le claim `email` requis n’a pas été envoyé | Ajoutez le claim et vérifiez que sa valeur est unique |
+| La fenêtre de test se ferme ou expire | La popup a été bloquée ou le flux de l’IdP n’est pas revenu | Autorisez les popups, puis relancez le test |
+| L’utilisateur arrive dans le mauvais compte | L’adresse e-mail a changé ou une identité est mal liée | Consultez la [liaison d’identité](/fr/concepts/identity-linking) avant de réessayer |
+| Boucle de redirection répétée | Sessions obsolètes ou politiques d’application contradictoires | Déconnectez-vous des deux systèmes et effectuez le test dans une fenêtre privée |
+
+## Contrôles propres à chaque protocole
+
+### SAML
+
+- Les métadonnées contiennent l’émetteur, l’URL SSO et le certificat de signature actuels.
+- L’URL ACS et l’ID d’entité correspondent exactement aux valeurs de Mintie.
+- Les assertions contiennent une adresse e-mail unique.
+- L’assertion n’a pas expiré ; comparez les horloges de l’IdP et du client.
+
+### OIDC
+
+- L’URL de l’émetteur est exacte et accessible.
+- L’URI de redirection est enregistrée sans chemin supplémentaire ni barre oblique finale.
+- Le client ID et le client secret appartiennent à la même application.
+- L’application accorde au minimum `openid email profile`.
+
+## Transmettre au support
+
+Si vous ne parvenez pas à résoudre la défaillance, recueillez l’ID de connexion, les horodatages avec leur fuseau horaire, les utilisateurs concernés, les ID d’événements du fournisseur, le protocole et toute modification récente de la configuration. N’envoyez pas d’assertions SAML, de secrets client ni de cookies de session par un canal d’assistance non sécurisé.

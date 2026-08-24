@@ -1,0 +1,70 @@
+---
+title: "Preparación para el lanzamiento"
+description: "Valida el despliegue del SSO antes de requerirlo en la organización"
+---
+
+Utiliza esta lista de comprobación después de [conectar un proveedor de identidad](/es/setup/enable-sso) y antes de activar **Requerir SSO**.
+
+<Warning>
+  No requieras SSO hasta que al menos dos administradores hayan completado un
+  inicio de sesión de prueba y tu equipo haya acordado un proceso de recuperación
+  de emergencia.
+</Warning>
+
+## Asignar responsables
+
+- Designa un administrador del IdP y un administrador de la organización de Mintie.
+- Confirma quién puede modificar la aplicación SAML u OIDC.
+- Proporciona a los equipos de soporte el ID de conexión de Mintie y el procedimiento interno de escalación.
+- Programa el despliegue cuando ambos responsables estén disponibles.
+
+## Validar la conexión
+
+<Steps>
+  <Step title="Realiza dos inicios de sesión de prueba">
+    Haz la prueba con un administrador y un miembro estándar. Confirma que ambos
+    regresan a la organización de Mintie esperada.
+  </Step>
+  <Step title="Comprueba los claims de identidad">
+    Verifica la dirección de correo electrónico y, si están configurados, los
+    claims de nombre, apellido y grupos. Resuelve las cuentas duplicadas antes
+    de requerir SSO.
+  </Step>
+  <Step title="Prueba el ciclo de vida del usuario">
+    Crea o asigna un usuario de prueba, actualiza un grupo mapeado y desactiva
+    el usuario. Si utilizas SCIM, confirma que cada cambio llega a Mintie.
+  </Step>
+  <Step title="Repite la prueba tras un cierre de sesión completo">
+    Cierra sesión tanto en Mintie como en el IdP y vuelve a autenticarte. Esto
+    detecta pruebas que solo funcionaron porque seguía activa una sesión anterior
+    del proveedor.
+  </Step>
+</Steps>
+
+## Preparar a los usuarios y las integraciones
+
+- Envía el [plan de comunicación a los usuarios](/es/migration/user-comms) con la hora del lanzamiento y el canal de soporte.
+- Verifica que todos los usuarios previstos estén asignados a la aplicación de Mintie en el IdP.
+- Haz un inventario de las automatizaciones que utilizan claves de API propiedad de usuarios e identifica a sus responsables.
+- Mantén las credenciales de las cuentas de servicio separadas de las credenciales de los empleados.
+- Pide a los usuarios que guarden su trabajo antes de la ventana de activación del requisito de SSO.
+
+## Realizar el despliegue
+
+1. Empieza con un grupo piloto reducido si tu IdP admite asignaciones por etapas.
+2. Ejecuta un último inicio de sesión de prueba desde **Configuración → Autenticación → SSO**.
+3. Activa **Requerir SSO**.
+4. Supervisa los informes de inicio de sesión y las solicitudes de soporte durante al menos 30 minutos.
+5. Confirma que las sesiones con contraseña avanzan por la [migración gradual de sesiones](/es/concepts/sessions).
+
+## Criterios para continuar o detener el despliegue
+
+Continúa solo cuando se cumplan todos estos criterios:
+
+- El estado de la conexión es `Active`.
+- Dos administradores y un miembro estándar pueden iniciar sesión.
+- Los claims requeridos están presentes y mapeados correctamente.
+- El responsable de emergencias y el canal de comunicación están disponibles.
+- Las dependencias conocidas de la API y del aprovisionamiento tienen responsables.
+
+Si alguno de los criterios no se cumple, mantén disponible el inicio de sesión con contraseña, corrige el problema y repite la validación.

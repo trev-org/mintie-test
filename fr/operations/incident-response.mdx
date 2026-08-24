@@ -1,0 +1,81 @@
+---
+title: "Réponse aux incidents d’identité"
+description: "Contenez une panne du SSO ou du provisioning et rétablissez les accès en toute sécurité"
+---
+
+Utilisez cette procédure lorsque le SSO échoue à grande échelle, que des utilisateurs sont provisionnés de manière incorrecte, que des utilisateurs désactivés conservent leur accès ou que des identifiants d’authentification ont pu être exposés.
+
+## Les 15 premières minutes
+
+<Steps>
+  <Step title="Préservez les accès">
+    Gardez ouvertes les sessions administrateur existantes. Ne vous
+    déconnectez pas, ne déconnectez pas le fournisseur et ne révoquez aucun
+    identifiant avant d’avoir déterminé le périmètre d’impact.
+  </Step>
+  <Step title="Déclarez l’incident et attribuez les rôles">
+    Désignez un responsable de l’incident, un responsable de l’IdP, un
+    responsable Mintie et un responsable des communications. Utilisez un canal
+    unique et une chronologie unique.
+  </Step>
+  <Step title="Déterminez l’étendue">
+    Identifiez l’heure du premier échec et déterminez si l’incident touche un
+    utilisateur, un groupe, tous les utilisateurs, le SSO, SCIM, l’accès aux
+    API ou plusieurs systèmes.
+  </Step>
+  <Step title="Suspendez les modifications sans rapport avec l’incident">
+    Suspendez les modifications de configuration et le provisioning en masse.
+    Conservez les événements du fournisseur, les horodatages et les ID de
+    connexion.
+  </Step>
+</Steps>
+
+## Choisir les mesures de confinement
+
+| Incident | Mesure de confinement initiale |
+| --- | --- |
+| Panne du service de l’IdP | Gardez les sessions actives ouvertes et surveillez l’état du fournisseur |
+| Claim incorrect ou mauvaise affectation à l’application | Annulez la modification concernée dans l’IdP |
+| Certificat ou secret expiré | Suivez la procédure de [rotation des identifiants](/fr/operations/rotate-credentials) |
+| Mises à jour SCIM incorrectes | Suspendez le provisioning dans l’IdP avant de corriger les enregistrements |
+| Exposition d’un identifiant suspectée | Remplacez l’identifiant, puis révoquez la valeur exposée |
+| Le SSO bloque l’accès à l’organisation | Suivez votre procédure approuvée d’accès d’urgence |
+
+<Warning>
+  La déconnexion du fournisseur entraîne le rejet immédiat des nouvelles
+  connexions SSO. La désactivation d’**Exiger le SSO** rétablit la connexion par
+  mot de passe, mais n’aide que les utilisateurs qui disposent encore d’un mot
+  de passe utilisable. Considérez chacune de ces actions comme une mesure
+  d’atténuation délibérée.
+</Warning>
+
+## Préparer les accès d’urgence
+
+Comme le SSO est imposé à toute l’organisation, établissez la procédure de reprise avant tout incident :
+
+- Maintenez au moins deux administrateurs d’organisation.
+- Stockez les instructions de reprise dans un système approuvé et soumis à un contrôle d’accès.
+- Définissez qui peut désactiver temporairement **Exiger le SSO**.
+- Testez la procédure lors d’un exercice planifié.
+- Réexaminez-la à chaque changement d’administrateur ou de responsable de l’IdP.
+
+## Dossier de diagnostic
+
+Recueillez :
+
+- L’organisation Mintie et l’ID de connexion
+- L’heure de début de l’incident, le fuseau horaire et la dernière connexion réussie connue
+- Les utilisateurs concernés et l’étendue estimée
+- Le nom de l’IdP, le protocole, les ID d’événements du fournisseur et le résultat de la vérification de l’état du service
+- Les modifications récentes des métadonnées, des claims, des affectations, des politiques ou des identifiants
+- Des captures d’écran ou des corps de réponse expurgés
+
+N’incluez jamais de mots de passe, de jetons, de secrets client, de cookies de session, de clés privées ni d’assertions SAML complètes.
+
+## Rétablissement et suivi
+
+1. Validez la connexion d’un administrateur et d’un utilisateur standard.
+2. Si SCIM a été touché, effectuez un cycle de création, de mise à jour et de désactivation.
+3. Reprenez progressivement les affectations ou le provisioning suspendus.
+4. Surveillez les échecs et le volume des demandes d’assistance jusqu’à leur retour au niveau de référence.
+5. Documentez la cause, l’impact, les mesures correctives et le responsable des actions de prévention.

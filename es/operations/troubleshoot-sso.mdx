@@ -1,0 +1,70 @@
+---
+title: "Solucionar problemas de SSO"
+description: "Diagnostica fallos de inicio de sesión en Mintie y en tu proveedor de identidad"
+---
+
+Empieza por determinar el alcance del fallo. Un mismo síntoma puede tener una causa distinta cuando afecta a un solo usuario en lugar de a toda la organización.
+
+## Evaluar el alcance
+
+| Alcance | Qué comprobar primero |
+| --- | --- |
+| Un usuario | Asignación de la aplicación, claim de correo electrónico, estado de la cuenta y vinculación de identidad |
+| Un grupo | Asignación de grupos en el IdP y filtrado de claims de grupo |
+| Todos los usuarios | Estado de la conexión, certificado o secreto de cliente y disponibilidad del proveedor |
+| Un navegador o dispositivo | Bloqueo de ventanas emergentes, cookies, reloj y política de red |
+
+<Steps>
+  <Step title="Registra el fallo">
+    Anota la hora, el usuario afectado, el navegador, el error del IdP, el error
+    de Mintie y si el fallo se produjo durante una prueba o un inicio de sesión
+    normal.
+  </Step>
+  <Step title="Comprueba el estado de la conexión">
+    Abre **Configuración → Autenticación → SSO**. Confirma que esté conectado el
+    proveedor esperado y copia el ID de conexión.
+  </Step>
+  <Step title="Reproduce el fallo con una cuenta de prueba">
+    Utiliza **Test sign-in** con un usuario estándar asignado. Prueba también en
+    una ventana privada del navegador para no depender de una sesión existente
+    del IdP.
+  </Step>
+  <Step title="Inspecciona el evento del IdP">
+    Busca la marca de tiempo y el usuario en el registro del sistema del IdP.
+    Los errores del proveedor suelen identificar fallos de asignación, política,
+    redirección, audiencia o firma.
+  </Step>
+</Steps>
+
+## Síntomas habituales
+
+| Síntoma | Causa probable | Acción |
+| --- | --- | --- |
+| El usuario nunca llega a Mintie | El usuario no está asignado o una política del IdP lo bloquea | Verifica la asignación de la aplicación y la evaluación de políticas |
+| Error de URI de redirección o ACS | El endpoint del proveedor no coincide con Mintie | Compáralo con los [endpoints de Mintie](/es/setup/generic-saml#endpoints-de-mintie) documentados |
+| Issuer o audiencia no válidos | El ID de entidad SAML o el issuer OIDC es incorrecto | Corrige los valores del proveedor y repite la prueba |
+| Firma no válida | El certificado de firma ha cambiado o los metadatos están desactualizados | Actualiza los metadatos SAML o coordina una rotación del certificado |
+| Falta el correo electrónico | No se ha enviado el claim `email` requerido | Añade el claim y verifica que su valor sea único |
+| La ventana de prueba se cierra o agota el tiempo de espera | La ventana emergente se ha bloqueado o el flujo del IdP no ha regresado | Permite las ventanas emergentes y vuelve a ejecutar la prueba |
+| El usuario llega a la cuenta equivocada | El correo electrónico ha cambiado o una identidad está vinculada de forma incorrecta | Revisa la [vinculación de identidad](/es/concepts/identity-linking) antes de volver a intentarlo |
+| Bucle de redirección repetido | Hay sesiones obsoletas o políticas de aplicación en conflicto | Cierra sesión en ambos sistemas y prueba en una ventana privada |
+
+## Comprobaciones específicas del protocolo
+
+### SAML
+
+- Los metadatos contienen el issuer, la URL de SSO y el certificado de firma actuales.
+- La URL de ACS y el ID de entidad coinciden exactamente con los valores de Mintie.
+- Las aserciones incluyen una dirección de correo electrónico única.
+- La aserción no ha caducado; compara los relojes del IdP y del cliente.
+
+### OIDC
+
+- La URL del issuer es exacta y accesible.
+- El URI de redirección está registrado sin una ruta adicional ni una barra diagonal final.
+- El client ID y el client secret pertenecen a la misma aplicación.
+- La aplicación concede al menos `openid email profile`.
+
+## Escalar
+
+Si el fallo sigue sin resolverse, recopila el ID de conexión, las marcas de tiempo con zona horaria, los usuarios afectados, los ID de eventos del proveedor, el protocolo y cualquier cambio de configuración reciente. No envíes aserciones SAML, secretos de cliente ni cookies de sesión a través de un canal de soporte no seguro.

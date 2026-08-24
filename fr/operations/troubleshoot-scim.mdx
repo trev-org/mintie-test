@@ -1,0 +1,72 @@
+---
+title: "Dépanner SCIM"
+description: "Diagnostiquez les échecs de provisioning, de déprovisioning et de synchronisation des groupes"
+---
+
+<Warning>
+  SCIM 2.0 est encore en développement. Cette procédure décrit le
+  fonctionnement opérationnel prévu de l’[interface SCIM](/fr/provisioning/scim).
+</Warning>
+
+## Commencer dans le fournisseur d’identité
+
+Repérez l’événement de provisioning qui a échoué et consignez :
+
+- L’opération : création, mise à jour, désactivation ou modification de l’appartenance à un groupe
+- L’utilisateur ou le groupe concerné
+- Le statut HTTP et le corps de la réponse
+- L’heure de la tentative et l’ID d’événement du fournisseur
+- Si de nouvelles tentatives sont toujours en cours
+
+Ne collez pas le jeton bearer SCIM dans des tickets ni dans des journaux.
+
+## Vérifier la connexion
+
+1. Vérifiez que l’URL de base est exactement `https://app.mintie.example/scim/v2`.
+2. Vérifiez que le jeton bearer appartient à la même organisation Mintie.
+3. Vérifiez que le jeton n’a pas été remplacé ni révoqué.
+4. Vérifiez que l’utilisateur ou le groupe est affecté à l’application de provisioning.
+5. Réessayez une seule opération de test au lieu de relancer une synchronisation complète.
+
+## Diagnostiquer par symptôme
+
+| Symptôme | Vérification |
+| --- | --- |
+| Échec de l’authentification | Valeur du jeton bearer, espaces accidentels, organisation associée au jeton et statut du jeton |
+| Échec de la création | Présence et unicité de l’adresse e-mail requise, et mappage des attributs de l’IdP |
+| La mise à jour atteint le mauvais enregistrement | ID de ressource Mintie enregistré et identifiant externe de l’IdP |
+| Un utilisateur désactivé conserve son accès | Résultat de l’événement du fournisseur, ID de l’utilisateur cible et envoi par l’IdP de `PATCH active: false` ou de `DELETE` |
+| L’appartenance au groupe est absente | Affectation du groupe, configuration de l’envoi des groupes et ordre des opérations |
+| La même opération est continuellement retentée | Réponse au premier échec ; les tentatives ultérieures masquent souvent la cause initiale |
+
+<Note>
+  `DELETE /Users/{id}` effectue une suppression logique. Mintie conserve la ligne
+  de l’utilisateur à des fins d’audit, le marque comme désactivé et révoque ses
+  sessions.
+</Note>
+
+## Test de bout en bout sans risque
+
+<Steps>
+  <Step title="Créez un utilisateur de test dédié">
+    Utilisez une adresse unique qui ne risque pas d’entrer en conflit avec un
+    compte d’employé.
+  </Step>
+  <Step title="Mettez à jour un attribut mappé">
+    Modifiez un nom ou l’appartenance à un groupe de test et vérifiez que le même
+    utilisateur Mintie est mis à jour au lieu d’être dupliqué.
+  </Step>
+  <Step title="Désactivez l’utilisateur">
+    Vérifiez que l’opération de l’IdP réussit et que l’utilisateur ne peut plus
+    démarrer de nouvelle session Mintie.
+  </Step>
+  <Step title="Supprimez les données de test">
+    Conservez les ID d’événements du fournisseur et les horodatages, mais
+    supprimez les affectations temporaires aux groupes et révoquez tous les
+    identifiants de test.
+  </Step>
+</Steps>
+
+## Transmettre au support
+
+Communiquez au support l’organisation Mintie, le nom du fournisseur, l’opération, l’ID de ressource, l’ID d’événement, l’horodatage avec son fuseau horaire et la réponse expurgée. N’incluez jamais l’en-tête `Authorization`.

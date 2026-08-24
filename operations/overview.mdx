@@ -1,0 +1,42 @@
+---
+title: "Operations overview"
+description: "Keep SSO and user provisioning reliable after launch"
+---
+
+Use these runbooks after your identity provider is connected and tested. They cover launch preparation, routine checks, troubleshooting, credential rotation, and incident response.
+
+<CardGroup cols={2}>
+  <Card title="Launch readiness" icon="clipboard-check" href="/operations/launch-readiness">
+    Validate access, ownership, and recovery paths before requiring SSO.
+  </Card>
+  <Card title="Monitor identity services" icon="chart-line" href="/operations/monitoring">
+    Establish a baseline and check SSO and provisioning health.
+  </Card>
+  <Card title="Troubleshoot SSO" icon="screwdriver-wrench" href="/operations/troubleshoot-sso">
+    Isolate connection, provider, claim, and user-specific failures.
+  </Card>
+  <Card title="Troubleshoot SCIM" icon="users-gear" href="/operations/troubleshoot-scim">
+    Diagnose provisioning, deprovisioning, and group-sync problems.
+  </Card>
+  <Card title="Rotate credentials" icon="arrows-rotate" href="/operations/rotate-credentials">
+    Replace certificates, client secrets, SCIM tokens, and API keys safely.
+  </Card>
+  <Card title="Respond to incidents" icon="shield-exclamation" href="/operations/incident-response">
+    Contain an identity outage, restore access, and collect diagnostics.
+  </Card>
+</CardGroup>
+
+## Recommended operating rhythm
+
+| Cadence | Task |
+| --- | --- |
+| Before launch | Complete the readiness checklist and run a pilot |
+| Weekly | Run a test sign-in and review provider-side failures |
+| Monthly | Confirm admin ownership and recovery contacts |
+| Quarterly | Review credentials, assignments, and unused accounts |
+| After any IdP change | Re-test sign-in and one complete user lifecycle |
+
+<Info>
+  SCIM, the audit-log dashboard, and parts of session migration are still in
+  development. The runbooks identify checks that depend on those features.
+</Info>

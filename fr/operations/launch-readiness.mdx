@@ -1,0 +1,70 @@
+---
+title: "Préparation au lancement"
+description: "Validez le déploiement de votre SSO avant de l’exiger pour l’organisation"
+---
+
+Utilisez cette liste de vérification après avoir [connecté un fournisseur d’identité](/fr/setup/enable-sso) et avant d’activer **Exiger le SSO**.
+
+<Warning>
+  N’imposez pas le SSO tant qu’au moins deux administrateurs n’ont pas effectué
+  une connexion de test et que votre équipe n’a pas convenu d’une procédure de
+  reprise d’urgence.
+</Warning>
+
+## Désigner les responsables
+
+- Désignez un administrateur de l’IdP et un administrateur de l’organisation Mintie.
+- Confirmez qui peut modifier l’application SAML ou OIDC.
+- Communiquez aux équipes d’assistance l’ID de connexion Mintie et la procédure d’escalade interne.
+- Planifiez le déploiement à un moment où les deux responsables sont disponibles.
+
+## Valider la connexion
+
+<Steps>
+  <Step title="Effectuez deux connexions de test">
+    Effectuez un test avec un administrateur et un membre standard. Vérifiez
+    qu’ils sont tous deux redirigés vers l’organisation Mintie attendue.
+  </Step>
+  <Step title="Vérifiez les claims d’identité">
+    Vérifiez l’adresse e-mail et, s’ils sont configurés, les claims de prénom,
+    de nom et de groupe. Résolvez les doublons de comptes avant d’imposer le SSO.
+  </Step>
+  <Step title="Testez le cycle de vie utilisateur">
+    Créez ou attribuez un utilisateur de test, mettez à jour un groupe mappé,
+    puis désactivez l’utilisateur. Si vous utilisez SCIM, vérifiez que chaque
+    modification est bien répercutée dans Mintie.
+  </Step>
+  <Step title="Relancez le test après une déconnexion complète">
+    Déconnectez-vous de Mintie et de l’IdP, puis authentifiez-vous à nouveau.
+    Cette étape permet de détecter les tests qui n’ont réussi que parce qu’une
+    ancienne session du fournisseur était encore active.
+  </Step>
+</Steps>
+
+## Préparer les utilisateurs et les intégrations
+
+- Envoyez le [plan de communication aux utilisateurs](/fr/migration/user-comms) en précisant l’heure du lancement et le canal d’assistance.
+- Vérifiez que chaque utilisateur concerné est bien affecté à l’application Mintie dans l’IdP.
+- Recensez les automatisations qui utilisent des clés d’API appartenant à des utilisateurs et identifiez leurs responsables.
+- Conservez les identifiants des comptes de service séparément de ceux des employés.
+- Demandez aux utilisateurs d’enregistrer leur travail avant la fenêtre d’activation.
+
+## Procéder au déploiement
+
+1. Commencez par un petit groupe pilote si votre IdP permet des affectations progressives.
+2. Effectuez une dernière connexion de test depuis **Paramètres → Authentification → SSO**.
+3. Activez **Exiger le SSO**.
+4. Surveillez les rapports de connexion et les demandes d’assistance pendant au moins 30 minutes.
+5. Vérifiez que les sessions par mot de passe suivent la [migration progressive des sessions](/fr/concepts/sessions).
+
+## Critères de décision
+
+Ne poursuivez que si toutes les conditions suivantes sont remplies :
+
+- Le statut de la connexion est `Active`.
+- Deux administrateurs et un membre standard peuvent se connecter.
+- Les claims requis sont présents et correctement mappés.
+- Le responsable des urgences et le canal de communication sont opérationnels.
+- Les dépendances connues liées aux API et au provisioning ont des responsables désignés.
+
+Si l’un de ces critères n’est pas rempli, laissez la connexion par mot de passe disponible, corrigez le problème et recommencez la validation.

@@ -1,0 +1,58 @@
+---
+title: "Monitor identity services"
+description: "Establish a baseline and detect SSO or provisioning failures early"
+---
+
+Monitor Mintie together with your identity provider. Provider-side sign-in and provisioning reports are the primary source of operational data while Mintie's [audit-log dashboard](/security/audit-logs) is still planned.
+
+## Record a healthy baseline
+
+After launch, save the following values in your team runbook:
+
+| Signal | Healthy baseline |
+| --- | --- |
+| Connection status | `Active` |
+| Test sign-in | Succeeds for an assigned standard user |
+| SAML or OIDC application | Enabled and assigned to the expected groups |
+| SCIM test user | Create, update, and deactivate complete successfully |
+| Admin ownership | At least two current administrators |
+
+Never record client secrets, signing keys, SCIM tokens, or API keys in the runbook.
+
+## Weekly check
+
+<Steps>
+  <Step title="Inspect the connection">
+    Open **Settings → Auth → SSO** and confirm the provider, connection ID,
+    status, and last test result are expected.
+  </Step>
+  <Step title="Run a test sign-in">
+    Use a standard test account. A successful admin session alone does not
+    prove that application assignments and member claims are correct.
+  </Step>
+  <Step title="Review provider reports">
+    Look for changes in failed sign-ins, unassigned users, SCIM retries, and
+    disabled connectors.
+  </Step>
+  <Step title="Check recent changes">
+    Ask whether anyone changed redirect URIs, SAML metadata, claims, group
+    mappings, credentials, or conditional-access policies.
+  </Step>
+</Steps>
+
+## Signals to investigate
+
+- A test sign-in changes from success to failure.
+- Failures affect multiple users or more than one network.
+- The IdP reports invalid audience, issuer, redirect URI, or signature.
+- Provisioning retries grow or a deactivated user remains active.
+- A connection unexpectedly returns to `Awaiting verification` or `Disconnected`.
+- Support requests spike immediately after an IdP policy or certificate change.
+
+## When a check fails
+
+1. Record the first failure time and the last known successful test.
+2. Determine whether the issue affects one user, one group, or the whole organization.
+3. Check your IdP's service status and recent configuration changes.
+4. Follow the [SSO troubleshooting](/operations/troubleshoot-sso) or [SCIM troubleshooting](/operations/troubleshoot-scim) runbook.
+5. If access is broadly affected, begin the [incident-response runbook](/operations/incident-response).

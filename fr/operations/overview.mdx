@@ -1,0 +1,43 @@
+---
+title: "Vue d’ensemble des opérations"
+description: "Assurez la fiabilité du SSO et du provisioning des utilisateurs après le lancement"
+---
+
+Utilisez ces procédures après avoir connecté et testé votre fournisseur d’identité. Elles couvrent la préparation du lancement, les contrôles réguliers, le dépannage, la rotation des identifiants et la réponse aux incidents.
+
+<CardGroup cols={2}>
+  <Card title="Préparation au lancement" icon="clipboard-check" href="/fr/operations/launch-readiness">
+    Validez les accès, les responsabilités et les procédures de reprise avant d’exiger le SSO.
+  </Card>
+  <Card title="Surveiller les services d’identité" icon="chart-line" href="/fr/operations/monitoring">
+    Établissez une référence et contrôlez le bon fonctionnement du SSO et du provisioning.
+  </Card>
+  <Card title="Dépanner le SSO" icon="screwdriver-wrench" href="/fr/operations/troubleshoot-sso">
+    Isolez les défaillances liées à la connexion, au fournisseur, aux claims ou à un utilisateur.
+  </Card>
+  <Card title="Dépanner SCIM" icon="users-gear" href="/fr/operations/troubleshoot-scim">
+    Diagnostiquez les problèmes de provisioning, de déprovisioning et de synchronisation des groupes.
+  </Card>
+  <Card title="Effectuer la rotation des identifiants" icon="arrows-rotate" href="/fr/operations/rotate-credentials">
+    Remplacez en toute sécurité les certificats, les secrets client, les jetons SCIM et les clés d’API.
+  </Card>
+  <Card title="Répondre aux incidents" icon="shield-exclamation" href="/fr/operations/incident-response">
+    Contenez une panne des services d’identité, rétablissez les accès et recueillez les éléments de diagnostic.
+  </Card>
+</CardGroup>
+
+## Rythme opérationnel recommandé
+
+| Fréquence | Tâche |
+| --- | --- |
+| Avant le lancement | Suivre la liste de vérification et mener un pilote |
+| Chaque semaine | Effectuer une connexion de test et examiner les échecs côté fournisseur |
+| Chaque mois | Confirmer les responsabilités administratives et les contacts chargés de la reprise |
+| Chaque trimestre | Vérifier les identifiants, les affectations et les comptes inutilisés |
+| Après toute modification de l’IdP | Tester à nouveau la connexion et un cycle de vie utilisateur complet |
+
+<Info>
+  SCIM, le tableau de bord des journaux d’audit et certaines parties de la
+  migration des sessions sont encore en développement. Ces procédures signalent
+  les contrôles qui dépendent de ces fonctionnalités.
+</Info>

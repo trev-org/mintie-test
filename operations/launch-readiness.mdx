@@ -1,0 +1,67 @@
+---
+title: "Launch readiness"
+description: "Validate your SSO rollout before requiring it for the organization"
+---
+
+Use this checklist after you [connect an identity provider](/setup/enable-sso) and before you turn on **Require SSO**.
+
+<Warning>
+  Do not enforce SSO until at least two administrators have completed a test
+  sign-in and your team has agreed on an emergency recovery process.
+</Warning>
+
+## Assign owners
+
+- Name an IdP administrator and a Mintie organization administrator.
+- Confirm who can change the SAML or OIDC application.
+- Give support teams the Mintie connection ID and the internal escalation path.
+- Schedule the rollout while both owners are available.
+
+## Validate the connection
+
+<Steps>
+  <Step title="Run two test sign-ins">
+    Test with an administrator and a standard member. Confirm both return to
+    the expected Mintie organization.
+  </Step>
+  <Step title="Check identity claims">
+    Verify the email address and, when configured, first name, last name, and
+    group claims. Resolve duplicate accounts before enforcement.
+  </Step>
+  <Step title="Exercise the user lifecycle">
+    Create or assign a test user, update a mapped group, and deactivate the
+    user. If you use SCIM, confirm each change reaches Mintie.
+  </Step>
+  <Step title="Re-run the test after a clean sign-out">
+    Sign out of both Mintie and the IdP, then authenticate again. This catches
+    tests that passed only because an old provider session was still active.
+  </Step>
+</Steps>
+
+## Prepare users and integrations
+
+- Send the [user communication plan](/migration/user-comms) with the launch time and support channel.
+- Verify that every intended user is assigned to the Mintie application in the IdP.
+- Inventory automations that use user-owned API keys and identify their owners.
+- Keep service-account credentials separate from employee credentials.
+- Ask users to save work before the enforcement window.
+
+## Roll out
+
+1. Start with a small pilot group if your IdP supports staged assignments.
+2. Run one final test sign-in from **Settings → Auth → SSO**.
+3. Turn on **Require SSO**.
+4. Watch sign-in reports and support requests for at least 30 minutes.
+5. Confirm that password sessions are moving through the [rolling session migration](/concepts/sessions).
+
+## Go/no-go criteria
+
+Proceed only when all of these are true:
+
+- The connection status is `Active`.
+- Two administrators and one standard member can sign in.
+- Required claims are present and mapped correctly.
+- The emergency owner and communication channel are staffed.
+- Known API and provisioning dependencies have owners.
+
+If any criterion fails, leave password sign-in available, correct the issue, and repeat the validation.

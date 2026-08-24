@@ -1,0 +1,61 @@
+---
+title: "Surveiller les services d’identité"
+description: "Établissez une référence et détectez rapidement les défaillances du SSO ou du provisioning"
+---
+
+Surveillez Mintie conjointement avec votre fournisseur d’identité. Les rapports de connexion et de provisioning côté fournisseur constituent la principale source de données opérationnelles tant que le [tableau de bord des journaux d’audit](/fr/security/audit-logs) de Mintie n’est pas disponible.
+
+## Consigner une référence de bon fonctionnement
+
+Après le lancement, consignez les valeurs suivantes dans la procédure opérationnelle de votre équipe :
+
+| Signal | Référence en fonctionnement nominal |
+| --- | --- |
+| Statut de la connexion | `Active` |
+| Connexion de test | Réussit pour un utilisateur standard affecté |
+| Application SAML ou OIDC | Activée et affectée aux groupes attendus |
+| Utilisateur de test SCIM | La création, la mise à jour et la désactivation aboutissent |
+| Responsabilités administratives | Au moins deux administrateurs en fonction |
+
+Ne consignez jamais de secrets client, de clés de signature, de jetons SCIM ni de clés d’API dans cette procédure.
+
+## Contrôle hebdomadaire
+
+<Steps>
+  <Step title="Inspectez la connexion">
+    Ouvrez **Paramètres → Authentification → SSO** et vérifiez que le
+    fournisseur, l’ID de connexion, le statut et le résultat du dernier test
+    correspondent aux valeurs attendues.
+  </Step>
+  <Step title="Effectuez une connexion de test">
+    Utilisez un compte de test standard. La réussite d’une session
+    administrateur ne suffit pas à prouver que les affectations de
+    l’application et les claims des membres sont corrects.
+  </Step>
+  <Step title="Examinez les rapports du fournisseur">
+    Recherchez toute évolution des échecs de connexion, des utilisateurs non
+    affectés, des nouvelles tentatives SCIM et des connecteurs désactivés.
+  </Step>
+  <Step title="Vérifiez les modifications récentes">
+    Demandez si quelqu’un a modifié les URI de redirection, les métadonnées
+    SAML, les claims, les mappages de groupes, les identifiants ou les
+    politiques d’accès conditionnel.
+  </Step>
+</Steps>
+
+## Signaux à examiner
+
+- Une connexion de test, auparavant réussie, échoue.
+- Les défaillances touchent plusieurs utilisateurs ou plusieurs réseaux.
+- L’IdP signale une audience, un émetteur, une URI de redirection ou une signature non valide.
+- Les nouvelles tentatives de provisioning se multiplient ou un utilisateur désactivé reste actif.
+- Une connexion repasse de manière inattendue à `Awaiting verification` ou `Disconnected`.
+- Les demandes d’assistance augmentent brusquement après la modification d’une politique ou d’un certificat de l’IdP.
+
+## En cas d’échec d’un contrôle
+
+1. Consignez l’heure du premier échec et celle du dernier test réussi connu.
+2. Déterminez si le problème touche un utilisateur, un groupe ou l’ensemble de l’organisation.
+3. Vérifiez l’état du service de votre IdP et les modifications de configuration récentes.
+4. Suivez la procédure de [dépannage du SSO](/fr/operations/troubleshoot-sso) ou de [dépannage de SCIM](/fr/operations/troubleshoot-scim).
+5. Si les accès sont largement perturbés, lancez la [procédure de réponse aux incidents](/fr/operations/incident-response).

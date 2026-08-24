@@ -1,0 +1,69 @@
+---
+title: "Solucionar problemas de SCIM"
+description: "Diagnostica fallos de aprovisionamiento, desaprovisionamiento y sincronización de grupos"
+---
+
+<Warning>
+  SCIM 2.0 sigue en desarrollo. Este procedimiento describe el flujo operativo
+  previsto para la [interfaz SCIM](/es/provisioning/scim).
+</Warning>
+
+## Empezar en el proveedor de identidad
+
+Busca el evento de aprovisionamiento fallido y registra:
+
+- La operación: creación, actualización, desactivación o cambio de pertenencia a un grupo
+- El usuario o grupo afectado
+- El estado HTTP y el cuerpo de la respuesta
+- La hora del intento y el ID de evento del proveedor
+- Si los reintentos siguen en curso
+
+No pegues el token bearer de SCIM en tickets ni registros.
+
+## Comprobar la conexión
+
+1. Confirma que la URL base sea exactamente `https://app.mintie.example/scim/v2`.
+2. Verifica que el token bearer pertenezca a la misma organización de Mintie.
+3. Comprueba que el token no haya sido sustituido ni revocado.
+4. Confirma que el usuario o grupo esté asignado a la aplicación de aprovisionamiento.
+5. Reintenta una sola operación de prueba en lugar de reiniciar una sincronización completa.
+
+## Diagnosticar por síntoma
+
+| Síntoma | Comprobación |
+| --- | --- |
+| Falla la autenticación | Valor del token bearer, espacios en blanco accidentales, organización a la que pertenece el token y estado del token |
+| Falla la creación | Valor de correo electrónico requerido, unicidad y mapeo de atributos del IdP |
+| La actualización llega al registro equivocado | ID de recurso de Mintie almacenado e identificador externo del IdP |
+| El usuario desactivado sigue teniendo acceso | Resultado del evento del proveedor, ID del usuario de destino y si el IdP envió `PATCH active: false` o `DELETE` |
+| Falta la pertenencia a un grupo | Asignación de grupos, configuración de push groups y orden de las operaciones |
+| La misma operación continúa reintentándose | Respuesta del primer fallo; los reintentos posteriores suelen ocultar la causa original |
+
+<Note>
+  `DELETE /Users/{id}` es un borrado lógico. Mintie conserva la fila del usuario
+  con fines de auditoría, la marca como desactivada y revoca sus sesiones.
+</Note>
+
+## Prueba segura de extremo a extremo
+
+<Steps>
+  <Step title="Crea un usuario dedicado para pruebas">
+    Utiliza una dirección única que no pueda coincidir con la cuenta de un empleado.
+  </Step>
+  <Step title="Actualiza un atributo mapeado">
+    Cambia un nombre o la pertenencia a un grupo de prueba y confirma que se
+    actualice el mismo usuario de Mintie en lugar de duplicarlo.
+  </Step>
+  <Step title="Desactiva el usuario">
+    Confirma que la operación del IdP se complete correctamente y que el usuario
+    ya no pueda iniciar una nueva sesión de Mintie.
+  </Step>
+  <Step title="Elimina los datos de prueba">
+    Conserva los ID de eventos y las marcas de tiempo del proveedor, pero elimina
+    las asignaciones temporales de grupos y revoca cualquier credencial de prueba.
+  </Step>
+</Steps>
+
+## Escalar
+
+Envía a soporte la organización de Mintie, el nombre del proveedor, la operación, el ID de recurso, el ID de evento, la marca de tiempo con zona horaria y la respuesta con los datos sensibles ocultos. No incluyas nunca el encabezado `Authorization`.

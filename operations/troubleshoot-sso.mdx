@@ -1,0 +1,67 @@
+---
+title: "Troubleshoot SSO"
+description: "Diagnose sign-in failures across Mintie and your identity provider"
+---
+
+Start by finding the scope of the failure. The same symptom can have a different cause when it affects one user instead of the entire organization.
+
+## Triage the scope
+
+| Scope | Check first |
+| --- | --- |
+| One user | App assignment, email claim, account status, and identity linking |
+| One group | IdP group assignment and group-claim filtering |
+| All users | Connection status, certificate or client secret, and provider availability |
+| One browser or device | Pop-up blocking, cookies, clock, and network policy |
+
+<Steps>
+  <Step title="Capture the failure">
+    Record the time, affected user, browser, IdP error, Mintie error, and
+    whether the failure happened during a test or normal sign-in.
+  </Step>
+  <Step title="Check connection health">
+    Open **Settings → Auth → SSO**. Confirm the expected provider is connected
+    and copy the connection ID.
+  </Step>
+  <Step title="Reproduce with a test account">
+    Use **Test sign-in** with an assigned standard user. Also try a private
+    browser window to avoid relying on an existing IdP session.
+  </Step>
+  <Step title="Inspect the IdP event">
+    Match the timestamp and user in the IdP system log. Provider errors usually
+    identify assignment, policy, redirect, audience, or signature failures.
+  </Step>
+</Steps>
+
+## Common symptoms
+
+| Symptom | Likely cause | Action |
+| --- | --- | --- |
+| User never reaches Mintie | User is unassigned or blocked by IdP policy | Verify app assignment and policy evaluation |
+| Redirect URI or ACS error | Provider endpoint does not match Mintie | Compare it with the documented [Mintie endpoints](/setup/generic-saml#mintie-endpoints) |
+| Invalid issuer or audience | SAML entity ID or OIDC issuer is wrong | Correct the provider values and re-test |
+| Invalid signature | Signing certificate changed or metadata is stale | Refresh the SAML metadata or coordinate a certificate rotation |
+| Missing email | Required `email` claim was not sent | Add the claim and verify its value is unique |
+| Test window closes or times out | Pop-up was blocked or the IdP flow did not return | Allow pop-ups, then run the test again |
+| User lands in the wrong account | Email changed or an identity is linked incorrectly | Review [identity linking](/concepts/identity-linking) before retrying |
+| Repeated redirect loop | Stale sessions or conflicting enforcement policy | Sign out of both systems and test in a private window |
+
+## Protocol-specific checks
+
+### SAML
+
+- Metadata contains the current issuer, SSO URL, and signing certificate.
+- The ACS URL and entity ID exactly match Mintie's values.
+- Assertions include a unique email address.
+- The assertion is not expired; compare clocks on the IdP and client.
+
+### OIDC
+
+- The issuer URL is exact and reachable.
+- The redirect URI is registered without an extra path or trailing slash.
+- The client ID and client secret belong to the same application.
+- The application grants at least `openid email profile`.
+
+## Escalate
+
+If the failure remains unresolved, collect the connection ID, timestamps with time zone, affected users, provider event IDs, protocol, and any recent configuration changes. Do not send SAML assertions, client secrets, or session cookies over an unsecured support channel.
