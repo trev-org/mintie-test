@@ -1,3 +1,4 @@
-button.logout-link {
+button.logout-link,
+button.login-link {
   font-size: 14px;
 }
