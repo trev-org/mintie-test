@@ -3,6 +3,7 @@
   "theme": "sequoia",
   "name": "Mintie SSO",
   "description": "Enterprise SSO, SCIM, and identity for Mintie",
+  "public": true,
   "colors": {
     "primary": "#0C8C5E",
     "light": "#0C8C5E",
@@ -100,7 +101,7 @@
             "groups": [
               {
                 "group": "Run and monitor",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "operations/overview",
                   "operations/launch-readiness",
@@ -109,7 +110,7 @@
               },
               {
                 "group": "Troubleshooting",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "operations/troubleshoot-sso",
                   "operations/troubleshoot-scim"
@@ -117,7 +118,7 @@
               },
               {
                 "group": "Security and recovery",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "operations/rotate-credentials",
                   "operations/incident-response"
@@ -256,7 +257,7 @@
             "groups": [
               {
                 "group": "Puesta en marcha y supervisión",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "es/operations/overview",
                   "es/operations/launch-readiness",
@@ -265,7 +266,7 @@
               },
               {
                 "group": "Resolución de problemas",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "es/operations/troubleshoot-sso",
                   "es/operations/troubleshoot-scim"
@@ -273,7 +274,7 @@
               },
               {
                 "group": "Seguridad y recuperación",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "es/operations/rotate-credentials",
                   "es/operations/incident-response"
@@ -360,7 +361,7 @@
             "groups": [
               {
                 "group": "Mise en service et suivi",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "fr/operations/overview",
                   "fr/operations/launch-readiness",
@@ -369,7 +370,7 @@
               },
               {
                 "group": "Dépannage",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "fr/operations/troubleshoot-sso",
                   "fr/operations/troubleshoot-scim"
@@ -377,7 +378,7 @@
               },
               {
                 "group": "Sécurité et reprise",
-                "groups": ["enterprise"],
+                "public": false,
                 "pages": [
                   "fr/operations/rotate-credentials",
                   "fr/operations/incident-response"
