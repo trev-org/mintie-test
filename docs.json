@@ -127,10 +127,9 @@
           },
           {
             "tab": "References",
-            "public": true,
-            "menu": [
+            "dropdowns": [
               {
-                "item": "OpenAPI",
+                "dropdown": "OpenAPI",
                 "icon": "brackets-curly",
                 "description": "REST API reference generated from a sample OpenAPI spec",
                 "openapi": {
@@ -139,7 +138,7 @@
                 }
               },
               {
-                "item": "AsyncAPI",
+                "dropdown": "AsyncAPI",
                 "icon": "bolt",
                 "description": "WebSocket event reference generated from a sample AsyncAPI spec",
                 "asyncapi": {
@@ -148,7 +147,7 @@
                 }
               },
               {
-                "item": "GraphQL",
+                "dropdown": "GraphQL",
                 "icon": "diagram-project",
                 "description": "GraphQL API reference generated from a sample schema",
                 "tabs": [
@@ -162,7 +161,7 @@
                 ]
               },
               {
-                "item": "TypeScript SDK",
+                "dropdown": "TypeScript SDK",
                 "icon": "code",
                 "description": "SDK reference generated from a sample TypeDoc artifact",
                 "tabs": [
