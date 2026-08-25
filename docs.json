@@ -38,14 +38,15 @@
         "tabs": [
           {
             "tab": "Documentation",
-            "public": true,
             "groups": [
               {
                 "group": "Get started",
+                "public": true,
                 "pages": ["index", "introduction", "quickstart"]
               },
               {
                 "group": "Concepts",
+                "public": true,
                 "pages": [
                   "concepts/how-sso-works",
                   "concepts/identity-linking",
@@ -55,6 +56,7 @@
               },
               {
                 "group": "Set up a provider",
+                "public": true,
                 "pages": [
                   "setup/sign-in-experience",
                   "setup/enable-sso",
@@ -65,6 +67,7 @@
               },
               {
                 "group": "User provisioning",
+                "public": true,
                 "pages": [
                   "provisioning/overview",
                   "provisioning/scim",
@@ -73,14 +76,17 @@
               },
               {
                 "group": "API & integrations",
+                "public": true,
                 "pages": ["api-and-keys/api-keys"]
               },
               {
                 "group": "Security",
+                "public": true,
                 "pages": ["security/mfa", "security/audit-logs"]
               },
               {
                 "group": "Migration",
+                "public": true,
                 "pages": [
                   "migration/timeline",
                   "migration/user-comms",
@@ -174,10 +180,10 @@
           },
           {
             "tab": "Changelog",
-            "public": true,
             "groups": [
               {
                 "group": "Changelog",
+                "public": true,
                 "pages": ["changelog/overview"]
               }
             ]
@@ -189,14 +195,15 @@
         "tabs": [
           {
             "tab": "Documentación",
-            "public": true,
             "groups": [
               {
                 "group": "Empezar",
+                "public": true,
                 "pages": ["es/introduction", "es/quickstart"]
               },
               {
                 "group": "Conceptos",
+                "public": true,
                 "pages": [
                   "es/concepts/how-sso-works",
                   "es/concepts/identity-linking",
@@ -206,6 +213,7 @@
               },
               {
                 "group": "Configurar un proveedor",
+                "public": true,
                 "pages": [
                   "es/setup/sign-in-experience",
                   "es/setup/enable-sso",
@@ -216,6 +224,7 @@
               },
               {
                 "group": "Aprovisionamiento de usuarios",
+                "public": true,
                 "pages": [
                   "es/provisioning/overview",
                   "es/provisioning/scim",
@@ -224,14 +233,17 @@
               },
               {
                 "group": "API e integraciones",
+                "public": true,
                 "pages": ["es/api-and-keys/api-keys"]
               },
               {
                 "group": "Seguridad",
+                "public": true,
                 "pages": ["es/security/mfa", "es/security/audit-logs"]
               },
               {
                 "group": "Migración",
+                "public": true,
                 "pages": [
                   "es/migration/timeline",
                   "es/migration/user-comms",
@@ -272,10 +284,10 @@
           },
           {
             "tab": "Registro de cambios",
-            "public": true,
             "groups": [
               {
                 "group": "Registro de cambios",
+                "public": true,
                 "pages": ["es/changelog/overview"]
               }
             ]
@@ -287,14 +299,15 @@
         "tabs": [
           {
             "tab": "Documentation",
-            "public": true,
             "groups": [
               {
                 "group": "Démarrer",
+                "public": true,
                 "pages": ["fr/introduction", "fr/quickstart"]
               },
               {
                 "group": "Concepts",
+                "public": true,
                 "pages": [
                   "fr/concepts/how-sso-works",
                   "fr/concepts/identity-linking",
@@ -304,6 +317,7 @@
               },
               {
                 "group": "Configurer un fournisseur",
+                "public": true,
                 "pages": [
                   "fr/setup/sign-in-experience",
                   "fr/setup/enable-sso",
@@ -314,6 +328,7 @@
               },
               {
                 "group": "Provisioning des utilisateurs",
+                "public": true,
                 "pages": [
                   "fr/provisioning/overview",
                   "fr/provisioning/scim",
@@ -322,14 +337,17 @@
               },
               {
                 "group": "API et intégrations",
+                "public": true,
                 "pages": ["fr/api-and-keys/api-keys"]
               },
               {
                 "group": "Sécurité",
+                "public": true,
                 "pages": ["fr/security/mfa", "fr/security/audit-logs"]
               },
               {
                 "group": "Migration",
+                "public": true,
                 "pages": [
                   "fr/migration/timeline",
                   "fr/migration/user-comms",
@@ -370,10 +388,10 @@
           },
           {
             "tab": "Journal des modifications",
-            "public": true,
             "groups": [
               {
                 "group": "Journal des modifications",
+                "public": true,
                 "pages": ["fr/changelog/overview"]
               }
             ]
