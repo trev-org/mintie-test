@@ -1,4 +1,5 @@
 button.logout-link,
-button.login-link {
+button.login-link,
+a.login-link {
   font-size: 14px;
 }
