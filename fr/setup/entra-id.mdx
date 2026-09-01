@@ -1,0 +1,135 @@
+---
+title: "Microsoft Entra ID"
+description: "Connectez Microsoft Entra ID comme votre fournisseur d'identité pour Mintie"
+---
+
+Le connecteur Entra ID dédié est disponible dans **Paramètres → Authentification → SSO**. Sélectionnez **Microsoft Entra ID** dans le sélecteur de fournisseur, collez l'URL des métadonnées de fédération de votre application d'entreprise Entra et cliquez sur **Connecter**. Consultez [Activer le SSO](/fr/setup/enable-sso) pour la procédure complète.
+
+## Ce que le connecteur offre
+
+<CardGroup cols={2}>
+  <Card title="URL des métadonnées de fédération" icon="file-import">
+    Collez l'URL des métadonnées de fédération de votre application
+    d'entreprise Entra. Pas de copier-coller manuel de l'entity ID, du reply
+    URL ou du certificat de signature.
+  </Card>
+  <Card title="Mappage de claims de groupe" icon="users-rectangle">
+    Mappez les identifiants d'objet (GUID) des groupes de sécurité Entra aux
+    rôles Mintie. Entra émet des GUID dans le claim `groups` par conception.
+  </Card>
+  <Card title="Compatible Accès conditionnel" icon="shield-halved">
+    Fonctionne avec les stratégies d'accès conditionnel appliquées à
+    l'application d'entreprise Mintie.
+  </Card>
+  <Card title="Prêt pour SCIM" icon="arrows-rotate">
+    Se combine avec le [provisioning SCIM 2.0](/fr/provisioning/scim) pour
+    l'auto-provisioning et le déprovisioning depuis Entra ID.
+  </Card>
+</CardGroup>
+
+## Connecter Entra ID
+
+Prérequis :
+
+- Un utilisateur avec le rôle **Administrateur d'applications cloud** ou **Administrateur d'applications** dans Entra ID.
+- Accès administrateur d'organisation sur Mintie.
+
+<Steps>
+  <Step title="Créez l'application d'entreprise dans le centre d'administration Entra">
+    Dans le [centre d'administration Entra](https://entra.microsoft.com),
+    accédez à **Identité → Applications → Applications d'entreprise →
+    Nouvelle application → Créer votre propre application**. Nommez-la
+    `Mintie` et choisissez **Intégrer toute autre application que vous ne trouvez pas dans la galerie (hors-galerie)**.
+  </Step>
+  <Step title="Configurez l'authentification unique SAML">
+    Ouvrez la nouvelle application, accédez à **Authentification unique** et
+    sélectionnez **SAML**. Définissez :
+
+    - **Identificateur (Entity ID) :** `https://app.mintie.example/sso/saml`
+    - **URL de réponse (ACS) :** `https://app.mintie.example/api/auth/sso/callback`
+  </Step>
+  <Step title="Copiez l'URL des métadonnées de fédération">
+    Sur la même page SAML, dans **Certificats SAML**, copiez l'**URL des métadonnées de fédération de l'application**.
+  </Step>
+  <Step title="Collez-la dans Mintie">
+    Dans Mintie, accédez à **Paramètres → Authentification → SSO**, choisissez
+    **Microsoft Entra ID**, collez l'URL des métadonnées de fédération et
+    cliquez sur **Connecter**.
+  </Step>
+  <Step title="Assignez les utilisateurs et groupes">
+    De retour dans l'app Entra, ouvrez **Utilisateurs et groupes** et
+    assignez les utilisateurs ou groupes de sécurité qui doivent accéder à
+    Mintie. Seuls les principaux assignés peuvent se connecter.
+  </Step>
+  <Step title="Exécutez une connexion de test">
+    Cliquez sur **Test sign-in** dans Mintie pour confirmer que l'aller-retour
+    fonctionne avant d'activer [Exiger le SSO](/fr/setup/enable-sso#exiger-le-sso-pour-votre-organisation).
+  </Step>
+</Steps>
+
+## Mappage de groupes
+
+Entra ID ne place pas les noms de groupe dans le claim SAML `groups`. Il émet
+l'**identifiant d'objet (GUID)** de chaque groupe de sécurité auquel
+l'utilisateur appartient. Mintie compare ces GUID à une table de mappage pour
+attribuer les rôles.
+
+### Émettre le claim de groupes
+
+Sur la page **Authentification unique** de l'application Entra, modifiez
+**Attributs et claims** et ajoutez un claim de groupe :
+
+- **Quels groupes :** Groupes de sécurité (ou Groupes assignés à l'application, si vous disposez d'Entra ID P1 et souhaitez restreindre le claim).
+- **Attribut source :** Group ID.
+- **Nom :** `groups`.
+
+Enregistrez. L'assertion SAML suivante inclut un attribut `groups` contenant un ou plusieurs GUID.
+
+### Mapper les GUID aux rôles Mintie
+
+Dans Mintie, ouvrez la connexion Entra ID connectée et modifiez **Mappage de
+groupes**. Chaque ligne associe un identifiant d'objet de groupe Entra à un
+rôle Mintie.
+
+| Nom du groupe Entra (pour référence) | ID d'objet du groupe | Rôle Mintie |
+| --- | --- | --- |
+| `mintie-admins` | `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f` | `admin` |
+| `mintie-editors` | `a12b34c5-d6e7-48f9-a0b1-c2d3e4f56789` | `editor` |
+| `mintie-viewers` | `12345678-90ab-cdef-1234-567890abcdef` | `viewer` |
+
+Vous trouverez l'ID d'objet de chaque groupe dans **Centre d'administration
+Entra → Groupes → [groupe] → Vue d'ensemble → Object ID**.
+
+<Note>
+  L'appartenance à des groupes imbriqués n'est pas développée par défaut dans
+  le claim SAML `groups`. Si un utilisateur obtient son accès via un groupe
+  de groupes, ajoutez le groupe parent à l'assignation de l'application
+  d'entreprise ou émettez les groupes transitifs.
+</Note>
+
+### Exemple pratique
+
+Un utilisateur est membre du groupe de sécurité Entra `mintie-admins` (ID
+d'objet `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f`). À la connexion, Entra
+envoie ce claim :
+
+```xml
+<saml:Attribute Name="http://schemas.microsoft.com/ws/2008/06/identity/claims/groups">
+  <saml:AttributeValue>7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f</saml:AttributeValue>
+</saml:Attribute>
+```
+
+Mintie recherche `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f` dans la table de
+mappage, trouve le rôle `admin` et l'attribue à la session. Si un GUID n'a
+pas de mappage, Mintie utilise le **Rôle par défaut** de la connexion.
+
+### Alternative : SAML générique
+
+Si vous ne pouvez pas utiliser le connecteur dédié, le [connecteur SAML générique](/fr/setup/generic-saml) accepte les mêmes valeurs Entra :
+
+| Champ Mintie | Où le trouver dans Entra |
+| --- | --- |
+| URL de métadonnées | Application d'entreprise → Authentification unique → Certificats SAML → URL des métadonnées de fédération de l'application |
+| Entity ID (émetteur) | Application d'entreprise → Authentification unique → Configuration SAML de base → Identificateur |
+| URL de connexion | Application d'entreprise → Authentification unique → Configurer Mintie → URL de connexion |
+| Certificat de signature | Application d'entreprise → Authentification unique → Certificats SAML → Certificat (Base64) |

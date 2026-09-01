@@ -28,6 +28,10 @@ From the empty state, choose your provider:
     Enter your primary domain and approve the SSO and Directory Sync scopes
     as a Google super-admin.
   </Card>
+  <Card title="Microsoft Entra ID" icon="microsoft" href="/setup/entra-id">
+    Paste the federation metadata URL from your Entra enterprise app and map
+    security group GUIDs to Mintie roles.
+  </Card>
   <Card title="Generic SAML" icon="file-import" href="/setup/generic-saml">
     Any SAML 2.0 IdP. Provide a metadata URL or paste the metadata XML.
   </Card>
@@ -44,6 +48,7 @@ Each provider opens a guided form. When you submit, Mintie creates the connectio
 | --- | --- |
 | Okta | Metadata URL **or** metadata XML |
 | Google Workspace | Primary domain (for example, `acme.com`) |
+| Microsoft Entra ID | Federation metadata URL |
 | Generic SAML | Metadata URL **or** metadata XML (exactly one) |
 | Generic OIDC | Issuer URL, client ID, client secret |
 

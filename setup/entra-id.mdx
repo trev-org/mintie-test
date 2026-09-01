@@ -1,0 +1,130 @@
+---
+title: "Microsoft Entra ID"
+description: "Connect Microsoft Entra ID as your identity provider for Mintie"
+---
+
+The dedicated Entra ID connector is available from **Settings → Auth → SSO**. Pick **Microsoft Entra ID** in the provider picker, paste the federation metadata URL from your Entra enterprise app, and click **Connect**. See [Enable SSO](/setup/enable-sso) for the full walkthrough.
+
+## What the connector offers
+
+<CardGroup cols={2}>
+  <Card title="Federation metadata URL" icon="file-import">
+    Paste the app federation metadata URL from your Entra enterprise app. No
+    manual entity ID, reply URL, or signing certificate copy-paste.
+  </Card>
+  <Card title="Group claim mapping" icon="users-rectangle">
+    Map Entra security group object ids (GUIDs) to Mintie roles. Entra emits
+    GUIDs in the `groups` claim by design.
+  </Card>
+  <Card title="Conditional Access compatible" icon="shield-halved">
+    Works alongside Conditional Access policies scoped to the Mintie
+    enterprise app.
+  </Card>
+  <Card title="SCIM-ready" icon="arrows-rotate">
+    Pairs with [SCIM 2.0 provisioning](/provisioning/scim) for auto-provision
+    and deprovision from Entra ID.
+  </Card>
+</CardGroup>
+
+## Connect Entra ID
+
+Prerequisites:
+
+- A user with the **Cloud Application Administrator** or **Application Administrator** role in Entra ID.
+- Org admin access to Mintie.
+
+<Steps>
+  <Step title="Create the enterprise app in the Entra admin center">
+    In the [Entra admin center](https://entra.microsoft.com), go to
+    **Identity → Applications → Enterprise applications → New application → Create your own application**.
+    Name it `Mintie` and choose **Integrate any other application you don't
+    find in the gallery (Non-gallery)**.
+  </Step>
+  <Step title="Configure SAML single sign-on">
+    Open the new app, go to **Single sign-on**, and pick **SAML**. Set:
+
+    - **Identifier (Entity ID):** `https://app.mintie.example/sso/saml`
+    - **Reply URL (ACS):** `https://app.mintie.example/api/auth/sso/callback`
+  </Step>
+  <Step title="Copy the federation metadata URL">
+    On the same SAML page, in **SAML Certificates**, copy the **App
+    Federation Metadata Url**.
+  </Step>
+  <Step title="Paste it into Mintie">
+    In Mintie, go to **Settings → Auth → SSO**, choose **Microsoft Entra ID**,
+    paste the federation metadata URL, and click **Connect**.
+  </Step>
+  <Step title="Assign users and groups">
+    Back in the Entra app, open **Users and groups** and assign the users or
+    security groups that should reach Mintie. Only assigned principals can
+    sign in.
+  </Step>
+  <Step title="Run a test sign-in">
+    Click **Test sign-in** in Mintie to confirm the round-trip works before
+    you turn on [Require SSO](/setup/enable-sso#require-sso-for-your-org).
+  </Step>
+</Steps>
+
+## Group mapping
+
+Entra ID does not put group names in the SAML `groups` claim. It emits the
+**object id (GUID)** of each security group the user belongs to. Mintie
+matches those GUIDs against a mapping table to assign roles.
+
+### Emit the groups claim
+
+In the Entra app's **Single sign-on** page, edit **Attributes & Claims** and
+add a group claim:
+
+- **Which groups:** Security groups (or Groups assigned to the application, if you have Entra ID P1 and want to scope the claim).
+- **Source attribute:** Group ID.
+- **Name:** `groups`.
+
+Save. The next SAML assertion carries a `groups` attribute containing one or
+more GUIDs.
+
+### Map GUIDs to Mintie roles
+
+In Mintie, open the connected Entra ID connection and edit **Group mapping**.
+Each row maps one Entra group object id to one Mintie role.
+
+| Entra group name (for your reference) | Entra group object id | Mintie role |
+| --- | --- | --- |
+| `mintie-admins` | `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f` | `admin` |
+| `mintie-editors` | `a12b34c5-d6e7-48f9-a0b1-c2d3e4f56789` | `editor` |
+| `mintie-viewers` | `12345678-90ab-cdef-1234-567890abcdef` | `viewer` |
+
+You can find each group's object id in **Entra admin center → Groups →
+[group] → Overview → Object ID**.
+
+<Note>
+  Nested group membership is not expanded in the SAML `groups` claim by
+  default. If a user gets their access through a group of groups, add the
+  parent group to the enterprise app assignment or emit transitive groups.
+</Note>
+
+### Worked example
+
+A user is a member of the Entra security group `mintie-admins` (object id
+`7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f`). At sign-in, Entra sends this claim:
+
+```xml
+<saml:Attribute Name="http://schemas.microsoft.com/ws/2008/06/identity/claims/groups">
+  <saml:AttributeValue>7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f</saml:AttributeValue>
+</saml:Attribute>
+```
+
+Mintie looks up `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f` in the mapping table,
+finds the `admin` role, and assigns it to the session. If a GUID has no
+mapping, Mintie falls back to the connection's **Default role**.
+
+### Fall back to generic SAML
+
+If you can't use the dedicated connector, the [generic SAML connector](/setup/generic-saml) accepts the same Entra values:
+
+| Mintie field | Where to find it in Entra |
+| --- | --- |
+| Metadata URL | Enterprise app → Single sign-on → SAML Certificates → App Federation Metadata Url |
+| Entity ID (issuer) | Enterprise app → Single sign-on → Basic SAML Configuration → Identifier |
+| Login URL | Enterprise app → Single sign-on → Set up Mintie → Login URL |
+| Signing certificate | Enterprise app → Single sign-on → SAML Certificates → Certificate (Base64) |

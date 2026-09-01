@@ -46,6 +46,15 @@ Le flux SSO de Mintie est basé sur OIDC par défaut. Les fournisseurs SAML sont
   </Card>
 </CardGroup>
 
+## Fournisseurs pris en charge
+
+Mintie fournit des connecteurs dédiés pour les fournisseurs d'identité ci-dessous. Chaque connecteur produit le même callback de forme OIDC décrit ci-dessus.
+
+- [Okta](/fr/setup/okta) — SAML 2.0 via URL ou XML de métadonnées.
+- [Google Workspace](/fr/setup/google-workspace) — connexion OAuth administrateur avec Directory Sync.
+- [Microsoft Entra ID](/fr/setup/entra-id) — SAML 2.0 via URL des métadonnées de fédération, avec mappage de groupes basé sur les GUID.
+- [SAML / OIDC générique](/fr/setup/generic-saml) — tout IdP conforme aux standards.
+
 ## Garanties de sécurité
 
 - Les ID tokens sont vérifiés cryptographiquement par rapport au JWKS de l'IdP
