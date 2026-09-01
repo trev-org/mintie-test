@@ -1,0 +1,114 @@
+---
+title: "Verify a domain"
+description: "Claim an email domain and verify it with DNS so email-first sign-in routes your users to your IdP"
+---
+
+Email-first sign-in only routes a user to your organization's IdP after you claim their email domain and verify it with a DNS TXT record. Unverified claims are ignored, so a hostile org cannot capture sign-ins for a domain it does not own.
+
+## Prerequisites
+
+- You're an org admin in Mintie
+- You have an IdP connected in **Settings → Auth → SSO** — see [Enable SSO](/setup/enable-sso)
+- You can create a TXT record at your domain's DNS provider
+
+## Claim a domain
+
+1. Go to **Settings → Auth → SSO** (`/settings/auth/sso`) and open the **Domains** section.
+2. Click **Add domain** and enter the domain you want to claim (for example, `acme.com`).
+3. Mintie generates a verification token and shows the exact TXT record you need to publish.
+
+Claiming records an `sso.domain.claim` event in the [audit log](/security/audit-logs). The claim starts as `pending` and does not affect sign-in routing until it is verified.
+
+<Note>
+  Public email providers (`gmail.com`, `outlook.com`, `yahoo.com`, and similar shared providers) cannot be claimed. The form returns `400 { "code": "public_domain" }` if you try.
+</Note>
+
+## Add the DNS TXT record
+
+At your DNS provider, create a TXT record on the apex of the domain you are claiming:
+
+| Field | Value |
+| --- | --- |
+| Host / Name | `@` (the apex, for example `acme.com`) |
+| Type | `TXT` |
+| Value | `mintie-verify=<token>` |
+| TTL | Any value; a low TTL like 300 seconds speeds up first verification |
+
+The token is unique per claim. If you remove and re-add the domain, Mintie issues a new token and the old TXT record no longer verifies.
+
+## Wait for verification
+
+A background job polls DNS for each `pending` domain every 5 minutes. When it finds a matching `mintie-verify=<token>` record, Mintie stamps `verified_at`, flips the status to `Verified`, and writes an `sso.domain.verify` event.
+
+The Domains section shows one of three statuses:
+
+- **Pending** — Mintie has not yet observed the TXT record.
+- **Verified** — the TXT record was found; email-first lookup now routes this domain.
+- **Failed** — the TXT record was not found within 72 hours. Republish the record and click **Retry verification** to re-queue the check.
+
+You can trigger a check immediately from the row's **Verify now** action instead of waiting for the next poll.
+
+## What verification changes
+
+Once a domain is verified, `orgFromEmail()` resolves any email on that domain to your org. Users who type `alice@acme.com` on `/login` are redirected to your IdP without seeing the "Continue with SSO" fallback. See [How SSO works](/concepts/how-sso-works) for the full flow.
+
+A domain can only be verified for one org at a time. If another org has already verified the same domain, the claim is rejected with `409 { "code": "domain_taken" }`.
+
+## Remove a domain
+
+Click **Remove** on the domain row and confirm. Mintie:
+
+1. Deletes the row from `org_domains`.
+2. Stops routing that domain's emails to your IdP on the next sign-in.
+3. Writes an `sso.domain.remove` event to the [audit log](/security/audit-logs).
+
+The TXT record at your DNS provider is not touched. Delete it yourself if you no longer want the claim signal published.
+
+## Troubleshooting propagation
+
+If a domain stays `Pending` for more than a few minutes:
+
+<AccordionGroup>
+  <Accordion title="Confirm the TXT record is live">
+    Run `dig TXT acme.com +short` (or your provider's dashboard) and check that the response includes `"mintie-verify=<token>"` with the exact token Mintie showed you. Quotes are optional; whitespace inside the value is not.
+  </Accordion>
+  <Accordion title="Publish on the apex, not a subdomain">
+    The record must be on the apex of the claimed domain. A record on `_mintie.acme.com` or `www.acme.com` will not verify a claim for `acme.com`.
+  </Accordion>
+  <Accordion title="Wait out the previous TTL">
+    If you previously published a different `mintie-verify=` value at the same host, resolvers may still return the old value until the old TTL expires. Lower the TTL before you make changes so the next update propagates quickly.
+  </Accordion>
+  <Accordion title="Retry after republishing">
+    After fixing the record, use **Verify now** on the row. The scheduled poll runs every 5 minutes; a manual retry is instant.
+  </Accordion>
+</AccordionGroup>
+
+## Admin API
+
+The Domains section calls the same admin endpoints you can drive from server-to-server automation. All endpoints require an admin session for the calling org.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/auth/admin/sso/domains` | List domains claimed by the org with status and `verifiedAt`. |
+| `POST` | `/api/auth/admin/sso/domains` | Claim a domain. Body: `{ "domain": "acme.com" }`. Returns the verification token. |
+| `POST` | `/api/auth/admin/sso/domains/{domain}/verify` | Force an immediate DNS check for a pending domain. |
+| `DELETE` | `/api/auth/admin/sso/domains/{domain}` | Remove a claimed domain. |
+
+### Example: claim a domain
+
+```bash
+curl -X POST https://app.mintie.example/api/auth/admin/sso/domains \
+  -H "content-type: application/json" \
+  --cookie "$ADMIN_COOKIE" \
+  -d '{ "domain": "acme.com" }'
+```
+
+```json
+{
+  "domain": "acme.com",
+  "status": "pending",
+  "verificationToken": "3f9a...c1",
+  "txtRecord": "mintie-verify=3f9a...c1",
+  "createdAt": "2026-08-20T20:47:17.000Z"
+}
+```

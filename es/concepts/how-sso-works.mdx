@@ -9,8 +9,13 @@ El flujo de SSO de Mintie está basado en OIDC por defecto. Los proveedores SAML
 
 <Steps>
   <Step title="El usuario introduce su correo electrónico en /login">
-    El frontend llama a `/api/auth/idp-lookup` con el dominio del correo electrónico. Si
-    la organización tiene SSO habilitado, la respuesta incluye una URL de redirección al IdP.
+    El frontend llama a `/api/auth/idp-lookup` con el dominio del correo electrónico.
+    `orgFromEmail()` resuelve el dominio contra entradas **verificadas** en
+    `org_domains` únicamente. Si existe una coincidencia verificada y esa
+    organización tiene SSO habilitado, la respuesta incluye una URL de
+    redirección al IdP; los dominios no verificados o no reclamados caen
+    al formulario de contraseña. Consulta
+    [Verificar un dominio](/es/setup/domain-verification).
   </Step>
   <Step title="El usuario se autentica en el IdP">
     Mintie nunca ve la contraseña. El IdP redirige de vuelta a

@@ -1,0 +1,114 @@
+---
+title: "Vérifier un domaine"
+description: "Revendiquez un domaine d'e-mail et vérifiez-le via DNS pour que la connexion par e-mail redirige vos utilisateurs vers votre IdP"
+---
+
+La connexion par e-mail ne redirige un utilisateur vers l'IdP de votre organisation qu'après que vous ayez revendiqué son domaine d'e-mail et l'ayez vérifié via un enregistrement DNS TXT. Les revendications non vérifiées sont ignorées : une organisation malveillante ne peut donc pas capturer les connexions d'un domaine qui ne lui appartient pas.
+
+## Prérequis
+
+- Vous êtes administrateur de l'organisation dans Mintie
+- Un IdP est connecté dans **Paramètres → Authentification → SSO** ; voir [Activer le SSO](/fr/setup/enable-sso)
+- Vous pouvez créer un enregistrement TXT chez le fournisseur DNS de votre domaine
+
+## Revendiquer un domaine
+
+1. Allez dans **Paramètres → Authentification → SSO** (`/settings/auth/sso`) et ouvrez la section **Domaines**.
+2. Cliquez sur **Ajouter un domaine** et saisissez le domaine à revendiquer (par exemple, `acme.com`).
+3. Mintie génère un jeton de vérification et affiche l'enregistrement TXT exact à publier.
+
+Revendiquer inscrit un événement `sso.domain.claim` dans le [journal d'audit](/fr/security/audit-logs). La revendication démarre à l'état `pending` et n'affecte pas le routage de connexion tant qu'elle n'est pas vérifiée.
+
+<Note>
+  Les fournisseurs d'e-mail publics (`gmail.com`, `outlook.com`, `yahoo.com` et autres fournisseurs partagés similaires) ne peuvent pas être revendiqués. Le formulaire renvoie `400 { "code": "public_domain" }` si vous essayez.
+</Note>
+
+## Ajouter l'enregistrement DNS TXT
+
+Chez votre fournisseur DNS, créez un enregistrement TXT sur l'apex du domaine que vous revendiquez :
+
+| Champ | Valeur |
+| --- | --- |
+| Hôte / Nom | `@` (l'apex, par exemple `acme.com`) |
+| Type | `TXT` |
+| Valeur | `mintie-verify=<token>` |
+| TTL | Toute valeur ; un TTL faible comme 300 secondes accélère la première vérification |
+
+Le jeton est unique par revendication. Si vous supprimez puis rajoutez le domaine, Mintie émet un nouveau jeton et l'ancien enregistrement TXT ne vérifie plus.
+
+## Attendre la vérification
+
+Un job en arrière-plan interroge le DNS pour chaque domaine `pending` toutes les 5 minutes. Lorsqu'il trouve un enregistrement `mintie-verify=<token>` correspondant, Mintie estampille `verified_at`, bascule le statut sur `Verified` et écrit un événement `sso.domain.verify`.
+
+La section Domaines affiche l'un des trois statuts :
+
+- **Pending** — Mintie n'a pas encore observé l'enregistrement TXT.
+- **Verified** — l'enregistrement TXT a été trouvé ; la recherche par e-mail redirige désormais ce domaine.
+- **Failed** — l'enregistrement TXT n'a pas été trouvé sous 72 heures. Republiez l'enregistrement et cliquez sur **Réessayer la vérification** pour remettre la vérification en file d'attente.
+
+Vous pouvez déclencher immédiatement une vérification via l'action **Vérifier maintenant** de la ligne au lieu d'attendre le prochain sondage.
+
+## Ce que change la vérification
+
+Une fois un domaine vérifié, `orgFromEmail()` résout tout e-mail sur ce domaine vers votre organisation. Les utilisateurs qui saisissent `alice@acme.com` sur `/login` sont redirigés vers votre IdP sans voir le repli « Continuer avec le SSO ». Voir [Comment fonctionne le SSO](/fr/concepts/how-sso-works) pour le flux complet.
+
+Un domaine ne peut être vérifié que pour une seule organisation à la fois. Si une autre organisation a déjà vérifié le même domaine, la revendication est rejetée avec `409 { "code": "domain_taken" }`.
+
+## Supprimer un domaine
+
+Cliquez sur **Supprimer** sur la ligne du domaine et confirmez. Mintie :
+
+1. Supprime la ligne de `org_domains`.
+2. Arrête de router les e-mails de ce domaine vers votre IdP à la prochaine connexion.
+3. Écrit un événement `sso.domain.remove` dans le [journal d'audit](/fr/security/audit-logs).
+
+L'enregistrement TXT chez votre fournisseur DNS n'est pas modifié. Supprimez-le vous-même si vous ne voulez plus publier le signal de revendication.
+
+## Dépannage de la propagation
+
+Si un domaine reste `Pending` plus de quelques minutes :
+
+<AccordionGroup>
+  <Accordion title="Confirmez que l'enregistrement TXT est publié">
+    Lancez `dig TXT acme.com +short` (ou consultez le tableau de bord de votre fournisseur) et vérifiez que la réponse inclut `"mintie-verify=<token>"` avec le jeton exact affiché par Mintie. Les guillemets sont optionnels ; les espaces à l'intérieur de la valeur ne le sont pas.
+  </Accordion>
+  <Accordion title="Publiez sur l'apex, pas sur un sous-domaine">
+    L'enregistrement doit se trouver sur l'apex du domaine revendiqué. Un enregistrement sur `_mintie.acme.com` ou `www.acme.com` ne vérifiera pas une revendication pour `acme.com`.
+  </Accordion>
+  <Accordion title="Attendez l'expiration du TTL précédent">
+    Si vous aviez publié auparavant une autre valeur `mintie-verify=` sur le même hôte, les résolveurs peuvent continuer à renvoyer l'ancienne valeur jusqu'à l'expiration de l'ancien TTL. Baissez le TTL avant tout changement pour que la mise à jour suivante se propage vite.
+  </Accordion>
+  <Accordion title="Réessayez après republication">
+    Après avoir corrigé l'enregistrement, utilisez **Vérifier maintenant** sur la ligne. Le sondage planifié tourne toutes les 5 minutes ; un réessai manuel est instantané.
+  </Accordion>
+</AccordionGroup>
+
+## API d'administration
+
+La section Domaines appelle les mêmes endpoints d'administration que vous pouvez piloter depuis une automatisation serveur-à-serveur. Tous les endpoints requièrent une session d'administrateur pour l'organisation appelante.
+
+| Méthode | Chemin | Rôle |
+| --- | --- | --- |
+| `GET` | `/api/auth/admin/sso/domains` | Liste les domaines revendiqués par l'organisation avec statut et `verifiedAt`. |
+| `POST` | `/api/auth/admin/sso/domains` | Revendique un domaine. Corps : `{ "domain": "acme.com" }`. Renvoie le jeton de vérification. |
+| `POST` | `/api/auth/admin/sso/domains/{domain}/verify` | Force une vérification DNS immédiate pour un domaine en attente. |
+| `DELETE` | `/api/auth/admin/sso/domains/{domain}` | Supprime un domaine revendiqué. |
+
+### Exemple : revendiquer un domaine
+
+```bash
+curl -X POST https://app.mintie.example/api/auth/admin/sso/domains \
+  -H "content-type: application/json" \
+  --cookie "$ADMIN_COOKIE" \
+  -d '{ "domain": "acme.com" }'
+```
+
+```json
+{
+  "domain": "acme.com",
+  "status": "pending",
+  "verificationToken": "3f9a...c1",
+  "txtRecord": "mintie-verify=3f9a...c1",
+  "createdAt": "2026-08-20T20:47:17.000Z"
+}
+```
