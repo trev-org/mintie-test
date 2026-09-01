@@ -1,0 +1,97 @@
+---
+title: "Self-hosted GitLab"
+description: "Connect Mintie to a GitLab instance you host yourself, including on-prem and VPC deployments"
+---
+
+The self-hosted GitLab connector works against any GitLab instance you operate — on-prem, in a VPC, or behind a private CA. Unlike the [GitLab Cloud](/git-integrations/gitlab) connector, it does **not** assume `gitlab.com` and supports per-workspace instance URLs and custom certificate authorities.
+
+<Info>
+  This connector requires the **Enterprise** plan. The OAuth flow runs server-to-server through Mintie's egress IPs — see [Network requirements](#network-requirements).
+</Info>
+
+## What you need
+
+| Item | Where to get it |
+| --- | --- |
+| Instance URL | The base URL of your GitLab, e.g. `https://gitlab.acme.internal` |
+| OAuth application | Created in GitLab → **Admin Area → Applications** |
+| Application ID + Secret | Generated when you create the OAuth app |
+| Redirect URI | `https://app.mintie.example/auth/gitlab/callback/<workspace-id>` |
+| (Optional) Custom CA bundle | PEM-encoded CA chain if your GitLab uses a private CA |
+
+## Create the GitLab OAuth application
+
+<Steps>
+  <Step title="Open Admin Area → Applications">
+    Sign in to GitLab as a user with **Admin** rights and go to **Admin Area → Applications → New application**.
+  </Step>
+  <Step title="Configure the app">
+    Set:
+    - **Name:** `Mintie`
+    - **Redirect URI:** Copy the URI shown on the Mintie integration page (it includes your workspace ID).
+    - **Trusted:** Checked. Skips the per-user consent screen for your team.
+    - **Confidential:** Checked.
+    - **Scopes:** `read_repository`, `read_user`, `api`.
+  </Step>
+  <Step title="Save the Application ID and Secret">
+    GitLab shows the **Application ID** and **Secret** once. Copy both into the Mintie integrations page.
+  </Step>
+</Steps>
+
+## Connect Mintie to your GitLab
+
+<Steps>
+  <Step title="Open the integrations page">
+    In Mintie, go to **Settings → Integrations → Git** and pick **Self-hosted GitLab**.
+  </Step>
+  <Step title="Enter your instance details">
+    Fill in:
+    - **Instance URL** (e.g. `https://gitlab.acme.internal`)
+    - **Application ID**
+    - **Application Secret**
+    - **Custom CA bundle** — only if your instance uses a private CA. Paste the PEM-encoded chain.
+  </Step>
+  <Step title="Authorize">
+    Click **Authorize**. Mintie redirects to your GitLab instance — not to gitlab.com — to complete the OAuth handshake.
+  </Step>
+  <Step title="Pick the project and confirm the webhook">
+    Choose the project from the list. Mintie installs a project webhook over HTTPS and the page should show **Webhook: healthy** within seconds.
+  </Step>
+</Steps>
+
+## Network requirements
+
+Mintie's build and webhook workers must be able to reach your GitLab instance. Allow inbound and outbound HTTPS between:
+
+| Direction | Source | Destination | Purpose |
+| --- | --- | --- | --- |
+| Mintie → GitLab | Mintie egress range (see Settings) | Your GitLab `:443` | Clone, API, OAuth token exchange |
+| GitLab → Mintie | Your GitLab egress | `https://hooks.mintie.example` | Webhook delivery |
+
+If your GitLab is fully air-gapped, contact support — Mintie can deploy a regional runner inside your VPC.
+
+## Custom certificate authorities
+
+If your GitLab uses a private CA, paste the full PEM chain into the **Custom CA bundle** field. Mintie's clone and API clients trust this chain in addition to the public root store. The CA bundle is encrypted at rest with a workspace-scoped key.
+
+<Warning>
+  Self-signed certs without a chain are rejected. Generate a proper internal CA and intermediates first.
+</Warning>
+
+## SAML-protected GitLab
+
+If your GitLab instance enforces SAML SSO, you must mark the Mintie OAuth application as **Trusted** so the bot user can complete the flow without bouncing through the IdP. SAML-enforced flows without **Trusted** are not currently supported — see the [PRD](https://mintie-test.atlassian.net/wiki/spaces/OOP/pages/2260993) for v2 plans.
+
+## Troubleshooting
+
+### "redirect_uri does not match"
+
+The redirect URI in your GitLab OAuth app must match the URI shown on Mintie's integration page exactly, including the workspace ID suffix. Re-copy it and save.
+
+### "x509: certificate signed by unknown authority"
+
+Your GitLab uses a private CA. Paste the PEM chain into **Custom CA bundle** and reconnect.
+
+### Webhook delivery fails
+
+Check **Admin Area → System Hooks → Recent events** in GitLab. A `5xx` from Mintie usually means the webhook secret rotated — click **Reinstall webhook** in Mintie. A timeout means GitLab can't reach `hooks.mintie.example`; check your egress firewall.
