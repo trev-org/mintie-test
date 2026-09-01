@@ -93,6 +93,10 @@
                   "migration/user-comms",
                   "migration/faq"
                 ]
+              },
+              {
+                "group": "Guides",
+                "pages": ["guides/expand-agent-autonomy"]
               }
             ]
           },
