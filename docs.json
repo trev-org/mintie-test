@@ -72,6 +72,7 @@
                 "pages": [
                   "provisioning/overview",
                   "provisioning/scim",
+                  "provisioning/group-role-mapping",
                   "provisioning/jit"
                 ]
               },
@@ -228,6 +229,7 @@
                 "pages": [
                   "es/provisioning/overview",
                   "es/provisioning/scim",
+                  "es/provisioning/group-role-mapping",
                   "es/provisioning/jit"
                 ]
               },
@@ -332,6 +334,7 @@
                 "pages": [
                   "fr/provisioning/overview",
                   "fr/provisioning/scim",
+                  "fr/provisioning/group-role-mapping",
                   "fr/provisioning/jit"
                 ]
               },

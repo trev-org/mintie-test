@@ -1,0 +1,92 @@
+---
+title: "Mapeo de grupos a roles"
+description: "Asigna grupos del IdP a roles de Mintie para que la sincronización de grupos SCIM otorgue el acceso correcto"
+---
+
+<Warning>
+  **Próximamente.** El mapeo de grupos a roles se lanza junto con SCIM 2.0. El
+  comportamiento documentado aquí es la especificación planificada.
+</Warning>
+
+La sincronización de grupos SCIM crea y actualiza grupos en Mintie, pero un grupo por sí solo no otorga acceso. Cada organización de Mintie mantiene un mapeo entre grupos del IdP y roles de Mintie. Cuando un usuario entra o sale de un grupo mapeado, Mintie recalcula el rol efectivo del usuario.
+
+## Roles
+
+Mintie tiene tres roles:
+
+| Rol | Propósito |
+| --- | --- |
+| `admin` | Acceso total a la organización, incluidos los ajustes de SSO y SCIM. |
+| `member` | Acceso de lectura y escritura a los datos del producto. |
+| `viewer` | Acceso de solo lectura. |
+
+## Configura el mapeo
+
+Requisitos previos:
+
+- SSO está habilitado para la organización.
+- SCIM está configurado y al menos un grupo ha sido enviado desde el IdP.
+- Has iniciado sesión como `admin` de Mintie.
+
+<Steps>
+  <Step title="Abre la tabla de mapeo">
+    Ve a **Configuración → Autenticación → SSO → Mapeo de grupos a roles**.
+  </Step>
+  <Step title="Añade una fila">
+    Elige un grupo sincronizado del IdP en el desplegable y escoge el rol de
+    Mintie que otorga. El desplegable lista los grupos que Mintie ya recibió por SCIM.
+  </Step>
+  <Step title="Guarda">
+    Guarda la fila. Mintie recalcula el rol efectivo de cada miembro del grupo
+    en la siguiente sincronización.
+  </Step>
+</Steps>
+
+Las filas son por organización. Eliminar una fila no borra el grupo en Mintie; solo hace que el grupo deje de otorgar un rol.
+
+## Precedencia con varios grupos
+
+Un usuario puede pertenecer a más de un grupo mapeado. Mintie resuelve el rol efectivo eligiendo el rol **más alto** entre todos los grupos mapeados del usuario. El orden, de mayor a menor, es:
+
+1. `admin`
+2. `member`
+3. `viewer`
+
+Ejemplos:
+
+- Un usuario en `eng-all` (mapeado a `member`) y `sso-admins` (mapeado a `admin`) queda como `admin`.
+- Un usuario en `eng-all` (mapeado a `member`) y `contractors` (mapeado a `viewer`) queda como `member`.
+- Un usuario solo en `contractors` (mapeado a `viewer`) queda como `viewer`.
+
+Cuando se quita a un usuario de un grupo mapeado, Mintie recalcula sobre los grupos mapeados restantes. Si no queda ninguno, el usuario conserva la cuenta pero se degrada a `viewer`.
+
+## Ejemplo con Okta
+
+Okta envía los **nombres** de los grupos en el atributo SCIM `displayName`. Mapea directamente por el nombre del grupo.
+
+1. En Okta, envía el grupo `sso-admins` a Mintie a través de la aplicación SCIM.
+2. En Mintie, abre **Configuración → Autenticación → SSO → Mapeo de grupos a roles**.
+3. Añade una fila: `sso-admins` → `admin`.
+4. Agrega usuarios a `sso-admins` en Okta. En la siguiente sincronización, cada usuario pasa a ser admin en Mintie.
+
+## Ejemplo con Microsoft Entra ID
+
+Entra envía **GUIDs** de grupos, no nombres, en los atributos SCIM `externalId` y `displayName`. La tabla de mapeo coincide con el valor que envía Entra, así que selecciona el grupo por GUID.
+
+1. En Entra, añade el grupo `SSO Admins` al alcance de aprovisionamiento de Mintie.
+2. Espera a la primera sincronización para que Mintie haya recibido el grupo. El desplegable del mapeo mostrará el grupo por su GUID (por ejemplo, `b7d8f6e2-1c4a-4e0f-9c2a-3f2f0b7d8f6e`), con el nombre visible como pista.
+3. Añade una fila: `b7d8f6e2-1c4a-4e0f-9c2a-3f2f0b7d8f6e` → `admin`.
+4. Agrega usuarios a `SSO Admins` en Entra. En la siguiente sincronización, cada usuario pasa a ser admin en Mintie.
+
+<Note>
+  Si renombras un grupo de Entra, el GUID no cambia y el mapeo sigue
+  funcionando. Si eliminas y vuelves a crear el grupo, obtienes un GUID
+  nuevo y tienes que añadir una nueva fila de mapeo.
+</Note>
+
+## Eventos de auditoría
+
+La sincronización de grupos y los cambios en el mapeo emiten eventos de auditoría dedicados. Consulta [registros de auditoría](/es/security/audit-logs) para el esquema completo.
+
+- `scim.group.provisioned` — un grupo se creó, actualizó o borró lógicamente vía SCIM.
+- `scim.group.membership_changed` — uno o más usuarios se añadieron o quitaron de un grupo, con la lista de identificadores de usuario afectados y el rol resultante para cada uno.

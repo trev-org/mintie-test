@@ -26,8 +26,22 @@ La URL base es `https://app.mintie.example/scim/v2`.
 | `DELETE` | `/Users/{id}` | Borrado lógico de un usuario |
 | `GET` | `/Groups` | Lista grupos |
 | `POST` | `/Groups` | Crea un grupo |
-| `PATCH` | `/Groups/{id}` | Actualiza la pertenencia a un grupo |
+| `GET` | `/Groups/{id}` | Obtiene un grupo |
+| `PATCH` | `/Groups/{id}` | Actualiza un grupo (nombre y pertenencia) |
+| `PUT` | `/Groups/{id}` | Reemplaza un grupo |
 | `DELETE` | `/Groups/{id}` | Borrado lógico de un grupo |
+
+### Operaciones PATCH de Groups
+
+`PATCH /Groups/{id}` acepta las operaciones estándar de SCIM 2.0 sobre el atributo `members`:
+
+| Op | Efecto |
+| --- | --- |
+| `add` | Agrega los usuarios indicados al grupo. |
+| `remove` | Quita los usuarios indicados del grupo. Admite una ruta filtrada (`members[value eq "<userId>"]`) o una lista de valores en `members`. |
+| `replace` | Reemplaza todo el conjunto de miembros por la lista proporcionada. |
+
+Cada cambio de pertenencia dispara un recálculo del rol de cada usuario afectado. Consulta [Mapeo de grupos a roles](/es/provisioning/group-role-mapping) para ver cómo se resuelven las pertenencias en roles de Mintie.
 
 ## Autenticación
 
@@ -44,7 +58,11 @@ Authorization: Bearer scim_live_<token>
 
 ## Semántica del borrado lógico
 
-`DELETE /Users/{id}` **no** elimina la fila. Establece `deactivated_at = now()` y revoca todas las sesiones. La fila se conserva para fines de auditoría: consulta [registros de auditoría](/es/security/audit-logs).
+`DELETE /Users/{id}` **no** elimina la fila. Establece `deactivated_at = now()` y revoca todas las sesiones. La fila se conserva para fines de auditoría.
+
+`DELETE /Groups/{id}` se comporta igual. La fila del grupo se conserva con `deactivated_at = now()`, se limpia su lista de miembros y se recalcula el rol efectivo de cada usuario que pertenecía al grupo. Eliminar un grupo nunca elimina a sus miembros.
+
+Consulta [registros de auditoría](/es/security/audit-logs) para ver los eventos que emiten estas operaciones, incluidos `scim.group.provisioned` y `scim.group.membership_changed`.
 
 ## Conformidad
 
