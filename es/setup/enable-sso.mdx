@@ -24,6 +24,10 @@ Desde el estado vacío, elige tu proveedor:
   <Card title="Okta" icon="plug" href="/es/setup/okta">
     Pega una URL de metadatos o sube el XML de metadatos de tu app SAML de Okta.
   </Card>
+  <Card title="Microsoft Entra ID" icon="microsoft" href="/es/setup/entra-id">
+    Pega una URL de metadatos de federación o sube el XML de metadatos de tu
+    app empresarial de Entra ID.
+  </Card>
   <Card title="Google Workspace" icon="google" href="/es/setup/google-workspace">
     Introduce tu dominio principal y aprueba los scopes de SSO y Directory Sync
     como super-administrador de Google.
@@ -43,6 +47,7 @@ Cada proveedor abre un formulario guiado. Al enviarlo, Mintie crea la conexión 
 | Proveedor | Campos requeridos |
 | --- | --- |
 | Okta | URL de metadatos **o** XML de metadatos |
+| Microsoft Entra ID | URL de metadatos **o** XML de metadatos |
 | Google Workspace | Dominio principal (por ejemplo, `acme.com`) |
 | SAML genérico | URL de metadatos **o** XML de metadatos (exactamente uno) |
 | OIDC genérico | URL del issuer, client ID, client secret |
@@ -114,6 +119,7 @@ La página de configuración llama a un pequeño conjunto de endpoints de admini
 | --- | --- | --- |
 | `GET` | `/api/auth/admin/sso/status` | Lee el estado actual de la conexión, el proveedor y el flag `ssoRequired`. |
 | `POST` | `/api/auth/admin/sso/okta` | Conecta Okta con `metadataUrl` o `metadataXml`. |
+| `POST` | `/api/auth/admin/sso/entra-id` | Conecta Microsoft Entra ID con `metadataUrl` o `metadataXml`. |
 | `POST` | `/api/auth/admin/sso/google` | Conecta Google Workspace con `{ "domain": "acme.com" }`. |
 | `POST` | `/api/auth/admin/sso/saml` | Conecta un IdP SAML genérico con `metadataUrl` o `metadataXml`. |
 | `POST` | `/api/auth/admin/sso/oidc` | Conecta un IdP OIDC genérico con `issuer`, `clientId`, `clientSecret`. |

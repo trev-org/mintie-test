@@ -62,6 +62,7 @@
                   "setup/sign-in-experience",
                   "setup/enable-sso",
                   "setup/okta",
+                  "setup/entra-id",
                   "setup/google-workspace",
                   "setup/generic-saml"
                 ]
@@ -218,6 +219,7 @@
                   "es/setup/sign-in-experience",
                   "es/setup/enable-sso",
                   "es/setup/okta",
+                  "es/setup/entra-id",
                   "es/setup/google-workspace",
                   "es/setup/generic-saml"
                 ]
@@ -322,6 +324,7 @@
                   "fr/setup/sign-in-experience",
                   "fr/setup/enable-sso",
                   "fr/setup/okta",
+                  "fr/setup/entra-id",
                   "fr/setup/google-workspace",
                   "fr/setup/generic-saml"
                 ]
