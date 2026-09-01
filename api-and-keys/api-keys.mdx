@@ -1,43 +1,94 @@
 ---
-title: "API keys and SSO identity"
-description: "How API keys behave when their owning user is deactivated in your IdP"
+title: "API keys"
+description: "Personal API keys tied to an IdP identity, and org-owned service account keys that survive user offboarding"
 ---
 
-<Warning>
-  **Coming soon.** Today, API keys outlive their owning user — if a user is
-  deactivated in your IdP, their keys keep working until manually revoked.
-  We're closing that gap; the behavior described below is the target state.
-</Warning>
+Mintie supports two types of API keys:
 
-## The problem we're solving
+- **Personal keys** are issued to a user and inherit that user's IdP status. When the user is deactivated in your IdP, their personal keys stop working within about 5 minutes.
+- **Service account keys** belong to a service account, not a person. They keep working after the human who created them is deactivated, so CI/CD pipelines and other automation are not tied to any one employee.
 
-For SSO-required orgs, deprovisioning a user in the IdP should also stop their access to the Mintie API. Today it doesn't — keys are independent of session state.
+<Info>
+  Use service account keys for anything that must not break when a teammate leaves — CI/CD, cron jobs, webhooks, integrations. Use personal keys only for interactive scripts and local development.
+</Info>
 
-## What's changing
+## Personal keys
 
-Each API key will carry the issuing user's `idp_user_id`. On every API call, the auth middleware checks the IdP "active" status for that user.
+Personal keys are issued to a user in the dashboard and carry that user's `idp_user_id`. On every API call, the auth middleware checks the user's IdP "active" status.
 
 | Check | Frequency | Behavior on fail |
 | --- | --- | --- |
 | Local revocation flag | Every call | `401 invalid_key` |
 | IdP active status | Cached, 5-minute TTL | `401 user_deactivated` |
-| Org SSO requirement | Every call | `401 sso_required` (if user is password-only) |
+| Org SSO requirement | Every call | `401 sso_required` (if the user is password-only) |
 
-This means a user deprovisioned in your IdP will see their keys 401 within 5 minutes, regardless of when the keys were issued.
+A user deprovisioned in your IdP will see their personal keys return `401` within 5 minutes.
 
-## What stays the same
+## Service accounts
 
-<CardGroup cols={2}>
-  <Card title="Service account keys" icon="robot">
-    Org-scoped service account keys are exempt from the user-active check —
-    they have a separate identity model and are revoked org-wide.
-  </Card>
-  <Card title="Token format" icon="key">
-    No client-visible change to the token format or auth header. You won't
-    need to rotate keys when this ships.
-  </Card>
-</CardGroup>
+A service account is an org-owned identity that is never used for interactive login. It has:
 
-## Migration
+- A **name** and **description** so it is discoverable in the admin keys UI.
+- A **role and scopes** — service accounts follow least privilege and cannot be granted permissions beyond what their scopes allow.
+- An **owning team**, so ownership survives individual departures.
 
-When the change rolls out, existing keys are stamped with their owning user's `idp_user_id` lazily on first use. Keys whose owner has no `idp_user_id` (i.e., still password-only) keep working until the org's password sunset deadline.
+Service account keys are listed separately from personal keys in the dashboard, each with a **last-used timestamp** so you can spot unused keys.
+
+### Create a service account and issue a key
+
+Creating a service account and issuing its first key are sensitive actions and require step-up MFA.
+
+1. In the dashboard, go to **Settings → API keys → Service accounts**.
+2. Select **New service account** and enter a name, description, owning team, and scopes.
+3. Complete the MFA prompt to confirm the `apikey.create` action.
+4. Copy the generated key. Mintie shows the key value only once — store it in your secrets manager immediately.
+
+Every issuance writes an `apikey.issued` audit event with `meta.serviceAccount: true`.
+
+### Rotate a key with an overlap window
+
+Service accounts support **two active keys at once** so you can rotate without downtime.
+
+1. On the service account page, select **Rotate key**. Complete the MFA prompt.
+2. Mintie issues a second key. Both keys are now valid.
+3. Roll the new key out to every consumer of the service account (CI runners, deploy jobs, integrations).
+4. Confirm the old key's last-used timestamp is no longer advancing.
+5. Return to the service account page and select **Revoke** on the old key.
+
+Revocation writes an `apikey.revoked` audit event with `meta.serviceAccount: true`.
+
+### Guard rails
+
+- Service account keys cannot be used for interactive sign-in.
+- Scopes are enforced at every request. A key with only `read:sessions` cannot call a write endpoint.
+- Service account keys are exempt from the IdP active-status check, so they are not affected when a user is deprovisioned.
+
+## Migrate CI pipelines off personal keys
+
+Before your org enables IdP-tied enforcement for personal keys, move automation off them. Any CI pipeline still authenticated with a personal key on the day its creator is deactivated will start receiving `401 user_deactivated` responses within 5 minutes.
+
+<Steps>
+  <Step title="Inventory personal keys used by automation">
+    In **Settings → API keys**, sort by **Last used** and identify keys whose traffic looks like a service (steady rate, non-business hours, deploy pipelines).
+  </Step>
+  <Step title="Create a service account per system">
+    Create one service account per CI system or integration — for example, `ci-github-actions`, `ci-buildkite`, `webhook-relay`. Grant only the scopes that system needs.
+  </Step>
+  <Step title="Swap the credential">
+    Update the secret in your CI provider to the new service account key. Trigger a pipeline run and confirm success.
+  </Step>
+  <Step title="Revoke the personal key">
+    Once the service account key's last-used timestamp is advancing and the personal key's is not, revoke the personal key.
+  </Step>
+</Steps>
+
+## Audit events
+
+Both personal and service account key events use the same event names. Filter by the `serviceAccount` meta flag to separate them.
+
+| Event | Description |
+| --- | --- |
+| `apikey.issued` | A new key was created. `meta.serviceAccount` is `true` for service account keys. |
+| `apikey.revoked` | A key was revoked. `meta.serviceAccount` is `true` for service account keys. |
+
+See [Audit logs](/security/audit-logs) for the full event schema.
