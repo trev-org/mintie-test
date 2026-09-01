@@ -1,6 +1,6 @@
 ---
 title: "Feature flags"
-description: "Comment le déploiement du SSO est contrôlé par organisation"
+description: "Comment Mintie pilote le déploiement du SSO par organisation via des feature flags, pour échelonner l'activation, tester et revenir sans redéploiement."
 ---
 
 Tous les chemins de code SSO sont derrière un seul flag LaunchDarkly : `sso_enabled`. Le flag est évalué par organisation, pas par utilisateur.

@@ -1,6 +1,6 @@
 ---
 title: "Comment fonctionne le SSO"
-description: "Flux de bout en bout d'une connexion SSO dans Mintie"
+description: "Flux complet d'une connexion SSO dans Mintie, couvrant les redirections SAML et OIDC, l'authentification IdP, la liaison d'identité et l'émission de session."
 ---
 
 Le flux SSO de Mintie est basé sur OIDC par défaut. Les fournisseurs SAML sont tunnellisés via WorkOS, de sorte que le code de l'application ne voit jamais qu'un callback de forme OIDC.

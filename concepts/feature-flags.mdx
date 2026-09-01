@@ -1,6 +1,6 @@
 ---
 title: "Feature flags"
-description: "How SSO rollout is gated per organization"
+description: "How Mintie gates SSO rollout per organization using feature flags, letting you stage enablement, test connections, and roll back without redeploying."
 ---
 
 All SSO code paths sit behind a single LaunchDarkly flag: `sso_enabled`. The flag is evaluated per-org, not per-user.
