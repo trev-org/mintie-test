@@ -1,0 +1,58 @@
+---
+title: "Enterprise access reviews"
+description: "Review privileged access, identity assignments, and recovery ownership"
+groups: ["enterprise"]
+---
+
+Run an access review at least quarterly and after major organizational changes.
+The review should cover Mintie administrators, identity-provider assignments,
+provisioning scope, service accounts, and recovery access.
+
+## Review scope
+
+| Area | Confirm |
+| --- | --- |
+| Administrators | Every administrator still requires elevated access |
+| IdP assignments | Only approved users and groups can launch Mintie |
+| SCIM scope | Provisioning assignments match the intended population |
+| Service accounts | Each account has an active owner and documented purpose |
+| API keys | Keys are active, attributable, and rotated according to policy |
+| Recovery access | At least two current owners can execute the recovery procedure |
+
+## Run the review
+
+<Steps>
+  <Step title="Establish the review population">
+    Export or record the current Mintie administrators, IdP application
+    assignments, SCIM assignments, service accounts, and API-key owners.
+  </Step>
+  <Step title="Collect owner attestations">
+    Ask application and team owners to confirm each assignment. Require a
+    business justification for privileged and non-human access.
+  </Step>
+  <Step title="Investigate differences">
+    Compare Mintie access with your source-of-truth directory. Resolve orphaned
+    accounts, unexpected assignments, and users whose role has changed.
+  </Step>
+  <Step title="Remove unnecessary access">
+    Revoke access in the authoritative system first, then verify that the
+    change reaches Mintie through SSO or provisioning.
+  </Step>
+  <Step title="Record approval">
+    Store the reviewer, completion date, exceptions, remediation owners, and
+    next review date in your approved governance system.
+  </Step>
+</Steps>
+
+## Evidence to retain
+
+- Review scope and source systems
+- Reviewer and application-owner approvals
+- Exceptions with owners and expiration dates
+- Removal or remediation timestamps
+- Results of one standard-user and one administrator sign-in test
+
+<Warning>
+  Do not place passwords, access tokens, private keys, session cookies, or
+  complete SAML assertions in review evidence.
+</Warning>

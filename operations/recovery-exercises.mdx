@@ -1,0 +1,62 @@
+---
+title: "SSO recovery exercises"
+description: "Validate emergency access and identity recovery before an outage"
+groups: ["enterprise"]
+---
+
+Run a scheduled recovery exercise at least twice a year. The goal is to prove
+that authorized responders can diagnose an identity outage, preserve
+administrator access, choose a safe mitigation, and restore normal sign-in.
+
+## Exercise objectives
+
+- Reach the current incident and identity-provider owners.
+- Locate the approved recovery procedure without relying on SSO.
+- Confirm that at least two administrators can perform recovery actions.
+- Identify the affected identity flow from provider and Mintie signals.
+- Validate rollback and post-recovery checks.
+
+<Warning>
+  Use a test environment or tabletop simulation whenever possible. Do not
+  disable production SSO or revoke production credentials solely to create an
+  exercise condition.
+</Warning>
+
+## Suggested scenario
+
+Simulate an identity-provider configuration change that causes all new SSO
+attempts to fail while existing sessions remain active. Provide responders
+with a failure timestamp and a redacted provider error, but do not reveal the
+cause.
+
+<Steps>
+  <Step title="Declare the exercise">
+    Name the incident lead, Mintie owner, IdP owner, communications owner, and
+    observer. Record the start time and expected duration.
+  </Step>
+  <Step title="Protect recovery access">
+    Confirm that responders would keep active administrator sessions open and
+    avoid destructive changes until the scope is understood.
+  </Step>
+  <Step title="Diagnose the failure">
+    Compare the last successful sign-in with recent provider changes. Identify
+    the most likely audience, issuer, certificate, claim, or assignment issue.
+  </Step>
+  <Step title="Select and rehearse mitigation">
+    Walk through rollback of the simulated change and the approval required for
+    any emergency-access procedure.
+  </Step>
+  <Step title="Validate recovery">
+    Test administrator and standard-user sign-in. If provisioning is in scope,
+    validate one complete user lifecycle.
+  </Step>
+</Steps>
+
+## Pass criteria
+
+The exercise passes when responders can complete the procedure without shared
+credentials, identify the correct rollback, validate both privileged and
+standard access, and assign owners and due dates to every discovered gap.
+
+Afterward, update the [incident-response runbook](/operations/incident-response)
+and recovery contacts while the findings are current.

@@ -123,6 +123,15 @@
                   "operations/rotate-credentials",
                   "operations/incident-response"
                 ]
+              },
+              {
+                "group": "Enterprise operations",
+                "public": false,
+                "pages": [
+                  "operations/access-reviews",
+                  "operations/change-management",
+                  "operations/recovery-exercises"
+                ]
               }
             ]
           },

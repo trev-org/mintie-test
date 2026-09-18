@@ -1,0 +1,62 @@
+---
+title: "Identity change management"
+description: "Plan, approve, test, and roll back high-impact identity changes"
+groups: ["enterprise"]
+---
+
+Use a controlled change process for updates that can affect organization-wide
+sign-in or provisioning. Examples include certificate rotation, redirect URI
+changes, claim mappings, group assignments, conditional-access policies, and
+SCIM scope changes.
+
+## Before the change
+
+- Assign a change owner, technical reviewer, and rollback owner.
+- Describe the expected user impact and affected identity flows.
+- Record the last known successful SSO and provisioning tests.
+- Preserve an active administrator session for recovery.
+- Confirm that the rollback procedure and required credentials are available.
+- Schedule a validation window with the identity-provider owner.
+
+<Tip>
+  Change one identity control at a time. Combining certificate, claim, and
+  assignment changes makes failures harder to isolate and roll back.
+</Tip>
+
+## Execute safely
+
+<Steps>
+  <Step title="Capture the starting state">
+    Record non-secret configuration values, connection identifiers, ownership,
+    and test results. Never copy credentials into a change ticket.
+  </Step>
+  <Step title="Apply the smallest change">
+    Make only the approved update and note the exact completion time for
+    correlation with provider events.
+  </Step>
+  <Step title="Validate a pilot user">
+    Test an assigned standard user before broadening the change. Confirm the
+    expected identity, claims, group membership, and session behavior.
+  </Step>
+  <Step title="Validate the lifecycle">
+    When provisioning is affected, test one create, update, and deactivate
+    cycle with a dedicated account.
+  </Step>
+  <Step title="Monitor and close">
+    Watch provider failures and support volume through the validation window.
+    Record results, exceptions, and follow-up owners.
+  </Step>
+</Steps>
+
+## Rollback triggers
+
+Roll back when:
+
+- administrator or standard-user sign-in fails unexpectedly,
+- users receive incorrect roles or organization access,
+- provisioning changes affect users outside the approved scope,
+- failure rates exceed the agreed threshold, or
+- validation cannot be completed within the change window.
+
+For a broad outage, stop the change and follow the
+[identity incident-response runbook](/operations/incident-response).
