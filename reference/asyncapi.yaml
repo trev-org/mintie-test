@@ -1,181 +1,330 @@
 asyncapi: 3.0.0
-defaultContentType: application/json
+
 info:
-  title: Mintie SSO Events
+  title: Kraken Spot WebSocket v1
   version: 1.0.0
   description: |
-    Real-time identity events over WebSocket. Connect to the event stream to
-    receive provisioning and session events for your organization as they
-    happen, without polling the REST API.
+    Operational AsyncAPI definition for Kraken's maintained Spot WebSocket v1
+    public endpoint. Connect to receive system status and heartbeat messages,
+    send ping requests, and subscribe to public market-data feeds.
+    See the [official Kraken documentation](https://docs.kraken.com/exchange/api-reference/spot-websocket).
   contact:
-    name: Mintie Support
-    email: support@mintie.example
-  tags:
-    - name: identity
-      description: Provisioning and session lifecycle events.
+    name: Kraken API support
+    url: https://support.kraken.com/
+
+defaultContentType: application/json
+
 servers:
   production:
-    host: events.mintie.example
+    host: ws.kraken.com
     protocol: wss
-    description: Production event stream. Authenticate with an API key passed as a bearer token in the connection request.
+    description: Kraken's public Spot WebSocket v1 endpoint.
+
 channels:
-  identityEvents:
-    address: /v1/events
-    title: Identity events
-    description: Stream of provisioning and session events for your organization.
+  spot:
+    address: /
+    title: Kraken Spot WebSocket v1
+    description: Public Kraken Spot market data and connection-management messages.
+    servers:
+      - $ref: '#/servers/production'
+    tags:
+      - name: Kraken Spot
     messages:
+      ping:
+        $ref: '#/components/messages/ping'
+      pong:
+        $ref: '#/components/messages/pong'
       subscribe:
-        name: subscribe
-        title: Subscribe to events
-        summary: Sent by the client to choose which event types to receive.
-        contentType: application/json
-        payload:
-          type: object
-          properties:
-            action:
-              type: string
-              const: subscribe
-              description: Must be `subscribe`.
-            eventTypes:
-              type: array
-              description: Event types to receive. Omit to receive all event types.
-              items:
-                type: string
-                enum:
-                  - user.provisioned
-                  - user.deprovisioned
-                  - session.revoked
-          required:
-            - action
-        examples:
-          - name: subscribeToProvisioningEvents
-            summary: Subscribe to provisioning events only
-            payload:
-              action: subscribe
-              eventTypes:
-                - user.provisioned
-                - user.deprovisioned
-      userProvisioned:
-        name: userProvisioned
-        title: User provisioned
-        summary: A user account was created through SCIM or just-in-time provisioning.
-        contentType: application/json
-        payload:
-          type: object
-          properties:
-            type:
-              type: string
-              const: user.provisioned
-              description: Event type discriminator.
-            userId:
-              type: string
-              description: Unique identifier of the provisioned user.
-            email:
-              type: string
-              format: email
-              description: Email address of the provisioned user.
-            connectionId:
-              type: string
-              description: SSO connection that provisioned the user.
-            occurredAt:
-              type: string
-              format: date-time
-              description: Timestamp when the event occurred.
-          required:
-            - type
-            - userId
-            - email
-            - occurredAt
-        examples:
-          - name: userProvisionedExample
-            summary: A user provisioned through Okta SCIM
-            payload:
-              type: user.provisioned
-              userId: user_01j9x5b2kd
-              email: jamie@acme.com
-              connectionId: conn_01j9x3wq8e
-              occurredAt: '2026-08-10T12:00:00Z'
-      userDeprovisioned:
-        name: userDeprovisioned
-        title: User deprovisioned
-        summary: A user account was deactivated by the identity provider.
-        contentType: application/json
-        payload:
-          type: object
-          properties:
-            type:
-              type: string
-              const: user.deprovisioned
-              description: Event type discriminator.
-            userId:
-              type: string
-              description: Unique identifier of the deprovisioned user.
-            occurredAt:
-              type: string
-              format: date-time
-              description: Timestamp when the event occurred.
-          required:
-            - type
-            - userId
-            - occurredAt
-        examples:
-          - name: userDeprovisionedExample
-            summary: A user deactivated in the identity provider
-            payload:
-              type: user.deprovisioned
-              userId: user_01j9x5b2kd
-              occurredAt: '2026-08-10T12:05:00Z'
-      sessionRevoked:
-        name: sessionRevoked
-        title: Session revoked
-        summary: A user session was revoked by an administrator or the API.
-        contentType: application/json
-        payload:
-          type: object
-          properties:
-            type:
-              type: string
-              const: session.revoked
-              description: Event type discriminator.
-            sessionId:
-              type: string
-              description: Unique identifier of the revoked session.
-            userId:
-              type: string
-              description: User the session belonged to.
-            occurredAt:
-              type: string
-              format: date-time
-              description: Timestamp when the event occurred.
-          required:
-            - type
-            - sessionId
-            - userId
-            - occurredAt
-        examples:
-          - name: sessionRevokedExample
-            summary: A session revoked by an administrator
-            payload:
-              type: session.revoked
-              sessionId: sess_01j9x4qkfa
-              userId: user_01j9x5b2kd
-              occurredAt: '2026-08-10T12:10:00Z'
+        $ref: '#/components/messages/subscribe'
+      subscriptionStatus:
+        $ref: '#/components/messages/subscriptionStatus'
+      heartbeat:
+        $ref: '#/components/messages/heartbeat'
+      systemStatus:
+        $ref: '#/components/messages/systemStatus'
+
 operations:
-  subscribeToEvents:
-    action: send
-    channel:
-      $ref: '#/channels/identityEvents'
-    title: Subscribe to events
-    summary: Choose which event types the connection receives.
-    messages:
-      - $ref: '#/channels/identityEvents/messages/subscribe'
-  receiveIdentityEvents:
+  sendPing:
     action: receive
+    title: Send ping
+    summary: Verify that the WebSocket connection is alive.
     channel:
-      $ref: '#/channels/identityEvents'
-    title: Receive identity events
-    summary: Events pushed to the client as they occur.
+      $ref: '#/channels/spot'
     messages:
-      - $ref: '#/channels/identityEvents/messages/userProvisioned'
-      - $ref: '#/channels/identityEvents/messages/userDeprovisioned'
-      - $ref: '#/channels/identityEvents/messages/sessionRevoked'
+      - $ref: '#/channels/spot/messages/ping'
+    reply:
+      channel:
+        $ref: '#/channels/spot'
+      messages:
+        - $ref: '#/channels/spot/messages/pong'
+
+  subscribeToMarketData:
+    action: receive
+    title: Subscribe to market data
+    summary: Subscribe to one public market-data feed for one or more currency pairs.
+    channel:
+      $ref: '#/channels/spot'
+    messages:
+      - $ref: '#/channels/spot/messages/subscribe'
+    reply:
+      channel:
+        $ref: '#/channels/spot'
+      messages:
+        - $ref: '#/channels/spot/messages/subscriptionStatus'
+
+  receiveHeartbeat:
+    action: send
+    title: Receive heartbeat
+    summary: Heartbeat sent when an active subscription has no traffic.
+    channel:
+      $ref: '#/channels/spot'
+    messages:
+      - $ref: '#/channels/spot/messages/heartbeat'
+
+  receiveSystemStatus:
+    action: send
+    title: Receive system status
+    summary: System status sent when the connection opens or the status changes.
+    channel:
+      $ref: '#/channels/spot'
+    messages:
+      - $ref: '#/channels/spot/messages/systemStatus'
+
+components:
+  messages:
+    ping:
+      name: ping
+      title: Ping
+      summary: Client ping to determine whether the connection is alive.
+      payload:
+        $ref: '#/components/schemas/Ping'
+      correlationId:
+        location: $message.payload#/reqid
+      examples:
+        - name: ping
+          payload:
+            event: ping
+            reqid: 42
+
+    pong:
+      name: pong
+      title: Pong
+      summary: Server response to a client ping.
+      payload:
+        $ref: '#/components/schemas/Pong'
+      correlationId:
+        location: $message.payload#/reqid
+      examples:
+        - name: pong
+          payload:
+            event: pong
+            reqid: 42
+
+    subscribe:
+      name: subscribe
+      title: Subscribe
+      summary: Subscribe to a public market-data feed.
+      payload:
+        $ref: '#/components/schemas/Subscribe'
+      correlationId:
+        location: $message.payload#/reqid
+      examples:
+        - name: subscribeToTicker
+          payload:
+            event: subscribe
+            reqid: 42
+            pair:
+              - XBT/USD
+            subscription:
+              name: ticker
+
+    subscriptionStatus:
+      name: subscriptionStatus
+      title: Subscription status
+      summary: Result of a subscribe or unsubscribe request.
+      payload:
+        $ref: '#/components/schemas/SubscriptionStatus'
+      correlationId:
+        location: $message.payload#/reqid
+      examples:
+        - name: subscribed
+          payload:
+            channelID: 10001
+            channelName: ticker
+            event: subscriptionStatus
+            pair: XBT/USD
+            reqid: 42
+            status: subscribed
+            subscription:
+              name: ticker
+
+    heartbeat:
+      name: heartbeat
+      title: Heartbeat
+      summary: Heartbeat sent when an active subscription has no traffic.
+      payload:
+        $ref: '#/components/schemas/Heartbeat'
+      examples:
+        - name: heartbeat
+          payload:
+            event: heartbeat
+
+    systemStatus:
+      name: systemStatus
+      title: System status
+      summary: Current Kraken WebSocket system status.
+      payload:
+        $ref: '#/components/schemas/SystemStatus'
+      examples:
+        - name: online
+          payload:
+            connectionID: 8628615390848610000
+            event: systemStatus
+            status: online
+            version: 1.9.0
+
+  schemas:
+    Ping:
+      type: object
+      properties:
+        event:
+          type: string
+          const: ping
+          description: Must be `ping`.
+        reqid:
+          type: integer
+          description: Optional request identifier echoed in the pong response.
+      required:
+        - event
+
+    Pong:
+      type: object
+      properties:
+        event:
+          type: string
+          const: pong
+        reqid:
+          type: integer
+          description: Request identifier supplied in the corresponding ping.
+      required:
+        - event
+
+    Subscribe:
+      type: object
+      properties:
+        event:
+          type: string
+          const: subscribe
+          description: Must be `subscribe`.
+        reqid:
+          type: integer
+          description: Optional request identifier echoed in the status response.
+        pair:
+          type: array
+          description: Currency pairs using Kraken WebSocket v1 symbols.
+          minItems: 1
+          items:
+            type: string
+          examples:
+            - [XBT/USD]
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+      required:
+        - event
+        - pair
+        - subscription
+
+    Subscription:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Public market-data feed to subscribe to.
+          enum:
+            - book
+            - ohlc
+            - spread
+            - ticker
+            - trade
+        depth:
+          type: integer
+          description: Order-book depth. Used only by the `book` feed.
+          enum: [10, 25, 100, 500, 1000]
+        interval:
+          type: integer
+          description: Candle interval in minutes. Used only by the `ohlc` feed.
+          enum: [1, 5, 15, 30, 60, 240, 1440, 10080, 21600]
+        snapshot:
+          type: boolean
+          description: Whether to send a snapshot when supported by the selected feed.
+          default: true
+      required:
+        - name
+
+    SubscriptionStatus:
+      type: object
+      properties:
+        channelID:
+          type: integer
+          description: Channel identifier assigned by Kraken.
+        channelName:
+          type: string
+          description: Name of the subscribed channel.
+        errorMessage:
+          type: string
+          description: Error detail when the subscription fails.
+        event:
+          type: string
+          const: subscriptionStatus
+        pair:
+          type: string
+          description: Currency pair associated with the subscription.
+        reqid:
+          type: integer
+          description: Request identifier supplied by the client.
+        status:
+          type: string
+          enum:
+            - error
+            - subscribed
+            - unsubscribed
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+      required:
+        - event
+        - status
+
+    Heartbeat:
+      type: object
+      properties:
+        event:
+          type: string
+          const: heartbeat
+      required:
+        - event
+
+    SystemStatus:
+      type: object
+      properties:
+        connectionID:
+          type: integer
+          description: Unique identifier for the WebSocket connection.
+        event:
+          type: string
+          const: systemStatus
+        status:
+          type: string
+          enum:
+            - online
+            - maintenance
+            - cancel_only
+            - limit_only
+            - post_only
+        version:
+          type: string
+          description: Kraken WebSocket API version.
+      required:
+        - connectionID
+        - event
+        - status
+        - version

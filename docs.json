@@ -132,30 +132,48 @@
               {
                 "dropdown": "OpenAPI",
                 "icon": "brackets-curly",
-                "description": "REST API reference generated from a sample OpenAPI spec",
+                "description": "LINE Channel Access Token API generated from its public OpenAPI specification",
+                "groups": [
+                  {
+                    "group": "Overview",
+                    "pages": ["reference/openapi/introduction"]
+                  }
+                ],
                 "openapi": {
-                  "source": "reference/openapi.json",
+                  "source": "https://raw.githubusercontent.com/line/line-openapi/de8bd9e2872ed9d9800e23b86136695fcd370a0c/channel-access-token.yml",
                   "directory": "reference/openapi"
                 }
               },
               {
                 "dropdown": "AsyncAPI",
                 "icon": "bolt",
-                "description": "WebSocket event reference generated from a sample AsyncAPI spec",
+                "description": "Kraken Spot WebSocket v1 with a live public server",
+                "groups": [
+                  {
+                    "group": "Overview",
+                    "pages": ["reference/asyncapi/introduction"]
+                  }
+                ],
                 "asyncapi": {
-                  "source": "reference/asyncapi.yaml",
+                  "source": "/reference/asyncapi.yaml",
                   "directory": "reference/asyncapi"
                 }
               },
               {
                 "dropdown": "GraphQL",
                 "icon": "diagram-project",
-                "description": "GraphQL API reference generated from a sample schema",
+                "description": "Star Wars API reference generated from the public SWAPI GraphQL schema",
                 "tabs": [
                   {
                     "tab": "GraphQL",
+                    "groups": [
+                      {
+                        "group": "Overview",
+                        "pages": ["reference/graphql/introduction"]
+                      }
+                    ],
                     "graphql": {
-                      "source": "reference/schema.graphql",
+                      "source": "https://raw.githubusercontent.com/graphql/swapi-graphql/8c0bf5868f11fe84942548180751fceeb36bd606/schema.graphql",
                       "directory": "reference/graphql"
                     }
                   }
@@ -164,13 +182,19 @@
               {
                 "dropdown": "TypeScript SDK",
                 "icon": "code",
-                "description": "SDK reference generated from a sample TypeDoc artifact",
+                "description": "Bunny EdgeScript SDK reference generated from its public English TypeDoc artifact",
                 "tabs": [
                   {
-                    "tab": "TypeScript SDK",
+                    "tab": "EdgeScript SDK",
+                    "groups": [
+                      {
+                        "group": "Overview",
+                        "pages": ["reference/sdk/introduction"]
+                      }
+                    ],
                     "sdk": {
                       "format": "typedoc",
-                      "source": "https://raw.githubusercontent.com/trev-org/mintie-test-code/main/sdk/typedoc.json",
+                      "source": "https://raw.githubusercontent.com/BunnyWay/edge-script-sdk/8069df40fec63b1e2ec26a751a9c7c9518097488/docs-json/sdk-0.11.2.json",
                       "directory": "reference/typescript-sdk"
                     }
                   }
