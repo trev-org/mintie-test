@@ -451,5 +451,8 @@
     "metatags": {
       "robots": "noindex"
     }
+  },
+  "interaction": {
+    "drilldown": false
   }
 }
