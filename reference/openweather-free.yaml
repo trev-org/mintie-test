@@ -1,0 +1,536 @@
+openapi: 3.1.0
+info:
+  title: OpenWeather Free Weather APIs
+  version: "2.5"
+  description: |
+    Retrieve current weather and a five-day forecast in three-hour intervals.
+    Both APIs are included in OpenWeather's free subscription.
+  contact:
+    name: OpenWeather Support
+    url: https://openweathermap.org/faq
+  license:
+    name: OpenWeather terms
+    url: https://openweather.co.uk/storage/app/media/Terms/Openweather_terms_and_conditions_of_sale.pdf
+externalDocs:
+  description: OpenWeather API catalog
+  url: https://openweathermap.org/api
+servers:
+  - url: https://api.openweathermap.org/data/2.5
+    description: Production
+security:
+  - appid: []
+tags:
+  - name: Current weather
+    description: Current conditions for geographic coordinates.
+  - name: Forecast
+    description: Five-day forecasts in three-hour intervals.
+
+paths:
+  /weather:
+    get:
+      operationId: getCurrentWeather
+      summary: Get current weather
+      description: |
+        Returns current weather conditions for the supplied latitude and
+        longitude.
+      externalDocs:
+        description: Official Current Weather documentation
+        url: https://openweathermap.org/current
+      tags:
+        - Current weather
+      parameters:
+        - $ref: "#/components/parameters/Latitude"
+        - $ref: "#/components/parameters/Longitude"
+        - $ref: "#/components/parameters/Units"
+        - $ref: "#/components/parameters/Language"
+      responses:
+        "200":
+          description: Current weather for the requested location.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentWeatherResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /forecast:
+    get:
+      operationId: getFiveDayForecast
+      summary: Get a five-day forecast
+      description: |
+        Returns weather forecast data every three hours for up to five days.
+      externalDocs:
+        description: Official 5 Day / 3 Hour Forecast documentation
+        url: https://openweathermap.org/forecast5
+      tags:
+        - Forecast
+      parameters:
+        - $ref: "#/components/parameters/Latitude"
+        - $ref: "#/components/parameters/Longitude"
+        - $ref: "#/components/parameters/ForecastCount"
+        - $ref: "#/components/parameters/Units"
+        - $ref: "#/components/parameters/Language"
+      responses:
+        "200":
+          description: Five-day forecast in three-hour intervals.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForecastResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+components:
+  securitySchemes:
+    appid:
+      type: apiKey
+      in: query
+      name: appid
+      description: |
+        Your OpenWeather API key. Create or copy one from the
+        [API keys page](https://home.openweathermap.org/api_keys).
+
+  parameters:
+    Latitude:
+      name: lat
+      in: query
+      required: true
+      description: Latitude in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -90
+        maximum: 90
+      example: 51.5
+    Longitude:
+      name: lon
+      in: query
+      required: true
+      description: Longitude in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -180
+        maximum: 180
+      example: -0.1
+    Units:
+      name: units
+      in: query
+      required: false
+      description: |
+        Unit system. `standard` uses Kelvin and metres per second, `metric`
+        uses Celsius and metres per second, and `imperial` uses Fahrenheit and
+        miles per hour.
+      schema:
+        type: string
+        enum:
+          - standard
+          - metric
+          - imperial
+        default: standard
+      example: metric
+    Language:
+      name: lang
+      in: query
+      required: false
+      description: Language code for translated weather descriptions.
+      schema:
+        type: string
+      example: en
+    ForecastCount:
+      name: cnt
+      in: query
+      required: false
+      description: Number of three-hour forecast timestamps to return.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 40
+      example: 8
+
+  responses:
+    BadRequest:
+      description: A required parameter is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Weather data was not found for the requested location.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    TooManyRequests:
+      description: The API key's request quota has been exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    ServerError:
+      description: OpenWeather encountered an unexpected error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+    CurrentWeatherResponse:
+      type: object
+      required:
+        - coord
+        - weather
+        - main
+        - wind
+        - clouds
+        - dt
+        - sys
+        - timezone
+        - id
+        - name
+        - cod
+      properties:
+        coord:
+          $ref: "#/components/schemas/Coordinates"
+        weather:
+          type: array
+          items:
+            $ref: "#/components/schemas/WeatherCondition"
+        base:
+          type: string
+          description: Internal OpenWeather data source.
+        main:
+          $ref: "#/components/schemas/MainMeasurements"
+        visibility:
+          type: integer
+          minimum: 0
+          description: Visibility in metres, up to 10,000.
+        wind:
+          $ref: "#/components/schemas/Wind"
+        rain:
+          $ref: "#/components/schemas/Precipitation"
+        snow:
+          $ref: "#/components/schemas/Precipitation"
+        clouds:
+          $ref: "#/components/schemas/Clouds"
+        dt:
+          $ref: "#/components/schemas/UnixTime"
+        sys:
+          $ref: "#/components/schemas/CurrentWeatherSystem"
+        timezone:
+          type: integer
+          description: Offset from UTC in seconds.
+        id:
+          type: integer
+          description: OpenWeather city ID.
+        name:
+          type: string
+          description: Location name.
+          example: London
+        cod:
+          type: integer
+          description: Internal response status code.
+          example: 200
+
+    ForecastResponse:
+      type: object
+      required:
+        - cod
+        - message
+        - cnt
+        - list
+        - city
+      properties:
+        cod:
+          type: string
+          description: Internal response status code.
+          example: "200"
+        message:
+          type: integer
+          description: Internal response message value.
+        cnt:
+          type: integer
+          description: Number of forecast timestamps returned.
+        list:
+          type: array
+          maxItems: 40
+          items:
+            $ref: "#/components/schemas/ForecastItem"
+        city:
+          $ref: "#/components/schemas/City"
+
+    ForecastItem:
+      type: object
+      required:
+        - dt
+        - main
+        - weather
+        - clouds
+        - wind
+        - visibility
+        - pop
+        - sys
+        - dt_txt
+      properties:
+        dt:
+          $ref: "#/components/schemas/UnixTime"
+        main:
+          $ref: "#/components/schemas/MainMeasurements"
+        weather:
+          type: array
+          items:
+            $ref: "#/components/schemas/WeatherCondition"
+        clouds:
+          $ref: "#/components/schemas/Clouds"
+        wind:
+          $ref: "#/components/schemas/Wind"
+        visibility:
+          type: integer
+          minimum: 0
+          description: Visibility in metres, up to 10,000.
+        pop:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Probability of precipitation from 0 to 1.
+        rain:
+          $ref: "#/components/schemas/Precipitation"
+        snow:
+          $ref: "#/components/schemas/Precipitation"
+        sys:
+          $ref: "#/components/schemas/ForecastSystem"
+        dt_txt:
+          type: string
+          description: Forecast time in UTC as text.
+          example: "2026-09-22 21:00:00"
+
+    MainMeasurements:
+      type: object
+      required:
+        - temp
+        - feels_like
+        - temp_min
+        - temp_max
+        - pressure
+        - humidity
+      properties:
+        temp:
+          type: number
+          description: Temperature in the requested unit system.
+        feels_like:
+          type: number
+          description: Human-perceived temperature in the requested unit system.
+        temp_min:
+          type: number
+          description: Minimum temperature in the requested unit system.
+        temp_max:
+          type: number
+          description: Maximum temperature in the requested unit system.
+        pressure:
+          type: integer
+          description: Atmospheric pressure at sea level in hPa.
+        sea_level:
+          type: integer
+          description: Atmospheric pressure at sea level in hPa.
+        grnd_level:
+          type: integer
+          description: Atmospheric pressure at ground level in hPa.
+        humidity:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Humidity percentage.
+        temp_kf:
+          type: number
+          description: Internal temperature adjustment used in forecast responses.
+
+    Coordinates:
+      type: object
+      required:
+        - lat
+        - lon
+      properties:
+        lat:
+          type: number
+          format: double
+          description: Latitude in decimal degrees.
+        lon:
+          type: number
+          format: double
+          description: Longitude in decimal degrees.
+
+    WeatherCondition:
+      type: object
+      required:
+        - id
+        - main
+        - description
+        - icon
+      properties:
+        id:
+          type: integer
+          description: OpenWeather condition ID.
+        main:
+          type: string
+          description: Group of weather parameters.
+          example: Clear
+        description:
+          type: string
+          description: Localized weather condition description.
+          example: clear sky
+        icon:
+          type: string
+          description: Weather icon ID.
+          example: 01d
+
+    Wind:
+      type: object
+      required:
+        - speed
+        - deg
+      properties:
+        speed:
+          type: number
+          description: Wind speed in the requested unit system.
+        deg:
+          type: integer
+          minimum: 0
+          maximum: 360
+          description: Wind direction in meteorological degrees.
+        gust:
+          type: number
+          description: Wind gust speed in the requested unit system.
+
+    Precipitation:
+      type: object
+      properties:
+        "1h":
+          type: number
+          minimum: 0
+          description: Precipitation volume during the last hour in millimetres.
+        "3h":
+          type: number
+          minimum: 0
+          description: Precipitation volume during the last three hours in millimetres.
+
+    Clouds:
+      type: object
+      required:
+        - all
+      properties:
+        all:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Cloudiness percentage.
+
+    CurrentWeatherSystem:
+      type: object
+      properties:
+        type:
+          type: integer
+          description: Internal parameter.
+        id:
+          type: integer
+          description: Internal parameter.
+        country:
+          type: string
+          description: ISO 3166 country code.
+          example: GB
+        sunrise:
+          $ref: "#/components/schemas/UnixTime"
+        sunset:
+          $ref: "#/components/schemas/UnixTime"
+
+    ForecastSystem:
+      type: object
+      properties:
+        pod:
+          type: string
+          description: Part of day.
+          enum:
+            - d
+            - n
+
+    City:
+      type: object
+      required:
+        - id
+        - name
+        - coord
+        - country
+        - timezone
+        - sunrise
+        - sunset
+      properties:
+        id:
+          type: integer
+          description: OpenWeather city ID.
+        name:
+          type: string
+          description: City name.
+        coord:
+          $ref: "#/components/schemas/Coordinates"
+        country:
+          type: string
+          description: ISO 3166 country code.
+        population:
+          type: integer
+          minimum: 0
+          description: City population.
+        timezone:
+          type: integer
+          description: Offset from UTC in seconds.
+        sunrise:
+          $ref: "#/components/schemas/UnixTime"
+        sunset:
+          $ref: "#/components/schemas/UnixTime"
+
+    UnixTime:
+      type: integer
+      format: int64
+      description: Unix timestamp in UTC.
+
+    ErrorResponse:
+      type: object
+      required:
+        - cod
+        - message
+      properties:
+        cod:
+          oneOf:
+            - type: integer
+            - type: string
+          description: Error status code.
+          example: 401
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Invalid API key
+        parameters:
+          type: array
+          description: Names of parameters related to the error.
+          items:
+            type: string
