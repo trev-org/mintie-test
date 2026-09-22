@@ -4,6 +4,14 @@
   "name": "Mintie SSO",
   "description": "Enterprise SSO, SCIM, and identity for Mintie",
   "public": true,
+  "api": {
+    "playground": {
+      "display": "auth"
+    },
+    "examples": {
+      "prefill": true
+    }
+  },
   "colors": {
     "primary": "#0C8C5E",
     "light": "#0C8C5E",
@@ -141,7 +149,7 @@
               {
                 "dropdown": "OpenAPI",
                 "icon": "brackets-curly",
-                "description": "LINE Channel Access Token API generated from its public OpenAPI specification",
+                "description": "OpenWeather current, forecast, historical, and alert data",
                 "groups": [
                   {
                     "group": "Overview",
@@ -149,7 +157,7 @@
                   }
                 ],
                 "openapi": {
-                  "source": "https://raw.githubusercontent.com/line/line-openapi/de8bd9e2872ed9d9800e23b86136695fcd370a0c/channel-access-token.yml",
+                  "source": "/reference/openweather-one-call-4.yaml",
                   "directory": "reference/openapi"
                 }
               },
