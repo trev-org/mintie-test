@@ -1,17 +1,16 @@
 ---
-title: One Call API 4.0
-description: Retrieve current, forecast, historical, and alert data from OpenWeather.
+title: OpenWeather API
+description: Retrieve current conditions and five-day forecasts with OpenWeather's free-tier APIs.
 ---
 
 ## About this reference
 
-This reference covers all six OpenWeather One Call API 4.0 endpoints:
+This reference covers two APIs included in OpenWeather's free subscription:
 
-- Current weather
-- 1-minute, 15-minute, hourly, and daily timelines
-- Detailed weather alerts
+- Current weather conditions for geographic coordinates
+- Five-day forecasts in three-hour intervals
 
-Mintlify generates the endpoint pages and interactive request playground from the local OpenAPI document at `reference/openweather-one-call-4.yaml`.
+Mintlify generates the endpoint pages and interactive request playground from the local OpenAPI document at `reference/openweather-free.yaml`.
 
 ## Before you begin
 
@@ -24,7 +23,8 @@ to your `partner` or `enterprise` group after sign-in. Users in both groups
 receive the enterprise key. The keys are not stored in this repository.
 
 <Note>
-  OpenWeather includes a daily free allowance with the One Call by Call subscription. Check its current pricing and limits before sending production traffic.
+  These endpoints do not require the separate One Call by Call subscription.
+  OpenWeather's free-plan request limits still apply.
 </Note>
 
 <Warning>
@@ -35,9 +35,10 @@ receive the enterprise key. The keys are not stored in this repository.
 
 ## Official documentation
 
-- [One Call API 4.0 documentation](https://openweathermap.org/api/one-call-4)
+- [Current Weather documentation](https://openweathermap.org/current)
+- [5 Day / 3 Hour Forecast documentation](https://openweathermap.org/forecast5)
 - [OpenWeather API keys](https://home.openweathermap.org/api_keys)
 
 <Note>
-  This local OpenAPI document was created from OpenWeather's public One Call API 4.0 documentation.
+  This local OpenAPI document was created from OpenWeather's public API documentation.
 </Note>

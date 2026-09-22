@@ -149,7 +149,7 @@
               {
                 "dropdown": "OpenAPI",
                 "icon": "brackets-curly",
-                "description": "OpenWeather current, forecast, historical, and alert data",
+                "description": "OpenWeather current conditions and five-day forecast",
                 "groups": [
                   {
                     "group": "Overview",
@@ -157,7 +157,7 @@
                   }
                 ],
                 "openapi": {
-                  "source": "/reference/openweather-one-call-4.yaml",
+                  "source": "/reference/openweather-free.yaml",
                   "directory": "reference/openapi"
                 }
               },
