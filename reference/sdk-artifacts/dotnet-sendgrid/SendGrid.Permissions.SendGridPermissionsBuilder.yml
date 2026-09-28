@@ -1,0 +1,719 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder
+  commentId: T:SendGrid.Permissions.SendGridPermissionsBuilder
+  id: SendGridPermissionsBuilder
+  parent: SendGrid.Permissions
+  children:
+  - SendGrid.Permissions.SendGridPermissionsBuilder.#ctor
+  - SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor(SendGrid.Permissions.SendGridPermission,SendGrid.Permissions.ScopeOptions)
+  - SendGrid.Permissions.SendGridPermissionsBuilder.Build
+  - SendGrid.Permissions.SendGridPermissionsBuilder.Exclude(System.Func{System.String,System.Boolean})
+  - SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.Collections.Generic.IEnumerable{System.String})
+  - SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.String[])
+  langs:
+  - csharp
+  - vb
+  name: SendGridPermissionsBuilder
+  nameWithType: SendGridPermissionsBuilder
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder
+  type: Class
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.Scopes.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: A builder for constructing a list of API Key permissions scopes
+  example: []
+  syntax:
+    content: public sealed class SendGridPermissionsBuilder
+    content.vb: Public NotInheritable Class SendGridPermissionsBuilder
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.GetType
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.#ctor
+  commentId: M:SendGrid.Permissions.SendGridPermissionsBuilder.#ctor
+  id: '#ctor'
+  parent: SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: SendGridPermissionsBuilder()
+  nameWithType: SendGridPermissionsBuilder.SendGridPermissionsBuilder()
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.SendGridPermissionsBuilder()
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.Scopes.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Initializes a new instance of the <xref href="SendGrid.Permissions.SendGridPermissionsBuilder" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public SendGridPermissionsBuilder()
+    content.vb: Public Sub New()
+  overload: SendGrid.Permissions.SendGridPermissionsBuilder.#ctor*
+  nameWithType.vb: SendGridPermissionsBuilder.New()
+  fullName.vb: SendGrid.Permissions.SendGridPermissionsBuilder.New()
+  name.vb: New()
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Build
+  commentId: M:SendGrid.Permissions.SendGridPermissionsBuilder.Build
+  id: Build
+  parent: SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: Build()
+  nameWithType: SendGridPermissionsBuilder.Build()
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Build()
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Builds the list of API Key scopes based on the permissions that have been added to this instance.
+  example: []
+  syntax:
+    content: public IEnumerable<string> Build()
+    return:
+      type: System.Collections.Generic.IEnumerable{System.String}
+      description: A list of strings representing the scope names.
+    content.vb: Public Function Build() As IEnumerable(Of String)
+  overload: SendGrid.Permissions.SendGridPermissionsBuilder.Build*
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor(SendGrid.Permissions.SendGridPermission,SendGrid.Permissions.ScopeOptions)
+  commentId: M:SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor(SendGrid.Permissions.SendGridPermission,SendGrid.Permissions.ScopeOptions)
+  id: AddPermissionsFor(SendGrid.Permissions.SendGridPermission,SendGrid.Permissions.ScopeOptions)
+  parent: SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: AddPermissionsFor(SendGridPermission, ScopeOptions)
+  nameWithType: SendGridPermissionsBuilder.AddPermissionsFor(SendGridPermission, ScopeOptions)
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor(SendGrid.Permissions.SendGridPermission, SendGrid.Permissions.ScopeOptions)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Adds the permissions for the specified <code class="paramref">permission</code>
+  example: []
+  syntax:
+    content: public SendGridPermissionsBuilder AddPermissionsFor(SendGridPermission permission, ScopeOptions options = ScopeOptions.All)
+    parameters:
+    - id: permission
+      type: SendGrid.Permissions.SendGridPermission
+      description: The permission group to add scopes for.
+    - id: options
+      type: SendGrid.Permissions.ScopeOptions
+      description: The <xref href="SendGrid.Permissions.ScopeOptions" data-throw-if-not-resolved="false"></xref> indicating read-only or all scopes for a given permission group.
+    return:
+      type: SendGrid.Permissions.SendGridPermissionsBuilder
+      description: The builder instance with the permissions added.
+    content.vb: Public Function AddPermissionsFor(permission As SendGridPermission, options As ScopeOptions = ScopeOptions.All) As SendGridPermissionsBuilder
+  overload: SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor*
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Exclude(System.Func{System.String,System.Boolean})
+  commentId: M:SendGrid.Permissions.SendGridPermissionsBuilder.Exclude(System.Func{System.String,System.Boolean})
+  id: Exclude(System.Func{System.String,System.Boolean})
+  parent: SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: Exclude(Func<string, bool>)
+  nameWithType: SendGridPermissionsBuilder.Exclude(Func<string, bool>)
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Exclude(System.Func<string, bool>)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Adds an exclusion filter the will not emit any scopes that the filter matches.
+  example: []
+  syntax:
+    content: public SendGridPermissionsBuilder Exclude(Func<string, bool> filter)
+    parameters:
+    - id: filter
+      type: System.Func{System.String,System.Boolean}
+      description: The filter.
+    return:
+      type: SendGrid.Permissions.SendGridPermissionsBuilder
+      description: The builder instance with the exclusion filter applied.
+    content.vb: Public Function Exclude(filter As Func(Of String, Boolean)) As SendGridPermissionsBuilder
+  overload: SendGrid.Permissions.SendGridPermissionsBuilder.Exclude*
+  nameWithType.vb: SendGridPermissionsBuilder.Exclude(Func(Of String, Boolean))
+  fullName.vb: SendGrid.Permissions.SendGridPermissionsBuilder.Exclude(System.Func(Of String, Boolean))
+  name.vb: Exclude(Func(Of String, Boolean))
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.Collections.Generic.IEnumerable{System.String})
+  commentId: M:SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.Collections.Generic.IEnumerable{System.String})
+  id: Include(System.Collections.Generic.IEnumerable{System.String})
+  parent: SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: Include(IEnumerable<string>)
+  nameWithType: SendGridPermissionsBuilder.Include(IEnumerable<string>)
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.Collections.Generic.IEnumerable<string>)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Adds the <code class="paramref">scopes</code> to the builder.
+  example: []
+  syntax:
+    content: public SendGridPermissionsBuilder Include(IEnumerable<string> scopes)
+    parameters:
+    - id: scopes
+      type: System.Collections.Generic.IEnumerable{System.String}
+      description: The list of scopes to include.
+    return:
+      type: SendGrid.Permissions.SendGridPermissionsBuilder
+      description: The builder instance with the scopes included.
+    content.vb: Public Function Include(scopes As IEnumerable(Of String)) As SendGridPermissionsBuilder
+  overload: SendGrid.Permissions.SendGridPermissionsBuilder.Include*
+  nameWithType.vb: SendGridPermissionsBuilder.Include(IEnumerable(Of String))
+  fullName.vb: SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.Collections.Generic.IEnumerable(Of String))
+  name.vb: Include(IEnumerable(Of String))
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.String[])
+  commentId: M:SendGrid.Permissions.SendGridPermissionsBuilder.Include(System.String[])
+  id: Include(System.String[])
+  parent: SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: Include(params string[])
+  nameWithType: SendGridPermissionsBuilder.Include(params string[])
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Include(params string[])
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermissionsBuilder.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Adds the <code class="paramref">scopes</code> to the builder.
+  example: []
+  syntax:
+    content: public SendGridPermissionsBuilder Include(params string[] scopes)
+    parameters:
+    - id: scopes
+      type: System.String[]
+      description: The list of scopes to include.
+    return:
+      type: SendGrid.Permissions.SendGridPermissionsBuilder
+      description: The builder instance with the scopes included.
+    content.vb: Public Function Include(ParamArray scopes As String()) As SendGridPermissionsBuilder
+  overload: SendGrid.Permissions.SendGridPermissionsBuilder.Include*
+  nameWithType.vb: SendGridPermissionsBuilder.Include(ParamArray String())
+  fullName.vb: SendGrid.Permissions.SendGridPermissionsBuilder.Include(ParamArray String())
+  name.vb: Include(ParamArray String())
+references:
+- uid: SendGrid.Permissions
+  commentId: N:SendGrid.Permissions
+  isExternal: true
+  name: SendGrid.Permissions
+  nameWithType: SendGrid.Permissions
+  fullName: SendGrid.Permissions
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder
+  commentId: T:SendGrid.Permissions.SendGridPermissionsBuilder
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html
+  name: SendGridPermissionsBuilder
+  nameWithType: SendGridPermissionsBuilder
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.#ctor*
+  commentId: Overload:SendGrid.Permissions.SendGridPermissionsBuilder.#ctor
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html#SendGrid_Permissions_SendGridPermissionsBuilder__ctor
+  name: SendGridPermissionsBuilder
+  nameWithType: SendGridPermissionsBuilder.SendGridPermissionsBuilder
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.SendGridPermissionsBuilder
+  nameWithType.vb: SendGridPermissionsBuilder.New
+  fullName.vb: SendGrid.Permissions.SendGridPermissionsBuilder.New
+  name.vb: New
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Build*
+  commentId: Overload:SendGrid.Permissions.SendGridPermissionsBuilder.Build
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html#SendGrid_Permissions_SendGridPermissionsBuilder_Build
+  name: Build
+  nameWithType: SendGridPermissionsBuilder.Build
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Build
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<string>
+  nameWithType: IEnumerable<string>
+  fullName: System.Collections.Generic.IEnumerable<string>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: SendGrid.Permissions.ScopeOptions
+  commentId: T:SendGrid.Permissions.ScopeOptions
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.ScopeOptions.html
+  name: ScopeOptions
+  nameWithType: ScopeOptions
+  fullName: SendGrid.Permissions.ScopeOptions
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor*
+  commentId: Overload:SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html#SendGrid_Permissions_SendGridPermissionsBuilder_AddPermissionsFor_SendGrid_Permissions_SendGridPermission_SendGrid_Permissions_ScopeOptions_
+  name: AddPermissionsFor
+  nameWithType: SendGridPermissionsBuilder.AddPermissionsFor
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.AddPermissionsFor
+- uid: SendGrid.Permissions.SendGridPermission
+  commentId: T:SendGrid.Permissions.SendGridPermission
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermission.html
+  name: SendGridPermission
+  nameWithType: SendGridPermission
+  fullName: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Exclude*
+  commentId: Overload:SendGrid.Permissions.SendGridPermissionsBuilder.Exclude
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html#SendGrid_Permissions_SendGridPermissionsBuilder_Exclude_System_Func_System_String_System_Boolean__
+  name: Exclude
+  nameWithType: SendGridPermissionsBuilder.Exclude
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Exclude
+- uid: System.Func{System.String,System.Boolean}
+  commentId: T:System.Func{System.String,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<string, bool>
+  nameWithType: Func<string, bool>
+  fullName: System.Func<string, bool>
+  nameWithType.vb: Func(Of String, Boolean)
+  fullName.vb: System.Func(Of String, Boolean)
+  name.vb: Func(Of String, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder.Include*
+  commentId: Overload:SendGrid.Permissions.SendGridPermissionsBuilder.Include
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html#SendGrid_Permissions_SendGridPermissionsBuilder_Include_System_Collections_Generic_IEnumerable_System_String__
+  name: Include
+  nameWithType: SendGridPermissionsBuilder.Include
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder.Include
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )

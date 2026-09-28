@@ -1,0 +1,63 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Reliability
+  commentId: N:SendGrid.Helpers.Reliability
+  id: SendGrid.Helpers.Reliability
+  children:
+  - SendGrid.Helpers.Reliability.ReliabilitySettings
+  - SendGrid.Helpers.Reliability.RetryDelegatingHandler
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Helpers.Reliability
+  nameWithType: SendGrid.Helpers.Reliability
+  fullName: SendGrid.Helpers.Reliability
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Helpers.Reliability.ReliabilitySettings
+  commentId: T:SendGrid.Helpers.Reliability.ReliabilitySettings
+  parent: SendGrid.Helpers.Reliability
+  isExternal: true
+  href: SendGrid.Helpers.Reliability.ReliabilitySettings.html
+  name: ReliabilitySettings
+  nameWithType: ReliabilitySettings
+  fullName: SendGrid.Helpers.Reliability.ReliabilitySettings
+- uid: SendGrid.Helpers.Reliability.RetryDelegatingHandler
+  commentId: T:SendGrid.Helpers.Reliability.RetryDelegatingHandler
+  isExternal: true
+  href: SendGrid.Helpers.Reliability.RetryDelegatingHandler.html
+  name: RetryDelegatingHandler
+  nameWithType: RetryDelegatingHandler
+  fullName: SendGrid.Helpers.Reliability.RetryDelegatingHandler
+- uid: SendGrid.Helpers.Reliability
+  commentId: N:SendGrid.Helpers.Reliability
+  isExternal: true
+  name: SendGrid.Helpers.Reliability
+  nameWithType: SendGrid.Helpers.Reliability
+  fullName: SendGrid.Helpers.Reliability
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Reliability
+    name: Reliability
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Reliability
+    name: Reliability
+    isExternal: true

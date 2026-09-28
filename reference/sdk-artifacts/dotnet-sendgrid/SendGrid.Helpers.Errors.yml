@@ -1,0 +1,24 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Errors
+  commentId: N:SendGrid.Helpers.Errors
+  id: SendGrid.Helpers.Errors
+  children:
+  - SendGrid.Helpers.Errors.ErrorHandler
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Helpers.Errors
+  nameWithType: SendGrid.Helpers.Errors
+  fullName: SendGrid.Helpers.Errors
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Helpers.Errors.ErrorHandler
+  commentId: T:SendGrid.Helpers.Errors.ErrorHandler
+  isExternal: true
+  href: SendGrid.Helpers.Errors.ErrorHandler.html
+  name: ErrorHandler
+  nameWithType: ErrorHandler
+  fullName: SendGrid.Helpers.Errors.ErrorHandler

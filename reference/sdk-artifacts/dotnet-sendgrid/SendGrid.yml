@@ -1,0 +1,127 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid
+  commentId: N:SendGrid
+  id: SendGrid
+  children:
+  - SendGrid.BaseClient
+  - SendGrid.BaseClient.Method
+  - SendGrid.BaseClientOptions
+  - SendGrid.ISendGridClient
+  - SendGrid.MimeType
+  - SendGrid.Response
+  - SendGrid.SendGridClient
+  - SendGrid.SendGridClientOptions
+  - SendGrid.TwilioEmailClient
+  - SendGrid.TwilioEmailClientOptions
+  langs:
+  - csharp
+  - vb
+  name: SendGrid
+  nameWithType: SendGrid
+  fullName: SendGrid
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.BaseClient
+  commentId: T:SendGrid.BaseClient
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.BaseClient.html
+  name: BaseClient
+  nameWithType: BaseClient
+  fullName: SendGrid.BaseClient
+- uid: SendGrid.BaseClient.Method
+  commentId: T:SendGrid.BaseClient.Method
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.BaseClient.html
+  name: BaseClient.Method
+  nameWithType: BaseClient.Method
+  fullName: SendGrid.BaseClient.Method
+  spec.csharp:
+  - uid: SendGrid.BaseClient
+    name: BaseClient
+    isExternal: true
+    href: SendGrid.BaseClient.html
+  - name: .
+  - uid: SendGrid.BaseClient.Method
+    name: Method
+    isExternal: true
+    href: SendGrid.BaseClient.Method.html
+  spec.vb:
+  - uid: SendGrid.BaseClient
+    name: BaseClient
+    isExternal: true
+    href: SendGrid.BaseClient.html
+  - name: .
+  - uid: SendGrid.BaseClient.Method
+    name: Method
+    isExternal: true
+    href: SendGrid.BaseClient.Method.html
+- uid: SendGrid.BaseClientOptions
+  commentId: T:SendGrid.BaseClientOptions
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.BaseClientOptions.html
+  name: BaseClientOptions
+  nameWithType: BaseClientOptions
+  fullName: SendGrid.BaseClientOptions
+- uid: SendGrid.ISendGridClient
+  commentId: T:SendGrid.ISendGridClient
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.ISendGridClient.html
+  name: ISendGridClient
+  nameWithType: ISendGridClient
+  fullName: SendGrid.ISendGridClient
+- uid: SendGrid.MimeType
+  commentId: T:SendGrid.MimeType
+  isExternal: true
+  href: SendGrid.MimeType.html
+  name: MimeType
+  nameWithType: MimeType
+  fullName: SendGrid.MimeType
+- uid: SendGrid.Response
+  commentId: T:SendGrid.Response
+  isExternal: true
+  href: SendGrid.Response.html
+  name: Response
+  nameWithType: Response
+  fullName: SendGrid.Response
+- uid: SendGrid.SendGridClient
+  commentId: T:SendGrid.SendGridClient
+  isExternal: true
+  href: SendGrid.SendGridClient.html
+  name: SendGridClient
+  nameWithType: SendGridClient
+  fullName: SendGrid.SendGridClient
+- uid: SendGrid.SendGridClientOptions
+  commentId: T:SendGrid.SendGridClientOptions
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.SendGridClientOptions.html
+  name: SendGridClientOptions
+  nameWithType: SendGridClientOptions
+  fullName: SendGrid.SendGridClientOptions
+- uid: SendGrid.TwilioEmailClient
+  commentId: T:SendGrid.TwilioEmailClient
+  isExternal: true
+  href: SendGrid.TwilioEmailClient.html
+  name: TwilioEmailClient
+  nameWithType: TwilioEmailClient
+  fullName: SendGrid.TwilioEmailClient
+- uid: SendGrid.TwilioEmailClientOptions
+  commentId: T:SendGrid.TwilioEmailClientOptions
+  isExternal: true
+  href: SendGrid.TwilioEmailClientOptions.html
+  name: TwilioEmailClientOptions
+  nameWithType: TwilioEmailClientOptions
+  fullName: SendGrid.TwilioEmailClientOptions
+- uid: SendGrid
+  commentId: N:SendGrid
+  isExternal: true
+  name: SendGrid
+  nameWithType: SendGrid
+  fullName: SendGrid

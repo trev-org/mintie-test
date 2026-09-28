@@ -1,0 +1,200 @@
+### YamlMime:TableOfContent
+items:
+- uid: SendGrid
+  name: SendGrid
+  type: Namespace
+  items:
+  - uid: SendGrid.BaseClient
+    name: BaseClient
+    type: Class
+  - uid: SendGrid.BaseClient.Method
+    name: BaseClient.Method
+    type: Enum
+  - uid: SendGrid.BaseClientOptions
+    name: BaseClientOptions
+    type: Class
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    type: Interface
+  - uid: SendGrid.MimeType
+    name: MimeType
+    type: Class
+  - uid: SendGrid.Response
+    name: Response
+    type: Class
+  - uid: SendGrid.SendGridClient
+    name: SendGridClient
+    type: Class
+  - uid: SendGrid.SendGridClientOptions
+    name: SendGridClientOptions
+    type: Class
+  - uid: SendGrid.TwilioEmailClient
+    name: TwilioEmailClient
+    type: Class
+  - uid: SendGrid.TwilioEmailClientOptions
+    name: TwilioEmailClientOptions
+    type: Class
+- uid: SendGrid.Helpers.Errors
+  name: SendGrid.Helpers.Errors
+  type: Namespace
+  items:
+  - uid: SendGrid.Helpers.Errors.ErrorHandler
+    name: ErrorHandler
+    type: Class
+- uid: SendGrid.Helpers.Errors.Model
+  name: SendGrid.Helpers.Errors.Model
+  type: Namespace
+  items:
+  - uid: SendGrid.Helpers.Errors.Model.BadRequestException
+    name: BadRequestException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.ForbiddenException
+    name: ForbiddenException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.MethodNotAllowedException
+    name: MethodNotAllowedException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.NotFoundException
+    name: NotFoundException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.PayloadTooLargeException
+    name: PayloadTooLargeException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.RequestErrorException
+    name: RequestErrorException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.SendGridErrorResponse
+    name: SendGridErrorResponse
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.SendGridInternalException
+    name: SendGridInternalException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.ServerUnavailableException
+    name: ServerUnavailableException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.ServiceNotAvailableException
+    name: ServiceNotAvailableException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.TooManyRequestsException
+    name: TooManyRequestsException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.UnauthorizedException
+    name: UnauthorizedException
+    type: Class
+  - uid: SendGrid.Helpers.Errors.Model.UnsupportedMediaTypeException
+    name: UnsupportedMediaTypeException
+    type: Class
+- uid: SendGrid.Helpers.EventWebhook
+  name: SendGrid.Helpers.EventWebhook
+  type: Namespace
+  items:
+  - uid: SendGrid.Helpers.EventWebhook.RequestValidator
+    name: RequestValidator
+    type: Class
+- uid: SendGrid.Helpers.Mail
+  name: SendGrid.Helpers.Mail
+  type: Namespace
+  items:
+  - uid: SendGrid.Helpers.Mail.ASM
+    name: ASM
+    type: Class
+  - uid: SendGrid.Helpers.Mail.Attachment
+    name: Attachment
+    type: Class
+  - uid: SendGrid.Helpers.Mail.BCCSettings
+    name: BCCSettings
+    type: Class
+  - uid: SendGrid.Helpers.Mail.BypassBounceManagement
+    name: BypassBounceManagement
+    type: Class
+  - uid: SendGrid.Helpers.Mail.BypassListManagement
+    name: BypassListManagement
+    type: Class
+  - uid: SendGrid.Helpers.Mail.BypassSpamManagement
+    name: BypassSpamManagement
+    type: Class
+  - uid: SendGrid.Helpers.Mail.BypassUnsubscribeManagement
+    name: BypassUnsubscribeManagement
+    type: Class
+  - uid: SendGrid.Helpers.Mail.ClickTracking
+    name: ClickTracking
+    type: Class
+  - uid: SendGrid.Helpers.Mail.Content
+    name: Content
+    type: Class
+  - uid: SendGrid.Helpers.Mail.EmailAddress
+    name: EmailAddress
+    type: Class
+  - uid: SendGrid.Helpers.Mail.FooterSettings
+    name: FooterSettings
+    type: Class
+  - uid: SendGrid.Helpers.Mail.Ganalytics
+    name: Ganalytics
+    type: Class
+  - uid: SendGrid.Helpers.Mail.MailHelper
+    name: MailHelper
+    type: Class
+  - uid: SendGrid.Helpers.Mail.MailSettings
+    name: MailSettings
+    type: Class
+  - uid: SendGrid.Helpers.Mail.OpenTracking
+    name: OpenTracking
+    type: Class
+  - uid: SendGrid.Helpers.Mail.Personalization
+    name: Personalization
+    type: Class
+  - uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+    name: RemoveDuplicatesConverter<T>
+    type: Class
+  - uid: SendGrid.Helpers.Mail.SandboxMode
+    name: SandboxMode
+    type: Class
+  - uid: SendGrid.Helpers.Mail.SendGridMessage
+    name: SendGridMessage
+    type: Class
+  - uid: SendGrid.Helpers.Mail.SpamCheck
+    name: SpamCheck
+    type: Class
+  - uid: SendGrid.Helpers.Mail.SubscriptionTracking
+    name: SubscriptionTracking
+    type: Class
+  - uid: SendGrid.Helpers.Mail.TrackingSettings
+    name: TrackingSettings
+    type: Class
+- uid: SendGrid.Helpers.Mail.Model
+  name: SendGrid.Helpers.Mail.Model
+  type: Namespace
+  items:
+  - uid: SendGrid.Helpers.Mail.Model.HtmlContent
+    name: HtmlContent
+    type: Class
+  - uid: SendGrid.Helpers.Mail.Model.PlainTextContent
+    name: PlainTextContent
+    type: Class
+- uid: SendGrid.Helpers.Reliability
+  name: SendGrid.Helpers.Reliability
+  type: Namespace
+  items:
+  - uid: SendGrid.Helpers.Reliability.ReliabilitySettings
+    name: ReliabilitySettings
+    type: Class
+  - uid: SendGrid.Helpers.Reliability.RetryDelegatingHandler
+    name: RetryDelegatingHandler
+    type: Class
+- uid: SendGrid.Permissions
+  name: SendGrid.Permissions
+  type: Namespace
+  items:
+  - uid: SendGrid.Permissions.ScopeOptions
+    name: ScopeOptions
+    type: Enum
+  - uid: SendGrid.Permissions.SendGridClientExtensions
+    name: SendGridClientExtensions
+    type: Class
+  - uid: SendGrid.Permissions.SendGridPermission
+    name: SendGridPermission
+    type: Enum
+  - uid: SendGrid.Permissions.SendGridPermissionsBuilder
+    name: SendGridPermissionsBuilder
+    type: Class
+memberLayout: SamePage

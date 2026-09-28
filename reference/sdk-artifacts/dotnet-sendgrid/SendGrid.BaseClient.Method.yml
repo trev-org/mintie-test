@@ -1,0 +1,174 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.BaseClient.Method
+  commentId: T:SendGrid.BaseClient.Method
+  id: BaseClient.Method
+  parent: SendGrid
+  children:
+  - SendGrid.BaseClient.Method.DELETE
+  - SendGrid.BaseClient.Method.GET
+  - SendGrid.BaseClient.Method.PATCH
+  - SendGrid.BaseClient.Method.POST
+  - SendGrid.BaseClient.Method.PUT
+  langs:
+  - csharp
+  - vb
+  name: BaseClient.Method
+  nameWithType: BaseClient.Method
+  fullName: SendGrid.BaseClient.Method
+  type: Enum
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/BaseClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: The supported API methods.
+  example: []
+  syntax:
+    content: public enum BaseClient.Method
+    content.vb: Public Enum BaseClient.Method
+- uid: SendGrid.BaseClient.Method.DELETE
+  commentId: F:SendGrid.BaseClient.Method.DELETE
+  id: DELETE
+  parent: SendGrid.BaseClient.Method
+  langs:
+  - csharp
+  - vb
+  name: DELETE
+  nameWithType: BaseClient.Method.DELETE
+  fullName: SendGrid.BaseClient.Method.DELETE
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/BaseClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Remove a resource.
+  example: []
+  syntax:
+    content: DELETE = 0
+    return:
+      type: SendGrid.BaseClient.Method
+- uid: SendGrid.BaseClient.Method.GET
+  commentId: F:SendGrid.BaseClient.Method.GET
+  id: GET
+  parent: SendGrid.BaseClient.Method
+  langs:
+  - csharp
+  - vb
+  name: GET
+  nameWithType: BaseClient.Method.GET
+  fullName: SendGrid.BaseClient.Method.GET
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/BaseClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Get a resource.
+  example: []
+  syntax:
+    content: GET = 1
+    return:
+      type: SendGrid.BaseClient.Method
+- uid: SendGrid.BaseClient.Method.PATCH
+  commentId: F:SendGrid.BaseClient.Method.PATCH
+  id: PATCH
+  parent: SendGrid.BaseClient.Method
+  langs:
+  - csharp
+  - vb
+  name: PATCH
+  nameWithType: BaseClient.Method.PATCH
+  fullName: SendGrid.BaseClient.Method.PATCH
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/BaseClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Modify a portion of the resource.
+  example: []
+  syntax:
+    content: PATCH = 2
+    return:
+      type: SendGrid.BaseClient.Method
+- uid: SendGrid.BaseClient.Method.POST
+  commentId: F:SendGrid.BaseClient.Method.POST
+  id: POST
+  parent: SendGrid.BaseClient.Method
+  langs:
+  - csharp
+  - vb
+  name: POST
+  nameWithType: BaseClient.Method.POST
+  fullName: SendGrid.BaseClient.Method.POST
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/BaseClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Create a resource or execute a function (e.g. send an email).
+  example: []
+  syntax:
+    content: POST = 3
+    return:
+      type: SendGrid.BaseClient.Method
+- uid: SendGrid.BaseClient.Method.PUT
+  commentId: F:SendGrid.BaseClient.Method.PUT
+  id: PUT
+  parent: SendGrid.BaseClient.Method
+  langs:
+  - csharp
+  - vb
+  name: PUT
+  nameWithType: BaseClient.Method.PUT
+  fullName: SendGrid.BaseClient.Method.PUT
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/BaseClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Update an entire resource.
+  example: []
+  syntax:
+    content: PUT = 4
+    return:
+      type: SendGrid.BaseClient.Method
+references:
+- uid: SendGrid
+  commentId: N:SendGrid
+  isExternal: true
+  name: SendGrid
+  nameWithType: SendGrid
+  fullName: SendGrid
+- uid: SendGrid.BaseClient.Method
+  commentId: T:SendGrid.BaseClient.Method
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.BaseClient.html
+  name: BaseClient.Method
+  nameWithType: BaseClient.Method
+  fullName: SendGrid.BaseClient.Method
+  spec.csharp:
+  - uid: SendGrid.BaseClient
+    name: BaseClient
+    isExternal: true
+    href: SendGrid.BaseClient.html
+  - name: .
+  - uid: SendGrid.BaseClient.Method
+    name: Method
+    isExternal: true
+    href: SendGrid.BaseClient.Method.html
+  spec.vb:
+  - uid: SendGrid.BaseClient
+    name: BaseClient
+    isExternal: true
+    href: SendGrid.BaseClient.html
+  - name: .
+  - uid: SendGrid.BaseClient.Method
+    name: Method
+    isExternal: true
+    href: SendGrid.BaseClient.Method.html

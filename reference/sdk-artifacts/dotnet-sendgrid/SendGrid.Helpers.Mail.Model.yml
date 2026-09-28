@@ -1,0 +1,32 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Mail.Model
+  commentId: N:SendGrid.Helpers.Mail.Model
+  id: SendGrid.Helpers.Mail.Model
+  children:
+  - SendGrid.Helpers.Mail.Model.HtmlContent
+  - SendGrid.Helpers.Mail.Model.PlainTextContent
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Helpers.Mail.Model
+  nameWithType: SendGrid.Helpers.Mail.Model
+  fullName: SendGrid.Helpers.Mail.Model
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Helpers.Mail.Model.HtmlContent
+  commentId: T:SendGrid.Helpers.Mail.Model.HtmlContent
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Model.HtmlContent.html
+  name: HtmlContent
+  nameWithType: HtmlContent
+  fullName: SendGrid.Helpers.Mail.Model.HtmlContent
+- uid: SendGrid.Helpers.Mail.Model.PlainTextContent
+  commentId: T:SendGrid.Helpers.Mail.Model.PlainTextContent
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Model.PlainTextContent.html
+  name: PlainTextContent
+  nameWithType: PlainTextContent
+  fullName: SendGrid.Helpers.Mail.Model.PlainTextContent

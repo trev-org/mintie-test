@@ -216,6 +216,48 @@
                     }
                   }
                 ]
+              },
+              {
+                "dropdown": "Python SDK",
+                "icon": "python",
+                "description": "Requests library reference generated from Sphinx JSON build output",
+                "tabs": [
+                  {
+                    "tab": "Requests",
+                    "groups": [
+                      {
+                        "group": "Overview",
+                        "pages": ["reference/python-sdk/introduction"]
+                      }
+                    ],
+                    "sdk": {
+                      "format": "sphinx",
+                      "source": "reference/sdk-artifacts/python-requests",
+                      "directory": "reference/python-sdk"
+                    }
+                  }
+                ]
+              },
+              {
+                "dropdown": ".NET SDK",
+                "icon": "microsoft",
+                "description": "SendGrid C# client reference generated from DocFX metadata",
+                "tabs": [
+                  {
+                    "tab": "SendGrid",
+                    "groups": [
+                      {
+                        "group": "Overview",
+                        "pages": ["reference/dotnet-sdk/introduction"]
+                      }
+                    ],
+                    "sdk": {
+                      "format": "docfx",
+                      "source": "reference/sdk-artifacts/dotnet-sendgrid",
+                      "directory": "reference/dotnet-sdk"
+                    }
+                  }
+                ]
               }
             ]
           },

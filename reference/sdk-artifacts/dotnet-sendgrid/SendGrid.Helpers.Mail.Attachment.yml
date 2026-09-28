@@ -1,0 +1,512 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Mail.Attachment
+  commentId: T:SendGrid.Helpers.Mail.Attachment
+  id: Attachment
+  parent: SendGrid.Helpers.Mail
+  children:
+  - SendGrid.Helpers.Mail.Attachment.#ctor
+  - SendGrid.Helpers.Mail.Attachment.Content
+  - SendGrid.Helpers.Mail.Attachment.ContentId
+  - SendGrid.Helpers.Mail.Attachment.Disposition
+  - SendGrid.Helpers.Mail.Attachment.Filename
+  - SendGrid.Helpers.Mail.Attachment.Type
+  langs:
+  - csharp
+  - vb
+  name: Attachment
+  nameWithType: Attachment
+  fullName: SendGrid.Helpers.Mail.Attachment
+  type: Class
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets an array of objects in which you can specify any attachments you want to include.
+  example: []
+  syntax:
+    content: public class Attachment
+    content.vb: Public Class Attachment
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+- uid: SendGrid.Helpers.Mail.Attachment.#ctor
+  commentId: M:SendGrid.Helpers.Mail.Attachment.#ctor
+  id: '#ctor'
+  parent: SendGrid.Helpers.Mail.Attachment
+  langs:
+  - csharp
+  - vb
+  name: Attachment()
+  nameWithType: Attachment.Attachment()
+  fullName: SendGrid.Helpers.Mail.Attachment.Attachment()
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  syntax:
+    content: public Attachment()
+    content.vb: Public Sub New()
+  overload: SendGrid.Helpers.Mail.Attachment.#ctor*
+  nameWithType.vb: Attachment.New()
+  fullName.vb: SendGrid.Helpers.Mail.Attachment.New()
+  name.vb: New()
+- uid: SendGrid.Helpers.Mail.Attachment.Content
+  commentId: P:SendGrid.Helpers.Mail.Attachment.Content
+  id: Content
+  parent: SendGrid.Helpers.Mail.Attachment
+  langs:
+  - csharp
+  - vb
+  name: Content
+  nameWithType: Attachment.Content
+  fullName: SendGrid.Helpers.Mail.Attachment.Content
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the Base64 encoded content of the attachment.
+  example: []
+  syntax:
+    content: public string Content { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Content As String
+  overload: SendGrid.Helpers.Mail.Attachment.Content*
+- uid: SendGrid.Helpers.Mail.Attachment.Type
+  commentId: P:SendGrid.Helpers.Mail.Attachment.Type
+  id: Type
+  parent: SendGrid.Helpers.Mail.Attachment
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: Attachment.Type
+  fullName: SendGrid.Helpers.Mail.Attachment.Type
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the mime type of the content you are attaching. For example, application/pdf or image/jpeg.
+  example: []
+  syntax:
+    content: public string Type { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Type As String
+  overload: SendGrid.Helpers.Mail.Attachment.Type*
+- uid: SendGrid.Helpers.Mail.Attachment.Filename
+  commentId: P:SendGrid.Helpers.Mail.Attachment.Filename
+  id: Filename
+  parent: SendGrid.Helpers.Mail.Attachment
+  langs:
+  - csharp
+  - vb
+  name: Filename
+  nameWithType: Attachment.Filename
+  fullName: SendGrid.Helpers.Mail.Attachment.Filename
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the filename of the attachment.
+  example: []
+  syntax:
+    content: public string Filename { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Filename As String
+  overload: SendGrid.Helpers.Mail.Attachment.Filename*
+- uid: SendGrid.Helpers.Mail.Attachment.Disposition
+  commentId: P:SendGrid.Helpers.Mail.Attachment.Disposition
+  id: Disposition
+  parent: SendGrid.Helpers.Mail.Attachment
+  langs:
+  - csharp
+  - vb
+  name: Disposition
+  nameWithType: Attachment.Disposition
+  fullName: SendGrid.Helpers.Mail.Attachment.Disposition
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the content-disposition of the attachment specifying how you would like the attachment to be displayed. For example, "inline" results in the attached file being displayed automatically within the message while "attachment" results in the attached file requiring some action to be taken before it is displayed (e.g. opening or downloading the file). Defaults to "attachment". Can be either "attachment" or "inline".
+  example: []
+  syntax:
+    content: public string Disposition { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Disposition As String
+  overload: SendGrid.Helpers.Mail.Attachment.Disposition*
+- uid: SendGrid.Helpers.Mail.Attachment.ContentId
+  commentId: P:SendGrid.Helpers.Mail.Attachment.ContentId
+  id: ContentId
+  parent: SendGrid.Helpers.Mail.Attachment
+  langs:
+  - csharp
+  - vb
+  name: ContentId
+  nameWithType: Attachment.ContentId
+  fullName: SendGrid.Helpers.Mail.Attachment.ContentId
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Attachment.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: 'Gets or sets a unique id that you specify for the attachment. This is used when the disposition is set to "inline" and the attachment is an image, allowing the file to be displayed within the body of your email. Ex: <img src="cid:ii_139db99fdb5c3704" />.'
+  example: []
+  syntax:
+    content: public string ContentId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ContentId As String
+  overload: SendGrid.Helpers.Mail.Attachment.ContentId*
+references:
+- uid: SendGrid.Helpers.Mail
+  commentId: N:SendGrid.Helpers.Mail
+  isExternal: true
+  name: SendGrid.Helpers.Mail
+  nameWithType: SendGrid.Helpers.Mail
+  fullName: SendGrid.Helpers.Mail
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Helpers.Mail.Attachment.#ctor*
+  commentId: Overload:SendGrid.Helpers.Mail.Attachment.#ctor
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html#SendGrid_Helpers_Mail_Attachment__ctor
+  name: Attachment
+  nameWithType: Attachment.Attachment
+  fullName: SendGrid.Helpers.Mail.Attachment.Attachment
+  nameWithType.vb: Attachment.New
+  fullName.vb: SendGrid.Helpers.Mail.Attachment.New
+  name.vb: New
+- uid: SendGrid.Helpers.Mail.Attachment.Content*
+  commentId: Overload:SendGrid.Helpers.Mail.Attachment.Content
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html#SendGrid_Helpers_Mail_Attachment_Content
+  name: Content
+  nameWithType: Attachment.Content
+  fullName: SendGrid.Helpers.Mail.Attachment.Content
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: SendGrid.Helpers.Mail.Attachment.Type*
+  commentId: Overload:SendGrid.Helpers.Mail.Attachment.Type
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html#SendGrid_Helpers_Mail_Attachment_Type
+  name: Type
+  nameWithType: Attachment.Type
+  fullName: SendGrid.Helpers.Mail.Attachment.Type
+- uid: SendGrid.Helpers.Mail.Attachment.Filename*
+  commentId: Overload:SendGrid.Helpers.Mail.Attachment.Filename
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html#SendGrid_Helpers_Mail_Attachment_Filename
+  name: Filename
+  nameWithType: Attachment.Filename
+  fullName: SendGrid.Helpers.Mail.Attachment.Filename
+- uid: SendGrid.Helpers.Mail.Attachment.Disposition*
+  commentId: Overload:SendGrid.Helpers.Mail.Attachment.Disposition
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html#SendGrid_Helpers_Mail_Attachment_Disposition
+  name: Disposition
+  nameWithType: Attachment.Disposition
+  fullName: SendGrid.Helpers.Mail.Attachment.Disposition
+- uid: SendGrid.Helpers.Mail.Attachment.ContentId*
+  commentId: Overload:SendGrid.Helpers.Mail.Attachment.ContentId
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html#SendGrid_Helpers_Mail_Attachment_ContentId
+  name: ContentId
+  nameWithType: Attachment.ContentId
+  fullName: SendGrid.Helpers.Mail.Attachment.ContentId

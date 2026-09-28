@@ -1,0 +1,578 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Permissions.SendGridPermission
+  commentId: T:SendGrid.Permissions.SendGridPermission
+  id: SendGridPermission
+  parent: SendGrid.Permissions
+  children:
+  - SendGrid.Permissions.SendGridPermission.ASMGroups
+  - SendGrid.Permissions.SendGridPermission.Admin
+  - SendGrid.Permissions.SendGridPermission.Alerts
+  - SendGrid.Permissions.SendGridPermission.ApiKeys
+  - SendGrid.Permissions.SendGridPermission.Billing
+  - SendGrid.Permissions.SendGridPermission.Categories
+  - SendGrid.Permissions.SendGridPermission.Clients
+  - SendGrid.Permissions.SendGridPermission.Credentials
+  - SendGrid.Permissions.SendGridPermission.DomainAuthentication
+  - SendGrid.Permissions.SendGridPermission.IPs
+  - SendGrid.Permissions.SendGridPermission.Mail
+  - SendGrid.Permissions.SendGridPermission.MailSettings
+  - SendGrid.Permissions.SendGridPermission.MarketingCampaigns
+  - SendGrid.Permissions.SendGridPermission.Newsletter
+  - SendGrid.Permissions.SendGridPermission.PartnerSettings
+  - SendGrid.Permissions.SendGridPermission.ReverseDNS
+  - SendGrid.Permissions.SendGridPermission.ScheduledSends
+  - SendGrid.Permissions.SendGridPermission.Stats
+  - SendGrid.Permissions.SendGridPermission.Subusers
+  - SendGrid.Permissions.SendGridPermission.Suppressions
+  - SendGrid.Permissions.SendGridPermission.Teammates
+  - SendGrid.Permissions.SendGridPermission.Templates
+  - SendGrid.Permissions.SendGridPermission.Tracking
+  - SendGrid.Permissions.SendGridPermission.UserSettings
+  - SendGrid.Permissions.SendGridPermission.Webhook
+  langs:
+  - csharp
+  - vb
+  name: SendGridPermission
+  nameWithType: SendGridPermission
+  fullName: SendGrid.Permissions.SendGridPermission
+  type: Enum
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: public enum SendGridPermission
+    content.vb: Public Enum SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Admin
+  commentId: F:SendGrid.Permissions.SendGridPermission.Admin
+  id: Admin
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Admin
+  nameWithType: SendGridPermission.Admin
+  fullName: SendGrid.Permissions.SendGridPermission.Admin
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Admin = 0
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Alerts
+  commentId: F:SendGrid.Permissions.SendGridPermission.Alerts
+  id: Alerts
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Alerts
+  nameWithType: SendGridPermission.Alerts
+  fullName: SendGrid.Permissions.SendGridPermission.Alerts
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Alerts = 1
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.ApiKeys
+  commentId: F:SendGrid.Permissions.SendGridPermission.ApiKeys
+  id: ApiKeys
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: ApiKeys
+  nameWithType: SendGridPermission.ApiKeys
+  fullName: SendGrid.Permissions.SendGridPermission.ApiKeys
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: ApiKeys = 2
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.ASMGroups
+  commentId: F:SendGrid.Permissions.SendGridPermission.ASMGroups
+  id: ASMGroups
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: ASMGroups
+  nameWithType: SendGridPermission.ASMGroups
+  fullName: SendGrid.Permissions.SendGridPermission.ASMGroups
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: ASMGroups = 3
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Billing
+  commentId: F:SendGrid.Permissions.SendGridPermission.Billing
+  id: Billing
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Billing
+  nameWithType: SendGridPermission.Billing
+  fullName: SendGrid.Permissions.SendGridPermission.Billing
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Billing = 4
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Categories
+  commentId: F:SendGrid.Permissions.SendGridPermission.Categories
+  id: Categories
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Categories
+  nameWithType: SendGridPermission.Categories
+  fullName: SendGrid.Permissions.SendGridPermission.Categories
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Categories = 5
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Clients
+  commentId: F:SendGrid.Permissions.SendGridPermission.Clients
+  id: Clients
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Clients
+  nameWithType: SendGridPermission.Clients
+  fullName: SendGrid.Permissions.SendGridPermission.Clients
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Clients = 6
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Credentials
+  commentId: F:SendGrid.Permissions.SendGridPermission.Credentials
+  id: Credentials
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Credentials
+  nameWithType: SendGridPermission.Credentials
+  fullName: SendGrid.Permissions.SendGridPermission.Credentials
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Credentials = 7
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.DomainAuthentication
+  commentId: F:SendGrid.Permissions.SendGridPermission.DomainAuthentication
+  id: DomainAuthentication
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: DomainAuthentication
+  nameWithType: SendGridPermission.DomainAuthentication
+  fullName: SendGrid.Permissions.SendGridPermission.DomainAuthentication
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: DomainAuthentication = 8
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.IPs
+  commentId: F:SendGrid.Permissions.SendGridPermission.IPs
+  id: IPs
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: IPs
+  nameWithType: SendGridPermission.IPs
+  fullName: SendGrid.Permissions.SendGridPermission.IPs
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: IPs = 9
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Mail
+  commentId: F:SendGrid.Permissions.SendGridPermission.Mail
+  id: Mail
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Mail
+  nameWithType: SendGridPermission.Mail
+  fullName: SendGrid.Permissions.SendGridPermission.Mail
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Mail = 10
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.MailSettings
+  commentId: F:SendGrid.Permissions.SendGridPermission.MailSettings
+  id: MailSettings
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: MailSettings
+  nameWithType: SendGridPermission.MailSettings
+  fullName: SendGrid.Permissions.SendGridPermission.MailSettings
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: MailSettings = 11
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.MarketingCampaigns
+  commentId: F:SendGrid.Permissions.SendGridPermission.MarketingCampaigns
+  id: MarketingCampaigns
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: MarketingCampaigns
+  nameWithType: SendGridPermission.MarketingCampaigns
+  fullName: SendGrid.Permissions.SendGridPermission.MarketingCampaigns
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: MarketingCampaigns = 12
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Newsletter
+  commentId: F:SendGrid.Permissions.SendGridPermission.Newsletter
+  id: Newsletter
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Newsletter
+  nameWithType: SendGridPermission.Newsletter
+  fullName: SendGrid.Permissions.SendGridPermission.Newsletter
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Newsletter = 13
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.PartnerSettings
+  commentId: F:SendGrid.Permissions.SendGridPermission.PartnerSettings
+  id: PartnerSettings
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: PartnerSettings
+  nameWithType: SendGridPermission.PartnerSettings
+  fullName: SendGrid.Permissions.SendGridPermission.PartnerSettings
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: PartnerSettings = 14
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.ReverseDNS
+  commentId: F:SendGrid.Permissions.SendGridPermission.ReverseDNS
+  id: ReverseDNS
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: ReverseDNS
+  nameWithType: SendGridPermission.ReverseDNS
+  fullName: SendGrid.Permissions.SendGridPermission.ReverseDNS
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: ReverseDNS = 15
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.ScheduledSends
+  commentId: F:SendGrid.Permissions.SendGridPermission.ScheduledSends
+  id: ScheduledSends
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: ScheduledSends
+  nameWithType: SendGridPermission.ScheduledSends
+  fullName: SendGrid.Permissions.SendGridPermission.ScheduledSends
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: ScheduledSends = 16
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Stats
+  commentId: F:SendGrid.Permissions.SendGridPermission.Stats
+  id: Stats
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Stats
+  nameWithType: SendGridPermission.Stats
+  fullName: SendGrid.Permissions.SendGridPermission.Stats
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Stats = 17
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Subusers
+  commentId: F:SendGrid.Permissions.SendGridPermission.Subusers
+  id: Subusers
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Subusers
+  nameWithType: SendGridPermission.Subusers
+  fullName: SendGrid.Permissions.SendGridPermission.Subusers
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Subusers = 18
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Suppressions
+  commentId: F:SendGrid.Permissions.SendGridPermission.Suppressions
+  id: Suppressions
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Suppressions
+  nameWithType: SendGridPermission.Suppressions
+  fullName: SendGrid.Permissions.SendGridPermission.Suppressions
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Suppressions = 19
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Teammates
+  commentId: F:SendGrid.Permissions.SendGridPermission.Teammates
+  id: Teammates
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Teammates
+  nameWithType: SendGridPermission.Teammates
+  fullName: SendGrid.Permissions.SendGridPermission.Teammates
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Teammates = 20
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Templates
+  commentId: F:SendGrid.Permissions.SendGridPermission.Templates
+  id: Templates
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Templates
+  nameWithType: SendGridPermission.Templates
+  fullName: SendGrid.Permissions.SendGridPermission.Templates
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Templates = 21
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Tracking
+  commentId: F:SendGrid.Permissions.SendGridPermission.Tracking
+  id: Tracking
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Tracking
+  nameWithType: SendGridPermission.Tracking
+  fullName: SendGrid.Permissions.SendGridPermission.Tracking
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Tracking = 22
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.UserSettings
+  commentId: F:SendGrid.Permissions.SendGridPermission.UserSettings
+  id: UserSettings
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: UserSettings
+  nameWithType: SendGridPermission.UserSettings
+  fullName: SendGrid.Permissions.SendGridPermission.UserSettings
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: UserSettings = 23
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermission.Webhook
+  commentId: F:SendGrid.Permissions.SendGridPermission.Webhook
+  id: Webhook
+  parent: SendGrid.Permissions.SendGridPermission
+  langs:
+  - csharp
+  - vb
+  name: Webhook
+  nameWithType: SendGridPermission.Webhook
+  fullName: SendGrid.Permissions.SendGridPermission.Webhook
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/SendGridPermission.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  syntax:
+    content: Webhook = 24
+    return:
+      type: SendGrid.Permissions.SendGridPermission
+references:
+- uid: SendGrid.Permissions
+  commentId: N:SendGrid.Permissions
+  isExternal: true
+  name: SendGrid.Permissions
+  nameWithType: SendGrid.Permissions
+  fullName: SendGrid.Permissions
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+- uid: SendGrid.Permissions.SendGridPermission
+  commentId: T:SendGrid.Permissions.SendGridPermission
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermission.html
+  name: SendGridPermission
+  nameWithType: SendGridPermission
+  fullName: SendGrid.Permissions.SendGridPermission

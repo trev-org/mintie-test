@@ -1,0 +1,923 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Mail.Personalization
+  commentId: T:SendGrid.Helpers.Mail.Personalization
+  id: Personalization
+  parent: SendGrid.Helpers.Mail
+  children:
+  - SendGrid.Helpers.Mail.Personalization.#ctor
+  - SendGrid.Helpers.Mail.Personalization.Bccs
+  - SendGrid.Helpers.Mail.Personalization.Ccs
+  - SendGrid.Helpers.Mail.Personalization.CustomArgs
+  - SendGrid.Helpers.Mail.Personalization.From
+  - SendGrid.Helpers.Mail.Personalization.Headers
+  - SendGrid.Helpers.Mail.Personalization.SendAt
+  - SendGrid.Helpers.Mail.Personalization.Subject
+  - SendGrid.Helpers.Mail.Personalization.Substitutions
+  - SendGrid.Helpers.Mail.Personalization.TemplateData
+  - SendGrid.Helpers.Mail.Personalization.Tos
+  langs:
+  - csharp
+  - vb
+  name: Personalization
+  nameWithType: Personalization
+  fullName: SendGrid.Helpers.Mail.Personalization
+  type: Class
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: >-
+    An array of messages and their metadata. Each object within personalizations can be thought of as an envelope - it defines who should receive an individual message and how that message should be handled. For more information, please see our documentation on Personalizations. Parameters in personalizations will override the parameters of the same name from the message level.
+
+    https://sendgrid.com/docs/Classroom/Send/v3_Mail_Send/personalizations.html.
+  example: []
+  syntax:
+    content: public class Personalization
+    content.vb: Public Class Personalization
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+- uid: SendGrid.Helpers.Mail.Personalization.#ctor
+  commentId: M:SendGrid.Helpers.Mail.Personalization.#ctor
+  id: '#ctor'
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Personalization()
+  nameWithType: Personalization.Personalization()
+  fullName: SendGrid.Helpers.Mail.Personalization.Personalization()
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  syntax:
+    content: public Personalization()
+    content.vb: Public Sub New()
+  overload: SendGrid.Helpers.Mail.Personalization.#ctor*
+  nameWithType.vb: Personalization.New()
+  fullName.vb: SendGrid.Helpers.Mail.Personalization.New()
+  name.vb: New()
+- uid: SendGrid.Helpers.Mail.Personalization.Tos
+  commentId: P:SendGrid.Helpers.Mail.Personalization.Tos
+  id: Tos
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Tos
+  nameWithType: Personalization.Tos
+  fullName: SendGrid.Helpers.Mail.Personalization.Tos
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets an array of recipients. Each email object within this array may contain the recipient’s name, but must always contain the recipient’s email.
+  example: []
+  syntax:
+    content: public List<EmailAddress> Tos { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{SendGrid.Helpers.Mail.EmailAddress}
+    content.vb: Public Property Tos As List(Of EmailAddress)
+  overload: SendGrid.Helpers.Mail.Personalization.Tos*
+- uid: SendGrid.Helpers.Mail.Personalization.Ccs
+  commentId: P:SendGrid.Helpers.Mail.Personalization.Ccs
+  id: Ccs
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Ccs
+  nameWithType: Personalization.Ccs
+  fullName: SendGrid.Helpers.Mail.Personalization.Ccs
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets an array of recipients who will receive a copy of your email. Each email object within this array may contain the recipient’s name, but must always contain the recipient’s email.
+  example: []
+  syntax:
+    content: public List<EmailAddress> Ccs { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{SendGrid.Helpers.Mail.EmailAddress}
+    content.vb: Public Property Ccs As List(Of EmailAddress)
+  overload: SendGrid.Helpers.Mail.Personalization.Ccs*
+- uid: SendGrid.Helpers.Mail.Personalization.Bccs
+  commentId: P:SendGrid.Helpers.Mail.Personalization.Bccs
+  id: Bccs
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Bccs
+  nameWithType: Personalization.Bccs
+  fullName: SendGrid.Helpers.Mail.Personalization.Bccs
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets an array of recipients who will receive a blind carbon copy of your email. Each email object within this array may contain the recipient’s name, but must always contain the recipient’s email.
+  example: []
+  syntax:
+    content: public List<EmailAddress> Bccs { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{SendGrid.Helpers.Mail.EmailAddress}
+    content.vb: Public Property Bccs As List(Of EmailAddress)
+  overload: SendGrid.Helpers.Mail.Personalization.Bccs*
+- uid: SendGrid.Helpers.Mail.Personalization.From
+  commentId: P:SendGrid.Helpers.Mail.Personalization.From
+  id: From
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: From
+  nameWithType: Personalization.From
+  fullName: SendGrid.Helpers.Mail.Personalization.From
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the from email address. The domain must match the domain of the from email property specified at root level of the request body.
+  example: []
+  syntax:
+    content: public EmailAddress From { get; set; }
+    parameters: []
+    return:
+      type: SendGrid.Helpers.Mail.EmailAddress
+    content.vb: Public Property From As EmailAddress
+  overload: SendGrid.Helpers.Mail.Personalization.From*
+- uid: SendGrid.Helpers.Mail.Personalization.Subject
+  commentId: P:SendGrid.Helpers.Mail.Personalization.Subject
+  id: Subject
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Subject
+  nameWithType: Personalization.Subject
+  fullName: SendGrid.Helpers.Mail.Personalization.Subject
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the subject line of your email.
+  example: []
+  syntax:
+    content: public string Subject { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Subject As String
+  overload: SendGrid.Helpers.Mail.Personalization.Subject*
+- uid: SendGrid.Helpers.Mail.Personalization.Headers
+  commentId: P:SendGrid.Helpers.Mail.Personalization.Headers
+  id: Headers
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Headers
+  nameWithType: Personalization.Headers
+  fullName: SendGrid.Helpers.Mail.Personalization.Headers
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the object allowing you to specify specific handling instructions for your email.
+  example: []
+  syntax:
+    content: public Dictionary<string, string> Headers { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public Property Headers As Dictionary(Of String, String)
+  overload: SendGrid.Helpers.Mail.Personalization.Headers*
+- uid: SendGrid.Helpers.Mail.Personalization.Substitutions
+  commentId: P:SendGrid.Helpers.Mail.Personalization.Substitutions
+  id: Substitutions
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: Substitutions
+  nameWithType: Personalization.Substitutions
+  fullName: SendGrid.Helpers.Mail.Personalization.Substitutions
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: >-
+    Gets or sets an object following the pattern "substitution_tag":"value to substitute". All are assumed to be strings. These substitutions will apply to the content of your email, in addition to the subject and reply-to parameters.
+
+    You may not include more than 100 substitutions per personalization object, and the total collective size of your substitutions may not exceed 10,000 bytes per personalization object.
+  example: []
+  syntax:
+    content: public Dictionary<string, string> Substitutions { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public Property Substitutions As Dictionary(Of String, String)
+  overload: SendGrid.Helpers.Mail.Personalization.Substitutions*
+- uid: SendGrid.Helpers.Mail.Personalization.CustomArgs
+  commentId: P:SendGrid.Helpers.Mail.Personalization.CustomArgs
+  id: CustomArgs
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: CustomArgs
+  nameWithType: Personalization.CustomArgs
+  fullName: SendGrid.Helpers.Mail.Personalization.CustomArgs
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the values that are specific to this personalization that will be carried along with the email, activity data, and links. Substitutions will not be made on custom arguments. personalizations[x].custom_args will be merged with message level custom_args, overriding any conflicting keys. The combined total size of the resulting custom arguments, after merging, for each personalization may not exceed 10,000 bytes.
+  example: []
+  syntax:
+    content: public Dictionary<string, string> CustomArgs { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public Property CustomArgs As Dictionary(Of String, String)
+  overload: SendGrid.Helpers.Mail.Personalization.CustomArgs*
+- uid: SendGrid.Helpers.Mail.Personalization.SendAt
+  commentId: P:SendGrid.Helpers.Mail.Personalization.SendAt
+  id: SendAt
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: SendAt
+  nameWithType: Personalization.SendAt
+  fullName: SendGrid.Helpers.Mail.Personalization.SendAt
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets a unix timestamp allowing you to specify when you want your email to be sent from Twilio SendGrid. This is not necessary if you want the email to be sent at the time of your API request.
+  example: []
+  syntax:
+    content: public long? SendAt { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int64}
+    content.vb: Public Property SendAt As Long?
+  overload: SendGrid.Helpers.Mail.Personalization.SendAt*
+- uid: SendGrid.Helpers.Mail.Personalization.TemplateData
+  commentId: P:SendGrid.Helpers.Mail.Personalization.TemplateData
+  id: TemplateData
+  parent: SendGrid.Helpers.Mail.Personalization
+  langs:
+  - csharp
+  - vb
+  name: TemplateData
+  nameWithType: Personalization.TemplateData
+  fullName: SendGrid.Helpers.Mail.Personalization.TemplateData
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/Personalization.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Gets or sets the template data object following the pattern "template data key":"template data value". All are assumed to be strings. These key value pairs will apply to the content of your template email, in addition to the subject and reply-to parameters.
+  example: []
+  syntax:
+    content: public object TemplateData { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property TemplateData As Object
+  overload: SendGrid.Helpers.Mail.Personalization.TemplateData*
+references:
+- uid: SendGrid.Helpers.Mail
+  commentId: N:SendGrid.Helpers.Mail
+  isExternal: true
+  name: SendGrid.Helpers.Mail
+  nameWithType: SendGrid.Helpers.Mail
+  fullName: SendGrid.Helpers.Mail
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Helpers.Mail.Personalization.#ctor*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.#ctor
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization__ctor
+  name: Personalization
+  nameWithType: Personalization.Personalization
+  fullName: SendGrid.Helpers.Mail.Personalization.Personalization
+  nameWithType.vb: Personalization.New
+  fullName.vb: SendGrid.Helpers.Mail.Personalization.New
+  name.vb: New
+- uid: SendGrid.Helpers.Mail.Personalization.Tos*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.Tos
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_Tos
+  name: Tos
+  nameWithType: Personalization.Tos
+  fullName: SendGrid.Helpers.Mail.Personalization.Tos
+- uid: System.Collections.Generic.List{SendGrid.Helpers.Mail.EmailAddress}
+  commentId: T:System.Collections.Generic.List{SendGrid.Helpers.Mail.EmailAddress}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<EmailAddress>
+  nameWithType: List<EmailAddress>
+  fullName: System.Collections.Generic.List<SendGrid.Helpers.Mail.EmailAddress>
+  nameWithType.vb: List(Of EmailAddress)
+  fullName.vb: System.Collections.Generic.List(Of SendGrid.Helpers.Mail.EmailAddress)
+  name.vb: List(Of EmailAddress)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: SendGrid.Helpers.Mail.EmailAddress
+    name: EmailAddress
+    isExternal: true
+    href: SendGrid.Helpers.Mail.EmailAddress.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: SendGrid.Helpers.Mail.EmailAddress
+    name: EmailAddress
+    isExternal: true
+    href: SendGrid.Helpers.Mail.EmailAddress.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: SendGrid.Helpers.Mail.Personalization.Ccs*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.Ccs
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_Ccs
+  name: Ccs
+  nameWithType: Personalization.Ccs
+  fullName: SendGrid.Helpers.Mail.Personalization.Ccs
+- uid: SendGrid.Helpers.Mail.Personalization.Bccs*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.Bccs
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_Bccs
+  name: Bccs
+  nameWithType: Personalization.Bccs
+  fullName: SendGrid.Helpers.Mail.Personalization.Bccs
+- uid: SendGrid.Helpers.Mail.Personalization.From*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.From
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_From
+  name: From
+  nameWithType: Personalization.From
+  fullName: SendGrid.Helpers.Mail.Personalization.From
+- uid: SendGrid.Helpers.Mail.EmailAddress
+  commentId: T:SendGrid.Helpers.Mail.EmailAddress
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.EmailAddress.html
+  name: EmailAddress
+  nameWithType: EmailAddress
+  fullName: SendGrid.Helpers.Mail.EmailAddress
+- uid: SendGrid.Helpers.Mail.Personalization.Subject*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.Subject
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_Subject
+  name: Subject
+  nameWithType: Personalization.Subject
+  fullName: SendGrid.Helpers.Mail.Personalization.Subject
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: SendGrid.Helpers.Mail.Personalization.Headers*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.Headers
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_Headers
+  name: Headers
+  nameWithType: Personalization.Headers
+  fullName: SendGrid.Helpers.Mail.Personalization.Headers
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, string>
+  nameWithType: Dictionary<string, string>
+  fullName: System.Collections.Generic.Dictionary<string, string>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: SendGrid.Helpers.Mail.Personalization.Substitutions*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.Substitutions
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_Substitutions
+  name: Substitutions
+  nameWithType: Personalization.Substitutions
+  fullName: SendGrid.Helpers.Mail.Personalization.Substitutions
+- uid: SendGrid.Helpers.Mail.Personalization.CustomArgs*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.CustomArgs
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_CustomArgs
+  name: CustomArgs
+  nameWithType: Personalization.CustomArgs
+  fullName: SendGrid.Helpers.Mail.Personalization.CustomArgs
+- uid: SendGrid.Helpers.Mail.Personalization.SendAt*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.SendAt
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_SendAt
+  name: SendAt
+  nameWithType: Personalization.SendAt
+  fullName: SendGrid.Helpers.Mail.Personalization.SendAt
+- uid: System.Nullable{System.Int64}
+  commentId: T:System.Nullable{System.Int64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long?
+  nameWithType: long?
+  fullName: long?
+  nameWithType.vb: Long?
+  fullName.vb: Long?
+  name.vb: Long?
+  spec.csharp:
+  - uid: System.Int64
+    name: long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: '?'
+  spec.vb:
+  - uid: System.Int64
+    name: Long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: SendGrid.Helpers.Mail.Personalization.TemplateData*
+  commentId: Overload:SendGrid.Helpers.Mail.Personalization.TemplateData
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html#SendGrid_Helpers_Mail_Personalization_TemplateData
+  name: TemplateData
+  nameWithType: Personalization.TemplateData
+  fullName: SendGrid.Helpers.Mail.Personalization.TemplateData

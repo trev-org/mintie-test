@@ -1,0 +1,24 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.EventWebhook
+  commentId: N:SendGrid.Helpers.EventWebhook
+  id: SendGrid.Helpers.EventWebhook
+  children:
+  - SendGrid.Helpers.EventWebhook.RequestValidator
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Helpers.EventWebhook
+  nameWithType: SendGrid.Helpers.EventWebhook
+  fullName: SendGrid.Helpers.EventWebhook
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Helpers.EventWebhook.RequestValidator
+  commentId: T:SendGrid.Helpers.EventWebhook.RequestValidator
+  isExternal: true
+  href: SendGrid.Helpers.EventWebhook.RequestValidator.html
+  name: RequestValidator
+  nameWithType: RequestValidator
+  fullName: SendGrid.Helpers.EventWebhook.RequestValidator

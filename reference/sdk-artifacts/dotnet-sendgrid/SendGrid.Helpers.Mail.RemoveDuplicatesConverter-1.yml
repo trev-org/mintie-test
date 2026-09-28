@@ -1,0 +1,314 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  commentId: T:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  id: RemoveDuplicatesConverter`1
+  parent: SendGrid.Helpers.Mail
+  children:
+  - SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.#ctor
+  - SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanConvert(System.Type)
+  - SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanRead
+  - SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)
+  - SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)
+  langs:
+  - csharp
+  - vb
+  name: RemoveDuplicatesConverter<T>
+  nameWithType: RemoveDuplicatesConverter<T>
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>
+  type: Class
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/JsonConverters.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Removes duplicates when writing the JSON representation of the object.
+  example: []
+  syntax:
+    content: 'public class RemoveDuplicatesConverter<T> : JsonConverter'
+    typeParameters:
+    - id: T
+    content.vb: Public Class RemoveDuplicatesConverter(Of T) Inherits JsonConverter
+  inheritance:
+  - System.Object
+  nameWithType.vb: RemoveDuplicatesConverter(Of T)
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T)
+  name.vb: RemoveDuplicatesConverter(Of T)
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanConvert(System.Type)
+  commentId: M:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanConvert(System.Type)
+  id: CanConvert(System.Type)
+  parent: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  langs:
+  - csharp
+  - vb
+  name: CanConvert(Type)
+  nameWithType: RemoveDuplicatesConverter<T>.CanConvert(Type)
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.CanConvert(System.Type)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/JsonConverters.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Determines whether this instance can convert the specified object type.
+  example: []
+  syntax:
+    content: public override bool CanConvert(Type objectType)
+    parameters:
+    - id: objectType
+      type: System.Type
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Function CanConvert(objectType As Type) As Boolean
+  overload: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanConvert*
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).CanConvert(Type)
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).CanConvert(System.Type)
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)
+  commentId: M:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)
+  id: WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)
+  parent: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  langs:
+  - csharp
+  - vb
+  name: WriteJson(JsonWriter, object, JsonSerializer)
+  nameWithType: RemoveDuplicatesConverter<T>.WriteJson(JsonWriter, object, JsonSerializer)
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.WriteJson(Newtonsoft.Json.JsonWriter, object, Newtonsoft.Json.JsonSerializer)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/JsonConverters.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Writes the JSON representation of the object.
+  example: []
+  syntax:
+    content: public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    parameters:
+    - id: writer
+      type: Newtonsoft.Json.JsonWriter
+    - id: value
+      type: System.Object
+    - id: serializer
+      type: Newtonsoft.Json.JsonSerializer
+    content.vb: Public Overrides Sub WriteJson(writer As JsonWriter, value As Object, serializer As JsonSerializer)
+  overload: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.WriteJson*
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).WriteJson(JsonWriter, Object, JsonSerializer)
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).WriteJson(Newtonsoft.Json.JsonWriter, Object, Newtonsoft.Json.JsonSerializer)
+  name.vb: WriteJson(JsonWriter, Object, JsonSerializer)
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)
+  commentId: M:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)
+  id: ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)
+  parent: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  langs:
+  - csharp
+  - vb
+  name: ReadJson(JsonReader, Type, object, JsonSerializer)
+  nameWithType: RemoveDuplicatesConverter<T>.ReadJson(JsonReader, Type, object, JsonSerializer)
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.ReadJson(Newtonsoft.Json.JsonReader, System.Type, object, Newtonsoft.Json.JsonSerializer)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/JsonConverters.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Reads the JSON representation of the object.
+  example: []
+  syntax:
+    content: public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    parameters:
+    - id: reader
+      type: Newtonsoft.Json.JsonReader
+    - id: objectType
+      type: System.Type
+    - id: existingValue
+      type: System.Object
+    - id: serializer
+      type: Newtonsoft.Json.JsonSerializer
+    return:
+      type: System.Object
+    content.vb: Public Overrides Function ReadJson(reader As JsonReader, objectType As Type, existingValue As Object, serializer As JsonSerializer) As Object
+  overload: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.ReadJson*
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).ReadJson(JsonReader, Type, Object, JsonSerializer)
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).ReadJson(Newtonsoft.Json.JsonReader, System.Type, Object, Newtonsoft.Json.JsonSerializer)
+  name.vb: ReadJson(JsonReader, Type, Object, JsonSerializer)
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.#ctor
+  commentId: M:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.#ctor
+  id: '#ctor'
+  parent: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveDuplicatesConverter()
+  nameWithType: RemoveDuplicatesConverter<T>.RemoveDuplicatesConverter()
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.RemoveDuplicatesConverter()
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/JsonConverters.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  syntax:
+    content: public RemoveDuplicatesConverter()
+    content.vb: Public Sub New()
+  overload: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.#ctor*
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).New()
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).New()
+  name.vb: New()
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanRead
+  commentId: P:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanRead
+  id: CanRead
+  parent: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  langs:
+  - csharp
+  - vb
+  name: CanRead
+  nameWithType: RemoveDuplicatesConverter<T>.CanRead
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.CanRead
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Helpers/Mail/Model/JsonConverters.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Helpers.Mail
+  summary: Determines whether this instance can convert the specified object type.
+  example: []
+  syntax:
+    content: public override bool CanRead { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides ReadOnly Property CanRead As Boolean
+  overload: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanRead*
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).CanRead
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).CanRead
+references:
+- uid: SendGrid.Helpers.Mail
+  commentId: N:SendGrid.Helpers.Mail
+  isExternal: true
+  name: SendGrid.Helpers.Mail
+  nameWithType: SendGrid.Helpers.Mail
+  fullName: SendGrid.Helpers.Mail
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanConvert*
+  commentId: Overload:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanConvert
+  isExternal: true
+  href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html#SendGrid_Helpers_Mail_RemoveDuplicatesConverter_1_CanConvert_System_Type_
+  name: CanConvert
+  nameWithType: RemoveDuplicatesConverter<T>.CanConvert
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.CanConvert
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).CanConvert
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).CanConvert
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.WriteJson*
+  commentId: Overload:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.WriteJson
+  isExternal: true
+  href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html#SendGrid_Helpers_Mail_RemoveDuplicatesConverter_1_WriteJson_Newtonsoft_Json_JsonWriter_System_Object_Newtonsoft_Json_JsonSerializer_
+  name: WriteJson
+  nameWithType: RemoveDuplicatesConverter<T>.WriteJson
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.WriteJson
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).WriteJson
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).WriteJson
+- uid: Newtonsoft.Json.JsonWriter
+  commentId: '!:Newtonsoft.Json.JsonWriter'
+  isExternal: true
+  name: JsonWriter
+  nameWithType: JsonWriter
+  fullName: Newtonsoft.Json.JsonWriter
+- uid: Newtonsoft.Json.JsonSerializer
+  isExternal: true
+  name: JsonSerializer
+  nameWithType: JsonSerializer
+  fullName: Newtonsoft.Json.JsonSerializer
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.ReadJson*
+  commentId: Overload:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.ReadJson
+  isExternal: true
+  href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html#SendGrid_Helpers_Mail_RemoveDuplicatesConverter_1_ReadJson_Newtonsoft_Json_JsonReader_System_Type_System_Object_Newtonsoft_Json_JsonSerializer_
+  name: ReadJson
+  nameWithType: RemoveDuplicatesConverter<T>.ReadJson
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.ReadJson
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).ReadJson
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).ReadJson
+- uid: Newtonsoft.Json.JsonReader
+  commentId: '!:Newtonsoft.Json.JsonReader'
+  isExternal: true
+  name: JsonReader
+  nameWithType: JsonReader
+  fullName: Newtonsoft.Json.JsonReader
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.#ctor*
+  commentId: Overload:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.#ctor
+  isExternal: true
+  href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html#SendGrid_Helpers_Mail_RemoveDuplicatesConverter_1__ctor
+  name: RemoveDuplicatesConverter
+  nameWithType: RemoveDuplicatesConverter<T>.RemoveDuplicatesConverter
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.RemoveDuplicatesConverter
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).New
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).New
+  name.vb: New
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanRead*
+  commentId: Overload:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1.CanRead
+  isExternal: true
+  href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html#SendGrid_Helpers_Mail_RemoveDuplicatesConverter_1_CanRead
+  name: CanRead
+  nameWithType: RemoveDuplicatesConverter<T>.CanRead
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>.CanRead
+  nameWithType.vb: RemoveDuplicatesConverter(Of T).CanRead
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T).CanRead

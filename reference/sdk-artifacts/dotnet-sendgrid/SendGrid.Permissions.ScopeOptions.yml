@@ -1,0 +1,122 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Permissions.ScopeOptions
+  commentId: T:SendGrid.Permissions.ScopeOptions
+  id: ScopeOptions
+  parent: SendGrid.Permissions
+  children:
+  - SendGrid.Permissions.ScopeOptions.All
+  - SendGrid.Permissions.ScopeOptions.ReadOnly
+  langs:
+  - csharp
+  - vb
+  name: ScopeOptions
+  nameWithType: ScopeOptions
+  fullName: SendGrid.Permissions.ScopeOptions
+  type: Enum
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/ScopeOptions.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Represents a set of possible scope options
+  example: []
+  syntax:
+    content: public enum ScopeOptions
+    content.vb: Public Enum ScopeOptions
+  seealso:
+  - linkId: System.String
+    commentId: T:System.String
+- uid: SendGrid.Permissions.ScopeOptions.All
+  commentId: F:SendGrid.Permissions.ScopeOptions.All
+  id: All
+  parent: SendGrid.Permissions.ScopeOptions
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: ScopeOptions.All
+  fullName: SendGrid.Permissions.ScopeOptions.All
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/ScopeOptions.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: All scopes. When filtering scopes no scopes will be exluded
+  example: []
+  syntax:
+    content: All = 0
+    return:
+      type: SendGrid.Permissions.ScopeOptions
+- uid: SendGrid.Permissions.ScopeOptions.ReadOnly
+  commentId: F:SendGrid.Permissions.ScopeOptions.ReadOnly
+  id: ReadOnly
+  parent: SendGrid.Permissions.ScopeOptions
+  langs:
+  - csharp
+  - vb
+  name: ReadOnly
+  nameWithType: ScopeOptions.ReadOnly
+  fullName: SendGrid.Permissions.ScopeOptions.ReadOnly
+  type: Field
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Permissions/ScopeOptions.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid.Permissions
+  summary: Read-only scopes. When fitlering scopes this will include only those that end with ".read"
+  example: []
+  syntax:
+    content: ReadOnly = 1
+    return:
+      type: SendGrid.Permissions.ScopeOptions
+references:
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: SendGrid.Permissions
+  commentId: N:SendGrid.Permissions
+  isExternal: true
+  name: SendGrid.Permissions
+  nameWithType: SendGrid.Permissions
+  fullName: SendGrid.Permissions
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Permissions.ScopeOptions
+  commentId: T:SendGrid.Permissions.ScopeOptions
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.ScopeOptions.html
+  name: ScopeOptions
+  nameWithType: ScopeOptions
+  fullName: SendGrid.Permissions.ScopeOptions
