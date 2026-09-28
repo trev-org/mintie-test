@@ -1,0 +1,160 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Errors.Model
+  commentId: N:SendGrid.Helpers.Errors.Model
+  id: SendGrid.Helpers.Errors.Model
+  children:
+  - SendGrid.Helpers.Errors.Model.BadRequestException
+  - SendGrid.Helpers.Errors.Model.ForbiddenException
+  - SendGrid.Helpers.Errors.Model.MethodNotAllowedException
+  - SendGrid.Helpers.Errors.Model.NotFoundException
+  - SendGrid.Helpers.Errors.Model.PayloadTooLargeException
+  - SendGrid.Helpers.Errors.Model.RequestErrorException
+  - SendGrid.Helpers.Errors.Model.SendGridErrorResponse
+  - SendGrid.Helpers.Errors.Model.SendGridInternalException
+  - SendGrid.Helpers.Errors.Model.ServerUnavailableException
+  - SendGrid.Helpers.Errors.Model.ServiceNotAvailableException
+  - SendGrid.Helpers.Errors.Model.TooManyRequestsException
+  - SendGrid.Helpers.Errors.Model.UnauthorizedException
+  - SendGrid.Helpers.Errors.Model.UnsupportedMediaTypeException
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Helpers.Errors.Model
+  nameWithType: SendGrid.Helpers.Errors.Model
+  fullName: SendGrid.Helpers.Errors.Model
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Helpers.Errors.Model.BadRequestException
+  commentId: T:SendGrid.Helpers.Errors.Model.BadRequestException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.BadRequestException.html
+  name: BadRequestException
+  nameWithType: BadRequestException
+  fullName: SendGrid.Helpers.Errors.Model.BadRequestException
+- uid: SendGrid.Helpers.Errors.Model.ForbiddenException
+  commentId: T:SendGrid.Helpers.Errors.Model.ForbiddenException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.ForbiddenException.html
+  name: ForbiddenException
+  nameWithType: ForbiddenException
+  fullName: SendGrid.Helpers.Errors.Model.ForbiddenException
+- uid: SendGrid.Helpers.Errors.Model.MethodNotAllowedException
+  commentId: T:SendGrid.Helpers.Errors.Model.MethodNotAllowedException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.MethodNotAllowedException.html
+  name: MethodNotAllowedException
+  nameWithType: MethodNotAllowedException
+  fullName: SendGrid.Helpers.Errors.Model.MethodNotAllowedException
+- uid: SendGrid.Helpers.Errors.Model.NotFoundException
+  commentId: T:SendGrid.Helpers.Errors.Model.NotFoundException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.NotFoundException.html
+  name: NotFoundException
+  nameWithType: NotFoundException
+  fullName: SendGrid.Helpers.Errors.Model.NotFoundException
+- uid: SendGrid.Helpers.Errors.Model.PayloadTooLargeException
+  commentId: T:SendGrid.Helpers.Errors.Model.PayloadTooLargeException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.PayloadTooLargeException.html
+  name: PayloadTooLargeException
+  nameWithType: PayloadTooLargeException
+  fullName: SendGrid.Helpers.Errors.Model.PayloadTooLargeException
+- uid: SendGrid.Helpers.Errors.Model.RequestErrorException
+  commentId: T:SendGrid.Helpers.Errors.Model.RequestErrorException
+  parent: SendGrid.Helpers.Errors.Model
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.RequestErrorException.html
+  name: RequestErrorException
+  nameWithType: RequestErrorException
+  fullName: SendGrid.Helpers.Errors.Model.RequestErrorException
+- uid: SendGrid.Helpers.Errors.Model.SendGridErrorResponse
+  commentId: T:SendGrid.Helpers.Errors.Model.SendGridErrorResponse
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.SendGridErrorResponse.html
+  name: SendGridErrorResponse
+  nameWithType: SendGridErrorResponse
+  fullName: SendGrid.Helpers.Errors.Model.SendGridErrorResponse
+- uid: SendGrid.Helpers.Errors.Model.SendGridInternalException
+  commentId: T:SendGrid.Helpers.Errors.Model.SendGridInternalException
+  parent: SendGrid.Helpers.Errors.Model
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.SendGridInternalException.html
+  name: SendGridInternalException
+  nameWithType: SendGridInternalException
+  fullName: SendGrid.Helpers.Errors.Model.SendGridInternalException
+- uid: SendGrid.Helpers.Errors.Model.ServerUnavailableException
+  commentId: T:SendGrid.Helpers.Errors.Model.ServerUnavailableException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.ServerUnavailableException.html
+  name: ServerUnavailableException
+  nameWithType: ServerUnavailableException
+  fullName: SendGrid.Helpers.Errors.Model.ServerUnavailableException
+- uid: SendGrid.Helpers.Errors.Model.ServiceNotAvailableException
+  commentId: T:SendGrid.Helpers.Errors.Model.ServiceNotAvailableException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.ServiceNotAvailableException.html
+  name: ServiceNotAvailableException
+  nameWithType: ServiceNotAvailableException
+  fullName: SendGrid.Helpers.Errors.Model.ServiceNotAvailableException
+- uid: SendGrid.Helpers.Errors.Model.TooManyRequestsException
+  commentId: T:SendGrid.Helpers.Errors.Model.TooManyRequestsException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.TooManyRequestsException.html
+  name: TooManyRequestsException
+  nameWithType: TooManyRequestsException
+  fullName: SendGrid.Helpers.Errors.Model.TooManyRequestsException
+- uid: SendGrid.Helpers.Errors.Model.UnauthorizedException
+  commentId: T:SendGrid.Helpers.Errors.Model.UnauthorizedException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.UnauthorizedException.html
+  name: UnauthorizedException
+  nameWithType: UnauthorizedException
+  fullName: SendGrid.Helpers.Errors.Model.UnauthorizedException
+- uid: SendGrid.Helpers.Errors.Model.UnsupportedMediaTypeException
+  commentId: T:SendGrid.Helpers.Errors.Model.UnsupportedMediaTypeException
+  isExternal: true
+  href: SendGrid.Helpers.Errors.Model.UnsupportedMediaTypeException.html
+  name: UnsupportedMediaTypeException
+  nameWithType: UnsupportedMediaTypeException
+  fullName: SendGrid.Helpers.Errors.Model.UnsupportedMediaTypeException
+- uid: SendGrid.Helpers.Errors.Model
+  commentId: N:SendGrid.Helpers.Errors.Model
+  isExternal: true
+  name: SendGrid.Helpers.Errors.Model
+  nameWithType: SendGrid.Helpers.Errors.Model
+  fullName: SendGrid.Helpers.Errors.Model
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Errors
+    name: Errors
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Errors.Model
+    name: Model
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Errors
+    name: Errors
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Errors.Model
+    name: Model
+    isExternal: true

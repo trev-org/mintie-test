@@ -1,0 +1,74 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Permissions
+  commentId: N:SendGrid.Permissions
+  id: SendGrid.Permissions
+  children:
+  - SendGrid.Permissions.ScopeOptions
+  - SendGrid.Permissions.SendGridClientExtensions
+  - SendGrid.Permissions.SendGridPermission
+  - SendGrid.Permissions.SendGridPermissionsBuilder
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Permissions
+  nameWithType: SendGrid.Permissions
+  fullName: SendGrid.Permissions
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Permissions.ScopeOptions
+  commentId: T:SendGrid.Permissions.ScopeOptions
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.ScopeOptions.html
+  name: ScopeOptions
+  nameWithType: ScopeOptions
+  fullName: SendGrid.Permissions.ScopeOptions
+- uid: SendGrid.Permissions.SendGridClientExtensions
+  commentId: T:SendGrid.Permissions.SendGridClientExtensions
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridClientExtensions.html
+  name: SendGridClientExtensions
+  nameWithType: SendGridClientExtensions
+  fullName: SendGrid.Permissions.SendGridClientExtensions
+- uid: SendGrid.Permissions.SendGridPermission
+  commentId: T:SendGrid.Permissions.SendGridPermission
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermission.html
+  name: SendGridPermission
+  nameWithType: SendGridPermission
+  fullName: SendGrid.Permissions.SendGridPermission
+- uid: SendGrid.Permissions.SendGridPermissionsBuilder
+  commentId: T:SendGrid.Permissions.SendGridPermissionsBuilder
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridPermissionsBuilder.html
+  name: SendGridPermissionsBuilder
+  nameWithType: SendGridPermissionsBuilder
+  fullName: SendGrid.Permissions.SendGridPermissionsBuilder
+- uid: SendGrid.Permissions
+  commentId: N:SendGrid.Permissions
+  isExternal: true
+  name: SendGrid.Permissions
+  nameWithType: SendGrid.Permissions
+  fullName: SendGrid.Permissions
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true

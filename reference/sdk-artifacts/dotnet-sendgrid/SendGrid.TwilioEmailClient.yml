@@ -1,0 +1,970 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.TwilioEmailClient
+  commentId: T:SendGrid.TwilioEmailClient
+  id: TwilioEmailClient
+  parent: SendGrid
+  children:
+  - SendGrid.TwilioEmailClient.#ctor(System.Net.Http.HttpClient,System.String,System.String)
+  - SendGrid.TwilioEmailClient.#ctor(System.Net.IWebProxy,System.String,System.String)
+  - SendGrid.TwilioEmailClient.#ctor(System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: TwilioEmailClient
+  nameWithType: TwilioEmailClient
+  fullName: SendGrid.TwilioEmailClient
+  type: Class
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/TwilioEmailClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: An HTTP client wrapper for interacting with the Twilio Email API.
+  example: []
+  syntax:
+    content: 'public class TwilioEmailClient : BaseClient, ISendGridClient'
+    content.vb: Public Class TwilioEmailClient Inherits BaseClient Implements ISendGridClient
+  inheritance:
+  - System.Object
+  - SendGrid.BaseClient
+  implements:
+  - SendGrid.ISendGridClient
+  inheritedMembers:
+  - SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  - SendGrid.BaseClient.MakeRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  - SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method,System.String,System.String,System.String,System.Threading.CancellationToken)
+  - SendGrid.BaseClient.SendEmailAsync(SendGrid.Helpers.Mail.SendGridMessage,System.Threading.CancellationToken)
+  - SendGrid.BaseClient.UrlPath
+  - SendGrid.BaseClient.Version
+  - SendGrid.BaseClient.MediaType
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  extensionMethods:
+  - SendGrid.ISendGridClient.SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+  - SendGrid.ISendGridClient.SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient
+- uid: SendGrid.TwilioEmailClient.#ctor(System.Net.IWebProxy,System.String,System.String)
+  commentId: M:SendGrid.TwilioEmailClient.#ctor(System.Net.IWebProxy,System.String,System.String)
+  id: '#ctor(System.Net.IWebProxy,System.String,System.String)'
+  parent: SendGrid.TwilioEmailClient
+  langs:
+  - csharp
+  - vb
+  name: TwilioEmailClient(IWebProxy, string, string)
+  nameWithType: TwilioEmailClient.TwilioEmailClient(IWebProxy, string, string)
+  fullName: SendGrid.TwilioEmailClient.TwilioEmailClient(System.Net.IWebProxy, string, string)
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/TwilioEmailClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Initializes a new instance of the <xref href="SendGrid.TwilioEmailClient" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public TwilioEmailClient(IWebProxy webProxy, string username, string password)
+    parameters:
+    - id: webProxy
+      type: System.Net.IWebProxy
+      description: Web proxy.
+    - id: username
+      type: System.String
+      description: Your Twilio Email API key SID or Account SID.
+    - id: password
+      type: System.String
+      description: Your Twilio Email API key secret or Account Auth Token.
+    content.vb: Public Sub New(webProxy As IWebProxy, username As String, password As String)
+  overload: SendGrid.TwilioEmailClient.#ctor*
+  nameWithType.vb: TwilioEmailClient.New(IWebProxy, String, String)
+  fullName.vb: SendGrid.TwilioEmailClient.New(System.Net.IWebProxy, String, String)
+  name.vb: New(IWebProxy, String, String)
+- uid: SendGrid.TwilioEmailClient.#ctor(System.Net.Http.HttpClient,System.String,System.String)
+  commentId: M:SendGrid.TwilioEmailClient.#ctor(System.Net.Http.HttpClient,System.String,System.String)
+  id: '#ctor(System.Net.Http.HttpClient,System.String,System.String)'
+  parent: SendGrid.TwilioEmailClient
+  langs:
+  - csharp
+  - vb
+  name: TwilioEmailClient(HttpClient, string, string)
+  nameWithType: TwilioEmailClient.TwilioEmailClient(HttpClient, string, string)
+  fullName: SendGrid.TwilioEmailClient.TwilioEmailClient(System.Net.Http.HttpClient, string, string)
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/TwilioEmailClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Initializes a new instance of the <xref href="SendGrid.TwilioEmailClient" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public TwilioEmailClient(HttpClient httpClient, string username, string password)
+    parameters:
+    - id: httpClient
+      type: System.Net.Http.HttpClient
+      description: An optional http client which may me injected in order to facilitate testing.
+    - id: username
+      type: System.String
+      description: Your Twilio Email API key SID or Account SID.
+    - id: password
+      type: System.String
+      description: Your Twilio Email API key secret or Account Auth Token.
+    content.vb: Public Sub New(httpClient As HttpClient, username As String, password As String)
+  overload: SendGrid.TwilioEmailClient.#ctor*
+  nameWithType.vb: TwilioEmailClient.New(HttpClient, String, String)
+  fullName.vb: SendGrid.TwilioEmailClient.New(System.Net.Http.HttpClient, String, String)
+  name.vb: New(HttpClient, String, String)
+- uid: SendGrid.TwilioEmailClient.#ctor(System.String,System.String)
+  commentId: M:SendGrid.TwilioEmailClient.#ctor(System.String,System.String)
+  id: '#ctor(System.String,System.String)'
+  parent: SendGrid.TwilioEmailClient
+  langs:
+  - csharp
+  - vb
+  name: TwilioEmailClient(string, string)
+  nameWithType: TwilioEmailClient.TwilioEmailClient(string, string)
+  fullName: SendGrid.TwilioEmailClient.TwilioEmailClient(string, string)
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/TwilioEmailClient.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Initializes a new instance of the <xref href="SendGrid.TwilioEmailClient" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public TwilioEmailClient(string username, string password)
+    parameters:
+    - id: username
+      type: System.String
+      description: Your Twilio Email API key SID or Account SID.
+    - id: password
+      type: System.String
+      description: Your Twilio Email API key secret or Account Auth Token.
+    content.vb: Public Sub New(username As String, password As String)
+  overload: SendGrid.TwilioEmailClient.#ctor*
+  nameWithType.vb: TwilioEmailClient.New(String, String)
+  fullName.vb: SendGrid.TwilioEmailClient.New(String, String)
+  name.vb: New(String, String)
+references:
+- uid: SendGrid
+  commentId: N:SendGrid
+  isExternal: true
+  name: SendGrid
+  nameWithType: SendGrid
+  fullName: SendGrid
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: SendGrid.BaseClient
+  commentId: T:SendGrid.BaseClient
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.BaseClient.html
+  name: BaseClient
+  nameWithType: BaseClient
+  fullName: SendGrid.BaseClient
+- uid: SendGrid.ISendGridClient
+  commentId: T:SendGrid.ISendGridClient
+  parent: SendGrid
+  isExternal: true
+  href: SendGrid.ISendGridClient.html
+  name: ISendGridClient
+  nameWithType: ISendGridClient
+  fullName: SendGrid.ISendGridClient
+- uid: SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  commentId: M:SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_AddAuthorization_System_Collections_Generic_KeyValuePair_System_String_System_String__
+  name: AddAuthorization(KeyValuePair<string, string>)
+  nameWithType: BaseClient.AddAuthorization(KeyValuePair<string, string>)
+  fullName: SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair<string, string>)
+  nameWithType.vb: BaseClient.AddAuthorization(KeyValuePair(Of String, String))
+  fullName.vb: SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair(Of String, String))
+  name.vb: AddAuthorization(KeyValuePair(Of String, String))
+  spec.csharp:
+  - uid: SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair{System.String,System.String})
+    name: AddAuthorization
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_AddAuthorization_System_Collections_Generic_KeyValuePair_System_String_System_String__
+  - name: (
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: SendGrid.BaseClient.AddAuthorization(System.Collections.Generic.KeyValuePair{System.String,System.String})
+    name: AddAuthorization
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_AddAuthorization_System_Collections_Generic_KeyValuePair_System_String_System_String__
+  - name: (
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: SendGrid.BaseClient.MakeRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  commentId: M:SendGrid.BaseClient.MakeRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_MakeRequest_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_
+  name: MakeRequest(HttpRequestMessage, CancellationToken)
+  nameWithType: BaseClient.MakeRequest(HttpRequestMessage, CancellationToken)
+  fullName: SendGrid.BaseClient.MakeRequest(System.Net.Http.HttpRequestMessage, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: SendGrid.BaseClient.MakeRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+    name: MakeRequest
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_MakeRequest_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_
+  - name: (
+  - uid: System.Net.Http.HttpRequestMessage
+    name: HttpRequestMessage
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http.httprequestmessage
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: SendGrid.BaseClient.MakeRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+    name: MakeRequest
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_MakeRequest_System_Net_Http_HttpRequestMessage_System_Threading_CancellationToken_
+  - name: (
+  - uid: System.Net.Http.HttpRequestMessage
+    name: HttpRequestMessage
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http.httprequestmessage
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method,System.String,System.String,System.String,System.Threading.CancellationToken)
+  commentId: M:SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method,System.String,System.String,System.String,System.Threading.CancellationToken)
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_RequestAsync_SendGrid_BaseClient_Method_System_String_System_String_System_String_System_Threading_CancellationToken_
+  name: RequestAsync(Method, string, string, string, CancellationToken)
+  nameWithType: BaseClient.RequestAsync(BaseClient.Method, string, string, string, CancellationToken)
+  fullName: SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method, string, string, string, System.Threading.CancellationToken)
+  nameWithType.vb: BaseClient.RequestAsync(BaseClient.Method, String, String, String, CancellationToken)
+  fullName.vb: SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method, String, String, String, System.Threading.CancellationToken)
+  name.vb: RequestAsync(Method, String, String, String, CancellationToken)
+  spec.csharp:
+  - uid: SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method,System.String,System.String,System.String,System.Threading.CancellationToken)
+    name: RequestAsync
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_RequestAsync_SendGrid_BaseClient_Method_System_String_System_String_System_String_System_Threading_CancellationToken_
+  - name: (
+  - uid: SendGrid.BaseClient.Method
+    name: Method
+    isExternal: true
+    href: SendGrid.BaseClient.Method.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: SendGrid.BaseClient.RequestAsync(SendGrid.BaseClient.Method,System.String,System.String,System.String,System.Threading.CancellationToken)
+    name: RequestAsync
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_RequestAsync_SendGrid_BaseClient_Method_System_String_System_String_System_String_System_Threading_CancellationToken_
+  - name: (
+  - uid: SendGrid.BaseClient.Method
+    name: Method
+    isExternal: true
+    href: SendGrid.BaseClient.Method.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: SendGrid.BaseClient.SendEmailAsync(SendGrid.Helpers.Mail.SendGridMessage,System.Threading.CancellationToken)
+  commentId: M:SendGrid.BaseClient.SendEmailAsync(SendGrid.Helpers.Mail.SendGridMessage,System.Threading.CancellationToken)
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_SendEmailAsync_SendGrid_Helpers_Mail_SendGridMessage_System_Threading_CancellationToken_
+  name: SendEmailAsync(SendGridMessage, CancellationToken)
+  nameWithType: BaseClient.SendEmailAsync(SendGridMessage, CancellationToken)
+  fullName: SendGrid.BaseClient.SendEmailAsync(SendGrid.Helpers.Mail.SendGridMessage, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: SendGrid.BaseClient.SendEmailAsync(SendGrid.Helpers.Mail.SendGridMessage,System.Threading.CancellationToken)
+    name: SendEmailAsync
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_SendEmailAsync_SendGrid_Helpers_Mail_SendGridMessage_System_Threading_CancellationToken_
+  - name: (
+  - uid: SendGrid.Helpers.Mail.SendGridMessage
+    name: SendGridMessage
+    isExternal: true
+    href: SendGrid.Helpers.Mail.SendGridMessage.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+  spec.vb:
+  - uid: SendGrid.BaseClient.SendEmailAsync(SendGrid.Helpers.Mail.SendGridMessage,System.Threading.CancellationToken)
+    name: SendEmailAsync
+    isExternal: true
+    href: SendGrid.BaseClient.html#SendGrid_BaseClient_SendEmailAsync_SendGrid_Helpers_Mail_SendGridMessage_System_Threading_CancellationToken_
+  - name: (
+  - uid: SendGrid.Helpers.Mail.SendGridMessage
+    name: SendGridMessage
+    isExternal: true
+    href: SendGrid.Helpers.Mail.SendGridMessage.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  - name: )
+- uid: SendGrid.BaseClient.UrlPath
+  commentId: P:SendGrid.BaseClient.UrlPath
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_UrlPath
+  name: UrlPath
+  nameWithType: BaseClient.UrlPath
+  fullName: SendGrid.BaseClient.UrlPath
+- uid: SendGrid.BaseClient.Version
+  commentId: P:SendGrid.BaseClient.Version
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_Version
+  name: Version
+  nameWithType: BaseClient.Version
+  fullName: SendGrid.BaseClient.Version
+- uid: SendGrid.BaseClient.MediaType
+  commentId: P:SendGrid.BaseClient.MediaType
+  parent: SendGrid.BaseClient
+  isExternal: true
+  href: SendGrid.BaseClient.html#SendGrid_BaseClient_MediaType
+  name: MediaType
+  nameWithType: BaseClient.MediaType
+  fullName: SendGrid.BaseClient.MediaType
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: SendGrid.ISendGridClient.SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+  commentId: M:SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+  parent: SendGrid.Permissions.SendGridClientExtensions
+  definition: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+  href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateApiKey_SendGrid_ISendGridClient_SendGrid_Permissions_SendGridPermissionsBuilder_System_String_
+  name: CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, string)
+  nameWithType: SendGridClientExtensions.CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, string)
+  fullName: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient, SendGrid.Permissions.SendGridPermissionsBuilder, string)
+  nameWithType.vb: SendGridClientExtensions.CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, String)
+  fullName.vb: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient, SendGrid.Permissions.SendGridPermissionsBuilder, String)
+  name.vb: CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, String)
+  spec.csharp:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+    name: CreateApiKey
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateApiKey_SendGrid_ISendGridClient_SendGrid_Permissions_SendGridPermissionsBuilder_System_String_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: ','
+  - name: " "
+  - uid: SendGrid.Permissions.SendGridPermissionsBuilder
+    name: SendGridPermissionsBuilder
+    isExternal: true
+    href: SendGrid.Permissions.SendGridPermissionsBuilder.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+    name: CreateApiKey
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateApiKey_SendGrid_ISendGridClient_SendGrid_Permissions_SendGridPermissionsBuilder_System_String_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: ','
+  - name: " "
+  - uid: SendGrid.Permissions.SendGridPermissionsBuilder
+    name: SendGridPermissionsBuilder
+    isExternal: true
+    href: SendGrid.Permissions.SendGridPermissionsBuilder.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: SendGrid.ISendGridClient.SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient
+  commentId: M:SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+  parent: SendGrid.Permissions.SendGridClientExtensions
+  definition: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+  href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateMaskedPermissionsBuilderForClient_SendGrid_ISendGridClient_
+  name: CreateMaskedPermissionsBuilderForClient(ISendGridClient)
+  nameWithType: SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(ISendGridClient)
+  fullName: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+  spec.csharp:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+    name: CreateMaskedPermissionsBuilderForClient
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateMaskedPermissionsBuilderForClient_SendGrid_ISendGridClient_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: )
+  spec.vb:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+    name: CreateMaskedPermissionsBuilderForClient
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateMaskedPermissionsBuilderForClient_SendGrid_ISendGridClient_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+  commentId: M:SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+  isExternal: true
+  href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateApiKey_SendGrid_ISendGridClient_SendGrid_Permissions_SendGridPermissionsBuilder_System_String_
+  name: CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, string)
+  nameWithType: SendGridClientExtensions.CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, string)
+  fullName: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient, SendGrid.Permissions.SendGridPermissionsBuilder, string)
+  nameWithType.vb: SendGridClientExtensions.CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, String)
+  fullName.vb: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient, SendGrid.Permissions.SendGridPermissionsBuilder, String)
+  name.vb: CreateApiKey(ISendGridClient, SendGridPermissionsBuilder, String)
+  spec.csharp:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+    name: CreateApiKey
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateApiKey_SendGrid_ISendGridClient_SendGrid_Permissions_SendGridPermissionsBuilder_System_String_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: ','
+  - name: " "
+  - uid: SendGrid.Permissions.SendGridPermissionsBuilder
+    name: SendGridPermissionsBuilder
+    isExternal: true
+    href: SendGrid.Permissions.SendGridPermissionsBuilder.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateApiKey(SendGrid.ISendGridClient,SendGrid.Permissions.SendGridPermissionsBuilder,System.String)
+    name: CreateApiKey
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateApiKey_SendGrid_ISendGridClient_SendGrid_Permissions_SendGridPermissionsBuilder_System_String_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: ','
+  - name: " "
+  - uid: SendGrid.Permissions.SendGridPermissionsBuilder
+    name: SendGridPermissionsBuilder
+    isExternal: true
+    href: SendGrid.Permissions.SendGridPermissionsBuilder.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: SendGrid.Permissions.SendGridClientExtensions
+  commentId: T:SendGrid.Permissions.SendGridClientExtensions
+  parent: SendGrid.Permissions
+  isExternal: true
+  href: SendGrid.Permissions.SendGridClientExtensions.html
+  name: SendGridClientExtensions
+  nameWithType: SendGridClientExtensions
+  fullName: SendGrid.Permissions.SendGridClientExtensions
+- uid: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+  commentId: M:SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+  isExternal: true
+  href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateMaskedPermissionsBuilderForClient_SendGrid_ISendGridClient_
+  name: CreateMaskedPermissionsBuilderForClient(ISendGridClient)
+  nameWithType: SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(ISendGridClient)
+  fullName: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+  spec.csharp:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+    name: CreateMaskedPermissionsBuilderForClient
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateMaskedPermissionsBuilderForClient_SendGrid_ISendGridClient_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: )
+  spec.vb:
+  - uid: SendGrid.Permissions.SendGridClientExtensions.CreateMaskedPermissionsBuilderForClient(SendGrid.ISendGridClient)
+    name: CreateMaskedPermissionsBuilderForClient
+    isExternal: true
+    href: SendGrid.Permissions.SendGridClientExtensions.html#SendGrid_Permissions_SendGridClientExtensions_CreateMaskedPermissionsBuilderForClient_SendGrid_ISendGridClient_
+  - name: (
+  - uid: SendGrid.ISendGridClient
+    name: ISendGridClient
+    isExternal: true
+    href: SendGrid.ISendGridClient.html
+  - name: )
+- uid: SendGrid.Permissions
+  commentId: N:SendGrid.Permissions
+  isExternal: true
+  name: SendGrid.Permissions
+  nameWithType: SendGrid.Permissions
+  fullName: SendGrid.Permissions
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Permissions
+    name: Permissions
+    isExternal: true
+- uid: SendGrid.TwilioEmailClient
+  commentId: T:SendGrid.TwilioEmailClient
+  isExternal: true
+  href: SendGrid.TwilioEmailClient.html
+  name: TwilioEmailClient
+  nameWithType: TwilioEmailClient
+  fullName: SendGrid.TwilioEmailClient
+- uid: SendGrid.TwilioEmailClient.#ctor*
+  commentId: Overload:SendGrid.TwilioEmailClient.#ctor
+  isExternal: true
+  href: SendGrid.TwilioEmailClient.html#SendGrid_TwilioEmailClient__ctor_System_Net_IWebProxy_System_String_System_String_
+  name: TwilioEmailClient
+  nameWithType: TwilioEmailClient.TwilioEmailClient
+  fullName: SendGrid.TwilioEmailClient.TwilioEmailClient
+  nameWithType.vb: TwilioEmailClient.New
+  fullName.vb: SendGrid.TwilioEmailClient.New
+  name.vb: New
+- uid: System.Net.IWebProxy
+  commentId: T:System.Net.IWebProxy
+  parent: System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.iwebproxy
+  name: IWebProxy
+  nameWithType: IWebProxy
+  fullName: System.Net.IWebProxy
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Net
+  commentId: N:System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net
+  nameWithType: System.Net
+  fullName: System.Net
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+- uid: System.Net.Http.HttpClient
+  commentId: T:System.Net.Http.HttpClient
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.httpclient
+  name: HttpClient
+  nameWithType: HttpClient
+  fullName: System.Net.Http.HttpClient
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http

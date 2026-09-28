@@ -1,0 +1,5 @@
+requests.sessions
+=================
+
+.. automodule:: requests.sessions
+   :members:

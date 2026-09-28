@@ -1,0 +1,929 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Response
+  commentId: T:SendGrid.Response
+  id: Response
+  parent: SendGrid
+  children:
+  - SendGrid.Response.#ctor(System.Net.HttpStatusCode,System.Net.Http.HttpContent,System.Net.Http.Headers.HttpResponseHeaders)
+  - SendGrid.Response.Body
+  - SendGrid.Response.DeserializeResponseBodyAsync(System.Net.Http.HttpContent)
+  - SendGrid.Response.DeserializeResponseHeaders(System.Net.Http.Headers.HttpResponseHeaders)
+  - SendGrid.Response.Headers
+  - SendGrid.Response.IsSuccessStatusCode
+  - SendGrid.Response.StatusCode
+  langs:
+  - csharp
+  - vb
+  name: Response
+  nameWithType: Response
+  fullName: SendGrid.Response
+  type: Class
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: The response received from an API call to Twilio SendGrid.
+  example: []
+  syntax:
+    content: public class Response
+    content.vb: Public Class Response
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+- uid: SendGrid.Response.#ctor(System.Net.HttpStatusCode,System.Net.Http.HttpContent,System.Net.Http.Headers.HttpResponseHeaders)
+  commentId: M:SendGrid.Response.#ctor(System.Net.HttpStatusCode,System.Net.Http.HttpContent,System.Net.Http.Headers.HttpResponseHeaders)
+  id: '#ctor(System.Net.HttpStatusCode,System.Net.Http.HttpContent,System.Net.Http.Headers.HttpResponseHeaders)'
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: Response(HttpStatusCode, HttpContent, HttpResponseHeaders)
+  nameWithType: Response.Response(HttpStatusCode, HttpContent, HttpResponseHeaders)
+  fullName: SendGrid.Response.Response(System.Net.HttpStatusCode, System.Net.Http.HttpContent, System.Net.Http.Headers.HttpResponseHeaders)
+  type: Constructor
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Initializes a new instance of the <xref href="SendGrid.Response" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public Response(HttpStatusCode statusCode, HttpContent responseBody, HttpResponseHeaders responseHeaders)
+    parameters:
+    - id: statusCode
+      type: System.Net.HttpStatusCode
+      description: https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode.
+    - id: responseBody
+      type: System.Net.Http.HttpContent
+      description: https://docs.microsoft.com/dotnet/api/system.net.http.httpcontent.
+    - id: responseHeaders
+      type: System.Net.Http.Headers.HttpResponseHeaders
+      description: https://docs.microsoft.com/dotnet/api/system.net.http.headers.httpresponseheaders.
+    content.vb: Public Sub New(statusCode As HttpStatusCode, responseBody As HttpContent, responseHeaders As HttpResponseHeaders)
+  overload: SendGrid.Response.#ctor*
+  nameWithType.vb: Response.New(HttpStatusCode, HttpContent, HttpResponseHeaders)
+  fullName.vb: SendGrid.Response.New(System.Net.HttpStatusCode, System.Net.Http.HttpContent, System.Net.Http.Headers.HttpResponseHeaders)
+  name.vb: New(HttpStatusCode, HttpContent, HttpResponseHeaders)
+- uid: SendGrid.Response.DeserializeResponseBodyAsync(System.Net.Http.HttpContent)
+  commentId: M:SendGrid.Response.DeserializeResponseBodyAsync(System.Net.Http.HttpContent)
+  id: DeserializeResponseBodyAsync(System.Net.Http.HttpContent)
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: DeserializeResponseBodyAsync(HttpContent)
+  nameWithType: Response.DeserializeResponseBodyAsync(HttpContent)
+  fullName: SendGrid.Response.DeserializeResponseBodyAsync(System.Net.Http.HttpContent)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Converts string formatted response body to a Dictionary.
+  example: []
+  syntax:
+    content: public virtual Task<Dictionary<string, dynamic>> DeserializeResponseBodyAsync(HttpContent content = null)
+    parameters:
+    - id: content
+      type: System.Net.Http.HttpContent
+      description: https://docs.microsoft.com/dotnet/api/system.net.http.httpcontent.
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.Dictionary{System.String,System.Object}}
+      description: Dictionary object representation of HttpContent.
+    content.vb: Public Overridable Function DeserializeResponseBodyAsync(content As HttpContent = Nothing) As Task(Of Dictionary(Of String, Object))
+  overload: SendGrid.Response.DeserializeResponseBodyAsync*
+- uid: SendGrid.Response.DeserializeResponseHeaders(System.Net.Http.Headers.HttpResponseHeaders)
+  commentId: M:SendGrid.Response.DeserializeResponseHeaders(System.Net.Http.Headers.HttpResponseHeaders)
+  id: DeserializeResponseHeaders(System.Net.Http.Headers.HttpResponseHeaders)
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: DeserializeResponseHeaders(HttpResponseHeaders)
+  nameWithType: Response.DeserializeResponseHeaders(HttpResponseHeaders)
+  fullName: SendGrid.Response.DeserializeResponseHeaders(System.Net.Http.Headers.HttpResponseHeaders)
+  type: Method
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Converts string formatted response headers to a Dictionary.
+  example: []
+  syntax:
+    content: public virtual Dictionary<string, string> DeserializeResponseHeaders(HttpResponseHeaders headers = null)
+    parameters:
+    - id: headers
+      type: System.Net.Http.Headers.HttpResponseHeaders
+      description: https://docs.microsoft.com/dotnet/api/system.net.http.headers.httpresponseheaders.
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+      description: Dictionary object representation of HttpResponseHeaders.
+    content.vb: Public Overridable Function DeserializeResponseHeaders(headers As HttpResponseHeaders = Nothing) As Dictionary(Of String, String)
+  overload: SendGrid.Response.DeserializeResponseHeaders*
+- uid: SendGrid.Response.StatusCode
+  commentId: P:SendGrid.Response.StatusCode
+  id: StatusCode
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: StatusCode
+  nameWithType: Response.StatusCode
+  fullName: SendGrid.Response.StatusCode
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Gets or sets the status code returned from Twilio SendGrid.
+  example: []
+  syntax:
+    content: public HttpStatusCode StatusCode { get; set; }
+    parameters: []
+    return:
+      type: System.Net.HttpStatusCode
+    content.vb: Public Property StatusCode As HttpStatusCode
+  overload: SendGrid.Response.StatusCode*
+- uid: SendGrid.Response.IsSuccessStatusCode
+  commentId: P:SendGrid.Response.IsSuccessStatusCode
+  id: IsSuccessStatusCode
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: IsSuccessStatusCode
+  nameWithType: Response.IsSuccessStatusCode
+  fullName: SendGrid.Response.IsSuccessStatusCode
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: Gets a value indicating whether Status Code of this response indicates success.
+  example: []
+  syntax:
+    content: public bool IsSuccessStatusCode { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsSuccessStatusCode As Boolean
+  overload: SendGrid.Response.IsSuccessStatusCode*
+- uid: SendGrid.Response.Body
+  commentId: P:SendGrid.Response.Body
+  id: Body
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: Body
+  nameWithType: Response.Body
+  fullName: SendGrid.Response.Body
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: >-
+    Gets or sets the response body returned from Twilio SendGrid.
+
+    <a href="https://docs.microsoft.com/dotnet/api/system.net.http.httpcontent">https://docs.microsoft.com/dotnet/api/system.net.http.httpcontent</a>
+  example: []
+  syntax:
+    content: public HttpContent Body { get; set; }
+    parameters: []
+    return:
+      type: System.Net.Http.HttpContent
+    content.vb: Public Property Body As HttpContent
+  overload: SendGrid.Response.Body*
+- uid: SendGrid.Response.Headers
+  commentId: P:SendGrid.Response.Headers
+  id: Headers
+  parent: SendGrid.Response
+  langs:
+  - csharp
+  - vb
+  name: Headers
+  nameWithType: Response.Headers
+  fullName: SendGrid.Response.Headers
+  type: Property
+  source:
+    href: https://github.com/sendgrid/sendgrid-csharp/blob/4a315350e910ef10c6579ca5291ed7f82ad9d376/src/SendGrid/Response.cs
+  assemblies:
+  - SendGrid
+  namespace: SendGrid
+  summary: >-
+    Gets or sets the response headers returned from Twilio SendGrid.
+
+    <a href="https://docs.microsoft.com/dotnet/api/system.net.http.headers.httpresponseheaders">https://docs.microsoft.com/dotnet/api/system.net.http.headers.httpresponseheaders</a>
+  example: []
+  syntax:
+    content: public HttpResponseHeaders Headers { get; set; }
+    parameters: []
+    return:
+      type: System.Net.Http.Headers.HttpResponseHeaders
+    content.vb: Public Property Headers As HttpResponseHeaders
+  overload: SendGrid.Response.Headers*
+references:
+- uid: SendGrid
+  commentId: N:SendGrid
+  isExternal: true
+  name: SendGrid
+  nameWithType: SendGrid
+  fullName: SendGrid
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: SendGrid.Response
+  commentId: T:SendGrid.Response
+  isExternal: true
+  href: SendGrid.Response.html
+  name: Response
+  nameWithType: Response
+  fullName: SendGrid.Response
+- uid: SendGrid.Response.#ctor*
+  commentId: Overload:SendGrid.Response.#ctor
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response__ctor_System_Net_HttpStatusCode_System_Net_Http_HttpContent_System_Net_Http_Headers_HttpResponseHeaders_
+  name: Response
+  nameWithType: Response.Response
+  fullName: SendGrid.Response.Response
+  nameWithType.vb: Response.New
+  fullName.vb: SendGrid.Response.New
+  name.vb: New
+- uid: System.Net.HttpStatusCode
+  commentId: T:System.Net.HttpStatusCode
+  parent: System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.httpstatuscode
+  name: HttpStatusCode
+  nameWithType: HttpStatusCode
+  fullName: System.Net.HttpStatusCode
+- uid: System.Net.Http.HttpContent
+  commentId: T:System.Net.Http.HttpContent
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent
+  name: HttpContent
+  nameWithType: HttpContent
+  fullName: System.Net.Http.HttpContent
+- uid: System.Net.Http.Headers.HttpResponseHeaders
+  commentId: T:System.Net.Http.Headers.HttpResponseHeaders
+  parent: System.Net.Http.Headers
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.headers.httpresponseheaders
+  name: HttpResponseHeaders
+  nameWithType: HttpResponseHeaders
+  fullName: System.Net.Http.Headers.HttpResponseHeaders
+- uid: System.Net
+  commentId: N:System.Net
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net
+  nameWithType: System.Net
+  fullName: System.Net
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: System.Net.Http.Headers
+  commentId: N:System.Net.Http.Headers
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http.Headers
+  nameWithType: System.Net.Http.Headers
+  fullName: System.Net.Http.Headers
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  - name: .
+  - uid: System.Net.Http.Headers
+    name: Headers
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http.headers
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  - name: .
+  - uid: System.Net.Http.Headers
+    name: Headers
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http.headers
+- uid: SendGrid.Response.DeserializeResponseBodyAsync*
+  commentId: Overload:SendGrid.Response.DeserializeResponseBodyAsync
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response_DeserializeResponseBodyAsync_System_Net_Http_HttpContent_
+  name: DeserializeResponseBodyAsync
+  nameWithType: Response.DeserializeResponseBodyAsync
+  fullName: SendGrid.Response.DeserializeResponseBodyAsync
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.Dictionary{System.String,System.Object}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.Dictionary{System.String,System.Object}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Dictionary<string, dynamic>>
+  nameWithType: Task<Dictionary<string, dynamic>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<string, dynamic>>
+  nameWithType.vb: Task(Of Dictionary(Of String, Object))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.Dictionary(Of String, Object))
+  name.vb: Task(Of Dictionary(Of String, Object))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: dynamic
+    name: dynamic
+    isExternal: true
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: Object
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: SendGrid.Response.DeserializeResponseHeaders*
+  commentId: Overload:SendGrid.Response.DeserializeResponseHeaders
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response_DeserializeResponseHeaders_System_Net_Http_Headers_HttpResponseHeaders_
+  name: DeserializeResponseHeaders
+  nameWithType: Response.DeserializeResponseHeaders
+  fullName: SendGrid.Response.DeserializeResponseHeaders
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, string>
+  nameWithType: Dictionary<string, string>
+  fullName: System.Collections.Generic.Dictionary<string, string>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: SendGrid.Response.StatusCode*
+  commentId: Overload:SendGrid.Response.StatusCode
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response_StatusCode
+  name: StatusCode
+  nameWithType: Response.StatusCode
+  fullName: SendGrid.Response.StatusCode
+- uid: SendGrid.Response.IsSuccessStatusCode*
+  commentId: Overload:SendGrid.Response.IsSuccessStatusCode
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response_IsSuccessStatusCode
+  name: IsSuccessStatusCode
+  nameWithType: Response.IsSuccessStatusCode
+  fullName: SendGrid.Response.IsSuccessStatusCode
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: SendGrid.Response.Body*
+  commentId: Overload:SendGrid.Response.Body
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response_Body
+  name: Body
+  nameWithType: Response.Body
+  fullName: SendGrid.Response.Body
+- uid: SendGrid.Response.Headers*
+  commentId: Overload:SendGrid.Response.Headers
+  isExternal: true
+  href: SendGrid.Response.html#SendGrid_Response_Headers
+  name: Headers
+  nameWithType: Response.Headers
+  fullName: SendGrid.Response.Headers

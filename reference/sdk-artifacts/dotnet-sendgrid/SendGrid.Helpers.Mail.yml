@@ -1,0 +1,263 @@
+### YamlMime:ManagedReference
+items:
+- uid: SendGrid.Helpers.Mail
+  commentId: N:SendGrid.Helpers.Mail
+  id: SendGrid.Helpers.Mail
+  children:
+  - SendGrid.Helpers.Mail.ASM
+  - SendGrid.Helpers.Mail.Attachment
+  - SendGrid.Helpers.Mail.BCCSettings
+  - SendGrid.Helpers.Mail.BypassBounceManagement
+  - SendGrid.Helpers.Mail.BypassListManagement
+  - SendGrid.Helpers.Mail.BypassSpamManagement
+  - SendGrid.Helpers.Mail.BypassUnsubscribeManagement
+  - SendGrid.Helpers.Mail.ClickTracking
+  - SendGrid.Helpers.Mail.Content
+  - SendGrid.Helpers.Mail.EmailAddress
+  - SendGrid.Helpers.Mail.FooterSettings
+  - SendGrid.Helpers.Mail.Ganalytics
+  - SendGrid.Helpers.Mail.MailHelper
+  - SendGrid.Helpers.Mail.MailSettings
+  - SendGrid.Helpers.Mail.OpenTracking
+  - SendGrid.Helpers.Mail.Personalization
+  - SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  - SendGrid.Helpers.Mail.SandboxMode
+  - SendGrid.Helpers.Mail.SendGridMessage
+  - SendGrid.Helpers.Mail.SpamCheck
+  - SendGrid.Helpers.Mail.SubscriptionTracking
+  - SendGrid.Helpers.Mail.TrackingSettings
+  langs:
+  - csharp
+  - vb
+  name: SendGrid.Helpers.Mail
+  nameWithType: SendGrid.Helpers.Mail
+  fullName: SendGrid.Helpers.Mail
+  type: Namespace
+  assemblies:
+  - SendGrid
+references:
+- uid: SendGrid.Helpers.Mail.MailHelper
+  commentId: T:SendGrid.Helpers.Mail.MailHelper
+  isExternal: true
+  href: SendGrid.Helpers.Mail.MailHelper.html
+  name: MailHelper
+  nameWithType: MailHelper
+  fullName: SendGrid.Helpers.Mail.MailHelper
+- uid: SendGrid.Helpers.Mail.ASM
+  commentId: T:SendGrid.Helpers.Mail.ASM
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.ASM.html
+  name: ASM
+  nameWithType: ASM
+  fullName: SendGrid.Helpers.Mail.ASM
+- uid: SendGrid.Helpers.Mail.Attachment
+  commentId: T:SendGrid.Helpers.Mail.Attachment
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Attachment.html
+  name: Attachment
+  nameWithType: Attachment
+  fullName: SendGrid.Helpers.Mail.Attachment
+- uid: SendGrid.Helpers.Mail.BCCSettings
+  commentId: T:SendGrid.Helpers.Mail.BCCSettings
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.BCCSettings.html
+  name: BCCSettings
+  nameWithType: BCCSettings
+  fullName: SendGrid.Helpers.Mail.BCCSettings
+- uid: SendGrid.Helpers.Mail.BypassBounceManagement
+  commentId: T:SendGrid.Helpers.Mail.BypassBounceManagement
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.BypassBounceManagement.html
+  name: BypassBounceManagement
+  nameWithType: BypassBounceManagement
+  fullName: SendGrid.Helpers.Mail.BypassBounceManagement
+- uid: SendGrid.Helpers.Mail.BypassListManagement
+  commentId: T:SendGrid.Helpers.Mail.BypassListManagement
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.BypassListManagement.html
+  name: BypassListManagement
+  nameWithType: BypassListManagement
+  fullName: SendGrid.Helpers.Mail.BypassListManagement
+- uid: SendGrid.Helpers.Mail.BypassSpamManagement
+  commentId: T:SendGrid.Helpers.Mail.BypassSpamManagement
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.BypassSpamManagement.html
+  name: BypassSpamManagement
+  nameWithType: BypassSpamManagement
+  fullName: SendGrid.Helpers.Mail.BypassSpamManagement
+- uid: SendGrid.Helpers.Mail.BypassUnsubscribeManagement
+  commentId: T:SendGrid.Helpers.Mail.BypassUnsubscribeManagement
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.BypassUnsubscribeManagement.html
+  name: BypassUnsubscribeManagement
+  nameWithType: BypassUnsubscribeManagement
+  fullName: SendGrid.Helpers.Mail.BypassUnsubscribeManagement
+- uid: SendGrid.Helpers.Mail.ClickTracking
+  commentId: T:SendGrid.Helpers.Mail.ClickTracking
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.ClickTracking.html
+  name: ClickTracking
+  nameWithType: ClickTracking
+  fullName: SendGrid.Helpers.Mail.ClickTracking
+- uid: SendGrid.Helpers.Mail.Content
+  commentId: T:SendGrid.Helpers.Mail.Content
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Content.html
+  name: Content
+  nameWithType: Content
+  fullName: SendGrid.Helpers.Mail.Content
+- uid: SendGrid.Helpers.Mail.EmailAddress
+  commentId: T:SendGrid.Helpers.Mail.EmailAddress
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.EmailAddress.html
+  name: EmailAddress
+  nameWithType: EmailAddress
+  fullName: SendGrid.Helpers.Mail.EmailAddress
+- uid: SendGrid.Helpers.Mail.FooterSettings
+  commentId: T:SendGrid.Helpers.Mail.FooterSettings
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.FooterSettings.html
+  name: FooterSettings
+  nameWithType: FooterSettings
+  fullName: SendGrid.Helpers.Mail.FooterSettings
+- uid: SendGrid.Helpers.Mail.Ganalytics
+  commentId: T:SendGrid.Helpers.Mail.Ganalytics
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Ganalytics.html
+  name: Ganalytics
+  nameWithType: Ganalytics
+  fullName: SendGrid.Helpers.Mail.Ganalytics
+- uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  commentId: T:SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+  isExternal: true
+  href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html
+  name: RemoveDuplicatesConverter<T>
+  nameWithType: RemoveDuplicatesConverter<T>
+  fullName: SendGrid.Helpers.Mail.RemoveDuplicatesConverter<T>
+  nameWithType.vb: RemoveDuplicatesConverter(Of T)
+  fullName.vb: SendGrid.Helpers.Mail.RemoveDuplicatesConverter(Of T)
+  name.vb: RemoveDuplicatesConverter(Of T)
+  spec.csharp:
+  - uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+    name: RemoveDuplicatesConverter
+    isExternal: true
+    href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: SendGrid.Helpers.Mail.RemoveDuplicatesConverter`1
+    name: RemoveDuplicatesConverter
+    isExternal: true
+    href: SendGrid.Helpers.Mail.RemoveDuplicatesConverter-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: SendGrid.Helpers.Mail.MailSettings
+  commentId: T:SendGrid.Helpers.Mail.MailSettings
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.MailSettings.html
+  name: MailSettings
+  nameWithType: MailSettings
+  fullName: SendGrid.Helpers.Mail.MailSettings
+- uid: SendGrid.Helpers.Mail.OpenTracking
+  commentId: T:SendGrid.Helpers.Mail.OpenTracking
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.OpenTracking.html
+  name: OpenTracking
+  nameWithType: OpenTracking
+  fullName: SendGrid.Helpers.Mail.OpenTracking
+- uid: SendGrid.Helpers.Mail.Personalization
+  commentId: T:SendGrid.Helpers.Mail.Personalization
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.Personalization.html
+  name: Personalization
+  nameWithType: Personalization
+  fullName: SendGrid.Helpers.Mail.Personalization
+- uid: SendGrid.Helpers.Mail.SandboxMode
+  commentId: T:SendGrid.Helpers.Mail.SandboxMode
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.SandboxMode.html
+  name: SandboxMode
+  nameWithType: SandboxMode
+  fullName: SendGrid.Helpers.Mail.SandboxMode
+- uid: SendGrid.Helpers.Mail.SpamCheck
+  commentId: T:SendGrid.Helpers.Mail.SpamCheck
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.SpamCheck.html
+  name: SpamCheck
+  nameWithType: SpamCheck
+  fullName: SendGrid.Helpers.Mail.SpamCheck
+- uid: SendGrid.Helpers.Mail.SubscriptionTracking
+  commentId: T:SendGrid.Helpers.Mail.SubscriptionTracking
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.SubscriptionTracking.html
+  name: SubscriptionTracking
+  nameWithType: SubscriptionTracking
+  fullName: SendGrid.Helpers.Mail.SubscriptionTracking
+- uid: SendGrid.Helpers.Mail.TrackingSettings
+  commentId: T:SendGrid.Helpers.Mail.TrackingSettings
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.TrackingSettings.html
+  name: TrackingSettings
+  nameWithType: TrackingSettings
+  fullName: SendGrid.Helpers.Mail.TrackingSettings
+- uid: SendGrid.Helpers.Mail.SendGridMessage
+  commentId: T:SendGrid.Helpers.Mail.SendGridMessage
+  parent: SendGrid.Helpers.Mail
+  isExternal: true
+  href: SendGrid.Helpers.Mail.SendGridMessage.html
+  name: SendGridMessage
+  nameWithType: SendGridMessage
+  fullName: SendGrid.Helpers.Mail.SendGridMessage
+- uid: SendGrid.Helpers.Mail
+  commentId: N:SendGrid.Helpers.Mail
+  isExternal: true
+  name: SendGrid.Helpers.Mail
+  nameWithType: SendGrid.Helpers.Mail
+  fullName: SendGrid.Helpers.Mail
+  spec.csharp:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true
+  spec.vb:
+  - uid: SendGrid
+    name: SendGrid
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers
+    name: Helpers
+    isExternal: true
+  - name: .
+  - uid: SendGrid.Helpers.Mail
+    name: Mail
+    isExternal: true

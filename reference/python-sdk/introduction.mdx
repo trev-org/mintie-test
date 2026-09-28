@@ -1,0 +1,26 @@
+---
+title: Requests SDK reference
+description: Learn what this generated Python reference covers and how its Sphinx artifact is built.
+---
+
+## About this reference
+
+This dropdown documents the Python Requests library. Mintlify converts Sphinx JSON build output into reference pages for the `requests.api`, `requests.sessions`, `requests.models`, `requests.auth`, and `requests.exceptions` modules.
+
+## Original source
+
+- [Requests `v2.32.3` on GitHub](https://github.com/psf/requests/tree/v2.32.3)
+- [Requests on PyPI](https://pypi.org/project/requests/2.32.3/)
+
+## How the artifact is built
+
+The artifact comes from running Sphinx's JSON builder over one `.rst` file per module, each with an `automodule` directive:
+
+```bash
+pip install sphinx requests==2.32.3
+python -m sphinx -b json docs/source reference/sdk-artifacts/python-requests
+```
+
+<Note>
+  The Sphinx output is maintained locally because Requests does not publish its JSON build output. It targets Requests version `2.32.3`.
+</Note>

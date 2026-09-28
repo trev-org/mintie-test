@@ -1,0 +1,33 @@
+---
+title: SendGrid .NET SDK reference
+description: Learn what this generated C# reference covers and how its DocFX artifact is built.
+---
+
+## About this reference
+
+This dropdown documents Twilio SendGrid's C# client library. Mintlify converts DocFX metadata into reference pages for the SDK's namespaces, classes, and enums, including the client, mail helpers, and error types.
+
+## Original source
+
+- [SendGrid C# library `9.29.3` on GitHub](https://github.com/sendgrid/sendgrid-csharp/tree/9.29.3)
+- [SendGrid package on NuGet](https://www.nuget.org/packages/SendGrid/9.29.3)
+
+## How the artifact is built
+
+The artifact comes from running `docfx metadata` against the `netstandard2.0` assembly and XML documentation file in the NuGet package:
+
+```json docfx.json
+{
+  "metadata": [
+    {
+      "src": [{ "src": "lib/netstandard2.0", "files": ["SendGrid.dll"] }],
+      "dest": "reference/sdk-artifacts/dotnet-sendgrid",
+      "outputFormat": "mref"
+    }
+  ]
+}
+```
+
+<Note>
+  The DocFX output is maintained locally because SendGrid does not publish its DocFX metadata. It targets SendGrid version `9.29.3`.
+</Note>
