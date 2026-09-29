@@ -23,6 +23,9 @@ El panel mostrará un feed filtrable de eventos de identidad para la organizaci�
 | `scim.user.deactivated` | `DELETE /Users/{id}` de SCIM tuvo éxito |
 | `apikey.created` | Clave de API emitida |
 | `apikey.revoked` | Clave de API revocada (manualmente o por desactivación en el IdP) |
+| `session.policy.updated` | Un administrador cambió la [política de duración de sesión](/es/concepts/sessions#política-de-duración-de-sesión) de la organización. Los metadatos incluyen los valores `previous` y `next` |
+
+Las expiraciones de sesiones individuales no son eventos de auditoría. Para investigar cierres de sesión inesperados, busca un evento `session.policy.updated` reciente.
 
 ## UI
 

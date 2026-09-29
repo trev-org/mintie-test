@@ -23,6 +23,9 @@ Le tableau de bord présentera un flux filtrable d'événements d'identité pour
 | `scim.user.deactivated` | `DELETE /Users/{id}` SCIM a réussi |
 | `apikey.created` | Clé d'API émise |
 | `apikey.revoked` | Clé d'API révoquée (manuellement ou par désactivation IdP) |
+| `session.policy.updated` | Un administrateur a modifié la [politique de durée de vie des sessions](/fr/concepts/sessions#politique-de-durée-de-vie-des-sessions) de l'organisation. Les métadonnées incluent les valeurs `previous` et `next` |
+
+Les expirations de sessions individuelles ne sont pas des événements d'audit. Pour enquêter sur des déconnexions inattendues, recherchez un événement `session.policy.updated` récent.
 
 ## Interface
 

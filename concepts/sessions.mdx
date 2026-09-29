@@ -1,6 +1,6 @@
 ---
 title: "Sessions"
-description: "How Mintie issues, validates, and migrates sessions during SSO rollout"
+description: "How Mintie issues, validates, expires, and migrates sessions, including the org session lifetime policy for idle timeout and max lifetime."
 ---
 
 <Warning>
@@ -21,7 +21,99 @@ A Mintie session is a server-side record plus an opaque cookie. The cookie carri
 | `auth_method` | `password` or `sso` |
 | `idp_user_id` | Set when `auth_method = sso` |
 | `force_sso_relogin_at` | Stamped by the migration job (see below) |
-| `expires_at` | Sliding 14-day window, capped at 90 days absolute |
+| `created_at` | Sign-in time. The maximum session lifetime is measured from here |
+| `last_active_at` | Last authenticated request. The idle timeout is measured from here |
+
+## Session lifetime policy
+
+<Info>
+  **Beta.** The session lifetime policy is rolling out to Enterprise plans starting October 20, 2026.
+</Info>
+
+Each org has a session lifetime policy with two settings. By default, a session ends after 14 days without use or 90 days after sign-in, whichever comes first. Org admins can shorten both values for everyone in the org.
+
+| Setting | API field | Unit | Minimum | Maximum and default |
+| --- | --- | --- | --- | --- |
+| Idle timeout | `idleTimeoutMinutes` | Minutes | `15` | `20160` (14 days) |
+| Maximum session lifetime | `maxLifetimeHours` | Hours | `1` | `2160` (90 days) |
+
+- **Idle timeout** is how long a session can go without an authenticated request before it ends.
+- **Maximum session lifetime** is how long a session can last from sign-in, even while it's in use.
+
+You can only make sessions shorter. The defaults are also the upper limits. The idle timeout can't be longer than the maximum lifetime. For example, Mintie rejects a 12-hour maximum lifetime combined with a 1-day idle timeout.
+
+Use the policy when your security or compliance requirements call for shorter sessions than the defaults. Shortening sessions at your IdP doesn't affect Mintie sessions that were already issued. Mintie and IdP session lifetimes are independent.
+
+<Note>
+  The policy doesn't apply to API keys. Use [API key expiration](/api-and-keys/api-keys) to limit key lifetimes.
+</Note>
+
+### Configure the policy
+
+<Tabs>
+  <Tab title="Admin UI">
+    <Steps>
+      <Step title="Open the session lifetime panel">
+        Go to **Settings → Auth → Single sign-on** and find the **Session lifetime** panel. The panel appears whether or not an IdP is connected, because the policy also applies to password sessions.
+      </Step>
+      <Step title="Enter new values">
+        Set **Idle timeout** in minutes and **Maximum session lifetime** in hours.
+      </Step>
+      <Step title="Save and complete step-up MFA">
+        Select **Save**. Mintie asks you to complete [step-up MFA](/security/mfa) before it applies the change.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Admin API">
+    Read the current policy with `GET /api/auth/admin/sso/session-policy`:
+
+    ```json Response
+    { "idleTimeoutMinutes": 20160, "maxLifetimeHours": 2160 }
+    ```
+
+    Update it with `PUT` and the same shape. This example sets an 8-hour idle timeout and a 7-day maximum lifetime:
+
+    ```bash
+    curl -X PUT https://app.mintie.example/api/auth/admin/sso/session-policy \
+      -H "content-type: application/json" \
+      --cookie "$ADMIN_COOKIE" \
+      -d '{ "idleTimeoutMinutes": 480, "maxLifetimeHours": 168 }'
+    ```
+
+    Both endpoints are admin-only. `PUT` requires step-up MFA for the `session.policy.update` action. Out-of-range values, or an idle timeout longer than the maximum lifetime, return `400 invalid_session_policy` with an `issues` array that describes each problem.
+  </Tab>
+</Tabs>
+
+Every successful update writes a `session.policy.updated` [audit event](/security/audit-logs) with the previous and new values.
+
+### How Mintie evaluates expiry
+
+- `AuthGuard` checks every authenticated request against the org's **current** policy. When you tighten the policy, it applies to existing sessions on their next request. For example, if you drop the maximum lifetime from 90 days to 12 hours, every session older than 12 hours ends on its next request.
+- Mintie updates `last_active_at` at most once per minute per session. Idle timeout is accurate to about one minute.
+- Only authenticated requests to the Mintie API count as activity. Background requests from the web app also count, so an open tab that polls for updates doesn't go idle.
+- Mintie deletes a session as soon as it detects that the session expired. Signing in again also resets the [step-up MFA](/security/mfa) window.
+- Expiry is checked before the `force_sso_relogin_at` stamp. A session that's both expired and stamped returns `session_expired`, not `sso_required`.
+
+### Expired session response
+
+An expired session gets a `401` response:
+
+```json
+{ "error": "unauthenticated", "reason": "session_expired", "expiredBy": "idle" }
+```
+
+`expiredBy` is `idle` or `max_lifetime`. The web app redirects the user to `/login?reason=session_expired&expired_by=<value>` and shows why they were signed out. If your org requires SSO, the login page sends the user to the SSO entry point. Users with an active IdP session are usually signed back in without a password prompt.
+
+### Recommended values
+
+These values are guidance, not requirements. Confirm the right values with your compliance team.
+
+| Profile | Idle timeout | Maximum lifetime | Notes |
+| --- | --- | --- | --- |
+| Default | 14 days (`20160`) | 90 days (`2160`) | Current behavior |
+| Typical enterprise | 8 hours (`480`) | 7 days (`168`) | Most common request in security reviews |
+| Regulated (HIPAA, PCI DSS, FedRAMP Moderate) | 15 minutes (`15`) | 12 hours (`12`) | PCI DSS 4.0 requirement 8.2.8 calls for re-authentication after 15 idle minutes |
+| Shared or kiosk devices | 15 minutes (`15`) | 1 hour (`1`) | |
 
 ## Session migration
 

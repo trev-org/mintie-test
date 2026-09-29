@@ -117,6 +117,8 @@ The settings page calls a small set of admin endpoints. You can call them direct
 | `POST` | `/api/auth/admin/sso/oidc` | Connect a generic OIDC IdP with `issuer`, `clientId`, `clientSecret`. |
 | `POST` | `/api/auth/admin/sso/test` | Generate a test authorize URL. Returns `{ "testUrl": "..." }`. |
 | `POST` | `/api/auth/admin/sso/require` | Toggle org-wide SSO with a `required` boolean. |
+| `GET` | `/api/auth/admin/sso/session-policy` | Read the org's [session lifetime policy](/concepts/sessions#session-lifetime-policy). |
+| `PUT` | `/api/auth/admin/sso/session-policy` | Update `idleTimeoutMinutes` and `maxLifetimeHours`. Requires step-up MFA. |
 | `DELETE` | `/api/auth/admin/sso` | Disconnect the active IdP. |
 
 ### Example: connect a generic OIDC provider

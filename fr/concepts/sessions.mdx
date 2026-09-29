@@ -1,6 +1,6 @@
 ---
 title: "Sessions"
-description: "Comment Mintie émet, valide et migre les sessions pendant le déploiement du SSO"
+description: "Comment Mintie émet, valide, expire et migre les sessions, y compris la politique de durée de vie des sessions de l'organisation pour le délai d'inactivité et la durée de vie maximale."
 ---
 
 <Warning>
@@ -21,7 +21,99 @@ Une session Mintie est un enregistrement côté serveur plus un cookie opaque. L
 | `auth_method` | `password` ou `sso` |
 | `idp_user_id` | Défini quand `auth_method = sso` |
 | `force_sso_relogin_at` | Marqué par le job de migration (voir ci-dessous) |
-| `expires_at` | Fenêtre glissante de 14 jours, plafonnée à 90 jours en absolu |
+| `created_at` | Heure de connexion. La durée de vie maximale de la session est mesurée à partir de cette valeur |
+| `last_active_at` | Dernière requête authentifiée. Le délai d'inactivité est mesuré à partir de cette valeur |
+
+## Politique de durée de vie des sessions
+
+<Info>
+  **Bêta.** La politique de durée de vie des sessions est déployée sur les forfaits Enterprise à partir du 20 octobre 2026.
+</Info>
+
+Chaque organisation dispose d'une politique de durée de vie des sessions comportant deux paramètres. Par défaut, une session prend fin après 14 jours sans utilisation ou 90 jours après la connexion, selon la première échéance atteinte. Les administrateurs de l'organisation peuvent réduire ces deux valeurs pour tous les membres de l'organisation.
+
+| Paramètre | Champ d'API | Unité | Minimum | Maximum et valeur par défaut |
+| --- | --- | --- | --- | --- |
+| Délai d'inactivité | `idleTimeoutMinutes` | Minutes | `15` | `20160` (14 jours) |
+| Durée de vie maximale de la session | `maxLifetimeHours` | Heures | `1` | `2160` (90 jours) |
+
+- Le **délai d'inactivité** correspond à la durée pendant laquelle une session peut rester sans requête authentifiée avant de prendre fin.
+- La **durée de vie maximale de la session** correspond à la durée pendant laquelle une session peut exister à partir de la connexion, même si elle est utilisée.
+
+Vous pouvez uniquement raccourcir les sessions. Les valeurs par défaut sont aussi les limites supérieures. Le délai d'inactivité ne peut pas dépasser la durée de vie maximale. Par exemple, Mintie refuse une durée de vie maximale de 12 heures combinée à un délai d'inactivité de 1 jour.
+
+Utilisez cette politique lorsque vos exigences de sécurité ou de conformité imposent des sessions plus courtes que les valeurs par défaut. Raccourcir les sessions au niveau de votre IdP n'a aucun effet sur les sessions Mintie déjà émises. Les durées de vie des sessions Mintie et IdP sont indépendantes.
+
+<Note>
+  La politique ne s'applique pas aux clés d'API. Utilisez l'[expiration des clés d'API](/fr/api-and-keys/api-keys) pour limiter la durée de vie des clés.
+</Note>
+
+### Configurer la politique
+
+<Tabs>
+  <Tab title="Interface d'administration">
+    <Steps>
+      <Step title="Ouvrez le panneau de durée de vie des sessions">
+        Accédez à **Paramètres → Authentification → Authentification unique** et repérez le panneau **Durée de vie des sessions**. Le panneau s'affiche qu'un IdP soit connecté ou non, car la politique s'applique aussi aux sessions par mot de passe.
+      </Step>
+      <Step title="Saisissez les nouvelles valeurs">
+        Définissez **Délai d'inactivité** en minutes et **Durée de vie maximale de la session** en heures.
+      </Step>
+      <Step title="Enregistrez et effectuez le MFA renforcé">
+        Sélectionnez **Enregistrer**. Mintie vous demande d'effectuer un [MFA renforcé](/fr/security/mfa) avant d'appliquer la modification.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="API d'administration">
+    Lisez la politique actuelle avec `GET /api/auth/admin/sso/session-policy` :
+
+    ```json Response
+    { "idleTimeoutMinutes": 20160, "maxLifetimeHours": 2160 }
+    ```
+
+    Mettez-la à jour avec `PUT` et la même structure. Cet exemple définit un délai d'inactivité de 8 heures et une durée de vie maximale de 7 jours :
+
+    ```bash
+    curl -X PUT https://app.mintie.example/api/auth/admin/sso/session-policy \
+      -H "content-type: application/json" \
+      --cookie "$ADMIN_COOKIE" \
+      -d '{ "idleTimeoutMinutes": 480, "maxLifetimeHours": 168 }'
+    ```
+
+    Les deux endpoints sont réservés aux administrateurs. `PUT` exige un MFA renforcé pour l'action `session.policy.update`. Les valeurs hors limites, ou un délai d'inactivité supérieur à la durée de vie maximale, renvoient `400 invalid_session_policy` avec un tableau `issues` qui décrit chaque problème.
+  </Tab>
+</Tabs>
+
+Chaque mise à jour réussie écrit un [événement d'audit](/fr/security/audit-logs) `session.policy.updated` contenant les valeurs précédentes et les nouvelles valeurs.
+
+### Comment Mintie évalue l'expiration
+
+- `AuthGuard` vérifie chaque requête authentifiée par rapport à la politique **actuelle** de l'organisation. Lorsque vous durcissez la politique, elle s'applique aux sessions existantes dès leur prochaine requête. Par exemple, si vous réduisez la durée de vie maximale de 90 jours à 12 heures, toutes les sessions de plus de 12 heures prennent fin à leur prochaine requête.
+- Mintie met à jour `last_active_at` au plus une fois par minute et par session. Le délai d'inactivité est précis à environ une minute près.
+- Seules les requêtes authentifiées vers l'API Mintie comptent comme activité. Les requêtes en arrière-plan de l'application web comptent aussi : un onglet ouvert qui interroge régulièrement les mises à jour ne devient donc pas inactif.
+- Mintie supprime une session dès qu'il détecte qu'elle a expiré. Se reconnecter réinitialise aussi la fenêtre de [MFA renforcé](/fr/security/mfa).
+- L'expiration est vérifiée avant la marque `force_sso_relogin_at`. Une session à la fois expirée et marquée renvoie `session_expired`, et non `sso_required`.
+
+### Réponse pour une session expirée
+
+Une session expirée reçoit une réponse `401` :
+
+```json
+{ "error": "unauthenticated", "reason": "session_expired", "expiredBy": "idle" }
+```
+
+`expiredBy` vaut `idle` ou `max_lifetime`. L'application web redirige l'utilisateur vers `/login?reason=session_expired&expired_by=<value>` et lui indique pourquoi il a été déconnecté. Si votre organisation exige le SSO, la page de connexion envoie l'utilisateur vers le point d'entrée SSO. Les utilisateurs disposant d'une session IdP active sont généralement reconnectés sans saisir de mot de passe.
+
+### Valeurs recommandées
+
+Ces valeurs sont indicatives et non obligatoires. Validez les valeurs adaptées avec votre équipe conformité.
+
+| Profil | Délai d'inactivité | Durée de vie maximale | Remarques |
+| --- | --- | --- | --- |
+| Par défaut | 14 jours (`20160`) | 90 jours (`2160`) | Comportement actuel |
+| Entreprise type | 8 heures (`480`) | 7 jours (`168`) | Demande la plus fréquente lors des revues de sécurité |
+| Réglementé (HIPAA, PCI DSS, FedRAMP Moderate) | 15 minutes (`15`) | 12 heures (`12`) | L'exigence 8.2.8 de PCI DSS 4.0 impose une réauthentification après 15 minutes d'inactivité |
+| Appareils partagés ou bornes | 15 minutes (`15`) | 1 heure (`1`) | |
 
 ## Migration de sessions
 
