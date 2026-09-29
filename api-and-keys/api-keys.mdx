@@ -1,6 +1,6 @@
 ---
-title: "API keys and SSO identity"
-description: "How API keys behave when their owning user is deactivated in your IdP"
+title: "API keys: expiration and SSO identity"
+description: "Set an optional expiration on Mintie API keys, handle key_expired errors, and learn how keys behave when their owner is deactivated in your IdP."
 ---
 
 <Warning>
@@ -20,6 +20,7 @@ Each API key will carry the issuing user's `idp_user_id`. On every API call, the
 | Check | Frequency | Behavior on fail |
 | --- | --- | --- |
 | Local revocation flag | Every call | `401 invalid_key` |
+| [Key expiry](#key-expiration) | Every call, before the IdP check | `401 key_expired` |
 | IdP active status | Cached, 5-minute TTL | `401 user_deactivated` |
 | Org SSO requirement | Every call | `401 sso_required` (if user is password-only) |
 
@@ -29,8 +30,9 @@ This means a user deprovisioned in your IdP will see their keys 401 within 5 min
 
 <CardGroup cols={2}>
   <Card title="Service account keys" icon="robot">
-    Org-scoped service account keys are exempt from the user-active check —
-    they have a separate identity model and are revoked org-wide.
+    Org-scoped service account keys are exempt from the user-active check.
+    They have a separate identity model and are revoked org-wide. They still
+    honor [key expiration](#key-expiration).
   </Card>
   <Card title="Token format" icon="key">
     No client-visible change to the token format or auth header. You won't
@@ -41,3 +43,66 @@ This means a user deprovisioned in your IdP will see their keys 401 within 5 min
 ## Migration
 
 When the change rolls out, existing keys are stamped with their owning user's `idp_user_id` lazily on first use. Keys whose owner has no `idp_user_id` (i.e., still password-only) keep working until the org's password sunset deadline.
+
+## Key expiration
+
+<Info>
+  **Available October 13, 2026** on all plans.
+</Info>
+
+You can set an optional expiration when you create an API key. After the expiration date, Mintie rejects the key. Use expiring keys to limit how long a leaked or forgotten key stays usable.
+
+### Set an expiration
+
+Pass `expiresInDays` when you call `POST /api/auth/api-keys`. The value must be an integer from `1` to `365`. If you leave it out, the key never expires.
+
+```http
+POST /api/auth/api-keys
+Content-Type: application/json
+
+{
+  "name": "ci-deploy",
+  "expiresInDays": 90
+}
+```
+
+The response includes the calculated `expiresAt` timestamp. It is `null` for keys that never expire.
+
+```json
+{
+  "name": "ci-deploy",
+  "expiresAt": "2027-01-11T17:00:00.000Z"
+}
+```
+
+A value outside `1` to `365` returns `400 invalid_expiry`.
+
+The dashboard pre-selects 90 days. We recommend 90 days for user keys and at most 365 days for service account keys.
+
+<Note>
+  You can't change a key's expiration after you create it. To extend access,
+  [rotate](/operations/rotate-credentials#api-key) to a new key.
+</Note>
+
+### What happens when a key expires
+
+Mintie checks expiration on every API call, before the IdP active-status check. A request with an expired key returns `401 key_expired`, and Mintie writes an `apikey.expired` event to the [audit log](/security/audit-logs).
+
+Expiration applies to service account keys too. Service account keys skip the IdP check, but not the expiry check.
+
+Keys don't auto-renew. Create and deploy a replacement before the old key expires.
+
+### Expiry reminders
+
+Mintie emails reminders 14 days and 1 day before a key expires:
+
+- **User keys:** Mintie emails the key owner.
+- **Service account keys:** Mintie emails all org admins.
+
+### Existing keys
+
+Keys created before this change have no expiration. They keep working as they do today until you revoke them.
+
+### Planned: maximum key lifetime
+
+An org-level maximum key lifetime policy is planned for Q1 2027. It will let admins enforce a limit such as "no keys longer than 90 days." The policy won't apply to keys created before an admin turns it on.

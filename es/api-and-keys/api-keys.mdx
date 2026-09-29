@@ -1,6 +1,6 @@
 ---
-title: "Claves de API e identidad SSO"
-description: "Cómo se comportan las claves de API cuando el usuario propietario es desactivado en tu IdP"
+title: "Claves de API: caducidad e identidad SSO"
+description: "Establece una caducidad opcional en las claves de API de Mintie, gestiona los errores key_expired y descubre qué ocurre al desactivar al propietario en tu IdP."
 ---
 
 <Warning>
@@ -21,6 +21,7 @@ Cada clave de API llevará el `idp_user_id` del usuario emisor. En cada llamada 
 | Comprobación | Frecuencia | Comportamiento al fallar |
 | --- | --- | --- |
 | Flag de revocación local | Cada llamada | `401 invalid_key` |
+| [Caducidad de la clave](#caducidad-de-las-claves) | Cada llamada, antes de la comprobación del IdP | `401 key_expired` |
 | Estado activo en IdP | En caché, TTL de 5 minutos | `401 user_deactivated` |
 | Requisito de SSO de la organización | Cada llamada | `401 sso_required` (si el usuario solo tiene contraseña) |
 
@@ -32,7 +33,8 @@ Esto significa que un usuario desaprovisionado en tu IdP verá sus claves devolv
   <Card title="Claves de cuenta de servicio" icon="robot">
     Las claves de cuenta de servicio con alcance de organización están exentas
     de la comprobación de usuario activo: tienen un modelo de identidad
-    separado y se revocan a nivel de organización.
+    separado y se revocan a nivel de organización. Siguen respetando la
+    [caducidad de las claves](#caducidad-de-las-claves).
   </Card>
   <Card title="Formato del token" icon="key">
     Sin cambios visibles para el cliente en el formato del token o en la
@@ -43,3 +45,66 @@ Esto significa que un usuario desaprovisionado en tu IdP verá sus claves devolv
 ## Migración
 
 Cuando el cambio se despliegue, las claves existentes se marcarán con el `idp_user_id` de su usuario propietario de forma diferida en el primer uso. Las claves cuyo propietario no tenga `idp_user_id` (es decir, todavía solo con contraseña) seguirán funcionando hasta la fecha límite de retiro de contraseñas de la organización.
+
+## Caducidad de las claves
+
+<Info>
+  **Disponible a partir del 13 de octubre de 2026** en todos los planes.
+</Info>
+
+Puedes establecer una caducidad opcional al crear una clave de API. Después de la fecha de caducidad, Mintie rechaza la clave. Usa claves con caducidad para limitar cuánto tiempo sigue siendo utilizable una clave filtrada u olvidada.
+
+### Establecer una caducidad
+
+Pasa `expiresInDays` al llamar a `POST /api/auth/api-keys`. El valor debe ser un entero de `1` a `365`. Si lo omites, la clave nunca caduca.
+
+```http
+POST /api/auth/api-keys
+Content-Type: application/json
+
+{
+  "name": "ci-deploy",
+  "expiresInDays": 90
+}
+```
+
+La respuesta incluye la marca de tiempo `expiresAt` calculada. Es `null` para las claves que nunca caducan.
+
+```json
+{
+  "name": "ci-deploy",
+  "expiresAt": "2027-01-11T17:00:00.000Z"
+}
+```
+
+Un valor fuera del rango de `1` a `365` devuelve `400 invalid_expiry`.
+
+El panel preselecciona 90 días. Recomendamos 90 días para las claves de usuario y como máximo 365 días para las claves de cuenta de servicio.
+
+<Note>
+  No puedes cambiar la caducidad de una clave después de crearla. Para
+  ampliar el acceso, [rota](/es/operations/rotate-credentials) a una clave nueva.
+</Note>
+
+### Qué ocurre cuando una clave caduca
+
+Mintie comprueba la caducidad en cada llamada de API, antes de la comprobación del estado activo en el IdP. Una solicitud con una clave caducada devuelve `401 key_expired`, y Mintie escribe un evento `apikey.expired` en el [registro de auditoría](/es/security/audit-logs).
+
+La caducidad también se aplica a las claves de cuenta de servicio. Estas claves omiten la comprobación del IdP, pero no la de caducidad.
+
+Las claves no se renuevan automáticamente. Crea y despliega una sustituta antes de que caduque la clave anterior.
+
+### Recordatorios de caducidad
+
+Mintie envía recordatorios por correo electrónico 14 días y 1 día antes de que caduque una clave:
+
+- **Claves de usuario:** Mintie envía el correo al propietario de la clave.
+- **Claves de cuenta de servicio:** Mintie envía el correo a todos los administradores de la organización.
+
+### Claves existentes
+
+Las claves creadas antes de este cambio no tienen caducidad. Siguen funcionando como hoy hasta que las revoques.
+
+### Previsto: vida útil máxima de las claves
+
+Está prevista para el primer trimestre de 2027 una política de vida útil máxima de las claves a nivel de organización. Permitirá a los administradores imponer un límite como "ninguna clave de más de 90 días". La política no se aplicará a las claves creadas antes de que un administrador la active.
