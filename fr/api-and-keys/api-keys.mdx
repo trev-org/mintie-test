@@ -1,6 +1,6 @@
 ---
-title: "Clés d'API et identité SSO"
-description: "Comment les clés d'API se comportent quand l'utilisateur propriétaire est désactivé dans votre IdP"
+title: "Clés d'API : expiration et identité SSO"
+description: "Définissez une expiration facultative sur les clés d'API Mintie, gérez les erreurs key_expired et découvrez leur comportement quand l'IdP désactive le propriétaire."
 ---
 
 <Warning>
@@ -21,6 +21,7 @@ Chaque clé d'API portera l'`idp_user_id` de l'utilisateur émetteur. À chaque 
 | Vérification | Fréquence | Comportement en cas d'échec |
 | --- | --- | --- |
 | Flag de révocation local | Chaque appel | `401 invalid_key` |
+| [Expiration de la clé](#expiration) | Chaque appel, avant la vérification IdP | `401 key_expired` |
 | Statut actif dans l'IdP | Mis en cache, TTL de 5 minutes | `401 user_deactivated` |
 | Exigence SSO de l'organisation | Chaque appel | `401 sso_required` (si l'utilisateur n'a qu'un mot de passe) |
 
@@ -32,7 +33,8 @@ Cela signifie qu'un utilisateur déprovisionné dans votre IdP verra ses clés r
   <Card title="Clés de comptes de service" icon="robot">
     Les clés de compte de service à portée d'organisation sont exemptées de
     la vérification d'utilisateur actif : elles ont un modèle d'identité
-    distinct et sont révoquées à l'échelle de l'organisation.
+    distinct et sont révoquées à l'échelle de l'organisation. Elles restent
+    soumises à l'[expiration](#expiration).
   </Card>
   <Card title="Format du jeton" icon="key">
     Aucun changement visible côté client dans le format du jeton ou l'en-tête
@@ -43,3 +45,66 @@ Cela signifie qu'un utilisateur déprovisionné dans votre IdP verra ses clés r
 ## Migration
 
 Lorsque le changement sera déployé, les clés existantes seront marquées avec l'`idp_user_id` de leur utilisateur propriétaire de manière paresseuse à la première utilisation. Les clés dont le propriétaire n'a pas d'`idp_user_id` (c'est-à-dire encore par mot de passe uniquement) continueront de fonctionner jusqu'à la date limite de retrait des mots de passe de l'organisation.
+
+## Expiration
+
+<Info>
+  **Disponible à partir du 13 octobre 2026** sur toutes les offres.
+</Info>
+
+Vous pouvez définir une expiration facultative lorsque vous créez une clé d'API. Après la date d'expiration, Mintie rejette la clé. Utilisez des clés avec expiration pour limiter la durée pendant laquelle une clé divulguée ou oubliée reste utilisable.
+
+### Définir une expiration
+
+Transmettez `expiresInDays` lorsque vous appelez `POST /api/auth/api-keys`. La valeur doit être un entier de `1` à `365`. Si vous l'omettez, la clé n'expire jamais.
+
+```http
+POST /api/auth/api-keys
+Content-Type: application/json
+
+{
+  "name": "ci-deploy",
+  "expiresInDays": 90
+}
+```
+
+La réponse inclut l'horodatage `expiresAt` calculé. Il vaut `null` pour les clés qui n'expirent jamais.
+
+```json
+{
+  "name": "ci-deploy",
+  "expiresAt": "2027-01-11T17:00:00.000Z"
+}
+```
+
+Une valeur hors de la plage `1` à `365` renvoie `400 invalid_expiry`.
+
+Le tableau de bord présélectionne 90 jours. Nous recommandons 90 jours pour les clés d'utilisateur et au maximum 365 jours pour les clés de compte de service.
+
+<Note>
+  Vous ne pouvez pas modifier l'expiration d'une clé après sa création. Pour
+  prolonger l'accès, [faites tourner](/fr/operations/rotate-credentials) la clé vers une nouvelle clé.
+</Note>
+
+### Que se passe-t-il quand une clé expire
+
+Mintie vérifie l'expiration à chaque appel d'API, avant la vérification du statut actif dans l'IdP. Une requête avec une clé expirée renvoie `401 key_expired`, et Mintie écrit un événement `apikey.expired` dans le [journal d'audit](/fr/security/audit-logs).
+
+L'expiration s'applique aussi aux clés de compte de service. Ces clés sont exemptées de la vérification IdP, mais pas de la vérification d'expiration.
+
+Les clés ne se renouvellent pas automatiquement. Créez et déployez une clé de remplacement avant l'expiration de l'ancienne.
+
+### Rappels d'expiration
+
+Mintie envoie des rappels par e-mail 14 jours et 1 jour avant l'expiration d'une clé :
+
+- **Clés d'utilisateur :** Mintie envoie l'e-mail au propriétaire de la clé.
+- **Clés de compte de service :** Mintie envoie l'e-mail à tous les administrateurs de l'organisation.
+
+### Clés existantes
+
+Les clés créées avant ce changement n'ont pas d'expiration. Elles continuent de fonctionner comme aujourd'hui jusqu'à ce que vous les révoquiez.
+
+### Prévu : durée de vie maximale des clés
+
+Une politique de durée de vie maximale des clés au niveau de l'organisation est prévue pour le premier trimestre 2027. Elle permettra aux administrateurs d'imposer une limite telle que « aucune clé de plus de 90 jours ». La politique ne s'appliquera pas aux clés créées avant son activation par un administrateur.
