@@ -21,6 +21,12 @@ Quand `sso_enabled = false` :
 - `/api/auth/sso/callback` renvoie `404`
 - La page de paramètres SSO de l'interface d'administration est masquée
 
+## Flag de provisioning JIT
+
+Le [provisioning juste-à-temps](/fr/provisioning/jit) a son propre flag, `jit_provisioning`. C'est aussi un booléen par organisation, dont la valeur par défaut est `false`.
+
+JIT ne s'exécute que lorsque `jit_provisioning` et le paramètre JIT propre à l'organisation sont tous deux activés. Quand `jit_provisioning = false`, le panneau **Just-in-time provisioning** est masqué sur la page de paramètres SSO.
+
 ## Comment c'est évalué
 
 L'évaluation côté serveur passe par `FeatureContext.forOrg(orgId)` :

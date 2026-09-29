@@ -29,8 +29,8 @@ When the OIDC callback fires, Mintie resolves the user in this order:
     transactionally and signs the user in.
   </Step>
   <Step title="Provision, if JIT enabled">
-    If no email match exists and the org has JIT enabled (planned —
-    see [JIT provisioning](/provisioning/jit)), Mintie creates a new user.
+    If no email match exists and the org has JIT enabled (see
+    [JIT provisioning](/provisioning/jit)), Mintie creates a new user.
   </Step>
   <Step title="Reject otherwise">
     The sign-in is rejected with an "unknown user" error. The org admin

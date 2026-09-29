@@ -1,45 +1,133 @@
 ---
-title: "Just-in-time provisioning"
-description: "Create users on first SSO sign-in via SAML attribute mapping"
+title: "Just-in-time provisioning: create users on first SSO sign-in"
+description: "Automatically create Mintie accounts the first time users sign in through SSO. Configure allowed email domains, default roles, and SAML attribute mapping."
 ---
 
 <Info>
-  **Planned.** JIT provisioning is on the roadmap as a follow-up to SCIM.
-  This page describes the planned design — none of the JIT flags or
-  attribute mappings are live yet.
+  **Beta.** JIT provisioning is rolling out by org behind the
+  `jit_provisioning` feature flag. If you don't see the **Just-in-time
+  provisioning** panel on your SSO settings page, ask your account team to
+  enable it for your organization.
 </Info>
 
-## Why JIT
+Just-in-time (JIT) provisioning creates a Mintie account the first time a user signs in through SSO. You don't need to invite users ahead of time or run a directory sync.
 
-SCIM is the right answer when your IdP supports it. For teams whose IdP doesn't have SCIM tooling — or who don't want to maintain a SCIM provisioning agent — JIT is the alternative: a user is created the first time they successfully sign in via SSO.
+## When to use JIT
 
-## How it will work
+SCIM is the right answer when your IdP supports it. For teams whose IdP doesn't have SCIM tooling, or who don't want to maintain a SCIM provisioning agent, JIT is the alternative.
 
-When `jit_enabled = true` for an org and an OIDC callback succeeds for an unknown user, Mintie:
+JIT is the wrong choice when:
+
+- You need deprovisioning. JIT only creates users. It never updates or deactivates them. Use [SCIM](/provisioning/scim).
+- You need group-based access changes after sign-in. Use SCIM.
+- Your IdP can't be trusted to send accurate attributes. Use manual invites.
+
+## Prerequisites
+
+- An SSO connection configured for your org. See [Enable SSO](/setup/enable-sso).
+- At least one verified email domain for your org.
+- The org admin role in Mintie.
+
+## Enable JIT provisioning
 
 <Steps>
-  <Step title="Reads SAML / OIDC attributes from the assertion">
-    Email, name, and (optionally) role-mapping claims.
+  <Step title="Open SSO settings">
+    Go to **Settings → Auth → SSO**. The **Just-in-time provisioning** panel
+    appears below your connection once a provider is connected.
   </Step>
-  <Step title="Creates the user with the mapped attributes">
-    Default role is `member` unless a role-mapping claim says otherwise.
+  <Step title="Turn on JIT">
+    Select **Create accounts on first SSO sign-in**.
   </Step>
-  <Step title="Links the IdP identity in the same transaction">
-    The user is signed in immediately — no second redirect.
+  <Step title="Choose a default role">
+    Select **Member** or **Viewer** under **Default role**. New users get
+    this role unless their IdP sends a valid role claim.
+  </Step>
+  <Step title="Add allowed email domains">
+    Enter a comma-separated list under **Allowed email domains**, for example
+    `acme.com, acme.co.uk`. Each domain must be verified for your org.
+  </Step>
+  <Step title="Save">
+    Select **Save**. Mintie prompts you to complete [step-up MFA](/security/mfa)
+    before the change takes effect.
+  </Step>
+</Steps>
+
+### Settings reference
+
+| Setting | Values | Default | Notes |
+| --- | --- | --- | --- |
+| `enabled` | `true` or `false` | `false` | Requires at least one allowed domain to enable. |
+| `defaultRole` | `member` or `viewer` | `member` | `admin` isn't accepted. |
+| `allowedDomains` | Up to 50 domains | Empty | Lowercased on save. Each domain must be verified for your org. |
+
+You can also read and update these settings with `GET` and `PUT` requests to `/api/auth/admin/sso/jit`:
+
+```json PUT /api/auth/admin/sso/jit
+{
+  "enabled": true,
+  "defaultRole": "member",
+  "allowedDomains": ["acme.com", "acme.co.uk"]
+}
+```
+
+The endpoint returns `400` with `invalid_jit_settings` if the body fails validation. It returns `400` with `domain_not_verified` and a `domains` list if any domain isn't verified for your org.
+
+## How it works
+
+JIT runs only when both the `jit_provisioning` flag and your org's JIT setting are on. Mintie first tries to match the user to an existing account by IdP identity, then by email. See [Identity linking](/concepts/identity-linking). If neither matches, Mintie:
+
+<Steps>
+  <Step title="Reads SAML or OIDC attributes from the assertion">
+    Email, first name, last name, and an optional role claim.
+  </Step>
+  <Step title="Checks the email domain">
+    The domain must exactly match one of your allowed domains. Subdomains
+    don't match. For example, allowing `acme.com` doesn't allow `eu.acme.com`.
+  </Step>
+  <Step title="Checks your seat limit">
+    If your org has a seat limit and every seat is in use, Mintie rejects the
+    sign-in.
+  </Step>
+  <Step title="Creates the user and links the IdP identity">
+    Both happen in one transaction. The user is signed in immediately, with no
+    second redirect.
   </Step>
 </Steps>
 
 ## Default attribute mapping
 
+Mintie uses the first non-empty attribute it finds for each field.
+
 | Mintie field | SAML attribute | OIDC claim |
 | --- | --- | --- |
-| `email` | `email` or `emailAddress` | `email` |
+| `email` | `email`, `emailAddress`, or `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress` | `email` |
 | `firstName` | `firstName` or `givenName` | `given_name` |
 | `lastName` | `lastName` or `familyName` | `family_name` |
-| `role` | `role` (org-defined) | custom claim |
+| `role` | `role` or `mintie_role` | `role` or `mintie_role` |
 
-## When JIT is the wrong choice
+## Role mapping
 
-- You need deprovisioning (JIT only handles provisioning — use SCIM)
-- You need group-based access changes after sign-in (use SCIM)
-- Your IdP can't be trusted to send accurate attributes (use manual invite)
+To assign roles from your IdP, send a `role` or `mintie_role` attribute with a value of `member` or `viewer`. Matching is case-insensitive.
+
+Any other value falls back to your default role. This includes `admin`. JIT never grants admin access. An existing admin must grant it, or you can use SCIM group mapping.
+
+## Sign-in errors
+
+When Mintie rejects a JIT sign-in, it redirects the user to `/login` with an `error` code and shows a message.
+
+| Error code | Cause | Fix |
+| --- | --- | --- |
+| `jit_disabled` | JIT is off for the org and the user has no account. | Invite the user, or enable JIT. |
+| `jit_domain_not_allowed` | The user's email domain isn't in your allowed domains. | Add the domain, or invite the user. |
+| `jit_seat_limit_reached` | Your org has no available seats. | Free up or add seats. |
+| `jit_missing_email` | The IdP didn't send an email attribute. | Check the attribute mapping in your IdP's SSO app. |
+
+## Audit events
+
+Mintie records an audit event for each JIT action:
+
+| Event | When emitted |
+| --- | --- |
+| `jit.user.provisioned` | JIT created a user. Includes the IdP provider and assigned role. |
+| `jit.user.rejected` | JIT rejected a sign-in. Includes the rejection reason. |
+| `jit.settings.updated` | An admin changed the org's JIT settings. |

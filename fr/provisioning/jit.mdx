@@ -1,45 +1,133 @@
 ---
-title: "Provisioning juste-à-temps"
-description: "Créer des utilisateurs à la première connexion SSO via le mappage d'attributs SAML"
+title: "Provisioning juste-à-temps : créer des utilisateurs à la première connexion SSO"
+description: "Créez automatiquement des comptes Mintie la première fois que les utilisateurs se connectent via SSO. Configurez les domaines d'e-mail autorisés, les rôles par défaut et le mappage d'attributs SAML."
 ---
 
 <Info>
-  **Planifié.** Le provisioning JIT est sur la feuille de route en suite de SCIM.
-  Cette page décrit la conception planifiée — aucun des flags JIT ni des
-  mappages d'attributs n'est actif aujourd'hui.
+  **Bêta.** Le provisioning JIT est déployé par organisation derrière le
+  feature flag `jit_provisioning`. Si vous ne voyez pas le panneau **Just-in-time
+  provisioning** sur votre page de paramètres SSO, demandez à votre équipe de
+  compte de l'activer pour votre organisation.
 </Info>
 
-## Pourquoi JIT
+Le provisioning juste-à-temps (JIT) crée un compte Mintie la première fois qu'un utilisateur se connecte via SSO. Vous n'avez pas besoin d'inviter les utilisateurs à l'avance ni d'exécuter une synchronisation d'annuaire.
 
-SCIM est la bonne réponse quand votre IdP le prend en charge. Pour les équipes dont l'IdP n'a pas d'outils SCIM — ou qui ne veulent pas maintenir un agent de provisioning SCIM — JIT est l'alternative : un utilisateur est créé la première fois qu'il se connecte avec succès via SSO.
+## Quand utiliser JIT
 
-## Comment cela fonctionnera
+SCIM est la bonne réponse quand votre IdP le prend en charge. Pour les équipes dont l'IdP n'a pas d'outils SCIM, ou qui ne veulent pas maintenir un agent de provisioning SCIM, JIT est l'alternative.
 
-Quand `jit_enabled = true` pour une organisation et qu'un callback OIDC réussit pour un utilisateur inconnu, Mintie :
+JIT est le mauvais choix quand :
+
+- Vous avez besoin de déprovisioning. JIT ne fait que créer des utilisateurs. Il ne les met jamais à jour et ne les désactive jamais. Utilisez [SCIM](/fr/provisioning/scim).
+- Vous avez besoin de changements d'accès basés sur les groupes après la connexion. Utilisez SCIM.
+- On ne peut pas faire confiance à votre IdP pour envoyer des attributs précis. Utilisez les invitations manuelles.
+
+## Prérequis
+
+- Une connexion SSO configurée pour votre organisation. Voir [Activer le SSO](/fr/setup/enable-sso).
+- Au moins un domaine d'e-mail vérifié pour votre organisation.
+- Le rôle d'administrateur de l'organisation dans Mintie.
+
+## Activer le provisioning JIT
 
 <Steps>
-  <Step title="Lit les attributs SAML / OIDC de l'assertion">
-    E-mail, nom et (optionnellement) claims de mappage de rôles.
+  <Step title="Ouvrir les paramètres SSO">
+    Allez dans **Settings → Auth → SSO**. Le panneau **Just-in-time provisioning**
+    apparaît sous votre connexion une fois qu'un fournisseur est connecté.
   </Step>
-  <Step title="Crée l'utilisateur avec les attributs mappés">
-    Le rôle par défaut est `member` sauf si un claim de mappage de rôle dit autre chose.
+  <Step title="Activer JIT">
+    Sélectionnez **Create accounts on first SSO sign-in**.
   </Step>
-  <Step title="Lie l'identité IdP dans la même transaction">
-    L'utilisateur est connecté immédiatement — pas de seconde redirection.
+  <Step title="Choisir un rôle par défaut">
+    Sélectionnez **Member** ou **Viewer** sous **Default role**. Les nouveaux
+    utilisateurs reçoivent ce rôle, sauf si leur IdP envoie un claim de rôle valide.
+  </Step>
+  <Step title="Ajouter les domaines d'e-mail autorisés">
+    Saisissez une liste séparée par des virgules sous **Allowed email domains**, par exemple
+    `acme.com, acme.co.uk`. Chaque domaine doit être vérifié pour votre organisation.
+  </Step>
+  <Step title="Enregistrer">
+    Sélectionnez **Save**. Mintie vous demande d'effectuer un [MFA renforcé](/fr/security/mfa)
+    avant que la modification ne prenne effet.
+  </Step>
+</Steps>
+
+### Référence des paramètres
+
+| Paramètre | Valeurs | Défaut | Remarques |
+| --- | --- | --- | --- |
+| `enabled` | `true` ou `false` | `false` | Nécessite au moins un domaine autorisé pour être activé. |
+| `defaultRole` | `member` ou `viewer` | `member` | `admin` n'est pas accepté. |
+| `allowedDomains` | Jusqu'à 50 domaines | Vide | Convertis en minuscules à l'enregistrement. Chaque domaine doit être vérifié pour votre organisation. |
+
+Vous pouvez aussi lire et mettre à jour ces paramètres avec des requêtes `GET` et `PUT` vers `/api/auth/admin/sso/jit` :
+
+```json PUT /api/auth/admin/sso/jit
+{
+  "enabled": true,
+  "defaultRole": "member",
+  "allowedDomains": ["acme.com", "acme.co.uk"]
+}
+```
+
+L'endpoint renvoie `400` avec `invalid_jit_settings` si le corps échoue à la validation. Il renvoie `400` avec `domain_not_verified` et une liste `domains` si un domaine n'est pas vérifié pour votre organisation.
+
+## Comment cela fonctionne
+
+JIT ne s'exécute que lorsque le flag `jit_provisioning` et le paramètre JIT de votre organisation sont tous deux activés. Mintie essaie d'abord de faire correspondre l'utilisateur à un compte existant par identité IdP, puis par e-mail. Voir [Liaison d'identité](/fr/concepts/identity-linking). Si aucune correspondance n'est trouvée, Mintie :
+
+<Steps>
+  <Step title="Lit les attributs SAML ou OIDC de l'assertion">
+    E-mail, prénom, nom et un claim de rôle optionnel.
+  </Step>
+  <Step title="Vérifie le domaine de l'e-mail">
+    Le domaine doit correspondre exactement à l'un de vos domaines autorisés. Les sous-domaines
+    ne correspondent pas. Par exemple, autoriser `acme.com` n'autorise pas `eu.acme.com`.
+  </Step>
+  <Step title="Vérifie votre limite de sièges">
+    Si votre organisation a une limite de sièges et que tous les sièges sont utilisés, Mintie rejette la
+    connexion.
+  </Step>
+  <Step title="Crée l'utilisateur et lie l'identité IdP">
+    Les deux se font dans une seule transaction. L'utilisateur est connecté immédiatement, sans
+    seconde redirection.
   </Step>
 </Steps>
 
 ## Mappage d'attributs par défaut
 
+Mintie utilise le premier attribut non vide qu'il trouve pour chaque champ.
+
 | Champ Mintie | Attribut SAML | Claim OIDC |
 | --- | --- | --- |
-| `email` | `email` ou `emailAddress` | `email` |
+| `email` | `email`, `emailAddress` ou `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress` | `email` |
 | `firstName` | `firstName` ou `givenName` | `given_name` |
 | `lastName` | `lastName` ou `familyName` | `family_name` |
-| `role` | `role` (défini par l'organisation) | claim personnalisé |
+| `role` | `role` ou `mintie_role` | `role` ou `mintie_role` |
 
-## Quand JIT est le mauvais choix
+## Mappage de rôles
 
-- Vous avez besoin de déprovisioning (JIT ne gère que le provisioning — utilisez SCIM)
-- Vous avez besoin de changements d'accès basés sur les groupes après la connexion (utilisez SCIM)
-- On ne peut pas faire confiance à votre IdP pour envoyer des attributs précis (utilisez l'invitation manuelle)
+Pour attribuer des rôles depuis votre IdP, envoyez un attribut `role` ou `mintie_role` avec la valeur `member` ou `viewer`. La correspondance n'est pas sensible à la casse.
+
+Toute autre valeur revient à votre rôle par défaut. Cela inclut `admin`. JIT n'accorde jamais d'accès administrateur. Un administrateur existant doit l'accorder, ou vous pouvez utiliser le mappage de groupes SCIM.
+
+## Erreurs de connexion
+
+Quand Mintie rejette une connexion JIT, il redirige l'utilisateur vers `/login` avec un code `error` et affiche un message.
+
+| Code d'erreur | Cause | Solution |
+| --- | --- | --- |
+| `jit_disabled` | JIT est désactivé pour l'organisation et l'utilisateur n'a pas de compte. | Invitez l'utilisateur, ou activez JIT. |
+| `jit_domain_not_allowed` | Le domaine de l'e-mail de l'utilisateur ne fait pas partie de vos domaines autorisés. | Ajoutez le domaine, ou invitez l'utilisateur. |
+| `jit_seat_limit_reached` | Votre organisation n'a plus de sièges disponibles. | Libérez ou ajoutez des sièges. |
+| `jit_missing_email` | L'IdP n'a pas envoyé d'attribut e-mail. | Vérifiez le mappage d'attributs dans l'application SSO de votre IdP. |
+
+## Événements d'audit
+
+Mintie enregistre un événement d'audit pour chaque action JIT :
+
+| Événement | Quand il est émis |
+| --- | --- |
+| `jit.user.provisioned` | JIT a créé un utilisateur. Inclut le fournisseur IdP et le rôle attribué. |
+| `jit.user.rejected` | JIT a rejeté une connexion. Inclut le motif du rejet. |
+| `jit.settings.updated` | Un administrateur a modifié les paramètres JIT de l'organisation. |
