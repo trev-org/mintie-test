@@ -49,6 +49,7 @@ Empieza por determinar el alcance del fallo. Un mismo síntoma puede tener una c
 | La ventana de prueba se cierra o agota el tiempo de espera | La ventana emergente se ha bloqueado o el flujo del IdP no ha regresado | Permite las ventanas emergentes y vuelve a ejecutar la prueba |
 | El usuario llega a la cuenta equivocada | El correo electrónico ha cambiado o una identidad está vinculada de forma incorrecta | Revisa la [vinculación de identidad](/es/concepts/identity-linking) antes de volver a intentarlo |
 | Bucle de redirección repetido | Hay sesiones obsoletas o políticas de aplicación en conflicto | Cierra sesión en ambos sistemas y prueba en una ventana privada |
+| Los usuarios pierden la sesión inesperadamente | La política de duración de sesión de la organización terminó la sesión. La URL de inicio de sesión incluye `reason=session_expired` y `expired_by=idle` o `expired_by=max_lifetime` | Comprueba la política con `GET /api/auth/admin/sso/session-policy` y busca un evento de auditoría `session.policy.updated` reciente. Consulta [Política de duración de sesión](/es/concepts/sessions#política-de-duración-de-sesión) |
 
 ## Comprobaciones específicas del protocolo
 

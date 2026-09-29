@@ -23,6 +23,9 @@ The dashboard will surface a filterable feed of identity events for the org:
 | `scim.user.deactivated` | SCIM `DELETE /Users/{id}` succeeded |
 | `apikey.created` | API key issued |
 | `apikey.revoked` | API key revoked (manually or by IdP deactivation) |
+| `session.policy.updated` | Admin changed the org's [session lifetime policy](/concepts/sessions#session-lifetime-policy). Metadata includes the `previous` and `next` values |
+
+Individual session expiries aren't audit events. To investigate unexpected sign-outs, check for a recent `session.policy.updated` event.
 
 ## UI
 

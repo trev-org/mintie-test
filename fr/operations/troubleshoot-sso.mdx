@@ -50,6 +50,7 @@ Commencez par déterminer l’étendue de la défaillance. Un même symptôme pe
 | La fenêtre de test se ferme ou expire | La popup a été bloquée ou le flux de l’IdP n’est pas revenu | Autorisez les popups, puis relancez le test |
 | L’utilisateur arrive dans le mauvais compte | L’adresse e-mail a changé ou une identité est mal liée | Consultez la [liaison d’identité](/fr/concepts/identity-linking) avant de réessayer |
 | Boucle de redirection répétée | Sessions obsolètes ou politiques d’application contradictoires | Déconnectez-vous des deux systèmes et effectuez le test dans une fenêtre privée |
+| Les utilisateurs sont déconnectés de manière inattendue | La politique de durée de vie des sessions de l’organisation a mis fin à la session. L’URL de connexion contient `reason=session_expired` et `expired_by=idle` ou `expired_by=max_lifetime` | Vérifiez la politique avec `GET /api/auth/admin/sso/session-policy` et recherchez un événement d’audit `session.policy.updated` récent. Consultez [Politique de durée de vie des sessions](/fr/concepts/sessions#politique-de-durée-de-vie-des-sessions) |
 
 ## Contrôles propres à chaque protocole
 

@@ -120,6 +120,8 @@ La page de paramètres appelle un petit ensemble d'endpoints d'administration. V
 | `POST` | `/api/auth/admin/sso/oidc` | Connecte un IdP OIDC générique avec `issuer`, `clientId`, `clientSecret`. |
 | `POST` | `/api/auth/admin/sso/test` | Génère une URL d'autorisation de test. Renvoie `{ "testUrl": "..." }`. |
 | `POST` | `/api/auth/admin/sso/require` | Active ou désactive le SSO à l'échelle de l'organisation avec un booléen `required`.|
+| `GET` | `/api/auth/admin/sso/session-policy` | Lit la [politique de durée de vie des sessions](/fr/concepts/sessions#politique-de-durée-de-vie-des-sessions) de l'organisation. |
+| `PUT` | `/api/auth/admin/sso/session-policy` | Met à jour `idleTimeoutMinutes` et `maxLifetimeHours`. Exige un MFA renforcé. |
 | `DELETE` | `/api/auth/admin/sso` | Déconnecte l'IdP actif. |
 
 ### Exemple : connecter un fournisseur OIDC générique

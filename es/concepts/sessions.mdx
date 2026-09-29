@@ -1,6 +1,6 @@
 ---
 title: "Sesiones"
-description: "Cómo Mintie emite, valida y migra las sesiones durante el despliegue del SSO"
+description: "Cómo Mintie emite, valida, expira y migra las sesiones, incluida la política de duración de sesión de la organización para el tiempo de inactividad y la duración máxima."
 ---
 
 <Warning>
@@ -21,7 +21,99 @@ Una sesión de Mintie es un registro del lado del servidor más una cookie opaca
 | `auth_method` | `password` o `sso` |
 | `idp_user_id` | Establecido cuando `auth_method = sso` |
 | `force_sso_relogin_at` | Marcado por el job de migración (ver más abajo) |
-| `expires_at` | Ventana deslizante de 14 días, con un máximo absoluto de 90 días |
+| `created_at` | Hora de inicio de sesión. La duración máxima de la sesión se mide desde aquí |
+| `last_active_at` | Última petición autenticada. El tiempo de inactividad se mide desde aquí |
+
+## Política de duración de sesión
+
+<Info>
+  **Beta.** La política de duración de sesión se está desplegando en los planes Enterprise a partir del 20 de octubre de 2026.
+</Info>
+
+Cada organización tiene una política de duración de sesión con dos ajustes. Por defecto, una sesión termina tras 14 días sin uso o 90 días después del inicio de sesión, lo que ocurra primero. Los administradores de la organización pueden acortar ambos valores para todos los miembros de la organización.
+
+| Ajuste | Campo de la API | Unidad | Mínimo | Máximo y valor por defecto |
+| --- | --- | --- | --- | --- |
+| Tiempo de inactividad | `idleTimeoutMinutes` | Minutos | `15` | `20160` (14 días) |
+| Duración máxima de la sesión | `maxLifetimeHours` | Horas | `1` | `2160` (90 días) |
+
+- **Tiempo de inactividad** es cuánto tiempo puede pasar una sesión sin una petición autenticada antes de terminar.
+- **Duración máxima de la sesión** es cuánto puede durar una sesión desde el inicio de sesión, incluso mientras está en uso.
+
+Solo puedes acortar las sesiones. Los valores por defecto son también los límites superiores. El tiempo de inactividad no puede ser mayor que la duración máxima. Por ejemplo, Mintie rechaza una duración máxima de 12 horas combinada con un tiempo de inactividad de 1 día.
+
+Usa la política cuando tus requisitos de seguridad o cumplimiento exijan sesiones más cortas que los valores por defecto. Acortar las sesiones en tu IdP no afecta a las sesiones de Mintie ya emitidas. Las duraciones de sesión de Mintie y del IdP son independientes.
+
+<Note>
+  La política no se aplica a las claves de API. Usa la [expiración de claves de API](/es/api-and-keys/api-keys) para limitar la duración de las claves.
+</Note>
+
+### Configurar la política
+
+<Tabs>
+  <Tab title="UI de administración">
+    <Steps>
+      <Step title="Abre el panel de duración de la sesión">
+        Ve a **Configuración → Autenticación → SSO** y busca el panel **Duración de la sesión**. El panel aparece haya o no un IdP conectado, porque la política también se aplica a las sesiones con contraseña.
+      </Step>
+      <Step title="Introduce los nuevos valores">
+        Establece **Tiempo de inactividad** en minutos y **Duración máxima de la sesión** en horas.
+      </Step>
+      <Step title="Guarda y completa el MFA step-up">
+        Selecciona **Guardar**. Mintie te pide completar el [MFA step-up](/es/security/mfa) antes de aplicar el cambio.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="API de administración">
+    Lee la política actual con `GET /api/auth/admin/sso/session-policy`:
+
+    ```json Response
+    { "idleTimeoutMinutes": 20160, "maxLifetimeHours": 2160 }
+    ```
+
+    Actualízala con `PUT` y la misma estructura. Este ejemplo establece un tiempo de inactividad de 8 horas y una duración máxima de 7 días:
+
+    ```bash
+    curl -X PUT https://app.mintie.example/api/auth/admin/sso/session-policy \
+      -H "content-type: application/json" \
+      --cookie "$ADMIN_COOKIE" \
+      -d '{ "idleTimeoutMinutes": 480, "maxLifetimeHours": 168 }'
+    ```
+
+    Ambos endpoints son solo para administradores. `PUT` requiere MFA step-up para la acción `session.policy.update`. Los valores fuera de rango, o un tiempo de inactividad mayor que la duración máxima, devuelven `400 invalid_session_policy` con un array `issues` que describe cada problema.
+  </Tab>
+</Tabs>
+
+Cada actualización correcta escribe un [evento de auditoría](/es/security/audit-logs) `session.policy.updated` con los valores anteriores y nuevos.
+
+### Cómo evalúa Mintie la expiración
+
+- `AuthGuard` comprueba cada petición autenticada contra la política **actual** de la organización. Cuando endureces la política, se aplica a las sesiones existentes en su siguiente petición. Por ejemplo, si reduces la duración máxima de 90 días a 12 horas, todas las sesiones con más de 12 horas terminan en su siguiente petición.
+- Mintie actualiza `last_active_at` como máximo una vez por minuto por sesión. El tiempo de inactividad tiene una precisión de aproximadamente un minuto.
+- Solo las peticiones autenticadas a la API de Mintie cuentan como actividad. Las peticiones en segundo plano de la aplicación web también cuentan, así que una pestaña abierta que consulta actualizaciones no queda inactiva.
+- Mintie elimina una sesión en cuanto detecta que ha expirado. Volver a iniciar sesión también reinicia la ventana del [MFA step-up](/es/security/mfa).
+- La expiración se comprueba antes que la marca `force_sso_relogin_at`. Una sesión que ha expirado y además está marcada devuelve `session_expired`, no `sso_required`.
+
+### Respuesta de sesión expirada
+
+Una sesión expirada recibe una respuesta `401`:
+
+```json
+{ "error": "unauthenticated", "reason": "session_expired", "expiredBy": "idle" }
+```
+
+`expiredBy` es `idle` o `max_lifetime`. La aplicación web redirige al usuario a `/login?reason=session_expired&expired_by=<value>` y muestra por qué se cerró su sesión. Si tu organización requiere SSO, la página de inicio de sesión envía al usuario al punto de entrada de SSO. Los usuarios con una sesión activa en el IdP normalmente vuelven a iniciar sesión sin que se les pida la contraseña.
+
+### Valores recomendados
+
+Estos valores son orientativos, no requisitos. Confirma los valores adecuados con tu equipo de cumplimiento.
+
+| Perfil | Tiempo de inactividad | Duración máxima | Notas |
+| --- | --- | --- | --- |
+| Por defecto | 14 días (`20160`) | 90 días (`2160`) | Comportamiento actual |
+| Empresa típica | 8 horas (`480`) | 7 días (`168`) | La solicitud más habitual en las revisiones de seguridad |
+| Regulado (HIPAA, PCI DSS, FedRAMP Moderate) | 15 minutos (`15`) | 12 horas (`12`) | El requisito 8.2.8 de PCI DSS 4.0 exige reautenticación tras 15 minutos de inactividad |
+| Dispositivos compartidos o de quiosco | 15 minutos (`15`) | 1 hora (`1`) | |
 
 ## Migración de sesiones
 

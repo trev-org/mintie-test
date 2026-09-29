@@ -119,6 +119,8 @@ La página de configuración llama a un pequeño conjunto de endpoints de admini
 | `POST` | `/api/auth/admin/sso/oidc` | Conecta un IdP OIDC genérico con `issuer`, `clientId`, `clientSecret`. |
 | `POST` | `/api/auth/admin/sso/test` | Genera una URL de autorización de prueba. Devuelve `{ "testUrl": "..." }`. |
 | `POST` | `/api/auth/admin/sso/require` | Activa o desactiva SSO en toda la organización con un booleano `required`. |
+| `GET` | `/api/auth/admin/sso/session-policy` | Lee la [política de duración de sesión](/es/concepts/sessions#política-de-duración-de-sesión) de la organización. |
+| `PUT` | `/api/auth/admin/sso/session-policy` | Actualiza `idleTimeoutMinutes` y `maxLifetimeHours`. Requiere MFA step-up. |
 | `DELETE` | `/api/auth/admin/sso` | Desconecta el IdP activo. |
 
 ### Ejemplo: conectar un proveedor OIDC genérico

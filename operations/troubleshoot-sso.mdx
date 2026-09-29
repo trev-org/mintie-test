@@ -46,6 +46,7 @@ Start by finding the scope of the failure. The same symptom can have a different
 | Test window closes or times out | Pop-up was blocked or the IdP flow did not return | Allow pop-ups, then run the test again |
 | User lands in the wrong account | Email changed or an identity is linked incorrectly | Review [identity linking](/concepts/identity-linking) before retrying |
 | Repeated redirect loop | Stale sessions or conflicting enforcement policy | Sign out of both systems and test in a private window |
+| Users are signed out unexpectedly | The org's session lifetime policy ended the session. The login URL includes `reason=session_expired` and `expired_by=idle` or `expired_by=max_lifetime` | Check the policy with `GET /api/auth/admin/sso/session-policy` and look for a recent `session.policy.updated` audit event. See [Session lifetime policy](/concepts/sessions#session-lifetime-policy) |
 
 ## Protocol-specific checks
 
