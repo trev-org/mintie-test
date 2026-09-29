@@ -23,6 +23,9 @@ The dashboard will surface a filterable feed of identity events for the org:
 | `scim.user.deactivated` | SCIM `DELETE /Users/{id}` succeeded |
 | `apikey.created` | API key issued |
 | `apikey.revoked` | API key revoked (manually or by IdP deactivation) |
+| `jit.user.provisioned` | JIT created a user on first SSO sign-in |
+| `jit.user.rejected` | JIT rejected a sign-in, with the rejection reason |
+| `jit.settings.updated` | Admin changed the org's JIT settings |
 
 ## UI
 
