@@ -24,6 +24,8 @@ tags:
     description: Current conditions for geographic coordinates.
   - name: Forecast
     description: Five-day forecasts in three-hour intervals.
+  - name: Air pollution
+    description: Current and forecast air quality for geographic coordinates.
 
 paths:
   /weather:
@@ -91,6 +93,76 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /air_pollution:
+    get:
+      operationId: getCurrentAirPollution
+      x-mint: 
+        metadata:
+          groups: ["enterprise"]
+          public: false
+      summary: Get current air pollution
+      description: |
+        Returns the current Air Quality Index and pollutant concentrations for
+        the supplied latitude and longitude.
+      externalDocs:
+        description: Official Air Pollution documentation
+        url: https://openweathermap.org/api/air-pollution
+      tags:
+        - Air pollution
+      parameters:
+        - $ref: "#/components/parameters/Latitude"
+        - $ref: "#/components/parameters/Longitude"
+      responses:
+        "200":
+          description: Current air pollution for the requested location.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AirPollutionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /air_pollution/forecast:
+    get:
+      operationId: getAirPollutionForecast
+      x-mint: 
+        metadata:
+          groups: ["enterprise"]
+          public: false
+      summary: Get an air pollution forecast
+      description: |
+        Returns hourly air pollution forecasts for up to four days for the
+        supplied latitude and longitude.
+      externalDocs:
+        description: Official Air Pollution documentation
+        url: https://openweathermap.org/api/air-pollution
+      tags:
+        - Air pollution
+      parameters:
+        - $ref: "#/components/parameters/Latitude"
+        - $ref: "#/components/parameters/Longitude"
+      responses:
+        "200":
+          description: Hourly air pollution forecast for the requested location.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AirPollutionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
         "429":
           $ref: "#/components/responses/TooManyRequests"
         "500":
@@ -507,6 +579,84 @@ components:
           $ref: "#/components/schemas/UnixTime"
         sunset:
           $ref: "#/components/schemas/UnixTime"
+
+    AirPollutionResponse:
+      type: object
+      required:
+        - coord
+        - list
+      properties:
+        coord:
+          $ref: "#/components/schemas/Coordinates"
+        list:
+          type: array
+          description: |
+            Air pollution measurements. The current endpoint returns one item;
+            the forecast endpoint returns one item per hour.
+          items:
+            $ref: "#/components/schemas/AirPollutionItem"
+
+    AirPollutionItem:
+      type: object
+      required:
+        - dt
+        - main
+        - components
+      properties:
+        dt:
+          $ref: "#/components/schemas/UnixTime"
+        main:
+          type: object
+          required:
+            - aqi
+          properties:
+            aqi:
+              type: integer
+              minimum: 1
+              maximum: 5
+              description: |
+                Air Quality Index. `1` is good, `2` fair, `3` moderate, `4`
+                poor, and `5` very poor.
+              example: 2
+        components:
+          $ref: "#/components/schemas/AirPollutants"
+
+    AirPollutants:
+      type: object
+      description: Pollutant concentrations in micrograms per cubic metre.
+      properties:
+        co:
+          type: number
+          description: Carbon monoxide concentration.
+          example: 201.94
+        "no":
+          type: number
+          description: Nitrogen monoxide concentration.
+          example: 0.02
+        no2:
+          type: number
+          description: Nitrogen dioxide concentration.
+          example: 0.77
+        o3:
+          type: number
+          description: Ozone concentration.
+          example: 68.66
+        so2:
+          type: number
+          description: Sulphur dioxide concentration.
+          example: 0.64
+        pm2_5:
+          type: number
+          description: Fine particulate matter (PM2.5) concentration.
+          example: 0.5
+        pm10:
+          type: number
+          description: Coarse particulate matter (PM10) concentration.
+          example: 0.54
+        nh3:
+          type: number
+          description: Ammonia concentration.
+          example: 0.12
 
     UnixTime:
       type: integer
