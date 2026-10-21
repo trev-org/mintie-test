@@ -4,37 +4,123 @@ description: "Customer-facing visibility into auth and identity events"
 ---
 
 <Info>
-  **Planned.** The audit log dashboard is on the roadmap. Several enterprise
-  prospects asked for this during the SSO procurement conversation.
+  **In development.** The audit log dashboard ships with SSO GA on
+  **2026-07-15**. Phased rollout begins behind the `audit_log_ui` flag on
+  2026-05-23.
 </Info>
 
-## What will be logged
+The audit log dashboard exposes the auth-event stream that Mintie already
+writes server-side. Org admins can see who signed in, when, from where, and
+via which IdP &mdash; plus SCIM provisioning and API-key lifecycle events.
+Results are filterable, exportable, and retained long enough to satisfy
+enterprise security reviews.
 
-The dashboard will surface a filterable feed of identity events for the org:
+## Who can see it
+
+The dashboard is visible only to users with the `admin` role on the org. It is
+hidden entirely for non-admins &mdash; no greyed-out entry, no escalation
+prompt. Mintie support sees the same view through the existing impersonation
+flow.
+
+## Where to find it
+
+Navigate to **Settings → Auth → Audit logs** (`/settings/auth/audit-log`).
+The default view shows the last 7 days in reverse-chronological order.
+
+## What gets logged
+
+The dashboard surfaces the following event kinds:
 
 | Event | When emitted |
 | --- | --- |
-| `auth.signin.success` | User signs in (password or SSO) |
-| `auth.signin.failure` | Sign-in fails, with redacted reason |
-| `auth.sso.linked` | Mintie user linked to an IdP identity |
-| `auth.sso.unlinked` | Link removed (admin action) |
-| `auth.session.forced_relogin` | Session-migration job stamped a session |
+| `sso.signin` | User signs in via SSO (success and failure) |
+| `sso.link` | Mintie user linked to an IdP identity |
+| `sso.unlink` | Link removed |
 | `scim.user.provisioned` | SCIM `POST /Users` succeeded |
 | `scim.user.deactivated` | SCIM `DELETE /Users/{id}` succeeded |
-| `apikey.created` | API key issued |
+| `apikey.issued` | API key issued |
 | `apikey.revoked` | API key revoked (manually or by IdP deactivation) |
 
-## UI
+API key *usage* events are intentionally out of scope for v1 &mdash; they are
+100&ndash;1000&times; higher volume and belong on a separate surface.
 
-The dashboard will live at **Settings → Auth → Audit logs**, filterable by:
+## Columns
 
-- User
-- Time range
-- Event type
-- Outcome (success / failure)
+Each row shows:
 
-Rows expand to show full event metadata (IP, user agent, IdP claims, etc.).
+- **Timestamp**
+- **Actor** (user or system)
+- **Event kind**
+- **IP / user-agent** (where applicable)
+- **IdP**
+- **Outcome** (success or failure, for event kinds that have an outcome)
+- **Target** (the key or user the event acted on)
+
+Click any row to open a detail panel with the full `meta` payload
+pretty-printed.
+
+## Filters
+
+| Filter | Notes |
+| --- | --- |
+| Time range | Presets for 24h / 7d / 30d, plus a custom range up to your retention limit |
+| Actor | User picker, multi-select |
+| Event kind | Multi-select, grouped by SSO / SCIM / API keys |
+| Outcome | Success or failure &mdash; applies only to event kinds with an outcome |
+| IP address | Free-text substring filter |
 
 ## Export
 
-CSV export and a webhook destination for SIEM forwarding are both on the wishlist for this milestone.
+You can export the current filtered view in two ways:
+
+**CSV** &mdash; the **Export CSV** button respects the active filter. For
+exports larger than 10,000 rows, Mintie runs the job asynchronously and emails
+the requesting admin a signed download link valid for one hour.
+
+**JSON via API** &mdash; `GET /api/audit/export` accepts the same filters as
+query parameters and uses the same auth as the dashboard.
+
+Webhook delivery to a SIEM is not in v1. Customers with that requirement
+should poll the export endpoint &mdash; that pattern matches what most SecOps
+teams are already doing with their other tools.
+
+## Retention
+
+Retention is set per plan tier and is not configurable per-org. Events are
+hard-deleted on cron after the retention window.
+
+| Plan | Retention | Export window |
+| --- | --- | --- |
+| Free / Starter | 30 days | 30 days |
+| Business | 90 days | 90 days |
+| Enterprise | 365 days | 365 days |
+
+Customers who need longer retention should pull regularly via the export
+endpoint and archive on their side.
+
+## Performance and privacy
+
+- p95 query latency is under 500ms for filtered queries within the last 30
+  days, at 1M events per org.
+- p95 export job latency is under 60s for the 90-day window.
+- The read path runs off a separate read replica so it cannot block the auth
+  write path.
+- No PII beyond what's already in the events. No raw cookies, no tokens, no
+  key material.
+
+## What's not in v1
+
+- Anomaly detection, alerting, or any SIEM-style correlation.
+- Real-time webhook delivery of events.
+- Non-auth events (settings, billing, page edits) &mdash; those belong to a
+  separate, broader product-audit project.
+- Cross-org views for partner / MSP scenarios.
+
+## Rollout
+
+| Phase | Window | What ships |
+| --- | --- | --- |
+| Phase 0 | through 2026-05-22 | Backend read API, retention cron, write-path perf test |
+| Phase 1 | 2026-05-23 → 2026-06-12 | Frontend behind `audit_log_ui` flag; dogfood internally |
+| Phase 2 | 2026-06-13 → 2026-07-03 | Enabled for the three SSO pilot orgs |
+| Phase 3 | 2026-07-15 | GA, enabled for all orgs alongside SSO GA |
