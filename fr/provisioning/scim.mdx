@@ -26,8 +26,22 @@ L'URL de base est `https://app.mintie.example/scim/v2`.
 | `DELETE` | `/Users/{id}` | Suppression logique d'un utilisateur |
 | `GET` | `/Groups` | Liste les groupes |
 | `POST` | `/Groups` | Crée un groupe |
-| `PATCH` | `/Groups/{id}` | Met à jour l'appartenance à un groupe |
+| `GET` | `/Groups/{id}` | Récupère un groupe |
+| `PATCH` | `/Groups/{id}` | Met à jour un groupe (nom et appartenance) |
+| `PUT` | `/Groups/{id}` | Remplace un groupe |
 | `DELETE` | `/Groups/{id}` | Suppression logique d'un groupe |
+
+### Opérations PATCH sur Groups
+
+`PATCH /Groups/{id}` accepte les opérations standard SCIM 2.0 sur l'attribut `members` :
+
+| Op | Effet |
+| --- | --- |
+| `add` | Ajoute les utilisateurs listés au groupe. |
+| `remove` | Retire les utilisateurs listés du groupe. Accepte un chemin filtré (`members[value eq "<userId>"]`) ou une liste de valeurs `members`. |
+| `replace` | Remplace l'ensemble des membres par la liste fournie. |
+
+Chaque changement d'appartenance déclenche un recalcul du rôle pour chaque utilisateur concerné. Voir [Mappage des groupes vers les rôles](/fr/provisioning/group-role-mapping) pour savoir comment les appartenances se résolvent en rôles Mintie.
 
 ## Authentification
 
@@ -44,7 +58,11 @@ Authorization: Bearer scim_live_<token>
 
 ## Sémantique de la suppression logique
 
-`DELETE /Users/{id}` ne supprime **pas** la ligne. Il définit `deactivated_at = now()` et révoque toutes les sessions. La ligne est conservée à des fins d'audit — voir [journaux d'audit](/fr/security/audit-logs).
+`DELETE /Users/{id}` ne supprime **pas** la ligne. Il définit `deactivated_at = now()` et révoque toutes les sessions. La ligne est conservée à des fins d'audit.
+
+`DELETE /Groups/{id}` se comporte de la même façon. La ligne du groupe est conservée avec `deactivated_at = now()`, la liste de membres est vidée et le rôle effectif est recalculé pour chaque utilisateur qui appartenait au groupe. Supprimer un groupe ne supprime jamais ses membres.
+
+Voir [journaux d'audit](/fr/security/audit-logs) pour les événements émis par ces opérations, notamment `scim.group.provisioned` et `scim.group.membership_changed`.
 
 ## Conformité
 

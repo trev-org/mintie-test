@@ -1,0 +1,93 @@
+---
+title: "Mappage des groupes vers les rôles"
+description: "Mappez les groupes IdP vers les rôles Mintie pour que la synchro de groupes SCIM attribue le bon accès"
+---
+
+<Warning>
+  **Bientôt disponible.** Le mappage des groupes vers les rôles est livré avec
+  SCIM 2.0. Le comportement documenté ici est la spécification planifiée.
+</Warning>
+
+La synchro de groupes SCIM crée et met à jour les groupes dans Mintie, mais un groupe seul n'accorde pas d'accès. Chaque organisation Mintie conserve un mappage entre les groupes IdP et les rôles Mintie. Quand un utilisateur rejoint ou quitte un groupe mappé, Mintie recalcule son rôle effectif.
+
+## Rôles
+
+Mintie dispose de trois rôles :
+
+| Rôle | Objet |
+| --- | --- |
+| `admin` | Accès complet à l'organisation, y compris les paramètres SSO et SCIM. |
+| `member` | Accès en lecture et écriture aux données produit. |
+| `viewer` | Accès en lecture seule. |
+
+## Configurer le mappage
+
+Prérequis :
+
+- Le SSO est activé pour l'organisation.
+- SCIM est configuré et au moins un groupe a été poussé depuis l'IdP.
+- Vous êtes connecté en tant qu'`admin` Mintie.
+
+<Steps>
+  <Step title="Ouvrir la table de mappage">
+    Allez dans **Paramètres → Authentification → SSO → Mappage des groupes vers les rôles**.
+  </Step>
+  <Step title="Ajouter une ligne">
+    Choisissez un groupe IdP synchronisé dans la liste déroulante et
+    sélectionnez le rôle Mintie qu'il accorde. La liste affiche les groupes
+    que Mintie a déjà reçus via SCIM.
+  </Step>
+  <Step title="Enregistrer">
+    Enregistrez la ligne. Mintie recalcule le rôle effectif de chaque membre
+    du groupe à la synchro suivante.
+  </Step>
+</Steps>
+
+Les lignes sont par organisation. Supprimer une ligne ne supprime pas le groupe dans Mintie ; cela empêche seulement ce groupe d'accorder un rôle.
+
+## Précédence multi-groupes
+
+Un utilisateur peut appartenir à plusieurs groupes mappés. Mintie résout le rôle effectif en choisissant le **rôle le plus élevé** parmi tous les groupes mappés de l'utilisateur. L'ordre, du plus élevé au plus faible, est :
+
+1. `admin`
+2. `member`
+3. `viewer`
+
+Exemples :
+
+- Un utilisateur dans `eng-all` (mappé sur `member`) et `sso-admins` (mappé sur `admin`) devient `admin`.
+- Un utilisateur dans `eng-all` (mappé sur `member`) et `contractors` (mappé sur `viewer`) devient `member`.
+- Un utilisateur seulement dans `contractors` (mappé sur `viewer`) devient `viewer`.
+
+Quand un utilisateur est retiré d'un groupe mappé, Mintie recalcule sur les groupes mappés restants. S'il n'en reste aucun, l'utilisateur conserve son compte mais est rétrogradé à `viewer`.
+
+## Exemple Okta
+
+Okta envoie les **noms** de groupes dans l'attribut SCIM `displayName`. Mappez directement par nom de groupe.
+
+1. Dans Okta, poussez le groupe `sso-admins` vers Mintie via l'application SCIM.
+2. Dans Mintie, ouvrez **Paramètres → Authentification → SSO → Mappage des groupes vers les rôles**.
+3. Ajoutez une ligne : `sso-admins` → `admin`.
+4. Ajoutez des utilisateurs à `sso-admins` dans Okta. À la synchro suivante, chaque utilisateur devient admin dans Mintie.
+
+## Exemple Microsoft Entra ID
+
+Entra envoie des **GUID** de groupes, pas des noms d'affichage, dans les attributs SCIM `externalId` et `displayName`. La table de mappage correspond à la valeur envoyée par Entra, donc sélectionnez le groupe par son GUID.
+
+1. Dans Entra, ajoutez le groupe `SSO Admins` au périmètre de provisioning Mintie.
+2. Attendez la première synchro pour que Mintie ait reçu le groupe. La liste déroulante du mappage affichera le groupe par son GUID (par exemple, `b7d8f6e2-1c4a-4e0f-9c2a-3f2f0b7d8f6e`), avec le nom d'affichage en indication.
+3. Ajoutez une ligne : `b7d8f6e2-1c4a-4e0f-9c2a-3f2f0b7d8f6e` → `admin`.
+4. Ajoutez des utilisateurs à `SSO Admins` dans Entra. À la synchro suivante, chaque utilisateur devient admin dans Mintie.
+
+<Note>
+  Si vous renommez un groupe Entra, le GUID ne change pas et le mappage
+  continue de fonctionner. Si vous supprimez puis recréez le groupe, vous
+  obtenez un nouveau GUID et devez ajouter une nouvelle ligne de mappage.
+</Note>
+
+## Événements d'audit
+
+La synchro de groupes et les changements de mappage émettent des événements d'audit dédiés. Voir [journaux d'audit](/fr/security/audit-logs) pour le schéma complet.
+
+- `scim.group.provisioned` — un groupe a été créé, mis à jour ou supprimé logiquement via SCIM.
+- `scim.group.membership_changed` — un ou plusieurs utilisateurs ont été ajoutés ou retirés d'un groupe, avec la liste des identifiants d'utilisateur concernés et le rôle résultant pour chacun.
