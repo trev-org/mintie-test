@@ -1,18 +1,15 @@
 ---
 title: "Audit logs"
-description: "Customer-facing visibility into auth and identity events"
+description: "Query, export, and stream auth and identity events for your org"
 ---
 
-<Info>
-  **Planned.** The audit log dashboard is on the roadmap. Several enterprise
-  prospects asked for this during the SSO procurement conversation.
-</Info>
+Mintie records auth and identity events for every organization. You can review them in the dashboard, pull them into your own tooling through the API, export a date range as NDJSON or CSV, and stream them into a SIEM.
 
-## What will be logged
+## Event catalog
 
-The dashboard will surface a filterable feed of identity events for the org:
+Every event is scoped to a single organization and carries the `AuditEventKind` value in its `kind` field. Payload fields are event-specific and appear under `data`.
 
-| Event | When emitted |
+| Kind | When emitted |
 | --- | --- |
 | `auth.signin.success` | User signs in (password or SSO) |
 | `auth.signin.failure` | Sign-in fails, with redacted reason |
@@ -23,18 +20,111 @@ The dashboard will surface a filterable feed of identity events for the org:
 | `scim.user.deactivated` | SCIM `DELETE /Users/{id}` succeeded |
 | `apikey.created` | API key issued |
 | `apikey.revoked` | API key revoked (manually or by IdP deactivation) |
+| `audit.exported` | Audit log queried or exported through the API |
 
-## UI
+### Payload example
 
-The dashboard will live at **Settings → Auth → Audit logs**, filterable by:
+```json
+{
+  "id": "evt_01j9y2m6xa",
+  "kind": "auth.signin.success",
+  "orgId": "org_01j9x2wq8e",
+  "userId": "user_01j9x3aa22",
+  "occurredAt": "2026-08-20T18:22:14.204Z",
+  "actor": {
+    "type": "user",
+    "id": "user_01j9x3aa22",
+    "ip": "203.0.113.42",
+    "userAgent": "Mozilla/5.0 ..."
+  },
+  "data": {
+    "connectionId": "conn_01j9x3wq8e",
+    "method": "sso",
+    "idpClaims": {
+      "sub": "00u1abcd",
+      "email": "alex@acme.com"
+    }
+  }
+}
+```
 
-- User
-- Time range
-- Event type
-- Outcome (success / failure)
+## Query events through the API
 
-Rows expand to show full event metadata (IP, user agent, IdP claims, etc.).
+Use `GET /api/audit-events` to page through events for your org. The endpoint is cursor-paginated and filterable by kind, user, and time range.
 
-## Export
+Requests require an API key with the `audit:read` scope. Create the key from **Settings → Auth → API keys** and check `audit:read`. Keys without the scope receive `403 forbidden_scope`.
 
-CSV export and a webhook destination for SIEM forwarding are both on the wishlist for this milestone.
+```bash
+curl "https://api.mintie.example/v1/audit-events?kind=auth.signin.failure&since=2026-08-13T00:00:00Z&limit=100" \
+  -H "Authorization: Bearer $MINTIE_API_KEY"
+```
+
+Filter parameters:
+
+- `kind` — one or more `AuditEventKind` values. Repeat the parameter to combine.
+- `userId` — restrict to events attributed to a single user.
+- `since` / `until` — RFC 3339 timestamps that bound `occurredAt`.
+- `cursor` — pass the previous response's `nextCursor` to fetch the next page.
+- `limit` — 1–200, default 100.
+
+The response contains a `data` array and, when more results exist, a `nextCursor` string. Continue paging until `nextCursor` is absent.
+
+## Export a date range
+
+For bulk pulls, use `POST /api/audit-events/exports` to create an export job. Small ranges return the payload inline; ranges over 500,000 events or 7 days are processed asynchronously and delivered via a signed URL.
+
+```bash
+curl -X POST "https://api.mintie.example/v1/audit-events/exports" \
+  -H "Authorization: Bearer $MINTIE_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "since": "2026-07-01T00:00:00Z",
+    "until": "2026-08-01T00:00:00Z",
+    "format": "ndjson"
+  }'
+```
+
+`format` accepts `ndjson` or `csv`. The response returns a job with `status` of `pending`, `ready`, or `failed`. Poll `GET /api/audit-events/exports/{exportId}` until `status` is `ready`, then download from `downloadUrl`. Signed URLs expire 24 hours after issue.
+
+Every export writes an `audit.exported` event that names the requesting API key, the filters used, and the row count.
+
+## Stream to a SIEM
+
+Configure an HTTPS drain from **Settings → Auth → Audit logs → Drains**. Mintie batches events (up to 500 events or 5 seconds, whichever comes first), POSTs them to your endpoint, and retries failed deliveries with exponential backoff for up to 24 hours before moving them to the drain's dead-letter queue. Admins see delivery status, last error, and dead-letter counts on the drain detail page.
+
+### Splunk HEC
+
+1. In Splunk, create an HTTP Event Collector token with an index scoped to Mintie events.
+2. In Mintie, open **Drains → New drain** and choose **Splunk HEC**.
+3. Set the endpoint to `https://<your-splunk-host>:8088/services/collector/event` and paste the HEC token.
+4. Save. Mintie sends a `drain.test` event; when Splunk returns `200`, the drain moves to `active`.
+
+Mintie wraps each batch as Splunk HEC events with `sourcetype: mintie:audit` and `source: mintie`.
+
+### Datadog
+
+1. In Datadog, create an API key scoped to log ingestion.
+2. In Mintie, open **Drains → New drain** and choose **Datadog**.
+3. Set the site (for example `datadoghq.com`, `datadoghq.eu`) and paste the API key.
+4. Save. Mintie POSTs to `https://http-intake.logs.<site>/api/v2/logs` with `ddsource: mintie` and `service: mintie-audit`.
+
+### Delivery targets
+
+Under steady state, events arrive at the drain within 60 seconds of the underlying action. If a batch fails, Mintie retries at 30s, 2m, 10m, 1h, and hourly through 24h. Batches that exhaust retries are stored in the dead-letter queue for 7 days and can be replayed from the drain detail page.
+
+## Retention
+
+Audit events are retained per plan tier:
+
+- Standard: 90 days
+- Enterprise: configurable, up to 7 years
+
+Retention applies to both the API and the dashboard. Events shipped to a SIEM drain persist according to your SIEM's own retention.
+
+## Protecting the audit log itself
+
+Reading or exporting the audit log is a sensitive action:
+
+- Every `GET /api/audit-events` and export request writes an `audit.exported` event with the requesting key, filters, and result count.
+- Creating, editing, or deleting a drain requires step-up MFA. See [Step-up MFA](/security/mfa) for how the challenge works.
+- Only org admins can create API keys with the `audit:read` scope.
