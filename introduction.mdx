@@ -34,6 +34,7 @@ Mintie SSO lets your organization replace password-based login with enterprise s
 | --- | --- |
 | Okta provider | In development |
 | Google Workspace provider | In development |
+| Microsoft Entra ID provider | In development |
 | SCIM 2.0 provisioning | In development |
 | Admin UI for SSO config | In development |
 | Password sunset comms | In development |
@@ -53,7 +54,7 @@ We evaluated Okta SDK, Auth0, and WorkOS as the IdP integration layer and chose 
     SSO is enabled per-org. Your account team flips the `sso_enabled` flag.
   </Step>
   <Step title="Connect your identity provider">
-    Use the admin UI to connect Okta, Google Workspace, or any generic SAML/OIDC IdP.
+    Use the admin UI to connect Okta, Google Workspace, Microsoft Entra ID, or any generic SAML/OIDC IdP.
   </Step>
   <Step title="Test sign-in, then enforce">
     Verify a test sign-in works, then flip "Require SSO" to migrate active sessions.

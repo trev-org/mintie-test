@@ -1,0 +1,131 @@
+---
+title: "Microsoft Entra ID"
+description: "Conecta Microsoft Entra ID como tu proveedor de identidad para Mintie"
+---
+
+El conector dedicado de Entra ID está disponible en **Configuración → Autenticación → SSO**. Selecciona **Microsoft Entra ID** en el selector de proveedor, pega la URL de metadatos de federación de tu app empresarial de Entra y haz clic en **Conectar**. Consulta [Habilitar SSO](/es/setup/enable-sso) para el recorrido completo.
+
+## Qué ofrece el conector
+
+<CardGroup cols={2}>
+  <Card title="URL de metadatos de federación" icon="file-import">
+    Pega la URL de metadatos de federación de tu app empresarial de Entra. Sin
+    copiar y pegar entity ID, reply URL ni certificado de firma manualmente.
+  </Card>
+  <Card title="Mapeo de claims de grupo" icon="users-rectangle">
+    Mapea los IDs de objeto (GUID) de los grupos de seguridad de Entra a los
+    roles de Mintie. Entra emite GUID en el claim `groups` por diseño.
+  </Card>
+  <Card title="Compatible con Acceso condicional" icon="shield-halved">
+    Funciona junto a las políticas de Acceso condicional aplicadas a la app
+    empresarial de Mintie.
+  </Card>
+  <Card title="Listo para SCIM" icon="arrows-rotate">
+    Se combina con el [aprovisionamiento SCIM 2.0](/es/provisioning/scim)
+    para el aprovisionamiento y desaprovisión automáticos desde Entra ID.
+  </Card>
+</CardGroup>
+
+## Conectar Entra ID
+
+Requisitos previos:
+
+- Un usuario con el rol **Administrador de aplicaciones en la nube** o **Administrador de aplicaciones** en Entra ID.
+- Acceso de administrador de organización en Mintie.
+
+<Steps>
+  <Step title="Crea la app empresarial en el centro de administración de Entra">
+    En el [centro de administración de Entra](https://entra.microsoft.com), ve
+    a **Identidad → Aplicaciones → Aplicaciones empresariales → Nueva
+    aplicación → Crea tu propia aplicación**. Ponle el nombre `Mintie` y
+    elige **Integra cualquier otra aplicación que no encuentres en la galería (No-galería)**.
+  </Step>
+  <Step title="Configura el inicio de sesión único SAML">
+    Abre la nueva app, ve a **Inicio de sesión único** y selecciona **SAML**. Define:
+
+    - **Identificador (Entity ID):** `https://app.mintie.example/sso/saml`
+    - **URL de respuesta (ACS):** `https://app.mintie.example/api/auth/sso/callback`
+  </Step>
+  <Step title="Copia la URL de metadatos de federación">
+    En la misma página SAML, en **Certificados SAML**, copia la **URL de metadatos de federación de la aplicación**.
+  </Step>
+  <Step title="Pégala en Mintie">
+    En Mintie, ve a **Configuración → Autenticación → SSO**, elige
+    **Microsoft Entra ID**, pega la URL de metadatos de federación y haz clic
+    en **Conectar**.
+  </Step>
+  <Step title="Asigna usuarios y grupos">
+    De vuelta en la app de Entra, abre **Usuarios y grupos** y asigna los
+    usuarios o grupos de seguridad que deban acceder a Mintie. Solo los
+    principales asignados pueden iniciar sesión.
+  </Step>
+  <Step title="Ejecuta un inicio de sesión de prueba">
+    Haz clic en **Test sign-in** en Mintie para confirmar que el viaje
+    funciona antes de activar [Requerir SSO](/es/setup/enable-sso#requerir-sso-para-tu-organización).
+  </Step>
+</Steps>
+
+## Mapeo de grupos
+
+Entra ID no pone nombres de grupo en el claim SAML `groups`. Emite el **ID
+de objeto (GUID)** de cada grupo de seguridad al que pertenece el usuario.
+Mintie compara esos GUID contra una tabla de mapeo para asignar roles.
+
+### Emitir el claim de grupos
+
+En la página **Inicio de sesión único** de la app de Entra, edita **Atributos
+y claims** y añade un claim de grupo:
+
+- **Qué grupos:** Grupos de seguridad (o Grupos asignados a la aplicación, si tienes Entra ID P1 y quieres acotar el claim).
+- **Atributo fuente:** Group ID.
+- **Nombre:** `groups`.
+
+Guarda. La siguiente aserción SAML incluye un atributo `groups` con uno o más GUID.
+
+### Mapear GUID a roles de Mintie
+
+En Mintie, abre la conexión conectada de Entra ID y edita **Mapeo de grupos**.
+Cada fila asigna un ID de objeto de grupo de Entra a un rol de Mintie.
+
+| Nombre del grupo de Entra (para tu referencia) | ID de objeto del grupo | Rol de Mintie |
+| --- | --- | --- |
+| `mintie-admins` | `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f` | `admin` |
+| `mintie-editors` | `a12b34c5-d6e7-48f9-a0b1-c2d3e4f56789` | `editor` |
+| `mintie-viewers` | `12345678-90ab-cdef-1234-567890abcdef` | `viewer` |
+
+Puedes encontrar el ID de objeto de cada grupo en **Centro de administración
+de Entra → Grupos → [grupo] → Información general → Object ID**.
+
+<Note>
+  La pertenencia a grupos anidados no se expande por defecto en el claim SAML
+  `groups`. Si un usuario obtiene su acceso a través de un grupo de grupos,
+  añade el grupo padre a la asignación de la app empresarial o emite grupos
+  transitivos.
+</Note>
+
+### Ejemplo resuelto
+
+Un usuario es miembro del grupo de seguridad de Entra `mintie-admins` (ID de
+objeto `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f`). En el inicio de sesión, Entra
+envía este claim:
+
+```xml
+<saml:Attribute Name="http://schemas.microsoft.com/ws/2008/06/identity/claims/groups">
+  <saml:AttributeValue>7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f</saml:AttributeValue>
+</saml:Attribute>
+```
+
+Mintie busca `7f3e4c2a-9b8d-4a1f-8c6e-2d5b8a9c1e3f` en la tabla de mapeo,
+encuentra el rol `admin` y lo asigna a la sesión. Si un GUID no tiene mapeo,
+Mintie usa el **Rol por defecto** de la conexión.
+
+### Alternativa: SAML genérico
+
+Si no puedes usar el conector dedicado, el [conector SAML genérico](/es/setup/generic-saml) acepta los mismos valores de Entra:
+
+| Campo Mintie | Dónde encontrarlo en Entra |
+| --- | --- |
+| URL de metadatos | App empresarial → Inicio de sesión único → Certificados SAML → URL de metadatos de federación de la aplicación |
+| Entity ID (emisor) | App empresarial → Inicio de sesión único → Configuración básica de SAML → Identificador |
+| URL de inicio de sesión | App empresarial → Inicio de sesión único → Configurar Mintie → URL de inicio de sesión |
+| Certificado de firma | App empresarial → Inicio de sesión único → Certificados SAML → Certificado (Base64) |

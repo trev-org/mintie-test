@@ -28,6 +28,10 @@ Depuis l'état vide, choisissez votre fournisseur :
     Saisissez votre domaine principal et approuvez les scopes SSO et Directory Sync
     en tant que super-administrateur Google.
   </Card>
+  <Card title="Microsoft Entra ID" icon="microsoft" href="/fr/setup/entra-id">
+    Collez l'URL des métadonnées de fédération de votre application
+    d'entreprise Entra et mappez les GUID des groupes de sécurité aux rôles Mintie.
+  </Card>
   <Card title="SAML générique" icon="file-import" href="/fr/setup/generic-saml">
     Tout IdP SAML 2.0. Fournissez une URL de métadonnées ou collez le XML.
   </Card>
@@ -44,6 +48,7 @@ Chaque fournisseur ouvre un formulaire guidé. Lors de la soumission, Mintie cr�
 | --- | --- |
 | Okta | URL de métadonnées **ou** XML de métadonnées |
 | Google Workspace | Domaine principal (par exemple, `acme.com`) |
+| Microsoft Entra ID | URL des métadonnées de fédération |
 | SAML générique | URL de métadonnées **ou** XML de métadonnées (exactement un) |
 | OIDC générique | URL de l'issuer, client ID, client secret |
 
