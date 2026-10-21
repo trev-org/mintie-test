@@ -1,0 +1,151 @@
+---
+title: "Expand agent autonomy with Supervisor"
+description: "Move an intent from escalate to propose-and-confirm to auto-resolve using structured review, confidence-based escalation, and approval workflows"
+---
+
+Supervisor lets you widen the scope of intents an AI agent handles without giving up oversight. You raise autonomy one intent at a time, backed by graded conversation records, escalation thresholds, and approval gates. This guide walks through the full expansion loop: review, escalate, propose, and promote.
+
+## Prerequisites
+
+Before you start:
+
+- Supervisor is enabled on the account.
+- The agent is live on at least one intent.
+- You have a QA reviewer, an ops admin, and (for high-consequence actions) a named approver.
+- Design-partner risk sign-off is in place if the intent touches regulated data.
+
+## Autonomy tiers
+
+Every intent runs at one of three tiers. New intents default to the most restrictive tier.
+
+| Tier | Behavior |
+| --- | --- |
+| `escalate` | The agent hands the conversation to a human with full context and a proposed response. |
+| `propose-and-confirm` | The agent proposes a response or action; a human approves, edits, or denies before it executes. |
+| `auto-resolve` | The agent completes the conversation without human involvement. Decision records still stream to the reviewer queue. |
+
+Tier changes are versioned, attributed to an actor, and reversible without a deploy. A tier change only applies to new conversations, never mid-conversation.
+
+## Step 1: Review conversations at volume
+
+Open the reviewer queue and grade completed conversations for the intent you want to promote.
+
+1. Filter the queue by intent, autonomy tier, outcome, confidence band, and date range.
+2. Open a conversation. Read the decision record:
+   - Intent classification and confidence.
+   - Policy version applied.
+   - Tool calls with inputs and outputs.
+   - Actions taken and their outcomes.
+3. Grade the conversation as pass or fail. Attach a reason code and an optional note.
+4. Use keyboard shortcuts to move to the next conversation. Throughput is the reason the queue exists.
+
+<Tip>
+  If two reviewers disagree on the same conversation, treat inter-rater
+  agreement as the first metric to fix. Every other quality target is
+  calibrated against reviewer judgment.
+</Tip>
+
+## Step 2: Escalate low-confidence conversations
+
+Keep the intent at `escalate` until the queue shows consistent pass grades. When the agent escalates:
+
+1. The handoff arrives in the configured agent desktop (Zendesk, Salesforce, or in-house).
+2. The human sees the transcript, identified intent, agent reasoning summary, retrieved context, and a proposed response.
+3. The human accepts, edits, or discards the proposal.
+4. The customer-facing wait state is explicit. There is no silent pause.
+
+If no human is available within the configured window, the intent falls back to whatever you set: voicemail, deferred callback, or ticket creation.
+
+## Step 3: Promote to propose-and-confirm
+
+Move the intent to `propose-and-confirm` when the reviewer queue shows sustained pass grades and escalation precision holds above your target.
+
+1. Open the intent's autonomy settings.
+2. Select `propose-and-confirm`.
+3. Preview the estimated review load at the new tier before saving.
+4. Save. The change is versioned and takes effect on new conversations.
+
+At this tier, the agent proposes every response or action and a human confirms it. Watch the proposal acceptance rate. If humans accept most proposals without material edits, the agent is ready for the next promotion.
+
+## Step 4: Add approval gates for high-consequence actions
+
+For actions that are irreversible or costly (refunds, cancellations, credits, account changes), require human approval regardless of tier.
+
+1. In the action allowlist for the intent, mark the action as approval-required.
+2. Set a threshold if applicable (for example, refunds above $100).
+3. Choose the approver role.
+4. Set the timeout behavior. A silent drop is never acceptable.
+
+When the agent hits an approval-required action:
+
+- The agent holds the action and tells the customer it is checking with a teammate.
+- The approver sees the proposed action, agent reasoning, and relevant account context.
+- The approver approves, modifies, or denies. Denials return control to the agent with the denial reason.
+- Every approval decision writes to the audit trail with the actor identity and timestamp.
+
+<Warning>
+  Watch approver dwell time and modification rate. Rubber-stamp approval
+  produces an audit trail that implies oversight that did not occur. Flag
+  approvers whose modification rate is near zero and whose dwell time is
+  below the review threshold.
+</Warning>
+
+## Step 5: Promote to auto-resolve
+
+Promote the intent to `auto-resolve` when it meets your promotion criteria:
+
+- Sustained pass rate on graded conversations at the current tier.
+- Escalation precision at or above target.
+- Proposal acceptance rate at or above target.
+- No unauthorized actions in the reviewed window.
+
+Supervisor surfaces a promotion recommendation once an intent sustains target quality at its current tier for the configured resolution volume. Attach the supporting evidence (grade distribution, precision numbers, incident count) to the promotion record before saving.
+
+Approval gates on designated actions stay in force at `auto-resolve`. Auto-resolve applies to the conversation, not to individual gated actions.
+
+## Step 6: Export the audit trail
+
+Export a scoped audit trail whenever a risk, compliance, or QA partner asks for evidence.
+
+1. Open **Audit trail** and scope by intent, action type, and date range.
+2. Confirm the export excludes any fields designated as restricted PII.
+3. Export. Each record includes:
+   - Timestamp.
+   - Agent version.
+   - Policy version.
+   - Actions taken and their outcomes.
+   - Any human intervention with actor identity.
+4. Records are immutable once written. Corrections append rather than overwrite.
+
+Retention is configurable per account within the legal-approved bounds. Coordinate with the account's data-residency configuration if the reviewer is in a different region from the runtime.
+
+## Step 7: Feed grades back into policy and eval
+
+Close the loop so supervision load falls as the agent improves.
+
+- Send failed grades and human overrides to the eval set with one action.
+- Review the dashboard of supervision load per 1,000 resolutions, trended over time per intent. A flat trend is a signal that the feedback loop is not working.
+- Investigate recurring failure patterns surfaced as suggested policy gaps, grouped by intent.
+- Use these signals to update the agent's policy, then re-run the promotion loop.
+
+## What to watch
+
+Track these signals continuously per intent:
+
+| Signal | Why it matters |
+| --- | --- |
+| Escalation precision | Are you escalating conversations that actually needed escalating? |
+| Proposal acceptance rate | Are proposals good enough to promote? |
+| Supervision load per 1,000 resolutions | Is the feedback loop reducing burden as autonomy expands? |
+| Approver modification rate | Are approval gates providing real oversight? |
+| Cohort escalation parity | Is behavior consistent across customer cohorts? |
+
+## Rollback
+
+Every tier change is reversible per intent and per account. If quality regresses:
+
+1. Open the intent's autonomy settings.
+2. Select the previous tier.
+3. Save. The change takes effect on new conversations only.
+
+Rollback is never global. You do not need to touch other intents or accounts to reverse one promotion.
