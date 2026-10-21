@@ -1,0 +1,114 @@
+---
+title: "Expand agent autonomy safely"
+description: "Promote an intent from escalate to propose-and-confirm to auto-resolve using reviewer evidence"
+---
+
+Supervisor lets you widen an AI agent's scope one intent at a time instead of flipping autonomy on for everything at once. This guide walks through the promotion path — `escalate` → `propose-and-confirm` → `auto-resolve` — and the evidence you need at each gate.
+
+Follow it when you own the queue for a deployment and want to move a specific intent (for example, `cancellation`, `refund_under_threshold`, `retention_offer`) into higher autonomy without triggering a security or QA rollback.
+
+## Prerequisites
+
+Before you start:
+
+- The intent you want to promote is defined and receiving production traffic.
+- Supervisor is enabled on the account and the reviewer queue is populated.
+- You have an ops admin role for tier changes and a QA analyst role for grading. These are distinct — the same person should not grade and promote.
+- You have agreed with your risk or compliance partner on the evidence the audit trail must contain.
+
+## The three autonomy tiers
+
+Every intent sits at exactly one tier at a time. New intents default to the most restrictive tier.
+
+| Tier | Agent behavior | Human involvement |
+| --- | --- | --- |
+| `escalate` | Agent identifies the intent and hands off with full context and a proposed response. | Human replies. |
+| `propose-and-confirm` | Agent drafts the response or action and waits. | Human accepts, edits, or discards before it goes out. |
+| `auto-resolve` | Agent responds and executes actions within policy. | Human reviews after the fact from the queue. |
+
+Tier changes take effect on new conversations only. In-flight conversations finish at the tier they started on.
+
+## Step 1: Establish a baseline at `escalate`
+
+Keep the intent at `escalate` until you have enough graded conversations to trust the numbers.
+
+1. Open **Supervisor → Intents** and confirm the intent is set to `escalate`.
+2. In the reviewer queue, filter by that intent and grade every handoff for at least the volume window your account owner agreed to (commonly one to two weeks of steady traffic).
+3. Track two things per intent:
+   - **Escalation precision** — the share of escalations a reviewer agreed warranted escalation.
+   - **Proposal acceptance rate** — the share of the agent's proposed responses a human accepts without material edit.
+
+You are looking for escalation precision at or above your account's target and proposal acceptance well above chance. If proposals are being rewritten heavily, the agent is not ready to move up.
+
+## Step 2: Promote to `propose-and-confirm`
+
+Promote when the baseline is stable, not when the calendar says so.
+
+1. Open **Supervisor → Intents**, select the intent, and choose **Change tier → propose-and-confirm**.
+2. Review the estimated review-load preview. If it exceeds what the queue can absorb, hold and address the throughput gap first.
+3. Attach the evidence for this promotion in the tier-change dialog:
+   - Reviewer grades over the baseline window.
+   - The escalation-precision and proposal-acceptance numbers.
+   - The reviewer or account owner who signed off.
+4. Save. The tier change is versioned, attributed to you, and written to the audit trail.
+
+While the intent is at `propose-and-confirm`, the agent drafts the response and pauses. A human confirms before anything reaches the customer.
+
+Watch for:
+
+- **Approval dwell time.** If approvers are clicking through in under a couple of seconds, you have rubber-stamping, not review. Slow down or narrow the approver pool.
+- **Modification rate near zero.** Same signal — the workflow is theater.
+- **Timeout behavior.** Confirm your configured fallback fires cleanly when no human is available in the window.
+
+## Step 3: Promote to `auto-resolve`
+
+Promote only when the human is consistently accepting the agent's proposal unchanged.
+
+1. In **Supervisor → Intents**, open the intent's tier history and confirm that recent proposal-acceptance and edit-distance numbers meet the account target.
+2. Choose **Change tier → auto-resolve**.
+3. Attach:
+   - The sustained proposal-acceptance number and the window it covers.
+   - Any human overrides from the previous tier and whether they were added to the eval set.
+   - A pointer to the audit-trail export you provided to your risk partner.
+4. Save. The agent now handles the intent end to end for new conversations. Review continues in the queue after the fact.
+
+## Step 4: Watch the trend, not the day
+
+Autonomy expansion is only real if supervision load falls per unit of resolved volume. Otherwise you are just moving human work from before the response to after it.
+
+Watch these on the Supervisor dashboard for each promoted intent:
+
+- **Supervision load per 1,000 resolutions.** Should trend down after `auto-resolve`. A flat line is a problem.
+- **Escalation recall.** Conversations that should have escalated and did.
+- **Unauthorized-action rate.** Should be zero for irreversible actions.
+- **Reversal rate.** Actions the agent took that a human later undid.
+
+If any of these move the wrong way, use the per-intent rollback below.
+
+## Roll back an intent
+
+You can drop an intent one tier or all the way back to `escalate` without a deployment.
+
+1. Open **Supervisor → Intents**, select the intent, and choose **Change tier**.
+2. Pick the lower tier and record the reason (link the incident, the reviewer note, or the metric that moved).
+3. Save. The tier change applies to new conversations only. In-flight conversations complete at the tier they started on.
+
+Rollback is per-intent and per-account. It is not a global kill switch, and it does not affect other intents on the same account.
+
+## Feed reviewer signal back into policy
+
+Promotions are only durable if the agent gets better at the intents it was newly trusted with.
+
+- In the reviewer queue, add failed grades and human overrides to the eval set with one action. Do this the same day, not in a weekly batch.
+- Review the **Suggested policy gaps** panel per intent. Recurring failure patterns show up grouped by intent — treat those as work items for the deployment engineer, not tickets to hand back to reviewers.
+- When Supervisor surfaces a **promotion recommendation** on an intent, use it as a prompt to gather evidence, not as a substitute for grading.
+
+## What to record for every promotion
+
+Your audit-trail export must be able to answer three questions per promoted intent:
+
+1. What tier is the intent on now, and who changed it last?
+2. What was the evidence attached to the last tier change?
+3. What has the agent done at this tier since the change — actions taken, escalations raised, human interventions?
+
+If you cannot answer these from the export alone, do not promote further until you can.
