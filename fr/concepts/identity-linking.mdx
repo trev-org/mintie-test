@@ -9,7 +9,7 @@ Chaque utilisateur Mintie a un lien optionnel vers un fournisseur d'identité ex
 
 | Colonne | Type | Description |
 | --- | --- | --- |
-| `idp_provider` | `text`, nullable | Clé du fournisseur — `okta`, `google`, `generic_oidc`, `generic_saml`. |
+| `idp_provider` | `text`, nullable | Clé du fournisseur — `okta`, `entra-id`, `google`, `generic_oidc`, `generic_saml`. |
 | `idp_user_id` | `text`, nullable | ID utilisateur stable du fournisseur (le claim `sub`, ou l'`id` SCIM). |
 
 Un index unique composite sur `(idp_provider, idp_user_id)` garantit qu'une identité externe donnée correspond au plus à un utilisateur Mintie.

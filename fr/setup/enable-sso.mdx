@@ -24,6 +24,10 @@ Depuis l'état vide, choisissez votre fournisseur :
   <Card title="Okta" icon="plug" href="/fr/setup/okta">
     Collez une URL de métadonnées ou téléversez le XML de métadonnées de votre app SAML Okta.
   </Card>
+  <Card title="Microsoft Entra ID" icon="microsoft" href="/fr/setup/entra-id">
+    Collez une URL de métadonnées de fédération ou téléversez le XML de
+    métadonnées de votre app d'entreprise Entra ID.
+  </Card>
   <Card title="Google Workspace" icon="google" href="/fr/setup/google-workspace">
     Saisissez votre domaine principal et approuvez les scopes SSO et Directory Sync
     en tant que super-administrateur Google.
@@ -43,6 +47,7 @@ Chaque fournisseur ouvre un formulaire guidé. Lors de la soumission, Mintie cr�
 | Fournisseur | Champs requis |
 | --- | --- |
 | Okta | URL de métadonnées **ou** XML de métadonnées |
+| Microsoft Entra ID | URL de métadonnées **ou** XML de métadonnées |
 | Google Workspace | Domaine principal (par exemple, `acme.com`) |
 | SAML générique | URL de métadonnées **ou** XML de métadonnées (exactement un) |
 | OIDC générique | URL de l'issuer, client ID, client secret |
@@ -115,6 +120,7 @@ La page de paramètres appelle un petit ensemble d'endpoints d'administration. V
 | --- | --- | --- |
 | `GET` | `/api/auth/admin/sso/status` | Lit le statut actuel de la connexion, le fournisseur et le flag `ssoRequired`. |
 | `POST` | `/api/auth/admin/sso/okta` | Connecte Okta avec `metadataUrl` ou `metadataXml`. |
+| `POST` | `/api/auth/admin/sso/entra-id` | Connecte Microsoft Entra ID avec `metadataUrl` ou `metadataXml`. |
 | `POST` | `/api/auth/admin/sso/google` | Connecte Google Workspace avec `{ "domain": "acme.com" }`. |
 | `POST` | `/api/auth/admin/sso/saml` | Connecte un IdP SAML générique avec `metadataUrl` ou `metadataXml`. |
 | `POST` | `/api/auth/admin/sso/oidc` | Connecte un IdP OIDC générique avec `issuer`, `clientId`, `clientSecret`. |

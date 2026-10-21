@@ -1,0 +1,64 @@
+---
+title: "Microsoft Entra ID"
+description: "Connect Microsoft Entra ID as your identity provider for Mintie"
+---
+
+The dedicated Microsoft Entra ID connector is available from **Settings → Auth → SSO**. Pick **Entra ID** in the provider picker, paste your app federation metadata URL or upload the metadata XML, and click **Connect**. See [Enable SSO](/setup/enable-sso) for the full walkthrough.
+
+## What the connector offers
+
+<CardGroup cols={2}>
+  <Card title="Metadata URL or XML upload" icon="file-import">
+    Paste your Entra ID enterprise app's federation metadata URL or upload
+    the XML. No manual copy-pasting of the issuer, ACS, or signing certs.
+  </Card>
+  <Card title="Group claim mapping" icon="users-rectangle">
+    Map Entra ID group claims to Mintie roles. Works with both SAML and OIDC
+    enterprise apps.
+  </Card>
+  <Card title="ACS URL surfaced in the UI" icon="link">
+    After connecting, the settings page shows the Mintie ACS URL to paste
+    back into your Entra ID app's **Reply URL** field.
+  </Card>
+  <Card title="SCIM-ready" icon="arrows-rotate">
+    Pairs with [SCIM 2.0 provisioning](/provisioning/scim) so the Entra ID
+    provisioning agent can auto-provision and deprovision users.
+  </Card>
+</CardGroup>
+
+## Connect Entra ID
+
+<Steps>
+  <Step title="Create the Entra ID enterprise app">
+    In the Entra admin center, create a new enterprise application for
+    Mintie and enable SAML-based sign-on.
+  </Step>
+  <Step title="Copy your federation metadata">
+    On the SAML sign-on page, copy the **App Federation Metadata Url** or
+    download the **Federation Metadata XML**.
+  </Step>
+  <Step title="Paste it into Mintie">
+    In Mintie, go to **Settings → Auth → SSO**, choose **Entra ID**, pick
+    **Metadata URL** or **Metadata XML**, paste the value, and click **Connect**.
+  </Step>
+  <Step title="Set the Reply URL in Entra ID">
+    Copy the ACS URL shown on the Mintie settings page and paste it into
+    your Entra ID app's **Reply URL (Assertion Consumer Service URL)** field.
+  </Step>
+  <Step title="Run a test sign-in">
+    Click **Test sign-in** to confirm the round-trip works before you turn on
+    [Require SSO](/setup/enable-sso#require-sso-for-your-org).
+  </Step>
+</Steps>
+
+### Fall back to generic SAML / OIDC
+
+If you can't use the metadata flow, the [generic SAML / OIDC connector](/setup/generic-saml) accepts the same Entra ID values:
+
+| Mintie field | Where to find it in Entra ID |
+| --- | --- |
+| Issuer | Entra app → Endpoints → Federation metadata document |
+| Authorize URL | Entra app → Endpoints → OAuth 2.0 authorization endpoint (v2) |
+| Token URL | Entra app → Endpoints → OAuth 2.0 token endpoint (v2) |
+| JWKS URL | Entra app → Endpoints → OpenID Connect metadata document |
+| Client ID / Secret | Entra app → Overview / Certificates & secrets |

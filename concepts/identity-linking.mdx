@@ -9,7 +9,7 @@ Every Mintie user has an optional link to an external identity provider. The lin
 
 | Column | Type | Description |
 | --- | --- | --- |
-| `idp_provider` | `text`, nullable | Provider key — `okta`, `google`, `generic_oidc`, `generic_saml`. |
+| `idp_provider` | `text`, nullable | Provider key — `okta`, `entra-id`, `google`, `generic_oidc`, `generic_saml`. |
 | `idp_user_id` | `text`, nullable | Provider's stable user ID (the `sub` claim, or the SCIM `id`). |
 
 A composite unique index on `(idp_provider, idp_user_id)` guarantees a given external identity maps to at most one Mintie user.
