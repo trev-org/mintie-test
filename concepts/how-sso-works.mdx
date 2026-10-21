@@ -9,8 +9,12 @@ Mintie's SSO flow is OIDC-based by default. SAML providers are tunneled through 
 
 <Steps>
   <Step title="User enters their email on /login">
-    The frontend calls `/api/auth/idp-lookup` with the email's domain. If the
-    org has SSO enabled, the response includes a redirect URL to the IdP.
+    The frontend calls `/api/auth/idp-lookup` with the email's domain.
+    `orgFromEmail()` resolves the domain against **verified** entries in
+    `org_domains` only. If a verified match exists and that org has SSO
+    enabled, the response includes a redirect URL to the IdP; unverified
+    or unclaimed domains fall through to the password form. See
+    [Verify a domain](/setup/domain-verification).
   </Step>
   <Step title="User authenticates at the IdP">
     Mintie never sees the password. The IdP redirects back to

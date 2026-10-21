@@ -28,6 +28,10 @@
     {
       "name": "Sessions",
       "description": "Active user sessions created through SSO sign-in."
+    },
+    {
+      "name": "Domains",
+      "description": "Email domains claimed by your organization. Only verified domains are used by email-first SSO routing."
     }
   ],
   "paths": {
@@ -175,6 +179,147 @@
         }
       }
     },
+    "/domains": {
+      "get": {
+        "tags": ["Domains"],
+        "summary": "List domains",
+        "description": "Returns every email domain claimed by your organization, including pending and verified entries.",
+        "operationId": "listDomains",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter domains by verification status.",
+            "schema": {
+              "$ref": "#/components/schemas/DomainStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of claimed domains.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Domain"
+                      }
+                    }
+                  },
+                  "required": ["data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Domains"],
+        "summary": "Claim a domain",
+        "description": "Claims an email domain for your organization and returns the DNS TXT record you must publish to verify ownership. The claim starts in `pending` status and does not affect sign-in routing until verified. Rejected with `public_domain` if the domain is a shared email provider, and with `domain_taken` if another org has already verified it.",
+        "operationId": "claimDomain",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimDomainRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The claimed domain with its verification token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "description": "The domain is already verified by another organization.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domains/{domain}": {
+      "delete": {
+        "tags": ["Domains"],
+        "summary": "Remove a domain",
+        "description": "Removes a claimed domain from your organization. Email-first lookup stops routing that domain to your IdP on the next sign-in.",
+        "operationId": "removeDomain",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Domain"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The domain was removed."
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/domains/{domain}/verify": {
+      "post": {
+        "tags": ["Domains"],
+        "summary": "Verify a domain now",
+        "description": "Forces an immediate DNS TXT lookup for a pending domain instead of waiting for the scheduled 5-minute poll. Returns the domain with its current status; on success `verifiedAt` is stamped and the status flips to `verified`.",
+        "operationId": "verifyDomain",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Domain"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The domain after the verification attempt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
     "/sessions/{sessionId}": {
       "delete": {
         "tags": ["Sessions"],
@@ -224,6 +369,16 @@
         "schema": {
           "type": "string",
           "example": "conn_01j9x3wq8e"
+        }
+      },
+      "Domain": {
+        "name": "domain",
+        "in": "path",
+        "required": true,
+        "description": "Email domain (apex, without scheme or path).",
+        "schema": {
+          "type": "string",
+          "example": "acme.com"
         }
       }
     },
@@ -302,6 +457,59 @@
           }
         },
         "required": ["name", "provider", "domains"]
+      },
+      "DomainStatus": {
+        "type": "string",
+        "description": "Verification status of a claimed domain.",
+        "enum": ["pending", "verified", "failed"]
+      },
+      "Domain": {
+        "type": "object",
+        "description": "An email domain claimed by your organization. Only `verified` domains are used by email-first SSO routing.",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "The claimed email domain.",
+            "example": "acme.com"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DomainStatus"
+          },
+          "verificationToken": {
+            "type": "string",
+            "description": "Token to publish in a DNS TXT record as `mintie-verify=<token>`. Omitted once the domain is verified.",
+            "example": "3f9a...c1"
+          },
+          "txtRecord": {
+            "type": "string",
+            "description": "The exact TXT record value Mintie will look for at the domain's apex.",
+            "example": "mintie-verify=3f9a...c1"
+          },
+          "verifiedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when Mintie observed the matching TXT record. Null until verified."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the domain was claimed."
+          }
+        },
+        "required": ["domain", "status", "createdAt"]
+      },
+      "ClaimDomainRequest": {
+        "type": "object",
+        "description": "Fields for claiming a new email domain.",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Email domain apex to claim. Public email providers (for example, `gmail.com`, `outlook.com`) are rejected with `public_domain`.",
+            "example": "acme.com"
+          }
+        },
+        "required": ["domain"]
       },
       "Error": {
         "type": "object",

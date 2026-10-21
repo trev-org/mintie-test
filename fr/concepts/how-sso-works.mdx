@@ -9,8 +9,13 @@ Le flux SSO de Mintie est basé sur OIDC par défaut. Les fournisseurs SAML sont
 
 <Steps>
   <Step title="L'utilisateur saisit son e-mail sur /login">
-    Le frontend appelle `/api/auth/idp-lookup` avec le domaine de l'e-mail. Si
-    l'organisation a le SSO activé, la réponse inclut une URL de redirection vers l'IdP.
+    Le frontend appelle `/api/auth/idp-lookup` avec le domaine de l'e-mail.
+    `orgFromEmail()` résout le domaine par rapport aux entrées **vérifiées**
+    de `org_domains` uniquement. S'il existe une correspondance vérifiée et
+    que cette organisation a le SSO activé, la réponse inclut une URL de
+    redirection vers l'IdP ; les domaines non vérifiés ou non revendiqués
+    retombent sur le formulaire de mot de passe. Voir
+    [Vérifier un domaine](/fr/setup/domain-verification).
   </Step>
   <Step title="L'utilisateur s'authentifie auprès de l'IdP">
     Mintie ne voit jamais le mot de passe. L'IdP redirige vers
