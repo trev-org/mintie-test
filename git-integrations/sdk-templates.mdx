@@ -1,0 +1,86 @@
+---
+title: "SDK templates and code samples"
+description: "Embed code samples from your linked Git repo into docs pages, including private and self-hosted repos"
+---
+
+SDK templates let you reference source files from your linked Git repository directly inside docs pages. Code blocks stay in sync with the actual code — no copy-paste drift.
+
+## When to use a template vs an inline code block
+
+| Use a template when... | Use an inline block when... |
+| --- | --- |
+| The snippet lives in your repo as real source | The snippet is a one-off example with no real source |
+| You want imports rendered without boilerplate | You don't care about imports |
+| You need multi-language tabs from one source | You're showing CLI output or pseudocode |
+
+## Reference a file from your repo
+
+````mdx
+<SdkSample src="examples/quickstart.ts" />
+````
+
+This fetches `examples/quickstart.ts` from the default branch of your linked repo at build time and renders it as a syntax-highlighted block.
+
+## Direct imports without boilerplate
+
+Templates support **direct imports** — you reference a symbol, and Mintie renders only the function or class plus the imports it needs. This addresses the verbose-boilerplate problem in SDK pages.
+
+````mdx
+<SdkSample src="src/client.ts" symbol="createClient" />
+````
+
+Renders only the `createClient` definition plus the import statements actually used by that symbol. Useful for SDK overview pages where you want the call signature, not the full file.
+
+## Multi-language tabs from one source
+
+If your repo contains parallel implementations, point `<SdkSample>` at a directory:
+
+````mdx
+<SdkSample src="examples/auth/" tabs />
+````
+
+| File | Tab label |
+| --- | --- |
+| `examples/auth/example.ts` | TypeScript |
+| `examples/auth/example.py` | Python |
+| `examples/auth/example.go` | Go |
+| `examples/auth/example.rb` | Ruby |
+
+Mintie infers the tab label from the extension. Override with a `mintie.json` in the same directory:
+
+```json examples/auth/mintie.json
+{
+  "tabs": {
+    "example.ts": "TypeScript SDK",
+    "example.py": "Python SDK"
+  }
+}
+```
+
+## Private and self-hosted repos
+
+For [self-hosted GitLab](/git-integrations/self-hosted-gitlab), Mintie fetches raw file content over the authenticated OAuth session. No proxying through the public GitLab — the raw URL bug that affected the preview page on self-hosted instances is fixed in this path.
+
+## Pinning to a ref
+
+By default, templates resolve against the default branch. To pin to a tag or commit:
+
+````mdx
+<SdkSample src="examples/quickstart.ts" ref="v2.3.0" />
+````
+
+Pinned samples are cached aggressively. Only commits to the default branch invalidate the cache automatically.
+
+## Troubleshooting
+
+### Sample renders blank on preview
+
+The file was not present on the previewed branch. Check that the branch contains the file at the path you referenced.
+
+### "Failed to fetch sample"
+
+Mintie couldn't reach the raw content endpoint. For self-hosted GitLab, confirm the OAuth user still has **Reporter** on the project. For GitHub, reinstall the app if you recently changed repo visibility.
+
+### Symbol extraction returned the whole file
+
+Symbol extraction is best-effort. It works for top-level `function`, `class`, `const` (TypeScript/JavaScript), `def`, `class` (Python), and `func`, `type` (Go) declarations. For other languages, omit `symbol`.

@@ -1,0 +1,61 @@
+---
+title: "Slack notifications"
+description: "Route Git events from GitHub, GitLab Cloud, or self-hosted GitLab into Slack"
+---
+
+Mintie can post a Slack message when a push lands, a merge request opens, or a preview deploy finishes. All three Git providers — GitHub, GitLab Cloud, and self-hosted GitLab — route through the same notification pipeline, so the configuration UI is identical.
+
+## What you get
+
+| Event | Default channel routing | Configurable |
+| --- | --- | --- |
+| Push to default branch | `#docs-deploys` | Yes |
+| Merge / pull request opened | `#docs-reviews` | Yes |
+| Preview deploy succeeded | Thread on the MR/PR message | Yes |
+| Preview deploy failed | `#docs-alerts` | Yes |
+| Webhook delivery failure | `#docs-alerts` + workspace owner DM | No |
+
+## Connect Slack
+
+<Steps>
+  <Step title="Install the Mintie Slack app">
+    From **Settings → Integrations → Slack**, click **Add to Slack** and approve the workspace install. Mintie requests `chat:write`, `chat:write.public`, and `channels:read`.
+  </Step>
+  <Step title="Pick default channels">
+    Set the default channels for each event type. Mintie auto-joins public channels; for private channels, invite `@mintie` first.
+  </Step>
+  <Step title="Confirm webhook health">
+    The Slack integration page surfaces the **per-repo webhook status** from your Git provider. A red dot here usually means the Git webhook is failing upstream — not Slack itself. See [Webhook health](#webhook-health).
+  </Step>
+</Steps>
+
+## Webhook health
+
+The notifications page shows webhook health per linked repo:
+
+| Status | Meaning | Fix |
+| --- | --- | --- |
+| **Healthy** | Last delivery in the last 24h returned 2xx | — |
+| **Stale** | No delivery in 24h on an active repo | Push a commit to verify, or click **Re-test** |
+| **Failing** | Last 3 deliveries returned non-2xx or timed out | Reinstall the webhook from the Git integration page |
+
+<Note>
+  For [self-hosted GitLab](/git-integrations/self-hosted-gitlab), webhook health depends on GitLab being able to reach `hooks.mintie.example`. If your Git provider's webhook is failing, Slack notifications will not fire — fix the Git side first.
+</Note>
+
+## Customize message templates
+
+Each event type has a default Block Kit template. You can override per workspace from **Settings → Integrations → Slack → Templates**. Templates accept these variables:
+
+| Variable | Example |
+| --- | --- |
+| `{{repo.name}}` | `acme/docs` |
+| `{{repo.provider}}` | `gitlab-self-hosted` |
+| `{{commit.sha}}` | `a1b2c3d` |
+| `{{commit.author}}` | `Trevor Gerald` |
+| `{{branch}}` | `main` |
+| `{{deploy.url}}` | `https://acme-docs-pr-42.mintie.example` |
+
+## Disable notifications
+
+Set a channel to **None** to suppress an event type. To disconnect Slack entirely, click **Disconnect** on the integrations page — this revokes the Slack OAuth grant but leaves your Git webhook intact.
