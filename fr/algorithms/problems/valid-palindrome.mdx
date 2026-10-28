@@ -1,0 +1,66 @@
+---
+title: "Valid Palindrome : solution TypeScript et complexité"
+sidebarTitle: "125. Valid Palindrome"
+description: "Vérifiez si une chaîne est un palindrome alphanumérique, sans tenir compte de la casse. Découvrez l'approche, la complexité O(n) et une solution TypeScript testée."
+---
+
+Vérifiez si les caractères alphanumériques se lisent de la même façon dans les deux sens, sans tenir compte de la casse.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 125 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(n)` |
+| Complexité spatiale | `O(1)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/valid-palindrome/) |
+
+## Approche
+
+1. Placez un pointeur à chaque extrémité de l'entrée.
+2. Faites avancer chaque pointeur au-delà des caractères non alphanumériques.
+3. Comparez les caractères en minuscules et rapprochez les pointeurs jusqu'à ce qu'ils se rejoignent.
+
+## Solution
+
+```typescript solution.ts
+function isAsciiAlphanumeric(character: string): boolean {
+  return /[a-z0-9]/i.test(character);
+}
+
+export function isPalindrome(input: string): boolean {
+  let left = 0;
+  let right = input.length - 1;
+
+  while (left < right) {
+    while (left < right && !isAsciiAlphanumeric(input.charAt(left))) left += 1;
+    while (left < right && !isAsciiAlphanumeric(input.charAt(right))) right -= 1;
+    if (input.charAt(left).toLowerCase() !== input.charAt(right).toLowerCase()) {
+      return false;
+    }
+    left += 1;
+    right -= 1;
+  }
+
+  return true;
+}
+```
+
+## Exemple
+
+```typescript Example
+isPalindrome("A man, a plan, a canal: Panama")
+// => true
+```
+
+En ignorant les espaces, la ponctuation et la casse, on obtient un palindrome.
+
+## Cas limites
+
+- Une chaîne vide est un palindrome.
+- Une chaîne ne contenant que de la ponctuation est un palindrome.
+- La comparaison ne tient pas compte de la casse.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Deux pointeurs](/fr/algorithms/patterns/two-pointers)

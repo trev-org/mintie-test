@@ -1,0 +1,68 @@
+---
+title: "Valid Parentheses: TypeScript solution and complexity"
+sidebarTitle: "20. Valid Parentheses"
+description: "Determine whether every opening bracket is closed in the correct order. Learn the approach, O(n) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Determine whether every opening bracket is closed in the correct order.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 20 |
+| Difficulty | Easy |
+| Time complexity | `O(n)` |
+| Space complexity | `O(n)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/valid-parentheses/) |
+
+## Approach
+
+1. Push each opening bracket onto a stack.
+2. For a closing bracket, pop the stack and compare it with the required opener.
+3. The string is valid only when every comparison succeeds and the stack ends empty.
+
+## Solution
+
+```typescript solution.ts
+const closerToOpener: Readonly<Record<string, string>> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+export function isValidParentheses(input: string): boolean {
+  const stack: string[] = [];
+
+  for (const character of input) {
+    const expectedOpener = closerToOpener[character];
+    if (expectedOpener === undefined) {
+      stack.push(character);
+      continue;
+    }
+    if (stack.pop() !== expectedOpener) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
+}
+```
+
+## Example
+
+```typescript Example
+isValidParentheses("([]{})")
+// => true
+```
+
+Every closing bracket matches the most recent unmatched opener.
+
+## Edge cases
+
+- An empty string is valid.
+- A closing bracket cannot appear before its opener.
+- A leftover opening bracket makes the string invalid.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Stacks](/algorithms/patterns/stacks)

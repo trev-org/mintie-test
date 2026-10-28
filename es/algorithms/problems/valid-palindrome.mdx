@@ -1,0 +1,66 @@
+---
+title: "Valid Palindrome: solución en TypeScript y complejidad"
+sidebarTitle: "125. Valid Palindrome"
+description: "Comprueba si los caracteres alfanuméricos se leen igual en ambos sentidos, sin distinguir mayúsculas. Conoce el enfoque, la complejidad O(n) y la solución."
+---
+
+Comprueba si los caracteres alfanuméricos se leen igual de izquierda a derecha y de derecha a izquierda, sin distinguir mayúsculas y minúsculas.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 125 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(n)` |
+| Complejidad espacial | `O(1)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/valid-palindrome/) |
+
+## Enfoque
+
+1. Coloca un puntero en cada extremo de la entrada.
+2. Avanza cada puntero más allá de los caracteres no alfanuméricos.
+3. Compara los caracteres en minúscula y avanza hacia el centro hasta que los punteros se encuentren.
+
+## Solución
+
+```typescript solution.ts
+function isAsciiAlphanumeric(character: string): boolean {
+  return /[a-z0-9]/i.test(character);
+}
+
+export function isPalindrome(input: string): boolean {
+  let left = 0;
+  let right = input.length - 1;
+
+  while (left < right) {
+    while (left < right && !isAsciiAlphanumeric(input.charAt(left))) left += 1;
+    while (left < right && !isAsciiAlphanumeric(input.charAt(right))) right -= 1;
+    if (input.charAt(left).toLowerCase() !== input.charAt(right).toLowerCase()) {
+      return false;
+    }
+    left += 1;
+    right -= 1;
+  }
+
+  return true;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+isPalindrome("A man, a plan, a canal: Panama")
+// => true
+```
+
+Al ignorar los espacios, la puntuación y las mayúsculas, se obtiene un palíndromo.
+
+## Casos límite
+
+- Una cadena vacía es un palíndromo.
+- Una cadena que solo contiene signos de puntuación es un palíndromo.
+- La comparación no distingue mayúsculas y minúsculas.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Dos punteros](/es/algorithms/patterns/two-pointers)

@@ -1,0 +1,30 @@
+---
+title: "Binary search: algorithm pattern guide"
+sidebarTitle: "Binary search"
+description: "Repeatedly discard half of an ordered search space. Learn when to use binary search, the core steps, typical complexity, and tested example problems."
+---
+
+Repeatedly discard half of an ordered search space.
+
+## When to use
+
+- Search sorted data.
+- Find a monotonic boundary.
+- Reduce linear search to logarithmic time.
+
+## Steps
+
+1. Define inclusive or exclusive bounds.
+2. Evaluate the midpoint.
+3. Discard the impossible half.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(log n)` |
+| Space | `O(1)` |
+
+## Example problems
+
+- [Binary Search](/algorithms/problems/binary-search): Find a target value in a sorted array and return its index.

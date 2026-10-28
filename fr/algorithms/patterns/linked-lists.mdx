@@ -1,0 +1,30 @@
+---
+title: "Listes chaînées : guide du motif algorithmique"
+sidebarTitle: "Listes chaînées"
+description: "Parcourez et reconnectez des nœuds sans déplacer leurs valeurs. Découvrez quand utiliser les listes chaînées, les étapes clés, la complexité et des exemples testés."
+---
+
+Parcourez et reconnectez des nœuds sans déplacer les valeurs qu'ils contiennent.
+
+## Quand l'utiliser
+
+- Insérer ou supprimer via des références.
+- Fusionner des chaînes de nœuds.
+- Utiliser un espace auxiliaire constant.
+
+## Étapes
+
+1. Conservez des références vers les nœuds courants.
+2. Reconnectez un lien à la fois.
+3. Sauvegardez le nœud suivant avant d'écraser un lien.
+
+## Complexité
+
+| Mesure | Coût typique |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace | `O(1)` |
+
+## Exemples de problèmes
+
+- [Merge Two Sorted Lists](/fr/algorithms/problems/merge-two-sorted-lists) : fusionnez deux listes chaînées triées en une seule liste triée en réutilisant leurs nœuds.

@@ -1,0 +1,31 @@
+---
+title: "Dynamic programming: algorithm pattern guide"
+sidebarTitle: "Dynamic programming"
+description: "Reuse solutions to overlapping subproblems instead of recomputing them. Learn when to use dynamic programming, the core steps, typical complexity, and tested example problems."
+---
+
+Reuse solutions to overlapping subproblems instead of recomputing them.
+
+## When to use
+
+- A result depends on smaller repeated states.
+- An optimal answer has optimal substructure.
+- A recurrence can be evaluated in order.
+
+## Steps
+
+1. Define the state.
+2. Write the transition.
+3. Set base cases and evaluate states in dependency order.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(number of states × transition cost)` |
+| Space | `O(number of retained states)` |
+
+## Example problems
+
+- [Climbing Stairs](/algorithms/problems/climbing-stairs): Count the distinct ways to reach the top when each move climbs one or two steps.
+- [Maximum Subarray](/algorithms/problems/maximum-subarray): Find the largest sum of any non-empty contiguous subarray.

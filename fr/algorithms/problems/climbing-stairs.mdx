@@ -1,0 +1,59 @@
+---
+title: "Climbing Stairs : solution TypeScript et complexité"
+sidebarTitle: "70. Climbing Stairs"
+description: "Comptez les façons d'atteindre le sommet en montant une ou deux marches. Découvrez l'approche, la complexité O(n), les cas limites et une solution TypeScript testée."
+---
+
+Comptez les façons distinctes d'atteindre le sommet quand chaque mouvement monte une ou deux marches.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 70 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(n)` |
+| Complexité spatiale | `O(1)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/climbing-stairs/) |
+
+## Approche
+
+1. Le nombre de façons d'atteindre une marche est la somme des façons d'atteindre les deux marches précédentes.
+2. Ne conservez que ces deux valeurs précédentes.
+3. Faites avancer la paire jusqu'à la marche demandée.
+
+## Solution
+
+```typescript solution.ts
+export function climbStairs(steps: number): number {
+  if (!Number.isInteger(steps) || steps < 1) {
+    throw new RangeError("steps must be a positive integer");
+  }
+  if (steps <= 2) return steps;
+
+  let twoStepsBack = 1;
+  let oneStepBack = 2;
+  for (let current = 3; current <= steps; current += 1) {
+    [twoStepsBack, oneStepBack] = [oneStepBack, twoStepsBack + oneStepBack];
+  }
+  return oneStepBack;
+}
+```
+
+## Exemple
+
+```typescript Example
+climbStairs(5)
+// => 8
+```
+
+La récurrence de type Fibonacci produit huit séquences de marches valides.
+
+## Cas limites
+
+- Une marche offre un seul chemin valide.
+- Deux marches offrent deux chemins valides.
+- L'implémentation rejette les nombres de marches non positifs.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Programmation dynamique](/fr/algorithms/patterns/dynamic-programming)

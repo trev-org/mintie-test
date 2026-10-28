@@ -1,0 +1,68 @@
+---
+title: "Valid Parentheses : solution TypeScript et complexité"
+sidebarTitle: "20. Valid Parentheses"
+description: "Vérifiez que chaque parenthèse ouvrante est fermée dans le bon ordre. Découvrez l'approche, la complexité O(n), les cas limites et une solution TypeScript testée."
+---
+
+Déterminez si chaque parenthèse ouvrante est fermée dans le bon ordre.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 20 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(n)` |
+| Complexité spatiale | `O(n)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/valid-parentheses/) |
+
+## Approche
+
+1. Empilez chaque parenthèse ouvrante.
+2. Pour une parenthèse fermante, dépilez et comparez avec l'ouvrante attendue.
+3. La chaîne n'est valide que si toutes les comparaisons réussissent et que la pile finit vide.
+
+## Solution
+
+```typescript solution.ts
+const closerToOpener: Readonly<Record<string, string>> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+export function isValidParentheses(input: string): boolean {
+  const stack: string[] = [];
+
+  for (const character of input) {
+    const expectedOpener = closerToOpener[character];
+    if (expectedOpener === undefined) {
+      stack.push(character);
+      continue;
+    }
+    if (stack.pop() !== expectedOpener) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
+}
+```
+
+## Exemple
+
+```typescript Example
+isValidParentheses("([]{})")
+// => true
+```
+
+Chaque parenthèse fermante correspond à la dernière ouvrante non appariée.
+
+## Cas limites
+
+- Une chaîne vide est valide.
+- Une parenthèse fermante ne peut pas apparaître avant son ouvrante.
+- Une parenthèse ouvrante restante rend la chaîne invalide.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Piles](/fr/algorithms/patterns/stacks)

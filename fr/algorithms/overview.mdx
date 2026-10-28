@@ -1,0 +1,52 @@
+---
+title: "Catalogue d'algorithmes : solutions TypeScript testées"
+sidebarTitle: "Vue d'ensemble"
+description: "Parcourez des solutions TypeScript testées à des problèmes de code courants, regroupées par motif, avec étapes, complexité, exemples et cas limites."
+---
+
+Le catalogue d'algorithmes rassemble 10 problèmes de code courants et 10 motifs algorithmiques réutilisables. Chaque solution est une implémentation TypeScript couverte par des tests automatisés : le code de chaque page est donc exactement celui qui passe ces tests.
+
+Utilisez le catalogue pour étudier une technique, préparer des entretiens techniques ou trouver une implémentation de référence pour un problème connu.
+
+## Organisation des pages
+
+<CardGroup cols={2}>
+  <Card title="Problèmes" icon="code" href="/fr/algorithms/problems/two-sum">
+    Chaque page de problème présente l'approche, la solution, un exemple, les cas limites et les motifs associés.
+  </Card>
+  <Card title="Motifs" icon="shapes" href="/fr/algorithms/patterns/two-pointers">
+    Chaque page de motif explique quand utiliser une technique et renvoie vers les problèmes qui l'appliquent.
+  </Card>
+</CardGroup>
+
+La complexité utilise la notation grand O. Par exemple, `O(n)` signifie que le coût croît linéairement avec la taille d'entrée `n`. Pour apprendre à lire ces valeurs, consultez [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis).
+
+## Problèmes
+
+| N° | Problème | Difficulté | Temps | Espace |
+| --- | --- | --- | --- | --- |
+| 1 | [Two Sum](/fr/algorithms/problems/two-sum) | Facile | `O(n)` | `O(n)` |
+| 20 | [Valid Parentheses](/fr/algorithms/problems/valid-parentheses) | Facile | `O(n)` | `O(n)` |
+| 21 | [Merge Two Sorted Lists](/fr/algorithms/problems/merge-two-sorted-lists) | Facile | `O(n + m)` | `O(1)` |
+| 53 | [Maximum Subarray](/fr/algorithms/problems/maximum-subarray) | Moyen | `O(n)` | `O(1)` |
+| 70 | [Climbing Stairs](/fr/algorithms/problems/climbing-stairs) | Facile | `O(n)` | `O(1)` |
+| 121 | [Best Time to Buy and Sell Stock](/fr/algorithms/problems/best-time-to-buy-and-sell-stock) | Facile | `O(n)` | `O(1)` |
+| 125 | [Valid Palindrome](/fr/algorithms/problems/valid-palindrome) | Facile | `O(n)` | `O(1)` |
+| 226 | [Invert Binary Tree](/fr/algorithms/problems/invert-binary-tree) | Facile | `O(n)` | `O(h)` |
+| 704 | [Binary Search](/fr/algorithms/problems/binary-search) | Facile | `O(log n)` | `O(1)` |
+| 733 | [Flood Fill](/fr/algorithms/problems/flood-fill) | Facile | `O(lignes × colonnes)` | `O(lignes × colonnes)` |
+
+## Motifs
+
+| Motif | Résumé |
+| --- | --- |
+| [Recherche dichotomique](/fr/algorithms/patterns/binary-search) | Éliminer à chaque étape la moitié d'un espace de recherche ordonné. |
+| [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis) | Décrire comment le temps d'exécution et la mémoire auxiliaire augmentent avec la taille de l'entrée. |
+| [Programmation dynamique](/fr/algorithms/patterns/dynamic-programming) | Réutiliser les solutions de sous-problèmes qui se chevauchent au lieu de les recalculer. |
+| [Parcours de graphe](/fr/algorithms/patterns/graph-traversal) | Explorer les sommets connectés avec une file ou une pile en évitant le travail en double. |
+| [Parcours gloutons en une passe](/fr/algorithms/patterns/greedy-scans) | Conserver le meilleur état local nécessaire pour prendre chaque décision suivante. |
+| [Tables de hachage](/fr/algorithms/patterns/hash-maps) | Stocker des valeurs par clé pour un test d'appartenance et une recherche en temps constant attendu. |
+| [Listes chaînées](/fr/algorithms/patterns/linked-lists) | Parcourir et reconnecter des nœuds sans déplacer les valeurs qu'ils contiennent. |
+| [Piles](/fr/algorithms/patterns/stacks) | Traiter un état imbriqué ou le plus récent selon l'ordre dernier entré, premier sorti. |
+| [Parcours d'arbre](/fr/algorithms/patterns/tree-traversal) | Visiter chaque nœud par un parcours en profondeur ou en largeur, récursif ou itératif. |
+| [Deux pointeurs](/fr/algorithms/patterns/two-pointers) | Déplacer deux index dans une séquence en maintenant une relation utile entre eux. |

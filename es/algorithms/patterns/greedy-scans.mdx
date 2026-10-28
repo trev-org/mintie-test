@@ -1,0 +1,31 @@
+---
+title: "Recorridos voraces de una pasada: guía del patrón"
+sidebarTitle: "Recorridos voraces de una pasada"
+description: "Mantén el mejor estado local para tomar cada siguiente decisión. Aprende cuándo usar recorridos voraces de una pasada, sus pasos, complejidad y ejemplos."
+---
+
+Mantén el mejor estado local necesario para tomar cada siguiente decisión.
+
+## Cuándo usarlo
+
+- Una elección local no puede perjudicar las elecciones futuras.
+- Solo necesitas un óptimo acumulado.
+- La entrada se puede procesar una sola vez.
+
+## Pasos
+
+1. Define el invariante que se arrastra hacia adelante.
+2. Actualízalo a partir del valor actual.
+3. Registra la mejor respuesta completa.
+
+## Complejidad
+
+| Medida | Costo típico |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio | `O(1)` |
+
+## Problemas de ejemplo
+
+- [Best Time to Buy and Sell Stock](/es/algorithms/problems/best-time-to-buy-and-sell-stock): encuentra la mayor ganancia de una compra seguida de una venta posterior.
+- [Maximum Subarray](/es/algorithms/problems/maximum-subarray): encuentra la mayor suma de cualquier subarreglo contiguo no vacío.

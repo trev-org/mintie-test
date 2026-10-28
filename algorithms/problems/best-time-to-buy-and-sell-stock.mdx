@@ -1,0 +1,57 @@
+---
+title: "Best Time to Buy and Sell Stock: TypeScript solution and complexity"
+sidebarTitle: "121. Best Time to Buy and Sell Stock"
+description: "Find the largest profit from one purchase followed by one later sale. Learn the approach, O(n) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Find the largest profit from one purchase followed by one later sale.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 121 |
+| Difficulty | Easy |
+| Time complexity | `O(n)` |
+| Space complexity | `O(1)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/) |
+
+## Approach
+
+1. Track the lowest price seen so far.
+2. At each price, calculate the profit from selling after that lowest price.
+3. Keep the largest non-negative profit.
+
+## Solution
+
+```typescript solution.ts
+export function maxProfit(prices: readonly number[]): number {
+  let minimumPrice = Number.POSITIVE_INFINITY;
+  let bestProfit = 0;
+
+  for (const price of prices) {
+    minimumPrice = Math.min(minimumPrice, price);
+    bestProfit = Math.max(bestProfit, price - minimumPrice);
+  }
+
+  return bestProfit;
+}
+```
+
+## Example
+
+```typescript Example
+maxProfit([7, 1, 5, 3, 6, 4])
+// => 5
+```
+
+Buying at 1 and selling later at 6 produces the largest profit.
+
+## Edge cases
+
+- Return 0 when prices only decrease.
+- A list with fewer than two prices has no possible profit.
+- The sale must occur after the purchase.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Greedy one-pass scans](/algorithms/patterns/greedy-scans)

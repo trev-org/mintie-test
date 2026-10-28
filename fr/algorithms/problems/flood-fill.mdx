@@ -1,0 +1,74 @@
+---
+title: "Flood Fill : solution TypeScript et complexité"
+sidebarTitle: "733. Flood Fill"
+description: "Recolorez la composante connexe d'une cellule de départ dans une grille. Découvrez l'approche, la complexité O(lignes × colonnes) et une solution TypeScript testée."
+---
+
+Recolorez la composante connexe qui contient une cellule de départ dans une grille.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 733 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(lignes × colonnes)` |
+| Complexité spatiale | `O(lignes × colonnes)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/flood-fill/) |
+
+## Approche
+
+1. Mémorisez la couleur de départ et arrêtez-vous tout de suite si elle est déjà égale à la couleur de remplacement.
+2. Utilisez une pile pour visiter les cellules de la composante connexe.
+3. Recolorez chaque cellule visitée et ajoutez ses voisins orthogonaux de même couleur.
+
+## Solution
+
+```typescript solution.ts
+export function floodFill(
+  image: number[][],
+  startRow: number,
+  startColumn: number,
+  replacement: number,
+): number[][] {
+  const original = image[startRow]?.[startColumn];
+  if (original === undefined || original === replacement) return image;
+
+  const stack: Array<[number, number]> = [[startRow, startColumn]];
+  const directions: ReadonlyArray<readonly [number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  while (stack.length > 0) {
+    const [row, column] = stack.pop()!;
+    if (image[row]?.[column] !== original) continue;
+    image[row]![column] = replacement;
+    for (const [rowOffset, columnOffset] of directions) {
+      stack.push([row + rowOffset, column + columnOffset]);
+    }
+  }
+
+  return image;
+}
+```
+
+## Exemple
+
+```typescript Example
+floodFill([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2)
+// => [[2,2,2],[2,2,0],[2,0,1]]
+```
+
+Chaque 1 relié au centre par un chemin orthogonal est recoloré.
+
+## Cas limites
+
+- Renvoyez une image vide sans la modifier.
+- Arrêtez-vous immédiatement si la couleur de remplacement est identique à la couleur de départ.
+- Les cellules en diagonale ne sont pas connectées.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Parcours de graphe](/fr/algorithms/patterns/graph-traversal)

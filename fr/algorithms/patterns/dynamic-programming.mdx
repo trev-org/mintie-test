@@ -1,0 +1,31 @@
+---
+title: "Programmation dynamique : guide du motif algorithmique"
+sidebarTitle: "Programmation dynamique"
+description: "Réutilisez les solutions de sous-problèmes qui se chevauchent au lieu de les recalculer. Découvrez quand l'utiliser, les étapes clés et des exemples testés."
+---
+
+Réutilisez les solutions de sous-problèmes qui se chevauchent au lieu de les recalculer.
+
+## Quand l'utiliser
+
+- Un résultat dépend d'états plus petits qui se répètent.
+- Une réponse optimale possède une sous-structure optimale.
+- Une relation de récurrence peut être évaluée dans l'ordre.
+
+## Étapes
+
+1. Définissez l'état.
+2. Écrivez la transition.
+3. Fixez les cas de base et évaluez les états dans l'ordre des dépendances.
+
+## Complexité
+
+| Mesure | Coût typique |
+| --- | --- |
+| Temps | `O(nombre d’états × coût de transition)` |
+| Espace | `O(nombre d’états conservés)` |
+
+## Exemples de problèmes
+
+- [Climbing Stairs](/fr/algorithms/problems/climbing-stairs) : comptez les façons distinctes d'atteindre le sommet quand chaque mouvement monte une ou deux marches.
+- [Maximum Subarray](/fr/algorithms/problems/maximum-subarray) : trouvez la plus grande somme d'un sous-tableau contigu non vide.

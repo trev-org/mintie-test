@@ -1,0 +1,66 @@
+---
+title: "Valid Palindrome: TypeScript solution and complexity"
+sidebarTitle: "125. Valid Palindrome"
+description: "Check whether the alphanumeric characters read the same forward and backward, ignoring case. Learn the approach, O(n) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Check whether the alphanumeric characters read the same forward and backward, ignoring case.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 125 |
+| Difficulty | Easy |
+| Time complexity | `O(n)` |
+| Space complexity | `O(1)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/valid-palindrome/) |
+
+## Approach
+
+1. Place one pointer at each end of the input.
+2. Move each pointer past non-alphanumeric characters.
+3. Compare lowercase characters and move inward until the pointers meet.
+
+## Solution
+
+```typescript solution.ts
+function isAsciiAlphanumeric(character: string): boolean {
+  return /[a-z0-9]/i.test(character);
+}
+
+export function isPalindrome(input: string): boolean {
+  let left = 0;
+  let right = input.length - 1;
+
+  while (left < right) {
+    while (left < right && !isAsciiAlphanumeric(input.charAt(left))) left += 1;
+    while (left < right && !isAsciiAlphanumeric(input.charAt(right))) right -= 1;
+    if (input.charAt(left).toLowerCase() !== input.charAt(right).toLowerCase()) {
+      return false;
+    }
+    left += 1;
+    right -= 1;
+  }
+
+  return true;
+}
+```
+
+## Example
+
+```typescript Example
+isPalindrome("A man, a plan, a canal: Panama")
+// => true
+```
+
+Ignoring spaces, punctuation, and case produces a palindrome.
+
+## Edge cases
+
+- An empty string is a palindrome.
+- A string containing only punctuation is a palindrome.
+- Comparison is case-insensitive.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Two pointers](/algorithms/patterns/two-pointers)

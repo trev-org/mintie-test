@@ -1,0 +1,30 @@
+---
+title: "Recorrido de grafos: guía del patrón algorítmico"
+sidebarTitle: "Recorrido de grafos"
+description: "Explora vértices conectados con una cola o una pila sin repetir trabajo. Aprende cuándo usar el recorrido de grafos, sus pasos, complejidad y ejemplos."
+---
+
+Explora vértices conectados con una cola o una pila sin repetir trabajo.
+
+## Cuándo usarlo
+
+- Encontrar componentes conectados.
+- Explorar cuadrículas.
+- Determinar la alcanzabilidad.
+
+## Pasos
+
+1. Elige un vértice inicial.
+2. Marca los vértices para no volver a visitarlos.
+3. Agrega cada vecino no visitado a la frontera.
+
+## Complejidad
+
+| Medida | Costo típico |
+| --- | --- |
+| Tiempo | `O(vértices + aristas)` |
+| Espacio | `O(vértices)` |
+
+## Problemas de ejemplo
+
+- [Flood Fill](/es/algorithms/problems/flood-fill): cambia el color del componente conectado que contiene una celda inicial en una cuadrícula.

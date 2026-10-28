@@ -1,0 +1,60 @@
+---
+title: "Two Sum : solution TypeScript et complexité"
+sidebarTitle: "1. Two Sum"
+description: "Renvoyez les index de deux nombres dont la somme vaut la cible. Découvrez l'approche, la complexité O(n), les cas limites et une solution TypeScript testée."
+---
+
+Renvoyez les index de deux nombres dont la somme est égale à la cible.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 1 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(n)` |
+| Complexité spatiale | `O(n)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/two-sum/) |
+
+## Approche
+
+1. Créez une table qui associe chaque valeur déjà rencontrée à son index.
+2. Pour chaque valeur, calculez le complément nécessaire pour atteindre la cible.
+3. Si le complément existe, renvoyez son index enregistré et l'index courant.
+
+## Solution
+
+```typescript solution.ts
+export function twoSum(nums: readonly number[], target: number): [number, number] | null {
+  const seen = new Map<number, number>();
+
+  for (let index = 0; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    const complementIndex = seen.get(target - value);
+    if (complementIndex !== undefined) {
+      return [complementIndex, index];
+    }
+    seen.set(value, index);
+  }
+
+  return null;
+}
+```
+
+## Exemple
+
+```typescript Example
+twoSum([2, 7, 11, 15], 9)
+// => [0, 1]
+```
+
+Les valeurs aux index 0 et 1 ont pour somme 9.
+
+## Cas limites
+
+- La valeur correspondante peut apparaître deux fois à des index différents.
+- Les valeurs négatives et une cible négative sont valides.
+- Renvoyez null lorsqu'aucune paire n'existe.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Tables de hachage](/fr/algorithms/patterns/hash-maps)

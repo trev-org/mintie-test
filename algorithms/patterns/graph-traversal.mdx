@@ -1,0 +1,30 @@
+---
+title: "Graph traversal: algorithm pattern guide"
+sidebarTitle: "Graph traversal"
+description: "Explore connected vertices with a queue or stack while preventing duplicate work. Learn when to use graph traversal, the core steps, typical complexity, and tested example problems."
+---
+
+Explore connected vertices with a queue or stack while preventing duplicate work.
+
+## When to use
+
+- Find connected components.
+- Explore grids.
+- Determine reachability.
+
+## Steps
+
+1. Choose a starting vertex.
+2. Mark vertices before revisiting them.
+3. Add each unvisited neighbor to the frontier.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(vertices + edges)` |
+| Space | `O(vertices)` |
+
+## Example problems
+
+- [Flood Fill](/algorithms/problems/flood-fill): Recolor the connected component containing a starting cell in a grid.

@@ -1,0 +1,31 @@
+---
+title: "Dos punteros: guía del patrón algorítmico"
+sidebarTitle: "Dos punteros"
+description: "Mueve dos índices por una secuencia manteniendo una relación útil. Aprende cuándo usar dos punteros, sus pasos, su complejidad típica y problemas de ejemplo."
+---
+
+Mueve dos índices a lo largo de una secuencia mientras mantienes una relación útil entre ellos.
+
+## Cuándo usarlo
+
+- Comparar valores desde ambos extremos.
+- Combinar secuencias ordenadas.
+- Evitar un recorrido anidado.
+
+## Pasos
+
+1. Inicializa los punteros en límites significativos.
+2. Mueve el puntero que no puede quedarse donde está.
+3. Detente cuando se agote la región de búsqueda.
+
+## Complejidad
+
+| Medida | Costo típico |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio | `O(1)` |
+
+## Problemas de ejemplo
+
+- [Valid Palindrome](/es/algorithms/problems/valid-palindrome): comprueba si los caracteres alfanuméricos se leen igual de izquierda a derecha y de derecha a izquierda, sin distinguir mayúsculas y minúsculas.
+- [Merge Two Sorted Lists](/es/algorithms/problems/merge-two-sorted-lists): combina dos listas enlazadas ordenadas en una sola lista ordenada reutilizando sus nodos.

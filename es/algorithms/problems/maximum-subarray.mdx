@@ -1,0 +1,61 @@
+---
+title: "Maximum Subarray: solución en TypeScript y complejidad"
+sidebarTitle: "53. Maximum Subarray"
+description: "Encuentra la mayor suma de cualquier subarreglo contiguo no vacío. Conoce el enfoque, la complejidad O(n), los casos límite y una solución probada."
+---
+
+Encuentra la mayor suma de cualquier subarreglo contiguo no vacío.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 53 |
+| Dificultad | Media |
+| Complejidad temporal | `O(n)` |
+| Complejidad espacial | `O(1)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/maximum-subarray/) |
+
+## Enfoque
+
+1. Lleva el registro de la mejor suma que termina en el valor actual.
+2. Extiende el subarreglo anterior o empieza uno nuevo en el valor actual.
+3. Conserva la mayor suma vista en cualquier punto.
+
+## Solución
+
+```typescript solution.ts
+export function maxSubArray(nums: readonly number[]): number {
+  if (nums.length === 0) {
+    throw new RangeError("nums must not be empty");
+  }
+
+  let bestEndingHere = nums[0]!;
+  let bestOverall = nums[0]!;
+  for (let index = 1; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    bestEndingHere = Math.max(value, bestEndingHere + value);
+    bestOverall = Math.max(bestOverall, bestEndingHere);
+  }
+  return bestOverall;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
+// => 6
+```
+
+El subarreglo contiguo [4, -1, 2, 1] tiene la mayor suma.
+
+## Casos límite
+
+- Una entrada con todos los valores negativos devuelve su mayor valor individual.
+- Una entrada con un solo valor devuelve ese valor.
+- La implementación rechaza un arreglo vacío porque el subarreglo no debe estar vacío.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Programación dinámica](/es/algorithms/patterns/dynamic-programming)
+- [Recorridos voraces de una pasada](/es/algorithms/patterns/greedy-scans)

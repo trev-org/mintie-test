@@ -1,0 +1,68 @@
+---
+title: "Valid Parentheses: solución en TypeScript y complejidad"
+sidebarTitle: "20. Valid Parentheses"
+description: "Determina si cada corchete de apertura se cierra en el orden correcto. Conoce el enfoque, la complejidad O(n), los casos límite y una solución probada."
+---
+
+Determina si cada corchete de apertura se cierra en el orden correcto.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 20 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(n)` |
+| Complejidad espacial | `O(n)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/valid-parentheses/) |
+
+## Enfoque
+
+1. Apila cada corchete de apertura.
+2. Ante un corchete de cierre, desapila y compáralo con el corchete de apertura requerido.
+3. La cadena es válida solo si todas las comparaciones tienen éxito y la pila termina vacía.
+
+## Solución
+
+```typescript solution.ts
+const closerToOpener: Readonly<Record<string, string>> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+export function isValidParentheses(input: string): boolean {
+  const stack: string[] = [];
+
+  for (const character of input) {
+    const expectedOpener = closerToOpener[character];
+    if (expectedOpener === undefined) {
+      stack.push(character);
+      continue;
+    }
+    if (stack.pop() !== expectedOpener) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+isValidParentheses("([]{})")
+// => true
+```
+
+Cada corchete de cierre coincide con el corchete de apertura más reciente sin pareja.
+
+## Casos límite
+
+- Una cadena vacía es válida.
+- Un corchete de cierre no puede aparecer antes de su corchete de apertura.
+- Un corchete de apertura sobrante hace que la cadena no sea válida.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Pilas](/es/algorithms/patterns/stacks)

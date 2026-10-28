@@ -1,0 +1,60 @@
+---
+title: "Binary Search: TypeScript solution and complexity"
+sidebarTitle: "704. Binary Search"
+description: "Find a target value in a sorted array and return its index. Learn the approach, O(log n) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Find a target value in a sorted array and return its index.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 704 |
+| Difficulty | Easy |
+| Time complexity | `O(log n)` |
+| Space complexity | `O(1)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/binary-search/) |
+
+## Approach
+
+1. Track inclusive left and right boundaries.
+2. Compare the target with the middle value.
+3. Discard the half that cannot contain the target and repeat.
+
+## Solution
+
+```typescript solution.ts
+export function binarySearch(nums: readonly number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const middle = left + Math.floor((right - left) / 2);
+    const value = nums[middle]!;
+    if (value === target) return middle;
+    if (value < target) left = middle + 1;
+    else right = middle - 1;
+  }
+
+  return -1;
+}
+```
+
+## Example
+
+```typescript Example
+binarySearch([-1, 0, 3, 5, 9, 12], 9)
+// => 4
+```
+
+The target 9 is stored at index 4.
+
+## Edge cases
+
+- Return -1 when the target is absent.
+- The input array may be empty.
+- The array must already be sorted in ascending order.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Binary search](/algorithms/patterns/binary-search)

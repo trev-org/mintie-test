@@ -1,0 +1,74 @@
+---
+title: "Flood Fill: TypeScript solution and complexity"
+sidebarTitle: "733. Flood Fill"
+description: "Recolor the connected component containing a starting cell in a grid. Learn the approach, O(rows × columns) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Recolor the connected component containing a starting cell in a grid.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 733 |
+| Difficulty | Easy |
+| Time complexity | `O(rows × columns)` |
+| Space complexity | `O(rows × columns)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/flood-fill/) |
+
+## Approach
+
+1. Remember the starting color and stop early if it already equals the replacement.
+2. Use a stack to visit cells in the connected component.
+3. Recolor each visited cell and add same-colored orthogonal neighbors.
+
+## Solution
+
+```typescript solution.ts
+export function floodFill(
+  image: number[][],
+  startRow: number,
+  startColumn: number,
+  replacement: number,
+): number[][] {
+  const original = image[startRow]?.[startColumn];
+  if (original === undefined || original === replacement) return image;
+
+  const stack: Array<[number, number]> = [[startRow, startColumn]];
+  const directions: ReadonlyArray<readonly [number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  while (stack.length > 0) {
+    const [row, column] = stack.pop()!;
+    if (image[row]?.[column] !== original) continue;
+    image[row]![column] = replacement;
+    for (const [rowOffset, columnOffset] of directions) {
+      stack.push([row + rowOffset, column + columnOffset]);
+    }
+  }
+
+  return image;
+}
+```
+
+## Example
+
+```typescript Example
+floodFill([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2)
+// => [[2,2,2],[2,2,0],[2,0,1]]
+```
+
+Every 1 connected to the center by an orthogonal path is recolored.
+
+## Edge cases
+
+- Return an empty image unchanged.
+- Stop immediately when the replacement color matches the starting color.
+- Diagonal cells are not connected.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Graph traversal](/algorithms/patterns/graph-traversal)

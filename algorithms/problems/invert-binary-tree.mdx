@@ -1,0 +1,61 @@
+---
+title: "Invert Binary Tree: TypeScript solution and complexity"
+sidebarTitle: "226. Invert Binary Tree"
+description: "Mirror a binary tree by swapping every node's left and right children. Learn the approach, O(n) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Mirror a binary tree by swapping every node's left and right children.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 226 |
+| Difficulty | Easy |
+| Time complexity | `O(n)` |
+| Space complexity | `O(h)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/invert-binary-tree/) |
+
+## Approach
+
+1. Return immediately for an empty subtree.
+2. Recursively invert the left and right subtrees.
+3. Assign the inverted right subtree to the left and the inverted left subtree to the right.
+
+## Solution
+
+```typescript solution.ts
+export class TreeNode {
+  constructor(
+    public value: number,
+    public left: TreeNode | null = null,
+    public right: TreeNode | null = null,
+  ) {}
+}
+
+export function invertTree(root: TreeNode | null): TreeNode | null {
+  if (root === null) return null;
+  const originalLeft = root.left;
+  root.left = invertTree(root.right);
+  root.right = invertTree(originalLeft);
+  return root;
+}
+```
+
+## Example
+
+```typescript Example
+invertTree(new TreeNode(2, new TreeNode(1), new TreeNode(3)))
+// => TreeNode(2, 3, 1)
+```
+
+The left and right child of every node are exchanged.
+
+## Edge cases
+
+- An empty tree remains empty.
+- A single-node tree is unchanged.
+- Recursion uses stack space proportional to the tree height.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Tree traversal](/algorithms/patterns/tree-traversal)

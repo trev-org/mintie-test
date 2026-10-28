@@ -1,0 +1,52 @@
+---
+title: "Catálogo de algoritmos: soluciones probadas en TypeScript"
+sidebarTitle: "Resumen"
+description: "Explora soluciones probadas en TypeScript para problemas de programación comunes, agrupadas por patrón, con pasos, complejidad, ejemplos y casos límite."
+---
+
+El catálogo de algoritmos reúne 10 problemas de programación comunes y 10 patrones algorítmicos reutilizables. Cada solución es una implementación en TypeScript respaldada por pruebas automatizadas, así que el código de cada página es el mismo que pasa esas pruebas.
+
+Usa el catálogo para estudiar una técnica, prepararte para entrevistas de programación o encontrar una implementación de referencia para un problema conocido.
+
+## Cómo se organizan las páginas
+
+<CardGroup cols={2}>
+  <Card title="Problemas" icon="code" href="/es/algorithms/problems/two-sum">
+    Cada página de problema incluye el enfoque, la solución, un ejemplo, los casos límite y los patrones relacionados.
+  </Card>
+  <Card title="Patrones" icon="shapes" href="/es/algorithms/patterns/two-pointers">
+    Cada página de patrón explica cuándo usar una técnica y enlaza a los problemas que la aplican.
+  </Card>
+</CardGroup>
+
+La complejidad usa la notación Big O. Por ejemplo, `O(n)` significa que el costo crece de forma lineal con el tamaño de la entrada `n`. Para aprender a interpretar estos valores, consulta [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis).
+
+## Problemas
+
+| # | Problema | Dificultad | Tiempo | Espacio |
+| --- | --- | --- | --- | --- |
+| 1 | [Two Sum](/es/algorithms/problems/two-sum) | Fácil | `O(n)` | `O(n)` |
+| 20 | [Valid Parentheses](/es/algorithms/problems/valid-parentheses) | Fácil | `O(n)` | `O(n)` |
+| 21 | [Merge Two Sorted Lists](/es/algorithms/problems/merge-two-sorted-lists) | Fácil | `O(n + m)` | `O(1)` |
+| 53 | [Maximum Subarray](/es/algorithms/problems/maximum-subarray) | Media | `O(n)` | `O(1)` |
+| 70 | [Climbing Stairs](/es/algorithms/problems/climbing-stairs) | Fácil | `O(n)` | `O(1)` |
+| 121 | [Best Time to Buy and Sell Stock](/es/algorithms/problems/best-time-to-buy-and-sell-stock) | Fácil | `O(n)` | `O(1)` |
+| 125 | [Valid Palindrome](/es/algorithms/problems/valid-palindrome) | Fácil | `O(n)` | `O(1)` |
+| 226 | [Invert Binary Tree](/es/algorithms/problems/invert-binary-tree) | Fácil | `O(n)` | `O(h)` |
+| 704 | [Binary Search](/es/algorithms/problems/binary-search) | Fácil | `O(log n)` | `O(1)` |
+| 733 | [Flood Fill](/es/algorithms/problems/flood-fill) | Fácil | `O(filas × columnas)` | `O(filas × columnas)` |
+
+## Patrones
+
+| Patrón | Resumen |
+| --- | --- |
+| [Búsqueda binaria](/es/algorithms/patterns/binary-search) | Descarta repetidamente la mitad de un espacio de búsqueda ordenado. |
+| [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis) | Describe cómo crecen el tiempo de ejecución y la memoria auxiliar a medida que aumenta el tamaño de la entrada. |
+| [Programación dinámica](/es/algorithms/patterns/dynamic-programming) | Reutiliza las soluciones de subproblemas superpuestos en lugar de volver a calcularlas. |
+| [Recorrido de grafos](/es/algorithms/patterns/graph-traversal) | Explora vértices conectados con una cola o una pila sin repetir trabajo. |
+| [Recorridos voraces de una pasada](/es/algorithms/patterns/greedy-scans) | Mantén el mejor estado local necesario para tomar cada siguiente decisión. |
+| [Tablas hash](/es/algorithms/patterns/hash-maps) | Almacena valores por clave para comprobar pertenencia y buscar en tiempo constante esperado. |
+| [Listas enlazadas](/es/algorithms/patterns/linked-lists) | Recorre y reconecta nodos sin mover los valores que contienen. |
+| [Pilas](/es/algorithms/patterns/stacks) | Procesa estados anidados o más recientes en orden último en entrar, primero en salir. |
+| [Recorrido de árboles](/es/algorithms/patterns/tree-traversal) | Visita cada nodo mediante un recorrido recursivo o iterativo en profundidad o en anchura. |
+| [Dos punteros](/es/algorithms/patterns/two-pointers) | Mueve dos índices a lo largo de una secuencia mientras mantienes una relación útil entre ellos. |

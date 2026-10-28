@@ -1,0 +1,60 @@
+---
+title: "Binary Search : solution TypeScript et complexité"
+sidebarTitle: "704. Binary Search"
+description: "Trouvez une valeur cible dans un tableau trié et renvoyez son index. Découvrez l'approche, la complexité O(log n), les cas limites et une solution TypeScript testée."
+---
+
+Trouvez une valeur cible dans un tableau trié et renvoyez son index.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 704 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(log n)` |
+| Complexité spatiale | `O(1)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/binary-search/) |
+
+## Approche
+
+1. Suivez des bornes gauche et droite inclusives.
+2. Comparez la cible à la valeur du milieu.
+3. Écartez la moitié qui ne peut pas contenir la cible et recommencez.
+
+## Solution
+
+```typescript solution.ts
+export function binarySearch(nums: readonly number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const middle = left + Math.floor((right - left) / 2);
+    const value = nums[middle]!;
+    if (value === target) return middle;
+    if (value < target) left = middle + 1;
+    else right = middle - 1;
+  }
+
+  return -1;
+}
+```
+
+## Exemple
+
+```typescript Example
+binarySearch([-1, 0, 3, 5, 9, 12], 9)
+// => 4
+```
+
+La cible 9 se trouve à l'index 4.
+
+## Cas limites
+
+- Renvoyez -1 lorsque la cible est absente.
+- Le tableau d'entrée peut être vide.
+- Le tableau doit déjà être trié par ordre croissant.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Recherche dichotomique](/fr/algorithms/patterns/binary-search)

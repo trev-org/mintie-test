@@ -1,0 +1,30 @@
+---
+title: "Tables de hachage : guide du motif algorithmique"
+sidebarTitle: "Tables de hachage"
+description: "Stockez des valeurs par clé pour une recherche en temps constant attendu. Découvrez quand utiliser ce motif, les étapes clés, la complexité et des exemples testés."
+---
+
+Stockez des valeurs par clé pour un test d'appartenance et une recherche en temps constant attendu.
+
+## Quand l'utiliser
+
+- Suivre les valeurs déjà rencontrées.
+- Compter des fréquences.
+- Trouver un complément ou un doublon.
+
+## Étapes
+
+1. Choisissez une clé stable.
+2. Lisez avant d'écrire lorsque l'ordre compte.
+3. Ne stockez que l'état nécessaire par la suite.
+
+## Complexité
+
+| Mesure | Coût typique |
+| --- | --- |
+| Temps | `O(n)` en moyenne |
+| Espace | `O(n)` |
+
+## Exemples de problèmes
+
+- [Two Sum](/fr/algorithms/problems/two-sum) : renvoyez les index de deux nombres dont la somme est égale à la cible.

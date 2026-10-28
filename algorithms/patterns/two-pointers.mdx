@@ -1,0 +1,31 @@
+---
+title: "Two pointers: algorithm pattern guide"
+sidebarTitle: "Two pointers"
+description: "Move two indexes through a sequence while maintaining a useful relationship. Learn when to use two pointers, the core steps, typical complexity, and tested example problems."
+---
+
+Move two indexes through a sequence while maintaining a useful relationship.
+
+## When to use
+
+- Compare values from both ends.
+- Merge sorted sequences.
+- Avoid a nested scan.
+
+## Steps
+
+1. Initialize pointers at meaningful boundaries.
+2. Move the pointer that cannot remain.
+3. Stop when the search region is exhausted.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(n)` |
+| Space | `O(1)` |
+
+## Example problems
+
+- [Valid Palindrome](/algorithms/problems/valid-palindrome): Check whether the alphanumeric characters read the same forward and backward, ignoring case.
+- [Merge Two Sorted Lists](/algorithms/problems/merge-two-sorted-lists): Merge two sorted linked lists into one sorted list by reusing their nodes.

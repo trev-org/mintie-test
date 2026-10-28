@@ -1,0 +1,92 @@
+---
+title: "Merge Two Sorted Lists: solución en TypeScript y complejidad"
+sidebarTitle: "21. Merge Two Sorted Lists"
+description: "Combina dos listas enlazadas ordenadas en una sola reutilizando sus nodos. Conoce el enfoque, la complejidad O(n + m), los casos límite y una solución probada."
+---
+
+Combina dos listas enlazadas ordenadas en una sola lista ordenada reutilizando sus nodos.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 21 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(n + m)` |
+| Complejidad espacial | `O(1)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/merge-two-sorted-lists/) |
+
+## Enfoque
+
+1. Crea un nodo ficticio y mantén un puntero a la cola de la lista combinada.
+2. Compara los dos nodos actuales y agrega el menor.
+3. Agrega la lista restante cuando se agote una de las entradas.
+
+## Solución
+
+```typescript solution.ts
+export class ListNode {
+  constructor(
+    public value: number,
+    public next: ListNode | null = null,
+  ) {}
+}
+
+export function fromArray(values: readonly number[]): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  for (const value of values) {
+    tail.next = new ListNode(value);
+    tail = tail.next;
+  }
+  return dummy.next;
+}
+
+export function toArray(head: ListNode | null): number[] {
+  const values: number[] = [];
+  for (let node = head; node !== null; node = node.next) values.push(node.value);
+  return values;
+}
+
+export function mergeTwoSortedLists(
+  first: ListNode | null,
+  second: ListNode | null,
+): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  let left = first;
+  let right = second;
+
+  while (left !== null && right !== null) {
+    if (left.value <= right.value) {
+      tail.next = left;
+      left = left.next;
+    } else {
+      tail.next = right;
+      right = right.next;
+    }
+    tail = tail.next;
+  }
+  tail.next = left ?? right;
+  return dummy.next;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+toArray(mergeTwoSortedLists(fromArray([1, 2, 4]), fromArray([1, 3, 4])))
+// => [1, 1, 2, 3, 4, 4]
+```
+
+Los nodos de ambas entradas ordenadas se enlazan en orden ascendente.
+
+## Casos límite
+
+- Cualquiera de las listas de entrada puede estar vacía.
+- Los valores duplicados conservan el orden.
+- El algoritmo reutiliza los nodos existentes en lugar de crear un nodo nuevo por cada valor.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Listas enlazadas](/es/algorithms/patterns/linked-lists)
+- [Dos punteros](/es/algorithms/patterns/two-pointers)

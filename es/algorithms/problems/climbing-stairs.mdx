@@ -1,0 +1,59 @@
+---
+title: "Climbing Stairs: solución en TypeScript y complejidad"
+sidebarTitle: "70. Climbing Stairs"
+description: "Cuenta las formas de llegar a la cima subiendo uno o dos escalones a la vez. Conoce el enfoque, la complejidad O(n), los casos límite y una solución probada."
+---
+
+Cuenta las formas distintas de llegar a la cima cuando cada movimiento sube uno o dos escalones.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 70 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(n)` |
+| Complejidad espacial | `O(1)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/climbing-stairs/) |
+
+## Enfoque
+
+1. Las formas de llegar a un escalón son la suma de las formas de llegar a los dos escalones anteriores.
+2. Lleva el registro solo de esos dos valores anteriores.
+3. Avanza el par hasta llegar al escalón solicitado.
+
+## Solución
+
+```typescript solution.ts
+export function climbStairs(steps: number): number {
+  if (!Number.isInteger(steps) || steps < 1) {
+    throw new RangeError("steps must be a positive integer");
+  }
+  if (steps <= 2) return steps;
+
+  let twoStepsBack = 1;
+  let oneStepBack = 2;
+  for (let current = 3; current <= steps; current += 1) {
+    [twoStepsBack, oneStepBack] = [oneStepBack, twoStepsBack + oneStepBack];
+  }
+  return oneStepBack;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+climbStairs(5)
+// => 8
+```
+
+La recurrencia de tipo Fibonacci produce ocho secuencias de escalones válidas.
+
+## Casos límite
+
+- Un escalón tiene una ruta válida.
+- Dos escalones tienen dos rutas válidas.
+- La implementación rechaza cantidades de escalones no positivas.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Programación dinámica](/es/algorithms/patterns/dynamic-programming)

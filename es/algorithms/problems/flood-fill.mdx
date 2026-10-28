@@ -1,0 +1,74 @@
+---
+title: "Flood Fill: solución en TypeScript y complejidad"
+sidebarTitle: "733. Flood Fill"
+description: "Cambia el color del componente conectado que contiene una celda inicial. Conoce el enfoque, la complejidad O(filas × columnas), los casos límite y una solución."
+---
+
+Cambia el color del componente conectado que contiene una celda inicial en una cuadrícula.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 733 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(filas × columnas)` |
+| Complejidad espacial | `O(filas × columnas)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/flood-fill/) |
+
+## Enfoque
+
+1. Recuerda el color inicial y detente antes si ya es igual al color de reemplazo.
+2. Usa una pila para visitar las celdas del componente conectado.
+3. Cambia el color de cada celda visitada y agrega los vecinos ortogonales del mismo color.
+
+## Solución
+
+```typescript solution.ts
+export function floodFill(
+  image: number[][],
+  startRow: number,
+  startColumn: number,
+  replacement: number,
+): number[][] {
+  const original = image[startRow]?.[startColumn];
+  if (original === undefined || original === replacement) return image;
+
+  const stack: Array<[number, number]> = [[startRow, startColumn]];
+  const directions: ReadonlyArray<readonly [number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  while (stack.length > 0) {
+    const [row, column] = stack.pop()!;
+    if (image[row]?.[column] !== original) continue;
+    image[row]![column] = replacement;
+    for (const [rowOffset, columnOffset] of directions) {
+      stack.push([row + rowOffset, column + columnOffset]);
+    }
+  }
+
+  return image;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+floodFill([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2)
+// => [[2,2,2],[2,2,0],[2,0,1]]
+```
+
+Cada 1 conectado al centro por un camino ortogonal cambia de color.
+
+## Casos límite
+
+- Devuelve una imagen vacía sin cambios.
+- Detente de inmediato cuando el color de reemplazo coincide con el color inicial.
+- Las celdas diagonales no están conectadas.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Recorrido de grafos](/es/algorithms/patterns/graph-traversal)

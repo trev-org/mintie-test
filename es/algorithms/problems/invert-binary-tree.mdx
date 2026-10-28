@@ -1,0 +1,61 @@
+---
+title: "Invert Binary Tree: solución en TypeScript y complejidad"
+sidebarTitle: "226. Invert Binary Tree"
+description: "Refleja un árbol binario intercambiando los hijos de cada nodo. Conoce el enfoque, la complejidad O(n), los casos límite y una solución probada."
+---
+
+Refleja un árbol binario intercambiando los hijos izquierdo y derecho de cada nodo.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 226 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(n)` |
+| Complejidad espacial | `O(h)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/invert-binary-tree/) |
+
+## Enfoque
+
+1. Devuelve el resultado de inmediato para un subárbol vacío.
+2. Invierte recursivamente los subárboles izquierdo y derecho.
+3. Asigna el subárbol derecho invertido a la izquierda y el subárbol izquierdo invertido a la derecha.
+
+## Solución
+
+```typescript solution.ts
+export class TreeNode {
+  constructor(
+    public value: number,
+    public left: TreeNode | null = null,
+    public right: TreeNode | null = null,
+  ) {}
+}
+
+export function invertTree(root: TreeNode | null): TreeNode | null {
+  if (root === null) return null;
+  const originalLeft = root.left;
+  root.left = invertTree(root.right);
+  root.right = invertTree(originalLeft);
+  return root;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+invertTree(new TreeNode(2, new TreeNode(1), new TreeNode(3)))
+// => TreeNode(2, 3, 1)
+```
+
+Los hijos izquierdo y derecho de cada nodo se intercambian.
+
+## Casos límite
+
+- Un árbol vacío sigue vacío.
+- Un árbol de un solo nodo no cambia.
+- La recursión usa espacio de pila proporcional a la altura del árbol.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Recorrido de árboles](/es/algorithms/patterns/tree-traversal)

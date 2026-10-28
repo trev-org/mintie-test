@@ -1,0 +1,30 @@
+---
+title: "Listas enlazadas: guía del patrón algorítmico"
+sidebarTitle: "Listas enlazadas"
+description: "Recorre y reconecta nodos sin mover los valores que contienen. Aprende cuándo usar listas enlazadas, sus pasos, su complejidad típica y problemas de ejemplo."
+---
+
+Recorre y reconecta nodos sin mover los valores que contienen.
+
+## Cuándo usarlo
+
+- Insertar o eliminar mediante referencias.
+- Combinar cadenas de nodos.
+- Usar espacio auxiliar constante.
+
+## Pasos
+
+1. Conserva referencias a los nodos actuales.
+2. Reconecta un enlace a la vez.
+3. Guarda el siguiente nodo antes de sobrescribir un enlace.
+
+## Complejidad
+
+| Medida | Costo típico |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio | `O(1)` |
+
+## Problemas de ejemplo
+
+- [Merge Two Sorted Lists](/es/algorithms/problems/merge-two-sorted-lists): combina dos listas enlazadas ordenadas en una sola lista ordenada reutilizando sus nodos.

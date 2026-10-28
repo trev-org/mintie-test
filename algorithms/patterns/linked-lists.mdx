@@ -1,0 +1,30 @@
+---
+title: "Linked lists: algorithm pattern guide"
+sidebarTitle: "Linked lists"
+description: "Traverse and reconnect nodes without moving the values they contain. Learn when to use linked lists, the core steps, typical complexity, and tested example problems."
+---
+
+Traverse and reconnect nodes without moving the values they contain.
+
+## When to use
+
+- Insert or remove through references.
+- Merge node chains.
+- Use constant auxiliary space.
+
+## Steps
+
+1. Keep references to current nodes.
+2. Reconnect one link at a time.
+3. Preserve the next node before overwriting a link.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(n)` |
+| Space | `O(1)` |
+
+## Example problems
+
+- [Merge Two Sorted Lists](/algorithms/problems/merge-two-sorted-lists): Merge two sorted linked lists into one sorted list by reusing their nodes.

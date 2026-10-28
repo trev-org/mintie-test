@@ -1,0 +1,57 @@
+---
+title: "Best Time to Buy and Sell Stock : solution TypeScript"
+sidebarTitle: "121. Best Time to Buy and Sell Stock"
+description: "Trouvez le plus grand profit avec un achat puis une vente ultérieure. Découvrez l'approche, la complexité O(n), les cas limites et une solution TypeScript testée."
+---
+
+Trouvez le plus grand profit possible avec un achat suivi d'une vente ultérieure.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 121 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(n)` |
+| Complexité spatiale | `O(1)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/) |
+
+## Approche
+
+1. Suivez le prix le plus bas rencontré jusqu'ici.
+2. À chaque prix, calculez le profit d'une vente après ce prix le plus bas.
+3. Conservez le plus grand profit non négatif.
+
+## Solution
+
+```typescript solution.ts
+export function maxProfit(prices: readonly number[]): number {
+  let minimumPrice = Number.POSITIVE_INFINITY;
+  let bestProfit = 0;
+
+  for (const price of prices) {
+    minimumPrice = Math.min(minimumPrice, price);
+    bestProfit = Math.max(bestProfit, price - minimumPrice);
+  }
+
+  return bestProfit;
+}
+```
+
+## Exemple
+
+```typescript Example
+maxProfit([7, 1, 5, 3, 6, 4])
+// => 5
+```
+
+Acheter à 1 puis revendre à 6 produit le plus grand profit.
+
+## Cas limites
+
+- Renvoyez 0 lorsque les prix ne font que baisser.
+- Une liste de moins de deux prix ne permet aucun profit.
+- La vente doit avoir lieu après l'achat.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Parcours gloutons en une passe](/fr/algorithms/patterns/greedy-scans)

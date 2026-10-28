@@ -1,0 +1,30 @@
+---
+title: "Hash maps: algorithm pattern guide"
+sidebarTitle: "Hash maps"
+description: "Store values by key for expected constant-time membership and lookup. Learn when to use hash maps, the core steps, typical complexity, and tested example problems."
+---
+
+Store values by key for expected constant-time membership and lookup.
+
+## When to use
+
+- Track values already seen.
+- Count frequencies.
+- Find a complement or duplicate.
+
+## Steps
+
+1. Choose a stable key.
+2. Read before writing when order matters.
+3. Store only the state needed later.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(n)` expected |
+| Space | `O(n)` |
+
+## Example problems
+
+- [Two Sum](/algorithms/problems/two-sum): Return the indexes of two numbers whose sum equals the target.

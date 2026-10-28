@@ -1,0 +1,31 @@
+---
+title: "Deux pointeurs : guide du motif algorithmique"
+sidebarTitle: "Deux pointeurs"
+description: "Déplacez deux index dans une séquence en maintenant une relation utile. Découvrez quand utiliser ce motif, les étapes clés, la complexité et des exemples testés."
+---
+
+Déplacez deux index dans une séquence en maintenant une relation utile entre eux.
+
+## Quand l'utiliser
+
+- Comparer des valeurs depuis les deux extrémités.
+- Fusionner des séquences triées.
+- Éviter un parcours imbriqué.
+
+## Étapes
+
+1. Initialisez les pointeurs sur des bornes pertinentes.
+2. Déplacez le pointeur qui ne peut pas rester en place.
+3. Arrêtez-vous lorsque la zone de recherche est épuisée.
+
+## Complexité
+
+| Mesure | Coût typique |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace | `O(1)` |
+
+## Exemples de problèmes
+
+- [Valid Palindrome](/fr/algorithms/problems/valid-palindrome) : vérifiez si les caractères alphanumériques se lisent de la même façon dans les deux sens, sans tenir compte de la casse.
+- [Merge Two Sorted Lists](/fr/algorithms/problems/merge-two-sorted-lists) : fusionnez deux listes chaînées triées en une seule liste triée en réutilisant leurs nœuds.

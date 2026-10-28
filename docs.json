@@ -105,6 +105,47 @@
             ]
           },
           {
+            "tab": "Algorithms",
+            "groups": [
+              {
+                "group": "Get started",
+                "pages": [
+                  "algorithms/overview"
+                ]
+              },
+              {
+                "group": "Problems",
+                "pages": [
+                  "algorithms/problems/two-sum",
+                  "algorithms/problems/valid-parentheses",
+                  "algorithms/problems/merge-two-sorted-lists",
+                  "algorithms/problems/maximum-subarray",
+                  "algorithms/problems/climbing-stairs",
+                  "algorithms/problems/best-time-to-buy-and-sell-stock",
+                  "algorithms/problems/valid-palindrome",
+                  "algorithms/problems/invert-binary-tree",
+                  "algorithms/problems/binary-search",
+                  "algorithms/problems/flood-fill"
+                ]
+              },
+              {
+                "group": "Patterns",
+                "pages": [
+                  "algorithms/patterns/binary-search",
+                  "algorithms/patterns/complexity-analysis",
+                  "algorithms/patterns/dynamic-programming",
+                  "algorithms/patterns/graph-traversal",
+                  "algorithms/patterns/greedy-scans",
+                  "algorithms/patterns/hash-maps",
+                  "algorithms/patterns/linked-lists",
+                  "algorithms/patterns/stacks",
+                  "algorithms/patterns/tree-traversal",
+                  "algorithms/patterns/two-pointers"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Operations",
             "groups": [
               {
@@ -336,6 +377,47 @@
             ]
           },
           {
+            "tab": "Algoritmos",
+            "groups": [
+              {
+                "group": "Empezar",
+                "pages": [
+                  "es/algorithms/overview"
+                ]
+              },
+              {
+                "group": "Problemas",
+                "pages": [
+                  "es/algorithms/problems/two-sum",
+                  "es/algorithms/problems/valid-parentheses",
+                  "es/algorithms/problems/merge-two-sorted-lists",
+                  "es/algorithms/problems/maximum-subarray",
+                  "es/algorithms/problems/climbing-stairs",
+                  "es/algorithms/problems/best-time-to-buy-and-sell-stock",
+                  "es/algorithms/problems/valid-palindrome",
+                  "es/algorithms/problems/invert-binary-tree",
+                  "es/algorithms/problems/binary-search",
+                  "es/algorithms/problems/flood-fill"
+                ]
+              },
+              {
+                "group": "Patrones",
+                "pages": [
+                  "es/algorithms/patterns/binary-search",
+                  "es/algorithms/patterns/complexity-analysis",
+                  "es/algorithms/patterns/dynamic-programming",
+                  "es/algorithms/patterns/graph-traversal",
+                  "es/algorithms/patterns/greedy-scans",
+                  "es/algorithms/patterns/hash-maps",
+                  "es/algorithms/patterns/linked-lists",
+                  "es/algorithms/patterns/stacks",
+                  "es/algorithms/patterns/tree-traversal",
+                  "es/algorithms/patterns/two-pointers"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Operaciones",
             "groups": [
               {
@@ -435,6 +517,47 @@
                   "fr/migration/timeline",
                   "fr/migration/user-comms",
                   "fr/migration/faq"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Algorithmes",
+            "groups": [
+              {
+                "group": "Démarrer",
+                "pages": [
+                  "fr/algorithms/overview"
+                ]
+              },
+              {
+                "group": "Problèmes",
+                "pages": [
+                  "fr/algorithms/problems/two-sum",
+                  "fr/algorithms/problems/valid-parentheses",
+                  "fr/algorithms/problems/merge-two-sorted-lists",
+                  "fr/algorithms/problems/maximum-subarray",
+                  "fr/algorithms/problems/climbing-stairs",
+                  "fr/algorithms/problems/best-time-to-buy-and-sell-stock",
+                  "fr/algorithms/problems/valid-palindrome",
+                  "fr/algorithms/problems/invert-binary-tree",
+                  "fr/algorithms/problems/binary-search",
+                  "fr/algorithms/problems/flood-fill"
+                ]
+              },
+              {
+                "group": "Motifs",
+                "pages": [
+                  "fr/algorithms/patterns/binary-search",
+                  "fr/algorithms/patterns/complexity-analysis",
+                  "fr/algorithms/patterns/dynamic-programming",
+                  "fr/algorithms/patterns/graph-traversal",
+                  "fr/algorithms/patterns/greedy-scans",
+                  "fr/algorithms/patterns/hash-maps",
+                  "fr/algorithms/patterns/linked-lists",
+                  "fr/algorithms/patterns/stacks",
+                  "fr/algorithms/patterns/tree-traversal",
+                  "fr/algorithms/patterns/two-pointers"
                 ]
               }
             ]

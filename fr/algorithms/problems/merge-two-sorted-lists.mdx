@@ -1,0 +1,92 @@
+---
+title: "Merge Two Sorted Lists : solution TypeScript et complexité"
+sidebarTitle: "21. Merge Two Sorted Lists"
+description: "Fusionnez deux listes chaînées triées en réutilisant leurs nœuds. Découvrez l'approche, la complexité O(n + m), les cas limites et une solution TypeScript testée."
+---
+
+Fusionnez deux listes chaînées triées en une seule liste triée en réutilisant leurs nœuds.
+
+| Propriété | Valeur |
+| --- | --- |
+| Numéro du problème | 21 |
+| Difficulté | Facile |
+| Complexité temporelle | `O(n + m)` |
+| Complexité spatiale | `O(1)` |
+| Problème original | [LeetCode](https://leetcode.com/problems/merge-two-sorted-lists/) |
+
+## Approche
+
+1. Créez un nœud factice et conservez un pointeur de queue pour la liste fusionnée.
+2. Comparez les deux nœuds courants et ajoutez le plus petit.
+3. Une fois une entrée épuisée, ajoutez le reste de l'autre liste.
+
+## Solution
+
+```typescript solution.ts
+export class ListNode {
+  constructor(
+    public value: number,
+    public next: ListNode | null = null,
+  ) {}
+}
+
+export function fromArray(values: readonly number[]): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  for (const value of values) {
+    tail.next = new ListNode(value);
+    tail = tail.next;
+  }
+  return dummy.next;
+}
+
+export function toArray(head: ListNode | null): number[] {
+  const values: number[] = [];
+  for (let node = head; node !== null; node = node.next) values.push(node.value);
+  return values;
+}
+
+export function mergeTwoSortedLists(
+  first: ListNode | null,
+  second: ListNode | null,
+): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  let left = first;
+  let right = second;
+
+  while (left !== null && right !== null) {
+    if (left.value <= right.value) {
+      tail.next = left;
+      left = left.next;
+    } else {
+      tail.next = right;
+      right = right.next;
+    }
+    tail = tail.next;
+  }
+  tail.next = left ?? right;
+  return dummy.next;
+}
+```
+
+## Exemple
+
+```typescript Example
+toArray(mergeTwoSortedLists(fromArray([1, 2, 4]), fromArray([1, 3, 4])))
+// => [1, 1, 2, 3, 4, 4]
+```
+
+Les nœuds des deux entrées triées sont chaînés par ordre croissant.
+
+## Cas limites
+
+- L'une ou l'autre des listes d'entrée peut être vide.
+- Les valeurs en double conservent l'ordre trié.
+- L'algorithme réutilise les nœuds existants au lieu d'allouer un nouveau nœud par valeur.
+
+## Motifs associés
+
+- [Analyse de complexité](/fr/algorithms/patterns/complexity-analysis)
+- [Listes chaînées](/fr/algorithms/patterns/linked-lists)
+- [Deux pointeurs](/fr/algorithms/patterns/two-pointers)

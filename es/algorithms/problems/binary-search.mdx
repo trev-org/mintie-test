@@ -1,0 +1,60 @@
+---
+title: "Binary Search: solución en TypeScript y complejidad"
+sidebarTitle: "704. Binary Search"
+description: "Encuentra un valor objetivo en un arreglo ordenado y devuelve su índice. Conoce el enfoque, la complejidad O(log n), los casos límite y una solución probada."
+---
+
+Encuentra un valor objetivo en un arreglo ordenado y devuelve su índice.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 704 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(log n)` |
+| Complejidad espacial | `O(1)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/binary-search/) |
+
+## Enfoque
+
+1. Lleva el registro de los límites izquierdo y derecho inclusivos.
+2. Compara el objetivo con el valor del medio.
+3. Descarta la mitad que no puede contener el objetivo y repite.
+
+## Solución
+
+```typescript solution.ts
+export function binarySearch(nums: readonly number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const middle = left + Math.floor((right - left) / 2);
+    const value = nums[middle]!;
+    if (value === target) return middle;
+    if (value < target) left = middle + 1;
+    else right = middle - 1;
+  }
+
+  return -1;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+binarySearch([-1, 0, 3, 5, 9, 12], 9)
+// => 4
+```
+
+El objetivo 9 está almacenado en el índice 4.
+
+## Casos límite
+
+- Devuelve -1 cuando el objetivo no está presente.
+- El arreglo de entrada puede estar vacío.
+- El arreglo ya debe estar ordenado de forma ascendente.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Búsqueda binaria](/es/algorithms/patterns/binary-search)

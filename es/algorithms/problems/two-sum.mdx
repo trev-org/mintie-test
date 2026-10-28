@@ -1,0 +1,60 @@
+---
+title: "Two Sum: solución en TypeScript y complejidad"
+sidebarTitle: "1. Two Sum"
+description: "Devuelve los índices de dos números cuya suma es igual al objetivo. Conoce el enfoque, la complejidad O(n), los casos límite y una solución probada."
+---
+
+Devuelve los índices de dos números cuya suma es igual al objetivo.
+
+| Propiedad | Valor |
+| --- | --- |
+| Número de problema | 1 |
+| Dificultad | Fácil |
+| Complejidad temporal | `O(n)` |
+| Complejidad espacial | `O(n)` |
+| Problema original | [LeetCode](https://leetcode.com/problems/two-sum/) |
+
+## Enfoque
+
+1. Crea un mapa de los valores vistos previamente a sus índices.
+2. Para cada valor, calcula el complemento necesario para llegar al objetivo.
+3. Cuando el complemento existe, devuelve su índice guardado y el índice actual.
+
+## Solución
+
+```typescript solution.ts
+export function twoSum(nums: readonly number[], target: number): [number, number] | null {
+  const seen = new Map<number, number>();
+
+  for (let index = 0; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    const complementIndex = seen.get(target - value);
+    if (complementIndex !== undefined) {
+      return [complementIndex, index];
+    }
+    seen.set(value, index);
+  }
+
+  return null;
+}
+```
+
+## Ejemplo
+
+```typescript Example
+twoSum([2, 7, 11, 15], 9)
+// => [0, 1]
+```
+
+Los valores en los índices 0 y 1 suman 9.
+
+## Casos límite
+
+- El valor coincidente puede aparecer dos veces en índices distintos.
+- Los valores negativos y un objetivo negativo son válidos.
+- Devuelve null cuando no existe ningún par.
+
+## Patrones relacionados
+
+- [Análisis de complejidad](/es/algorithms/patterns/complexity-analysis)
+- [Tablas hash](/es/algorithms/patterns/hash-maps)

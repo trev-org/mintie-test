@@ -1,0 +1,31 @@
+---
+title: "Greedy one-pass scans: algorithm pattern guide"
+sidebarTitle: "Greedy one-pass scans"
+description: "Maintain the best local state needed to make each next decision. Learn when to use greedy one-pass scans, the core steps, typical complexity, and tested example problems."
+---
+
+Maintain the best local state needed to make each next decision.
+
+## When to use
+
+- A local choice cannot hurt future choices.
+- Only a running optimum is needed.
+- The input can be processed once.
+
+## Steps
+
+1. Define the invariant carried forward.
+2. Update it from the current value.
+3. Record the best complete answer.
+
+## Complexity
+
+| Measure | Typical cost |
+| --- | --- |
+| Time | `O(n)` |
+| Space | `O(1)` |
+
+## Example problems
+
+- [Best Time to Buy and Sell Stock](/algorithms/problems/best-time-to-buy-and-sell-stock): Find the largest profit from one purchase followed by one later sale.
+- [Maximum Subarray](/algorithms/problems/maximum-subarray): Find the largest sum of any non-empty contiguous subarray.

@@ -1,0 +1,60 @@
+---
+title: "Two Sum: TypeScript solution and complexity"
+sidebarTitle: "1. Two Sum"
+description: "Return the indexes of two numbers whose sum equals the target. Learn the approach, O(n) time complexity, edge cases, and a tested TypeScript solution."
+---
+
+Return the indexes of two numbers whose sum equals the target.
+
+| Property | Value |
+| --- | --- |
+| Problem number | 1 |
+| Difficulty | Easy |
+| Time complexity | `O(n)` |
+| Space complexity | `O(n)` |
+| Original problem | [LeetCode](https://leetcode.com/problems/two-sum/) |
+
+## Approach
+
+1. Create a map from previously seen values to their indexes.
+2. For each value, compute the complement needed to reach the target.
+3. Return the saved complement index and the current index when the complement exists.
+
+## Solution
+
+```typescript solution.ts
+export function twoSum(nums: readonly number[], target: number): [number, number] | null {
+  const seen = new Map<number, number>();
+
+  for (let index = 0; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    const complementIndex = seen.get(target - value);
+    if (complementIndex !== undefined) {
+      return [complementIndex, index];
+    }
+    seen.set(value, index);
+  }
+
+  return null;
+}
+```
+
+## Example
+
+```typescript Example
+twoSum([2, 7, 11, 15], 9)
+// => [0, 1]
+```
+
+The values at indexes 0 and 1 add up to 9.
+
+## Edge cases
+
+- The matching value may appear twice at different indexes.
+- Negative values and a negative target are valid.
+- Return null when no pair exists.
+
+## Related patterns
+
+- [Complexity analysis](/algorithms/patterns/complexity-analysis)
+- [Hash maps](/algorithms/patterns/hash-maps)

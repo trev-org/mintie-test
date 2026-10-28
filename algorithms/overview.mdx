@@ -1,0 +1,52 @@
+---
+title: "Algorithm catalog: tested TypeScript problem solutions"
+sidebarTitle: "Overview"
+description: "Browse tested TypeScript solutions to common coding problems, grouped by algorithm pattern, with steps, complexity, examples, and edge cases."
+---
+
+The algorithm catalog collects 10 common coding problems and 10 reusable algorithm patterns. Every solution is a TypeScript implementation backed by automated tests, so the code on each page is the same code that passes those tests.
+
+Use the catalog to study a technique, prepare for coding interviews, or find a reference implementation for a familiar problem.
+
+## How pages are organized
+
+<CardGroup cols={2}>
+  <Card title="Problems" icon="code" href="/algorithms/problems/two-sum">
+    Each problem page lists the approach, solution, example, edge cases, and related patterns.
+  </Card>
+  <Card title="Patterns" icon="shapes" href="/algorithms/patterns/two-pointers">
+    Each pattern page explains when to use a technique and links to problems that apply it.
+  </Card>
+</CardGroup>
+
+Complexity uses Big O notation. For example, `O(n)` means the cost grows linearly with input size `n`. To learn how to read these values, see [Complexity analysis](/algorithms/patterns/complexity-analysis).
+
+## Problems
+
+| # | Problem | Difficulty | Time | Space |
+| --- | --- | --- | --- | --- |
+| 1 | [Two Sum](/algorithms/problems/two-sum) | Easy | `O(n)` | `O(n)` |
+| 20 | [Valid Parentheses](/algorithms/problems/valid-parentheses) | Easy | `O(n)` | `O(n)` |
+| 21 | [Merge Two Sorted Lists](/algorithms/problems/merge-two-sorted-lists) | Easy | `O(n + m)` | `O(1)` |
+| 53 | [Maximum Subarray](/algorithms/problems/maximum-subarray) | Medium | `O(n)` | `O(1)` |
+| 70 | [Climbing Stairs](/algorithms/problems/climbing-stairs) | Easy | `O(n)` | `O(1)` |
+| 121 | [Best Time to Buy and Sell Stock](/algorithms/problems/best-time-to-buy-and-sell-stock) | Easy | `O(n)` | `O(1)` |
+| 125 | [Valid Palindrome](/algorithms/problems/valid-palindrome) | Easy | `O(n)` | `O(1)` |
+| 226 | [Invert Binary Tree](/algorithms/problems/invert-binary-tree) | Easy | `O(n)` | `O(h)` |
+| 704 | [Binary Search](/algorithms/problems/binary-search) | Easy | `O(log n)` | `O(1)` |
+| 733 | [Flood Fill](/algorithms/problems/flood-fill) | Easy | `O(rows × columns)` | `O(rows × columns)` |
+
+## Patterns
+
+| Pattern | Summary |
+| --- | --- |
+| [Binary search](/algorithms/patterns/binary-search) | Repeatedly discard half of an ordered search space. |
+| [Complexity analysis](/algorithms/patterns/complexity-analysis) | Describe how runtime and auxiliary memory grow as input size increases. |
+| [Dynamic programming](/algorithms/patterns/dynamic-programming) | Reuse solutions to overlapping subproblems instead of recomputing them. |
+| [Graph traversal](/algorithms/patterns/graph-traversal) | Explore connected vertices with a queue or stack while preventing duplicate work. |
+| [Greedy one-pass scans](/algorithms/patterns/greedy-scans) | Maintain the best local state needed to make each next decision. |
+| [Hash maps](/algorithms/patterns/hash-maps) | Store values by key for expected constant-time membership and lookup. |
+| [Linked lists](/algorithms/patterns/linked-lists) | Traverse and reconnect nodes without moving the values they contain. |
+| [Stacks](/algorithms/patterns/stacks) | Process nested or most-recent state in last-in, first-out order. |
+| [Tree traversal](/algorithms/patterns/tree-traversal) | Visit every node through recursive or iterative depth-first or breadth-first traversal. |
+| [Two pointers](/algorithms/patterns/two-pointers) | Move two indexes through a sequence while maintaining a useful relationship. |

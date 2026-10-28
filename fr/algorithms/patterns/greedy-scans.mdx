@@ -1,0 +1,31 @@
+---
+title: "Parcours gloutons en une passe : guide du motif"
+sidebarTitle: "Parcours gloutons en une passe"
+description: "Conservez le meilleur état local nécessaire pour chaque décision suivante. Découvrez quand l'utiliser, les étapes clés, la complexité et des exemples testés."
+---
+
+Conservez le meilleur état local nécessaire pour prendre chaque décision suivante.
+
+## Quand l'utiliser
+
+- Un choix local ne peut pas nuire aux choix futurs.
+- Seul un optimum courant est nécessaire.
+- L'entrée peut être traitée en une seule fois.
+
+## Étapes
+
+1. Définissez l'invariant transmis d'une étape à l'autre.
+2. Mettez-le à jour à partir de la valeur courante.
+3. Enregistrez la meilleure réponse complète.
+
+## Complexité
+
+| Mesure | Coût typique |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace | `O(1)` |
+
+## Exemples de problèmes
+
+- [Best Time to Buy and Sell Stock](/fr/algorithms/problems/best-time-to-buy-and-sell-stock) : trouvez le plus grand profit possible avec un achat suivi d'une vente ultérieure.
+- [Maximum Subarray](/fr/algorithms/problems/maximum-subarray) : trouvez la plus grande somme d'un sous-tableau contigu non vide.

@@ -1,0 +1,30 @@
+---
+title: "Tablas hash: guía del patrón algorítmico"
+sidebarTitle: "Tablas hash"
+description: "Almacena valores por clave para buscar en tiempo constante esperado. Aprende cuándo usar tablas hash, sus pasos, su complejidad típica y problemas de ejemplo."
+---
+
+Almacena valores por clave para comprobar pertenencia y buscar en tiempo constante esperado.
+
+## Cuándo usarlo
+
+- Llevar el registro de los valores ya vistos.
+- Contar frecuencias.
+- Encontrar un complemento o un duplicado.
+
+## Pasos
+
+1. Elige una clave estable.
+2. Lee antes de escribir cuando el orden importa.
+3. Almacena solo el estado que necesitarás después.
+
+## Complejidad
+
+| Medida | Costo típico |
+| --- | --- |
+| Tiempo | `O(n)` esperado |
+| Espacio | `O(n)` |
+
+## Problemas de ejemplo
+
+- [Two Sum](/es/algorithms/problems/two-sum): devuelve los índices de dos números cuya suma es igual al objetivo.

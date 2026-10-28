@@ -1,0 +1,31 @@
+---
+title: "Programación dinámica: guía del patrón algorítmico"
+sidebarTitle: "Programación dinámica"
+description: "Reutiliza soluciones de subproblemas superpuestos en lugar de recalcularlas. Aprende cuándo usar programación dinámica, sus pasos, complejidad y ejemplos."
+---
+
+Reutiliza las soluciones de subproblemas superpuestos en lugar de volver a calcularlas.
+
+## Cuándo usarlo
+
+- Un resultado depende de estados más pequeños que se repiten.
+- Una respuesta óptima tiene subestructura óptima.
+- Una recurrencia se puede evaluar en orden.
+
+## Pasos
+
+1. Define el estado.
+2. Escribe la transición.
+3. Establece los casos base y evalúa los estados en orden de dependencia.
+
+## Complejidad
+
+| Medida | Costo típico |
+| --- | --- |
+| Tiempo | `O(número de estados × costo de transición)` |
+| Espacio | `O(número de estados retenidos)` |
+
+## Problemas de ejemplo
+
+- [Climbing Stairs](/es/algorithms/problems/climbing-stairs): cuenta las formas distintas de llegar a la cima cuando cada movimiento sube uno o dos escalones.
+- [Maximum Subarray](/es/algorithms/problems/maximum-subarray): encuentra la mayor suma de cualquier subarreglo contiguo no vacío.
