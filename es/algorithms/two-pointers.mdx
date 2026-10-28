@@ -1,0 +1,45 @@
+---
+title: "Dos punteros"
+description: "Mueve dos índices por una secuencia mientras mantienes una relación útil."
+---
+
+Mueve dos índices por una secuencia mientras mantienes una relación útil.
+
+## Cuándo usarlos
+
+- Comparar valores de ambos extremos.
+- Fusionar secuencias ordenadas.
+- Evitar un recorrido anidado.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Inicializa los punteros en límites significativos.
+  </Step>
+  <Step title="Paso 2">
+    Mueve el puntero que no puede permanecer en su posición.
+  </Step>
+  <Step title="Paso 3">
+    Detente cuando se agote la región de búsqueda.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Palíndromo válido"} href="/es/problems/valid-palindrome" icon="code" />
+  <Card title={"Fusionar dos listas ordenadas"} href="/es/problems/merge-two-sorted-lists" icon="code" />
+</CardGroup>

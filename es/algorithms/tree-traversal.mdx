@@ -1,0 +1,44 @@
+---
+title: "Recorrido de árboles"
+description: "Visita todos los nodos mediante un recorrido recursivo o iterativo, en profundidad o en amplitud."
+---
+
+Visita todos los nodos mediante un recorrido recursivo o iterativo, en profundidad o en amplitud.
+
+## Cuándo usarlo
+
+- Transformar un árbol.
+- Agregar los resultados de subárboles.
+- Buscar en datos jerárquicos.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Define el caso base del árbol vacío.
+  </Step>
+  <Step title="Paso 2">
+    Procesa el nodo actual.
+  </Step>
+  <Step title="Paso 3">
+    Recorre los subárboles hijos.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(h)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Invertir un árbol binario"} href="/es/problems/invert-binary-tree" icon="code" />
+</CardGroup>

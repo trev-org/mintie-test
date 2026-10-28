@@ -1,0 +1,44 @@
+---
+title: "Graph Traversal"
+description: "Explore connected vertices with a queue or stack while preventing duplicate work."
+---
+
+Explore connected vertices with a queue or stack while preventing duplicate work.
+
+## When to use it
+
+- Find connected components.
+- Explore grids.
+- Determine reachability.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Choose a starting vertex.
+  </Step>
+  <Step title="Step 2">
+    Mark vertices before revisiting them.
+  </Step>
+  <Step title="Step 3">
+    Add each unvisited neighbor to the frontier.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(vertices + edges)` |
+| Auxiliary space | `O(vertices)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Flood Fill"} href="/problems/flood-fill" icon="code" />
+</CardGroup>

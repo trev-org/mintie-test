@@ -1,0 +1,73 @@
+---
+title: "Best Time to Buy and Sell Stock"
+description: "Find the largest profit from one purchase followed by one later sale."
+tag: "Easy"
+---
+
+Find the largest profit from one purchase followed by one later sale.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0121-best-time-to-buy-and-sell-stock/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Track the lowest price seen so far.
+  </Step>
+  <Step title="Step 2">
+    At each price, calculate the profit from selling after that lowest price.
+  </Step>
+  <Step title="Step 3">
+    Keep the largest non-negative profit.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export function maxProfit(prices: readonly number[]): number {
+  let minimumPrice = Number.POSITIVE_INFINITY;
+  let bestProfit = 0;
+
+  for (const price of prices) {
+    minimumPrice = Math.min(minimumPrice, price);
+    bestProfit = Math.max(bestProfit, price - minimumPrice);
+  }
+
+  return bestProfit;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(1)` |
+
+## Example usage
+
+```typescript
+const result = maxProfit([7, 1, 5, 3, 6, 4]);
+console.log(result);
+```
+
+**Output:** `5`
+
+Buying at 1 and selling later at 6 produces the largest profit.
+
+## Edge cases
+
+- Return 0 when prices only decrease.
+- A list with fewer than two prices has no possible profit.
+- The sale must occur after the purchase.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Greedy One-Pass Scans"} href="/algorithms/greedy-scans" icon="diagram-project" />
+</CardGroup>

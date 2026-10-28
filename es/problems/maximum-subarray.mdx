@@ -1,0 +1,77 @@
+---
+title: "Subarreglo máximo"
+description: "Encuentra la mayor suma de cualquier subarreglo contiguo no vacío."
+tag: "Intermedio"
+---
+
+Encuentra la mayor suma de cualquier subarreglo contiguo no vacío.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/maximum-subarray/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0053-maximum-subarray/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Mantén la mejor suma que termina en el valor actual.
+  </Step>
+  <Step title="Paso 2">
+    Extiende el subarreglo anterior o inicia uno nuevo en el valor actual.
+  </Step>
+  <Step title="Paso 3">
+    Conserva la mayor suma encontrada en cualquier posición.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export function maxSubArray(nums: readonly number[]): number {
+  if (nums.length === 0) {
+    throw new RangeError("nums must not be empty");
+  }
+
+  let bestEndingHere = nums[0]!;
+  let bestOverall = nums[0]!;
+  for (let index = 1; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    bestEndingHere = Math.max(value, bestEndingHere + value);
+    bestOverall = Math.max(bestOverall, bestEndingHere);
+  }
+  return bestOverall;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = maxSubArray([-2,1,-3,4,-1,2,1,-5,4]);
+console.log(result);
+```
+
+**Salida:** `6`
+
+El subarreglo contiguo [4, -1, 2, 1] tiene la mayor suma.
+
+## Casos límite
+
+- Una entrada compuesta solo por números negativos devuelve su mayor valor individual.
+- Una entrada de un solo valor devuelve ese valor.
+- La implementación rechaza un arreglo vacío porque el subarreglo no puede estar vacío.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Programación dinámica"} href="/es/algorithms/dynamic-programming" icon="diagram-project" />
+  <Card title={"Recorridos voraces de una pasada"} href="/es/algorithms/greedy-scans" icon="diagram-project" />
+</CardGroup>

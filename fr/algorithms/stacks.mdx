@@ -1,0 +1,44 @@
+---
+title: "Piles"
+description: "Traitez les états imbriqués ou les plus récents selon le principe dernier entré, premier sorti."
+---
+
+Traitez les états imbriqués ou les plus récents selon le principe dernier entré, premier sorti.
+
+## Quand l’utiliser
+
+- Valider des délimiteurs imbriqués.
+- Simuler la récursion.
+- Suivre les éléments précédents non résolus.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Empilez l’état non résolu.
+  </Step>
+  <Step title="Étape 2">
+    Consultez ou dépilez l’état le plus récent.
+  </Step>
+  <Step title="Étape 3">
+    Validez la pile finale.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(n)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Parenthèses valides"} href="/fr/problems/valid-parentheses" icon="code" />
+</CardGroup>

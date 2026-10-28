@@ -1,0 +1,76 @@
+---
+title: "Búsqueda binaria"
+description: "Encuentra un valor objetivo en un arreglo ordenado y devuelve su índice."
+tag: "Fácil"
+---
+
+Encuentra un valor objetivo en un arreglo ordenado y devuelve su índice.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/binary-search/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0704-binary-search/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Mantén límites izquierdo y derecho inclusivos.
+  </Step>
+  <Step title="Paso 2">
+    Compara el objetivo con el valor central.
+  </Step>
+  <Step title="Paso 3">
+    Descarta la mitad que no puede contener el objetivo y repite el proceso.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export function binarySearch(nums: readonly number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const middle = left + Math.floor((right - left) / 2);
+    const value = nums[middle]!;
+    if (value === target) return middle;
+    if (value < target) left = middle + 1;
+    else right = middle - 1;
+  }
+
+  return -1;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(log n)` |
+| Espacio auxiliar | `O(1)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = binarySearch([-1, 0, 3, 5, 9, 12], 9);
+console.log(result);
+```
+
+**Salida:** `4`
+
+El objetivo 9 se encuentra en el índice 4.
+
+## Casos límite
+
+- Devuelve -1 cuando el objetivo no está presente.
+- El arreglo de entrada puede estar vacío.
+- El arreglo ya debe estar ordenado de forma ascendente.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Búsqueda binaria"} href="/es/algorithms/binary-search" icon="diagram-project" />
+</CardGroup>

@@ -1,0 +1,76 @@
+---
+title: "Binary Search"
+description: "Find a target value in a sorted array and return its index."
+tag: "Easy"
+---
+
+Find a target value in a sorted array and return its index.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/binary-search/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0704-binary-search/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Track inclusive left and right boundaries.
+  </Step>
+  <Step title="Step 2">
+    Compare the target with the middle value.
+  </Step>
+  <Step title="Step 3">
+    Discard the half that cannot contain the target and repeat.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export function binarySearch(nums: readonly number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const middle = left + Math.floor((right - left) / 2);
+    const value = nums[middle]!;
+    if (value === target) return middle;
+    if (value < target) left = middle + 1;
+    else right = middle - 1;
+  }
+
+  return -1;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(log n)` |
+| Auxiliary space | `O(1)` |
+
+## Example usage
+
+```typescript
+const result = binarySearch([-1, 0, 3, 5, 9, 12], 9);
+console.log(result);
+```
+
+**Output:** `4`
+
+The target 9 is stored at index 4.
+
+## Edge cases
+
+- Return -1 when the target is absent.
+- The input array may be empty.
+- The array must already be sorted in ascending order.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Binary Search"} href="/algorithms/binary-search" icon="diagram-project" />
+</CardGroup>

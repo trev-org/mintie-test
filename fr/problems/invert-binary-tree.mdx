@@ -1,0 +1,77 @@
+---
+title: "Inverser un arbre binaire"
+description: "Créez le miroir d’un arbre binaire en échangeant les enfants gauche et droit de chaque nœud."
+tag: "Facile"
+---
+
+Créez le miroir d’un arbre binaire en échangeant les enfants gauche et droit de chaque nœud.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/invert-binary-tree/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0226-invert-binary-tree/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Renvoyez immédiatement le résultat pour un sous-arbre vide.
+  </Step>
+  <Step title="Étape 2">
+    Inversez récursivement les sous-arbres gauche et droit.
+  </Step>
+  <Step title="Étape 3">
+    Affectez le sous-arbre droit inversé à gauche et le sous-arbre gauche inversé à droite.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export class TreeNode {
+  constructor(
+    public value: number,
+    public left: TreeNode | null = null,
+    public right: TreeNode | null = null,
+  ) {}
+}
+
+export function invertTree(root: TreeNode | null): TreeNode | null {
+  if (root === null) return null;
+  const originalLeft = root.left;
+  root.left = invertTree(root.right);
+  root.right = invertTree(originalLeft);
+  return root;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(h)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = invertTree(new TreeNode(2, new TreeNode(1), new TreeNode(3)));
+console.log(result);
+```
+
+**Sortie :** `TreeNode(2, 3, 1)`
+
+Les enfants gauche et droit de chaque nœud sont échangés.
+
+## Cas limites
+
+- Un arbre vide reste vide.
+- Un arbre composé d’un seul nœud reste inchangé.
+- La récursion utilise un espace de pile proportionnel à la hauteur de l’arbre.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Parcours d’arbre"} href="/fr/algorithms/tree-traversal" icon="diagram-project" />
+</CardGroup>

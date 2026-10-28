@@ -1,0 +1,44 @@
+---
+title: "Listas enlazadas"
+description: "Recorre y vuelve a conectar nodos sin mover los valores que contienen."
+---
+
+Recorre y vuelve a conectar nodos sin mover los valores que contienen.
+
+## Cuándo usarlas
+
+- Insertar o eliminar mediante referencias.
+- Fusionar cadenas de nodos.
+- Usar espacio auxiliar constante.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Conserva referencias a los nodos actuales.
+  </Step>
+  <Step title="Paso 2">
+    Vuelve a conectar un enlace cada vez.
+  </Step>
+  <Step title="Paso 3">
+    Conserva el nodo siguiente antes de sobrescribir un enlace.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Fusionar dos listas ordenadas"} href="/es/problems/merge-two-sorted-lists" icon="code" />
+</CardGroup>

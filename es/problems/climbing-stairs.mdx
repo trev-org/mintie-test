@@ -1,0 +1,75 @@
+---
+title: "Subir escaleras"
+description: "Cuenta las formas distintas de llegar arriba cuando cada movimiento sube uno o dos escalones."
+tag: "Fácil"
+---
+
+Cuenta las formas distintas de llegar arriba cuando cada movimiento sube uno o dos escalones.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/climbing-stairs/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0070-climbing-stairs/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Las formas de llegar a un escalón equivalen a la suma de las formas de llegar a los dos escalones anteriores.
+  </Step>
+  <Step title="Paso 2">
+    Conserva solo esos dos valores anteriores.
+  </Step>
+  <Step title="Paso 3">
+    Avanza el par hasta alcanzar el escalón solicitado.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export function climbStairs(steps: number): number {
+  if (!Number.isInteger(steps) || steps < 1) {
+    throw new RangeError("steps must be a positive integer");
+  }
+  if (steps <= 2) return steps;
+
+  let twoStepsBack = 1;
+  let oneStepBack = 2;
+  for (let current = 3; current <= steps; current += 1) {
+    [twoStepsBack, oneStepBack] = [oneStepBack, twoStepsBack + oneStepBack];
+  }
+  return oneStepBack;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = climbStairs(5);
+console.log(result);
+```
+
+**Salida:** `8`
+
+La recurrencia de tipo Fibonacci produce ocho secuencias válidas de pasos.
+
+## Casos límite
+
+- Un escalón tiene una ruta válida.
+- Dos escalones tienen dos rutas válidas.
+- La implementación rechaza cantidades de escalones no positivas.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Programación dinámica"} href="/es/algorithms/dynamic-programming" icon="diagram-project" />
+</CardGroup>

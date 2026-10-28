@@ -1,0 +1,76 @@
+---
+title: "Two Sum"
+description: "Return the indexes of two numbers whose sum equals the target."
+tag: "Easy"
+---
+
+Return the indexes of two numbers whose sum equals the target.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/two-sum/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0001-two-sum/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Create a map from previously seen values to their indexes.
+  </Step>
+  <Step title="Step 2">
+    For each value, compute the complement needed to reach the target.
+  </Step>
+  <Step title="Step 3">
+    Return the saved complement index and the current index when the complement exists.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export function twoSum(nums: readonly number[], target: number): [number, number] | null {
+  const seen = new Map<number, number>();
+
+  for (let index = 0; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    const complementIndex = seen.get(target - value);
+    if (complementIndex !== undefined) {
+      return [complementIndex, index];
+    }
+    seen.set(value, index);
+  }
+
+  return null;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(n)` |
+
+## Example usage
+
+```typescript
+const result = twoSum([2, 7, 11, 15], 9);
+console.log(result);
+```
+
+**Output:** `[0, 1]`
+
+The values at indexes 0 and 1 add up to 9.
+
+## Edge cases
+
+- The matching value may appear twice at different indexes.
+- Negative values and a negative target are valid.
+- Return null when no pair exists.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Hash Maps"} href="/algorithms/hash-maps" icon="diagram-project" />
+</CardGroup>

@@ -1,0 +1,75 @@
+---
+title: "Climbing Stairs"
+description: "Count the distinct ways to reach the top when each move climbs one or two steps."
+tag: "Easy"
+---
+
+Count the distinct ways to reach the top when each move climbs one or two steps.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/climbing-stairs/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0070-climbing-stairs/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    The ways to reach a step equal the sum of the ways to reach the previous two steps.
+  </Step>
+  <Step title="Step 2">
+    Track only those previous two values.
+  </Step>
+  <Step title="Step 3">
+    Advance the pair until reaching the requested step.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export function climbStairs(steps: number): number {
+  if (!Number.isInteger(steps) || steps < 1) {
+    throw new RangeError("steps must be a positive integer");
+  }
+  if (steps <= 2) return steps;
+
+  let twoStepsBack = 1;
+  let oneStepBack = 2;
+  for (let current = 3; current <= steps; current += 1) {
+    [twoStepsBack, oneStepBack] = [oneStepBack, twoStepsBack + oneStepBack];
+  }
+  return oneStepBack;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(1)` |
+
+## Example usage
+
+```typescript
+const result = climbStairs(5);
+console.log(result);
+```
+
+**Output:** `8`
+
+The Fibonacci-style recurrence produces eight valid step sequences.
+
+## Edge cases
+
+- One step has one valid route.
+- Two steps have two valid routes.
+- The implementation rejects non-positive step counts.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Dynamic Programming"} href="/algorithms/dynamic-programming" icon="diagram-project" />
+</CardGroup>

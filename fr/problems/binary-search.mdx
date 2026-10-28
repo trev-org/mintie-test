@@ -1,0 +1,76 @@
+---
+title: "Recherche binaire"
+description: "Trouvez une valeur cible dans un tableau trié et renvoyez son indice."
+tag: "Facile"
+---
+
+Trouvez une valeur cible dans un tableau trié et renvoyez son indice.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/binary-search/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0704-binary-search/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Suivez les bornes gauche et droite inclusives.
+  </Step>
+  <Step title="Étape 2">
+    Comparez la cible à la valeur du milieu.
+  </Step>
+  <Step title="Étape 3">
+    Éliminez la moitié qui ne peut pas contenir la cible, puis répétez l’opération.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export function binarySearch(nums: readonly number[], target: number): number {
+  let left = 0;
+  let right = nums.length - 1;
+
+  while (left <= right) {
+    const middle = left + Math.floor((right - left) / 2);
+    const value = nums[middle]!;
+    if (value === target) return middle;
+    if (value < target) left = middle + 1;
+    else right = middle - 1;
+  }
+
+  return -1;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(log n)` |
+| Espace auxiliaire | `O(1)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = binarySearch([-1, 0, 3, 5, 9, 12], 9);
+console.log(result);
+```
+
+**Sortie :** `4`
+
+La cible 9 se trouve à l’indice 4.
+
+## Cas limites
+
+- Renvoyez -1 lorsque la cible est absente.
+- Le tableau d’entrée peut être vide.
+- Le tableau doit déjà être trié par ordre croissant.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Recherche binaire"} href="/fr/algorithms/binary-search" icon="diagram-project" />
+</CardGroup>

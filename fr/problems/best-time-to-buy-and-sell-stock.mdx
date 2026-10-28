@@ -1,0 +1,73 @@
+---
+title: "Meilleur moment pour acheter et vendre une action"
+description: "Trouvez le bénéfice maximal obtenu grâce à un achat suivi d’une vente ultérieure."
+tag: "Facile"
+---
+
+Trouvez le bénéfice maximal obtenu grâce à un achat suivi d’une vente ultérieure.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0121-best-time-to-buy-and-sell-stock/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Suivez le prix le plus bas rencontré jusqu’à présent.
+  </Step>
+  <Step title="Étape 2">
+    Pour chaque prix, calculez le bénéfice obtenu en vendant après ce prix minimal.
+  </Step>
+  <Step title="Étape 3">
+    Conservez le bénéfice non négatif le plus élevé.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export function maxProfit(prices: readonly number[]): number {
+  let minimumPrice = Number.POSITIVE_INFINITY;
+  let bestProfit = 0;
+
+  for (const price of prices) {
+    minimumPrice = Math.min(minimumPrice, price);
+    bestProfit = Math.max(bestProfit, price - minimumPrice);
+  }
+
+  return bestProfit;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(1)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = maxProfit([7, 1, 5, 3, 6, 4]);
+console.log(result);
+```
+
+**Sortie :** `5`
+
+Acheter à 1 puis vendre plus tard à 6 produit le bénéfice maximal.
+
+## Cas limites
+
+- Renvoyez 0 lorsque les prix ne font que baisser.
+- Une liste de moins de deux prix ne permet aucun bénéfice.
+- La vente doit avoir lieu après l’achat.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Parcours gloutons en un passage"} href="/fr/algorithms/greedy-scans" icon="diagram-project" />
+</CardGroup>

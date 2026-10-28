@@ -1,0 +1,84 @@
+---
+title: "Valid Parentheses"
+description: "Determine whether every opening bracket is closed in the correct order."
+tag: "Easy"
+---
+
+Determine whether every opening bracket is closed in the correct order.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/valid-parentheses/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0020-valid-parentheses/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Push each opening bracket onto a stack.
+  </Step>
+  <Step title="Step 2">
+    For a closing bracket, pop the stack and compare it with the required opener.
+  </Step>
+  <Step title="Step 3">
+    The string is valid only when every comparison succeeds and the stack ends empty.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+const closerToOpener: Readonly<Record<string, string>> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+export function isValidParentheses(input: string): boolean {
+  const stack: string[] = [];
+
+  for (const character of input) {
+    const expectedOpener = closerToOpener[character];
+    if (expectedOpener === undefined) {
+      stack.push(character);
+      continue;
+    }
+    if (stack.pop() !== expectedOpener) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(n)` |
+
+## Example usage
+
+```typescript
+const result = isValidParentheses("([]{})");
+console.log(result);
+```
+
+**Output:** `true`
+
+Every closing bracket matches the most recent unmatched opener.
+
+## Edge cases
+
+- An empty string is valid.
+- A closing bracket cannot appear before its opener.
+- A leftover opening bracket makes the string invalid.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Stacks"} href="/algorithms/stacks" icon="diagram-project" />
+</CardGroup>

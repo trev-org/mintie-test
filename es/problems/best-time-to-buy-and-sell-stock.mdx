@@ -1,0 +1,73 @@
+---
+title: "Mejor momento para comprar y vender acciones"
+description: "Encuentra la mayor ganancia de una compra seguida de una venta posterior."
+tag: "Fácil"
+---
+
+Encuentra la mayor ganancia de una compra seguida de una venta posterior.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0121-best-time-to-buy-and-sell-stock/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Mantén el precio más bajo visto hasta el momento.
+  </Step>
+  <Step title="Paso 2">
+    Para cada precio, calcula la ganancia de vender después de ese precio mínimo.
+  </Step>
+  <Step title="Paso 3">
+    Conserva la mayor ganancia no negativa.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export function maxProfit(prices: readonly number[]): number {
+  let minimumPrice = Number.POSITIVE_INFINITY;
+  let bestProfit = 0;
+
+  for (const price of prices) {
+    minimumPrice = Math.min(minimumPrice, price);
+    bestProfit = Math.max(bestProfit, price - minimumPrice);
+  }
+
+  return bestProfit;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = maxProfit([7, 1, 5, 3, 6, 4]);
+console.log(result);
+```
+
+**Salida:** `5`
+
+Comprar a 1 y vender después a 6 produce la mayor ganancia.
+
+## Casos límite
+
+- Devuelve 0 cuando los precios solo disminuyen.
+- Una lista con menos de dos precios no permite obtener ninguna ganancia.
+- La venta debe ocurrir después de la compra.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Recorridos voraces de una pasada"} href="/es/algorithms/greedy-scans" icon="diagram-project" />
+</CardGroup>

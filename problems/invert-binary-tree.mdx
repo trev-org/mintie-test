@@ -1,0 +1,77 @@
+---
+title: "Invert Binary Tree"
+description: "Mirror a binary tree by swapping every node's left and right children."
+tag: "Easy"
+---
+
+Mirror a binary tree by swapping every node's left and right children.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/invert-binary-tree/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0226-invert-binary-tree/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Return immediately for an empty subtree.
+  </Step>
+  <Step title="Step 2">
+    Recursively invert the left and right subtrees.
+  </Step>
+  <Step title="Step 3">
+    Assign the inverted right subtree to the left and the inverted left subtree to the right.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export class TreeNode {
+  constructor(
+    public value: number,
+    public left: TreeNode | null = null,
+    public right: TreeNode | null = null,
+  ) {}
+}
+
+export function invertTree(root: TreeNode | null): TreeNode | null {
+  if (root === null) return null;
+  const originalLeft = root.left;
+  root.left = invertTree(root.right);
+  root.right = invertTree(originalLeft);
+  return root;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(h)` |
+
+## Example usage
+
+```typescript
+const result = invertTree(new TreeNode(2, new TreeNode(1), new TreeNode(3)));
+console.log(result);
+```
+
+**Output:** `TreeNode(2, 3, 1)`
+
+The left and right child of every node are exchanged.
+
+## Edge cases
+
+- An empty tree remains empty.
+- A single-node tree is unchanged.
+- Recursion uses stack space proportional to the tree height.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Tree Traversal"} href="/algorithms/tree-traversal" icon="diagram-project" />
+</CardGroup>

@@ -1,0 +1,76 @@
+---
+title: "Somme de deux nombres"
+description: "Renvoyez les indices de deux nombres dont la somme est égale à la cible."
+tag: "Facile"
+---
+
+Renvoyez les indices de deux nombres dont la somme est égale à la cible.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/two-sum/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0001-two-sum/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Créez une table qui associe les valeurs déjà rencontrées à leurs indices.
+  </Step>
+  <Step title="Étape 2">
+    Pour chaque valeur, calculez le complément nécessaire pour atteindre la cible.
+  </Step>
+  <Step title="Étape 3">
+    Lorsque le complément existe, renvoyez son indice enregistré et l’indice courant.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export function twoSum(nums: readonly number[], target: number): [number, number] | null {
+  const seen = new Map<number, number>();
+
+  for (let index = 0; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    const complementIndex = seen.get(target - value);
+    if (complementIndex !== undefined) {
+      return [complementIndex, index];
+    }
+    seen.set(value, index);
+  }
+
+  return null;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(n)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = twoSum([2, 7, 11, 15], 9);
+console.log(result);
+```
+
+**Sortie :** `[0, 1]`
+
+Les valeurs aux indices 0 et 1 donnent 9 lorsqu’elles sont additionnées.
+
+## Cas limites
+
+- La valeur recherchée peut apparaître deux fois à des indices différents.
+- Les valeurs négatives et une cible négative sont valides.
+- Renvoyez `null` lorsqu’aucune paire n’existe.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Tables de hachage"} href="/fr/algorithms/hash-maps" icon="diagram-project" />
+</CardGroup>

@@ -1,8 +1,8 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "sequoia",
-  "name": "Mintie SSO",
-  "description": "Enterprise SSO, SCIM, and identity for Mintie",
+  "name": "Mintie Algorithms",
+  "description": "Practical TypeScript algorithms and coding problems",
   "public": true,
   "api": {
     "playground": {
@@ -49,57 +49,42 @@
             "tab": "Documentation",
             "groups": [
               {
-                "group": "Get started",
-                "public": true,
-                "pages": ["index", "introduction", "quickstart"]
-              },
-              {
-                "group": "Concepts",
+                "group": "Overview",
                 "public": true,
                 "pages": [
-                  "concepts/how-sso-works",
-                  "concepts/identity-linking",
-                  "concepts/sessions",
-                  "concepts/feature-flags"
+                  "index",
+                  "algorithms/complexity-analysis"
                 ]
               },
               {
-                "group": "Set up a provider",
+                "group": "Algorithm patterns",
                 "public": true,
                 "pages": [
-                  "setup/sign-in-experience",
-                  "setup/enable-sso",
-                  "setup/okta",
-                  "setup/google-workspace",
-                  "setup/generic-saml"
+                  "algorithms/hash-maps",
+                  "algorithms/stacks",
+                  "algorithms/two-pointers",
+                  "algorithms/binary-search",
+                  "algorithms/linked-lists",
+                  "algorithms/tree-traversal",
+                  "algorithms/graph-traversal",
+                  "algorithms/dynamic-programming",
+                  "algorithms/greedy-scans"
                 ]
               },
               {
-                "group": "User provisioning",
+                "group": "Problems",
                 "public": true,
                 "pages": [
-                  "provisioning/overview",
-                  "provisioning/scim",
-                  "provisioning/jit"
-                ]
-              },
-              {
-                "group": "API & integrations",
-                "public": true,
-                "pages": ["api-and-keys/api-keys"]
-              },
-              {
-                "group": "Security",
-                "public": true,
-                "pages": ["security/mfa", "security/audit-logs"]
-              },
-              {
-                "group": "Migration",
-                "public": true,
-                "pages": [
-                  "migration/timeline",
-                  "migration/user-comms",
-                  "migration/faq"
+                  "problems/two-sum",
+                  "problems/valid-parentheses",
+                  "problems/valid-palindrome",
+                  "problems/binary-search",
+                  "problems/merge-two-sorted-lists",
+                  "problems/best-time-to-buy-and-sell-stock",
+                  "problems/invert-binary-tree",
+                  "problems/flood-fill",
+                  "problems/climbing-stairs",
+                  "problems/maximum-subarray"
                 ]
               }
             ]
@@ -153,7 +138,9 @@
                 "groups": [
                   {
                     "group": "Overview",
-                    "pages": ["reference/openapi/introduction"]
+                    "pages": [
+                      "reference/openapi/introduction"
+                    ]
                   }
                 ],
                 "openapi": {
@@ -168,7 +155,9 @@
                 "groups": [
                   {
                     "group": "Overview",
-                    "pages": ["reference/asyncapi/introduction"]
+                    "pages": [
+                      "reference/asyncapi/introduction"
+                    ]
                   }
                 ],
                 "asyncapi": {
@@ -186,7 +175,9 @@
                     "groups": [
                       {
                         "group": "Overview",
-                        "pages": ["reference/graphql/introduction"]
+                        "pages": [
+                          "reference/graphql/introduction"
+                        ]
                       }
                     ],
                     "graphql": {
@@ -206,7 +197,9 @@
                     "groups": [
                       {
                         "group": "Overview",
-                        "pages": ["reference/sdk/introduction"]
+                        "pages": [
+                          "reference/sdk/introduction"
+                        ]
                       }
                     ],
                     "sdk": {
@@ -227,7 +220,9 @@
                     "groups": [
                       {
                         "group": "Overview",
-                        "pages": ["reference/python-sdk/introduction"]
+                        "pages": [
+                          "reference/python-sdk/introduction"
+                        ]
                       }
                     ],
                     "sdk": {
@@ -248,7 +243,9 @@
                     "groups": [
                       {
                         "group": "Overview",
-                        "pages": ["reference/dotnet-sdk/introduction"]
+                        "pages": [
+                          "reference/dotnet-sdk/introduction"
+                        ]
                       }
                     ],
                     "sdk": {
@@ -267,7 +264,9 @@
               {
                 "group": "Changelog",
                 "public": true,
-                "pages": ["changelog/overview"]
+                "pages": [
+                  "changelog/overview"
+                ]
               }
             ]
           }
@@ -280,57 +279,42 @@
             "tab": "Documentación",
             "groups": [
               {
-                "group": "Empezar",
-                "public": true,
-                "pages": ["es/introduction", "es/quickstart"]
-              },
-              {
-                "group": "Conceptos",
+                "group": "Descripción general",
                 "public": true,
                 "pages": [
-                  "es/concepts/how-sso-works",
-                  "es/concepts/identity-linking",
-                  "es/concepts/sessions",
-                  "es/concepts/feature-flags"
+                  "es/index",
+                  "es/algorithms/complexity-analysis"
                 ]
               },
               {
-                "group": "Configurar un proveedor",
+                "group": "Patrones de algoritmos",
                 "public": true,
                 "pages": [
-                  "es/setup/sign-in-experience",
-                  "es/setup/enable-sso",
-                  "es/setup/okta",
-                  "es/setup/google-workspace",
-                  "es/setup/generic-saml"
+                  "es/algorithms/hash-maps",
+                  "es/algorithms/stacks",
+                  "es/algorithms/two-pointers",
+                  "es/algorithms/binary-search",
+                  "es/algorithms/linked-lists",
+                  "es/algorithms/tree-traversal",
+                  "es/algorithms/graph-traversal",
+                  "es/algorithms/dynamic-programming",
+                  "es/algorithms/greedy-scans"
                 ]
               },
               {
-                "group": "Aprovisionamiento de usuarios",
+                "group": "Problemas",
                 "public": true,
                 "pages": [
-                  "es/provisioning/overview",
-                  "es/provisioning/scim",
-                  "es/provisioning/jit"
-                ]
-              },
-              {
-                "group": "API e integraciones",
-                "public": true,
-                "pages": ["es/api-and-keys/api-keys"]
-              },
-              {
-                "group": "Seguridad",
-                "public": true,
-                "pages": ["es/security/mfa", "es/security/audit-logs"]
-              },
-              {
-                "group": "Migración",
-                "public": true,
-                "pages": [
-                  "es/migration/timeline",
-                  "es/migration/user-comms",
-                  "es/migration/faq"
+                  "es/problems/two-sum",
+                  "es/problems/valid-parentheses",
+                  "es/problems/valid-palindrome",
+                  "es/problems/binary-search",
+                  "es/problems/merge-two-sorted-lists",
+                  "es/problems/best-time-to-buy-and-sell-stock",
+                  "es/problems/invert-binary-tree",
+                  "es/problems/flood-fill",
+                  "es/problems/climbing-stairs",
+                  "es/problems/maximum-subarray"
                 ]
               }
             ]
@@ -371,7 +355,9 @@
               {
                 "group": "Registro de cambios",
                 "public": true,
-                "pages": ["es/changelog/overview"]
+                "pages": [
+                  "es/changelog/overview"
+                ]
               }
             ]
           }
@@ -384,57 +370,42 @@
             "tab": "Documentation",
             "groups": [
               {
-                "group": "Démarrer",
-                "public": true,
-                "pages": ["fr/introduction", "fr/quickstart"]
-              },
-              {
-                "group": "Concepts",
+                "group": "Vue d’ensemble",
                 "public": true,
                 "pages": [
-                  "fr/concepts/how-sso-works",
-                  "fr/concepts/identity-linking",
-                  "fr/concepts/sessions",
-                  "fr/concepts/feature-flags"
+                  "fr/index",
+                  "fr/algorithms/complexity-analysis"
                 ]
               },
               {
-                "group": "Configurer un fournisseur",
+                "group": "Modèles algorithmiques",
                 "public": true,
                 "pages": [
-                  "fr/setup/sign-in-experience",
-                  "fr/setup/enable-sso",
-                  "fr/setup/okta",
-                  "fr/setup/google-workspace",
-                  "fr/setup/generic-saml"
+                  "fr/algorithms/hash-maps",
+                  "fr/algorithms/stacks",
+                  "fr/algorithms/two-pointers",
+                  "fr/algorithms/binary-search",
+                  "fr/algorithms/linked-lists",
+                  "fr/algorithms/tree-traversal",
+                  "fr/algorithms/graph-traversal",
+                  "fr/algorithms/dynamic-programming",
+                  "fr/algorithms/greedy-scans"
                 ]
               },
               {
-                "group": "Provisioning des utilisateurs",
+                "group": "Problèmes",
                 "public": true,
                 "pages": [
-                  "fr/provisioning/overview",
-                  "fr/provisioning/scim",
-                  "fr/provisioning/jit"
-                ]
-              },
-              {
-                "group": "API et intégrations",
-                "public": true,
-                "pages": ["fr/api-and-keys/api-keys"]
-              },
-              {
-                "group": "Sécurité",
-                "public": true,
-                "pages": ["fr/security/mfa", "fr/security/audit-logs"]
-              },
-              {
-                "group": "Migration",
-                "public": true,
-                "pages": [
-                  "fr/migration/timeline",
-                  "fr/migration/user-comms",
-                  "fr/migration/faq"
+                  "fr/problems/two-sum",
+                  "fr/problems/valid-parentheses",
+                  "fr/problems/valid-palindrome",
+                  "fr/problems/binary-search",
+                  "fr/problems/merge-two-sorted-lists",
+                  "fr/problems/best-time-to-buy-and-sell-stock",
+                  "fr/problems/invert-binary-tree",
+                  "fr/problems/flood-fill",
+                  "fr/problems/climbing-stairs",
+                  "fr/problems/maximum-subarray"
                 ]
               }
             ]
@@ -475,7 +446,9 @@
               {
                 "group": "Journal des modifications",
                 "public": true,
-                "pages": ["fr/changelog/overview"]
+                "pages": [
+                  "fr/changelog/overview"
+                ]
               }
             ]
           }

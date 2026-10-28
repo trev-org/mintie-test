@@ -1,0 +1,82 @@
+---
+title: "Palíndromo válido"
+description: "Comprueba si los caracteres alfanuméricos se leen igual en ambos sentidos, sin distinguir mayúsculas de minúsculas."
+tag: "Fácil"
+---
+
+Comprueba si los caracteres alfanuméricos se leen igual en ambos sentidos, sin distinguir mayúsculas de minúsculas.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/valid-palindrome/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0125-valid-palindrome/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Coloca un puntero en cada extremo de la entrada.
+  </Step>
+  <Step title="Paso 2">
+    Avanza cada puntero más allá de los caracteres no alfanuméricos.
+  </Step>
+  <Step title="Paso 3">
+    Compara los caracteres en minúsculas y avanza hacia el centro hasta que los punteros se encuentren.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+function isAsciiAlphanumeric(character: string): boolean {
+  return /[a-z0-9]/i.test(character);
+}
+
+export function isPalindrome(input: string): boolean {
+  let left = 0;
+  let right = input.length - 1;
+
+  while (left < right) {
+    while (left < right && !isAsciiAlphanumeric(input.charAt(left))) left += 1;
+    while (left < right && !isAsciiAlphanumeric(input.charAt(right))) right -= 1;
+    if (input.charAt(left).toLowerCase() !== input.charAt(right).toLowerCase()) {
+      return false;
+    }
+    left += 1;
+    right -= 1;
+  }
+
+  return true;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = isPalindrome("A man, a plan, a canal: Panama");
+console.log(result);
+```
+
+**Salida:** `true`
+
+Al ignorar los espacios, la puntuación y las diferencias entre mayúsculas y minúsculas, se obtiene un palíndromo.
+
+## Casos límite
+
+- Una cadena vacía es un palíndromo.
+- Una cadena que solo contiene signos de puntuación es un palíndromo.
+- La comparación no distingue entre mayúsculas y minúsculas.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Dos punteros"} href="/es/algorithms/two-pointers" icon="diagram-project" />
+</CardGroup>
