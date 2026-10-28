@@ -1,0 +1,44 @@
+---
+title: "Listes chaînées"
+description: "Parcourez et reconnectez des nœuds sans déplacer les valeurs qu’ils contiennent."
+---
+
+Parcourez et reconnectez des nœuds sans déplacer les valeurs qu’ils contiennent.
+
+## Quand l’utiliser
+
+- Insérer ou supprimer des éléments au moyen de références.
+- Fusionner des chaînes de nœuds.
+- Utiliser un espace auxiliaire constant.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Conservez des références vers les nœuds courants.
+  </Step>
+  <Step title="Étape 2">
+    Reconnectez un lien à la fois.
+  </Step>
+  <Step title="Étape 3">
+    Conservez le nœud suivant avant de remplacer un lien.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(1)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Fusionner deux listes triées"} href="/fr/problems/merge-two-sorted-lists" icon="code" />
+</CardGroup>

@@ -1,0 +1,45 @@
+---
+title: "Parcours gloutons en un passage"
+description: "Conservez le meilleur état local nécessaire pour prendre chaque décision suivante."
+---
+
+Conservez le meilleur état local nécessaire pour prendre chaque décision suivante.
+
+## Quand l’utiliser
+
+- Un choix local ne peut pas nuire aux choix futurs.
+- Seul un optimum courant est nécessaire.
+- Les données d’entrée peuvent être traitées en un seul passage.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Définissez l’invariant propagé à l’étape suivante.
+  </Step>
+  <Step title="Étape 2">
+    Mettez-le à jour à partir de la valeur courante.
+  </Step>
+  <Step title="Étape 3">
+    Enregistrez la meilleure réponse complète.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(1)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Meilleur moment pour acheter et vendre une action"} href="/fr/problems/best-time-to-buy-and-sell-stock" icon="code" />
+  <Card title={"Sous-tableau de somme maximale"} href="/fr/problems/maximum-subarray" icon="code" />
+</CardGroup>

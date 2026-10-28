@@ -1,0 +1,44 @@
+---
+title: "Recherche binaire"
+description: "Éliminez à plusieurs reprises la moitié d’un espace de recherche ordonné."
+---
+
+Éliminez à plusieurs reprises la moitié d’un espace de recherche ordonné.
+
+## Quand l’utiliser
+
+- Rechercher dans des données triées.
+- Trouver une limite monotone.
+- Réduire une recherche linéaire à un temps logarithmique.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Définissez des bornes inclusives ou exclusives.
+  </Step>
+  <Step title="Étape 2">
+    Évaluez le point médian.
+  </Step>
+  <Step title="Étape 3">
+    Éliminez la moitié impossible.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(log n)` |
+| Espace auxiliaire | `O(1)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Recherche binaire"} href="/fr/problems/binary-search" icon="code" />
+</CardGroup>

@@ -1,0 +1,77 @@
+---
+title: "Invertir un árbol binario"
+description: "Refleja un árbol binario intercambiando los hijos izquierdo y derecho de cada nodo."
+tag: "Fácil"
+---
+
+Refleja un árbol binario intercambiando los hijos izquierdo y derecho de cada nodo.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/invert-binary-tree/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0226-invert-binary-tree/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Regresa de inmediato si el subárbol está vacío.
+  </Step>
+  <Step title="Paso 2">
+    Invierte recursivamente los subárboles izquierdo y derecho.
+  </Step>
+  <Step title="Paso 3">
+    Asigna el subárbol derecho invertido a la izquierda y el subárbol izquierdo invertido a la derecha.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export class TreeNode {
+  constructor(
+    public value: number,
+    public left: TreeNode | null = null,
+    public right: TreeNode | null = null,
+  ) {}
+}
+
+export function invertTree(root: TreeNode | null): TreeNode | null {
+  if (root === null) return null;
+  const originalLeft = root.left;
+  root.left = invertTree(root.right);
+  root.right = invertTree(originalLeft);
+  return root;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(h)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = invertTree(new TreeNode(2, new TreeNode(1), new TreeNode(3)));
+console.log(result);
+```
+
+**Salida:** `TreeNode(2, 3, 1)`
+
+Los hijos izquierdo y derecho de cada nodo se intercambian.
+
+## Casos límite
+
+- Un árbol vacío permanece vacío.
+- Un árbol de un solo nodo no cambia.
+- La recursión usa espacio en la pila proporcional a la altura del árbol.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Recorrido de árboles"} href="/es/algorithms/tree-traversal" icon="diagram-project" />
+</CardGroup>

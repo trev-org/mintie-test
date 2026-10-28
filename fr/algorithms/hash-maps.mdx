@@ -1,0 +1,44 @@
+---
+title: "Tables de hachage"
+description: "Stockez des valeurs par clé pour tester leur présence et les rechercher en temps constant en moyenne."
+---
+
+Stockez des valeurs par clé pour tester leur présence et les rechercher en temps constant en moyenne.
+
+## Quand l’utiliser
+
+- Suivre les valeurs déjà rencontrées.
+- Compter les fréquences.
+- Trouver un complément ou un doublon.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Choisissez une clé stable.
+  </Step>
+  <Step title="Étape 2">
+    Lisez avant d’écrire lorsque l’ordre est important.
+  </Step>
+  <Step title="Étape 3">
+    Ne stockez que l’état nécessaire par la suite.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n) en moyenne` |
+| Espace auxiliaire | `O(n)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Somme de deux nombres"} href="/fr/problems/two-sum" icon="code" />
+</CardGroup>

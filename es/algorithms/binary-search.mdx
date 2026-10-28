@@ -1,0 +1,44 @@
+---
+title: "Búsqueda binaria"
+description: "Descarta repetidamente la mitad de un espacio de búsqueda ordenado."
+---
+
+Descarta repetidamente la mitad de un espacio de búsqueda ordenado.
+
+## Cuándo usarla
+
+- Buscar en datos ordenados.
+- Encontrar un límite monótono.
+- Reducir una búsqueda lineal a tiempo logarítmico.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Define límites inclusivos o exclusivos.
+  </Step>
+  <Step title="Paso 2">
+    Evalúa el punto medio.
+  </Step>
+  <Step title="Paso 3">
+    Descarta la mitad imposible.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(log n)` |
+| Espacio auxiliar | `O(1)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Búsqueda binaria"} href="/es/problems/binary-search" icon="code" />
+</CardGroup>

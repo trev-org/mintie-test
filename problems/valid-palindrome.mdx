@@ -1,0 +1,82 @@
+---
+title: "Valid Palindrome"
+description: "Check whether the alphanumeric characters read the same forward and backward, ignoring case."
+tag: "Easy"
+---
+
+Check whether the alphanumeric characters read the same forward and backward, ignoring case.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/valid-palindrome/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0125-valid-palindrome/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Place one pointer at each end of the input.
+  </Step>
+  <Step title="Step 2">
+    Move each pointer past non-alphanumeric characters.
+  </Step>
+  <Step title="Step 3">
+    Compare lowercase characters and move inward until the pointers meet.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+function isAsciiAlphanumeric(character: string): boolean {
+  return /[a-z0-9]/i.test(character);
+}
+
+export function isPalindrome(input: string): boolean {
+  let left = 0;
+  let right = input.length - 1;
+
+  while (left < right) {
+    while (left < right && !isAsciiAlphanumeric(input.charAt(left))) left += 1;
+    while (left < right && !isAsciiAlphanumeric(input.charAt(right))) right -= 1;
+    if (input.charAt(left).toLowerCase() !== input.charAt(right).toLowerCase()) {
+      return false;
+    }
+    left += 1;
+    right -= 1;
+  }
+
+  return true;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(1)` |
+
+## Example usage
+
+```typescript
+const result = isPalindrome("A man, a plan, a canal: Panama");
+console.log(result);
+```
+
+**Output:** `true`
+
+Ignoring spaces, punctuation, and case produces a palindrome.
+
+## Edge cases
+
+- An empty string is a palindrome.
+- A string containing only punctuation is a palindrome.
+- Comparison is case-insensitive.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Two Pointers"} href="/algorithms/two-pointers" icon="diagram-project" />
+</CardGroup>

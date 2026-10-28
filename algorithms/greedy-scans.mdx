@@ -1,0 +1,45 @@
+---
+title: "Greedy One-Pass Scans"
+description: "Maintain the best local state needed to make each next decision."
+---
+
+Maintain the best local state needed to make each next decision.
+
+## When to use it
+
+- A local choice cannot hurt future choices.
+- Only a running optimum is needed.
+- The input can be processed once.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Define the invariant carried forward.
+  </Step>
+  <Step title="Step 2">
+    Update it from the current value.
+  </Step>
+  <Step title="Step 3">
+    Record the best complete answer.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(1)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Best Time to Buy and Sell Stock"} href="/problems/best-time-to-buy-and-sell-stock" icon="code" />
+  <Card title={"Maximum Subarray"} href="/problems/maximum-subarray" icon="code" />
+</CardGroup>

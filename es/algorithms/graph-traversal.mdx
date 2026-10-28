@@ -1,0 +1,44 @@
+---
+title: "Recorrido de grafos"
+description: "Explora vértices conectados con una cola o una pila y evita el trabajo duplicado."
+---
+
+Explora vértices conectados con una cola o una pila y evita el trabajo duplicado.
+
+## Cuándo usarlo
+
+- Encontrar componentes conexos.
+- Explorar cuadrículas.
+- Determinar la alcanzabilidad.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Elige un vértice inicial.
+  </Step>
+  <Step title="Paso 2">
+    Marca los vértices antes de volver a visitarlos.
+  </Step>
+  <Step title="Paso 3">
+    Añade cada vecino no visitado a la frontera.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(vertices + edges)` |
+| Espacio auxiliar | `O(vertices)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Relleno por difusión"} href="/es/problems/flood-fill" icon="code" />
+</CardGroup>

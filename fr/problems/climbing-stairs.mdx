@@ -1,0 +1,76 @@
+---
+title: "Monter des marches"
+description: "Comptez les différentes façons d’atteindre le sommet en montant une ou deux marches à chaque déplacement."
+tag: "Facile"
+---
+
+Comptez les différentes façons d’atteindre le sommet en montant une ou deux marches à chaque déplacement.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/climbing-stairs/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0070-climbing-stairs/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Le nombre de façons d’atteindre une marche est égal à la somme des nombres de façons
+    d’atteindre les deux marches précédentes.
+  </Step>
+  <Step title="Étape 2">
+    Ne conservez que ces deux valeurs précédentes.
+  </Step>
+  <Step title="Étape 3">
+    Faites progresser la paire jusqu’à atteindre la marche demandée.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export function climbStairs(steps: number): number {
+  if (!Number.isInteger(steps) || steps < 1) {
+    throw new RangeError("steps must be a positive integer");
+  }
+  if (steps <= 2) return steps;
+
+  let twoStepsBack = 1;
+  let oneStepBack = 2;
+  for (let current = 3; current <= steps; current += 1) {
+    [twoStepsBack, oneStepBack] = [oneStepBack, twoStepsBack + oneStepBack];
+  }
+  return oneStepBack;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(1)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = climbStairs(5);
+console.log(result);
+```
+
+**Sortie :** `8`
+
+La récurrence de type Fibonacci produit huit séquences de marches valides.
+
+## Cas limites
+
+- Une marche admet un seul parcours valide.
+- Deux marches admettent deux parcours valides.
+- L’implémentation rejette les nombres de marches non positifs.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Programmation dynamique"} href="/fr/algorithms/dynamic-programming" icon="diagram-project" />
+</CardGroup>

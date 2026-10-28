@@ -1,0 +1,90 @@
+---
+title: "Remplissage par diffusion"
+description: "Recolorez la composante connexe qui contient une cellule de départ dans une grille."
+tag: "Facile"
+---
+
+Recolorez la composante connexe qui contient une cellule de départ dans une grille.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/flood-fill/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0733-flood-fill/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Mémorisez la couleur de départ et arrêtez-vous immédiatement si elle est déjà égale à la couleur de remplacement.
+  </Step>
+  <Step title="Étape 2">
+    Utilisez une pile pour visiter les cellules de la composante connexe.
+  </Step>
+  <Step title="Étape 3">
+    Recolorez chaque cellule visitée et ajoutez ses voisines orthogonales de même couleur.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export function floodFill(
+  image: number[][],
+  startRow: number,
+  startColumn: number,
+  replacement: number,
+): number[][] {
+  const original = image[startRow]?.[startColumn];
+  if (original === undefined || original === replacement) return image;
+
+  const stack: Array<[number, number]> = [[startRow, startColumn]];
+  const directions: ReadonlyArray<readonly [number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  while (stack.length > 0) {
+    const [row, column] = stack.pop()!;
+    if (image[row]?.[column] !== original) continue;
+    image[row]![column] = replacement;
+    for (const [rowOffset, columnOffset] of directions) {
+      stack.push([row + rowOffset, column + columnOffset]);
+    }
+  }
+
+  return image;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(rows × columns)` |
+| Espace auxiliaire | `O(rows × columns)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = floodFill([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2);
+console.log(result);
+```
+
+**Sortie :** `[[2,2,2],[2,2,0],[2,0,1]]`
+
+Chaque 1 relié au centre par un chemin orthogonal est recoloré.
+
+## Cas limites
+
+- Renvoyez une image vide sans la modifier.
+- Arrêtez-vous immédiatement lorsque la couleur de remplacement correspond à la couleur de départ.
+- Les cellules diagonales ne sont pas connectées.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Parcours de graphe"} href="/fr/algorithms/graph-traversal" icon="diagram-project" />
+</CardGroup>

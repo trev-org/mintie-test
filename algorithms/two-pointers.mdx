@@ -1,0 +1,45 @@
+---
+title: "Two Pointers"
+description: "Move two indexes through a sequence while maintaining a useful relationship."
+---
+
+Move two indexes through a sequence while maintaining a useful relationship.
+
+## When to use it
+
+- Compare values from both ends.
+- Merge sorted sequences.
+- Avoid a nested scan.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Initialize pointers at meaningful boundaries.
+  </Step>
+  <Step title="Step 2">
+    Move the pointer that cannot remain.
+  </Step>
+  <Step title="Step 3">
+    Stop when the search region is exhausted.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(1)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Valid Palindrome"} href="/problems/valid-palindrome" icon="code" />
+  <Card title={"Merge Two Sorted Lists"} href="/problems/merge-two-sorted-lists" icon="code" />
+</CardGroup>

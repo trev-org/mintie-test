@@ -1,0 +1,90 @@
+---
+title: "Flood Fill"
+description: "Recolor the connected component containing a starting cell in a grid."
+tag: "Easy"
+---
+
+Recolor the connected component containing a starting cell in a grid.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/flood-fill/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0733-flood-fill/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Remember the starting color and stop early if it already equals the replacement.
+  </Step>
+  <Step title="Step 2">
+    Use a stack to visit cells in the connected component.
+  </Step>
+  <Step title="Step 3">
+    Recolor each visited cell and add same-colored orthogonal neighbors.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export function floodFill(
+  image: number[][],
+  startRow: number,
+  startColumn: number,
+  replacement: number,
+): number[][] {
+  const original = image[startRow]?.[startColumn];
+  if (original === undefined || original === replacement) return image;
+
+  const stack: Array<[number, number]> = [[startRow, startColumn]];
+  const directions: ReadonlyArray<readonly [number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  while (stack.length > 0) {
+    const [row, column] = stack.pop()!;
+    if (image[row]?.[column] !== original) continue;
+    image[row]![column] = replacement;
+    for (const [rowOffset, columnOffset] of directions) {
+      stack.push([row + rowOffset, column + columnOffset]);
+    }
+  }
+
+  return image;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(rows × columns)` |
+| Auxiliary space | `O(rows × columns)` |
+
+## Example usage
+
+```typescript
+const result = floodFill([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2);
+console.log(result);
+```
+
+**Output:** `[[2,2,2],[2,2,0],[2,0,1]]`
+
+Every 1 connected to the center by an orthogonal path is recolored.
+
+## Edge cases
+
+- Return an empty image unchanged.
+- Stop immediately when the replacement color matches the starting color.
+- Diagonal cells are not connected.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Graph Traversal"} href="/algorithms/graph-traversal" icon="diagram-project" />
+</CardGroup>

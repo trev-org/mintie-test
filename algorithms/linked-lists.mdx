@@ -1,0 +1,44 @@
+---
+title: "Linked Lists"
+description: "Traverse and reconnect nodes without moving the values they contain."
+---
+
+Traverse and reconnect nodes without moving the values they contain.
+
+## When to use it
+
+- Insert or remove through references.
+- Merge node chains.
+- Use constant auxiliary space.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Keep references to current nodes.
+  </Step>
+  <Step title="Step 2">
+    Reconnect one link at a time.
+  </Step>
+  <Step title="Step 3">
+    Preserve the next node before overwriting a link.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(1)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Merge Two Sorted Lists"} href="/problems/merge-two-sorted-lists" icon="code" />
+</CardGroup>

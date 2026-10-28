@@ -1,0 +1,44 @@
+---
+title: "Mapas hash"
+description: "Almacena valores por clave para comprobar su pertenencia y consultarlos en tiempo constante esperado."
+---
+
+Almacena valores por clave para comprobar su pertenencia y consultarlos en tiempo constante esperado.
+
+## Cuándo usarlos
+
+- Registrar los valores ya vistos.
+- Contar frecuencias.
+- Encontrar un complemento o un duplicado.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Elige una clave estable.
+  </Step>
+  <Step title="Paso 2">
+    Lee antes de escribir cuando el orden sea importante.
+  </Step>
+  <Step title="Paso 3">
+    Almacena solo el estado que se necesitará más adelante.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n) expected` |
+| Espacio auxiliar | `O(n)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Suma de dos números"} href="/es/problems/two-sum" icon="code" />
+</CardGroup>
