@@ -2,10 +2,6 @@ name: Docs checks
 
 on:
   pull_request:
-    paths:
-      - "**/*.mdx"
-      - "docs.json"
-      - ".github/workflows/docs-checks.yml"
 
 permissions:
   contents: read
