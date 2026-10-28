@@ -1,0 +1,82 @@
+---
+title: "Palindrome valide"
+description: "Vérifiez si les caractères alphanumériques se lisent de la même manière dans les deux sens, sans tenir compte de la casse."
+tag: "Facile"
+---
+
+Vérifiez si les caractères alphanumériques se lisent de la même manière dans les deux sens, sans tenir compte de la casse.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/valid-palindrome/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0125-valid-palindrome/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Placez un pointeur à chaque extrémité de l’entrée.
+  </Step>
+  <Step title="Étape 2">
+    Faites avancer chaque pointeur au-delà des caractères non alphanumériques.
+  </Step>
+  <Step title="Étape 3">
+    Comparez les caractères en minuscules et rapprochez les pointeurs jusqu’à ce qu’ils se rencontrent.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+function isAsciiAlphanumeric(character: string): boolean {
+  return /[a-z0-9]/i.test(character);
+}
+
+export function isPalindrome(input: string): boolean {
+  let left = 0;
+  let right = input.length - 1;
+
+  while (left < right) {
+    while (left < right && !isAsciiAlphanumeric(input.charAt(left))) left += 1;
+    while (left < right && !isAsciiAlphanumeric(input.charAt(right))) right -= 1;
+    if (input.charAt(left).toLowerCase() !== input.charAt(right).toLowerCase()) {
+      return false;
+    }
+    left += 1;
+    right -= 1;
+  }
+
+  return true;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(1)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = isPalindrome("A man, a plan, a canal: Panama");
+console.log(result);
+```
+
+**Sortie :** `true`
+
+En ignorant les espaces, la ponctuation et la casse, on obtient un palindrome.
+
+## Cas limites
+
+- Une chaîne vide est un palindrome.
+- Une chaîne composée uniquement de signes de ponctuation est un palindrome.
+- La comparaison ne tient pas compte de la casse.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Deux pointeurs"} href="/fr/algorithms/two-pointers" icon="diagram-project" />
+</CardGroup>

@@ -1,0 +1,45 @@
+---
+title: "Dynamic Programming"
+description: "Reuse solutions to overlapping subproblems instead of recomputing them."
+---
+
+Reuse solutions to overlapping subproblems instead of recomputing them.
+
+## When to use it
+
+- A result depends on smaller repeated states.
+- An optimal answer has optimal substructure.
+- A recurrence can be evaluated in order.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Define the state.
+  </Step>
+  <Step title="Step 2">
+    Write the transition.
+  </Step>
+  <Step title="Step 3">
+    Set base cases and evaluate states in dependency order.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(number of states × transition cost)` |
+| Auxiliary space | `O(number of retained states)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Climbing Stairs"} href="/problems/climbing-stairs" icon="code" />
+  <Card title={"Maximum Subarray"} href="/problems/maximum-subarray" icon="code" />
+</CardGroup>

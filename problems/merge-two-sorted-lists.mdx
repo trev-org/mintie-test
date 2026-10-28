@@ -1,0 +1,108 @@
+---
+title: "Merge Two Sorted Lists"
+description: "Merge two sorted linked lists into one sorted list by reusing their nodes."
+tag: "Easy"
+---
+
+Merge two sorted linked lists into one sorted list by reusing their nodes.
+
+<Note>
+  This page uses an original summary and links to the
+  [source problem](https://leetcode.com/problems/merge-two-sorted-lists/). The implementation is tested in the
+  [code repository](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0021-merge-two-sorted-lists/solution.ts).
+</Note>
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Create a dummy node and keep a tail pointer for the merged list.
+  </Step>
+  <Step title="Step 2">
+    Compare the two current nodes and append the smaller one.
+  </Step>
+  <Step title="Step 3">
+    Append the remaining list after one input is exhausted.
+  </Step>
+</Steps>
+
+## Implementation
+
+```typescript
+export class ListNode {
+  constructor(
+    public value: number,
+    public next: ListNode | null = null,
+  ) {}
+}
+
+export function fromArray(values: readonly number[]): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  for (const value of values) {
+    tail.next = new ListNode(value);
+    tail = tail.next;
+  }
+  return dummy.next;
+}
+
+export function toArray(head: ListNode | null): number[] {
+  const values: number[] = [];
+  for (let node = head; node !== null; node = node.next) values.push(node.value);
+  return values;
+}
+
+export function mergeTwoSortedLists(
+  first: ListNode | null,
+  second: ListNode | null,
+): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  let left = first;
+  let right = second;
+
+  while (left !== null && right !== null) {
+    if (left.value <= right.value) {
+      tail.next = left;
+      left = left.next;
+    } else {
+      tail.next = right;
+      right = right.next;
+    }
+    tail = tail.next;
+  }
+  tail.next = left ?? right;
+  return dummy.next;
+}
+```
+
+## Complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n + m)` |
+| Auxiliary space | `O(1)` |
+
+## Example usage
+
+```typescript
+const result = toArray(mergeTwoSortedLists(fromArray([1, 2, 4]), fromArray([1, 3, 4])));
+console.log(result);
+```
+
+**Output:** `[1, 1, 2, 3, 4, 4]`
+
+The nodes from both sorted inputs are linked in ascending order.
+
+## Edge cases
+
+- Either input list may be empty.
+- Duplicate values retain sorted order.
+- The algorithm reuses existing nodes instead of allocating a new node per value.
+
+## Related patterns
+
+<CardGroup cols={2}>
+  <Card title={"Linked Lists"} href="/algorithms/linked-lists" icon="diagram-project" />
+  <Card title={"Two Pointers"} href="/algorithms/two-pointers" icon="diagram-project" />
+</CardGroup>

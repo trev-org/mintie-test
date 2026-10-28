@@ -1,0 +1,44 @@
+---
+title: "Parcours de graphe"
+description: "Explorez les sommets connectés avec une file ou une pile tout en évitant les traitements en double."
+---
+
+Explorez les sommets connectés avec une file ou une pile tout en évitant les traitements en double.
+
+## Quand l’utiliser
+
+- Trouver les composantes connexes.
+- Explorer des grilles.
+- Déterminer l’atteignabilité.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Choisissez un sommet de départ.
+  </Step>
+  <Step title="Étape 2">
+    Marquez les sommets avant de les revisiter.
+  </Step>
+  <Step title="Étape 3">
+    Ajoutez chaque voisin non visité à la frontière.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(vertices + edges)` |
+| Espace auxiliaire | `O(vertices)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Remplissage par diffusion"} href="/fr/problems/flood-fill" icon="code" />
+</CardGroup>

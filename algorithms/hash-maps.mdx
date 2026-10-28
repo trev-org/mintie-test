@@ -1,0 +1,44 @@
+---
+title: "Hash Maps"
+description: "Store values by key for expected constant-time membership and lookup."
+---
+
+Store values by key for expected constant-time membership and lookup.
+
+## When to use it
+
+- Track values already seen.
+- Count frequencies.
+- Find a complement or duplicate.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Choose a stable key.
+  </Step>
+  <Step title="Step 2">
+    Read before writing when order matters.
+  </Step>
+  <Step title="Step 3">
+    Store only the state needed later.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n) expected` |
+| Auxiliary space | `O(n)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Two Sum"} href="/problems/two-sum" icon="code" />
+</CardGroup>

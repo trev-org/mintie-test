@@ -1,0 +1,45 @@
+---
+title: "Programación dinámica"
+description: "Reutiliza soluciones de subproblemas superpuestos en lugar de volver a calcularlas."
+---
+
+Reutiliza soluciones de subproblemas superpuestos en lugar de volver a calcularlas.
+
+## Cuándo usarla
+
+- Un resultado depende de estados menores que se repiten.
+- Una respuesta óptima presenta una subestructura óptima.
+- Una recurrencia puede evaluarse en orden.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Define el estado.
+  </Step>
+  <Step title="Paso 2">
+    Escribe la transición.
+  </Step>
+  <Step title="Paso 3">
+    Establece los casos base y evalúa los estados en el orden de sus dependencias.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(number of states × transition cost)` |
+| Espacio auxiliar | `O(number of retained states)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Subir escaleras"} href="/es/problems/climbing-stairs" icon="code" />
+  <Card title={"Subarreglo máximo"} href="/es/problems/maximum-subarray" icon="code" />
+</CardGroup>

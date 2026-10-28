@@ -1,0 +1,45 @@
+---
+title: "Recorridos voraces de una pasada"
+description: "Mantén el mejor estado local necesario para tomar cada decisión siguiente."
+---
+
+Mantén el mejor estado local necesario para tomar cada decisión siguiente.
+
+## Cuándo usarlos
+
+- Una elección local no puede perjudicar las elecciones futuras.
+- Solo se necesita un óptimo acumulado.
+- La entrada puede procesarse una sola vez.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Define el invariante que se conserva.
+  </Step>
+  <Step title="Paso 2">
+    Actualízalo a partir del valor actual.
+  </Step>
+  <Step title="Paso 3">
+    Registra la mejor respuesta completa.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(1)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Mejor momento para comprar y vender acciones"} href="/es/problems/best-time-to-buy-and-sell-stock" icon="code" />
+  <Card title={"Subarreglo máximo"} href="/es/problems/maximum-subarray" icon="code" />
+</CardGroup>

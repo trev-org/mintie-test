@@ -1,0 +1,44 @@
+---
+title: "Binary Search"
+description: "Repeatedly discard half of an ordered search space."
+---
+
+Repeatedly discard half of an ordered search space.
+
+## When to use it
+
+- Search sorted data.
+- Find a monotonic boundary.
+- Reduce linear search to logarithmic time.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Define inclusive or exclusive bounds.
+  </Step>
+  <Step title="Step 2">
+    Evaluate the midpoint.
+  </Step>
+  <Step title="Step 3">
+    Discard the impossible half.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(log n)` |
+| Auxiliary space | `O(1)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Binary Search"} href="/problems/binary-search" icon="code" />
+</CardGroup>

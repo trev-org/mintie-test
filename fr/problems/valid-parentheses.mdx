@@ -1,0 +1,84 @@
+---
+title: "Parenthèses valides"
+description: "Déterminez si chaque délimiteur ouvrant est fermé dans le bon ordre."
+tag: "Facile"
+---
+
+Déterminez si chaque délimiteur ouvrant est fermé dans le bon ordre.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/valid-parentheses/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0020-valid-parentheses/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Empilez chaque délimiteur ouvrant.
+  </Step>
+  <Step title="Étape 2">
+    Pour un délimiteur fermant, dépilez la pile et comparez-le au délimiteur ouvrant requis.
+  </Step>
+  <Step title="Étape 3">
+    La chaîne n’est valide que si toutes les comparaisons réussissent et si la pile est vide à la fin.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+const closerToOpener: Readonly<Record<string, string>> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+export function isValidParentheses(input: string): boolean {
+  const stack: string[] = [];
+
+  for (const character of input) {
+    const expectedOpener = closerToOpener[character];
+    if (expectedOpener === undefined) {
+      stack.push(character);
+      continue;
+    }
+    if (stack.pop() !== expectedOpener) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(n)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = isValidParentheses("([]{})");
+console.log(result);
+```
+
+**Sortie :** `true`
+
+Chaque délimiteur fermant correspond au délimiteur ouvrant non apparié le plus récent.
+
+## Cas limites
+
+- Une chaîne vide est valide.
+- Un délimiteur fermant ne peut pas apparaître avant son délimiteur ouvrant.
+- Un délimiteur ouvrant restant rend la chaîne invalide.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Piles"} href="/fr/algorithms/stacks" icon="diagram-project" />
+</CardGroup>

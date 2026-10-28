@@ -1,0 +1,44 @@
+---
+title: "Stacks"
+description: "Process nested or most-recent state in last-in, first-out order."
+---
+
+Process nested or most-recent state in last-in, first-out order.
+
+## When to use it
+
+- Validate nested delimiters.
+- Simulate recursion.
+- Track unresolved prior items.
+
+## Algorithm
+
+<Steps>
+  <Step title="Step 1">
+    Push unresolved state.
+  </Step>
+  <Step title="Step 2">
+    Inspect or pop the latest state.
+  </Step>
+  <Step title="Step 3">
+    Validate the final stack.
+  </Step>
+</Steps>
+
+## Typical complexity
+
+| Measure | Complexity |
+| --- | --- |
+| Time | `O(n)` |
+| Auxiliary space | `O(n)` |
+
+<Note>
+  Exact complexity depends on the implementation and input. Each linked problem
+  gives the bound for its tested solution.
+</Note>
+
+## Example problems
+
+<CardGroup cols={2}>
+  <Card title={"Valid Parentheses"} href="/problems/valid-parentheses" icon="code" />
+</CardGroup>

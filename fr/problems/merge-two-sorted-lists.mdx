@@ -1,0 +1,108 @@
+---
+title: "Fusionner deux listes triées"
+description: "Fusionnez deux listes chaînées triées en une seule liste triée en réutilisant leurs nœuds."
+tag: "Facile"
+---
+
+Fusionnez deux listes chaînées triées en une seule liste triée en réutilisant leurs nœuds.
+
+<Note>
+  Cette page propose un résumé original et renvoie au
+  [problème source](https://leetcode.com/problems/merge-two-sorted-lists/). L’implémentation est testée dans le
+  [dépôt de code](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0021-merge-two-sorted-lists/solution.ts).
+</Note>
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Créez un nœud factice et conservez un pointeur de fin pour la liste fusionnée.
+  </Step>
+  <Step title="Étape 2">
+    Comparez les deux nœuds courants et ajoutez le plus petit.
+  </Step>
+  <Step title="Étape 3">
+    Ajoutez la liste restante lorsque l’une des deux listes d’entrée est épuisée.
+  </Step>
+</Steps>
+
+## Implémentation
+
+```typescript
+export class ListNode {
+  constructor(
+    public value: number,
+    public next: ListNode | null = null,
+  ) {}
+}
+
+export function fromArray(values: readonly number[]): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  for (const value of values) {
+    tail.next = new ListNode(value);
+    tail = tail.next;
+  }
+  return dummy.next;
+}
+
+export function toArray(head: ListNode | null): number[] {
+  const values: number[] = [];
+  for (let node = head; node !== null; node = node.next) values.push(node.value);
+  return values;
+}
+
+export function mergeTwoSortedLists(
+  first: ListNode | null,
+  second: ListNode | null,
+): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  let left = first;
+  let right = second;
+
+  while (left !== null && right !== null) {
+    if (left.value <= right.value) {
+      tail.next = left;
+      left = left.next;
+    } else {
+      tail.next = right;
+      right = right.next;
+    }
+    tail = tail.next;
+  }
+  tail.next = left ?? right;
+  return dummy.next;
+}
+```
+
+## Complexité
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n + m)` |
+| Espace auxiliaire | `O(1)` |
+
+## Exemple d’utilisation
+
+```typescript
+const result = toArray(mergeTwoSortedLists(fromArray([1, 2, 4]), fromArray([1, 3, 4])));
+console.log(result);
+```
+
+**Sortie :** `[1, 1, 2, 3, 4, 4]`
+
+Les nœuds des deux listes d’entrée triées sont reliés par ordre croissant.
+
+## Cas limites
+
+- Chacune des listes d’entrée peut être vide.
+- Les valeurs en double conservent l’ordre trié.
+- L’algorithme réutilise les nœuds existants au lieu d’allouer un nouveau nœud pour chaque valeur.
+
+## Modèles associés
+
+<CardGroup cols={2}>
+  <Card title={"Listes chaînées"} href="/fr/algorithms/linked-lists" icon="diagram-project" />
+  <Card title={"Deux pointeurs"} href="/fr/algorithms/two-pointers" icon="diagram-project" />
+</CardGroup>

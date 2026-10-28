@@ -1,0 +1,45 @@
+---
+title: "Deux pointeurs"
+description: "Déplacez deux indices dans une séquence tout en maintenant une relation utile."
+---
+
+Déplacez deux indices dans une séquence tout en maintenant une relation utile.
+
+## Quand l’utiliser
+
+- Comparer des valeurs depuis les deux extrémités.
+- Fusionner des séquences triées.
+- Éviter un parcours imbriqué.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Initialisez les pointeurs à des limites pertinentes.
+  </Step>
+  <Step title="Étape 2">
+    Déplacez le pointeur qui ne peut pas rester en place.
+  </Step>
+  <Step title="Étape 3">
+    Arrêtez-vous lorsque la zone de recherche est épuisée.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(1)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Palindrome valide"} href="/fr/problems/valid-palindrome" icon="code" />
+  <Card title={"Fusionner deux listes triées"} href="/fr/problems/merge-two-sorted-lists" icon="code" />
+</CardGroup>

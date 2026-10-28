@@ -1,0 +1,44 @@
+---
+title: "Parcours d’arbre"
+description: "Visitez chaque nœud par un parcours en profondeur ou en largeur, récursif ou itératif."
+---
+
+Visitez chaque nœud par un parcours en profondeur ou en largeur, récursif ou itératif.
+
+## Quand l’utiliser
+
+- Transformer un arbre.
+- Agréger les résultats des sous-arbres.
+- Rechercher dans des données hiérarchiques.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Définissez le cas de base d’un arbre vide.
+  </Step>
+  <Step title="Étape 2">
+    Traitez le nœud courant.
+  </Step>
+  <Step title="Étape 3">
+    Parcourez les sous-arbres enfants.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(n)` |
+| Espace auxiliaire | `O(h)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Inverser un arbre binaire"} href="/fr/problems/invert-binary-tree" icon="code" />
+</CardGroup>

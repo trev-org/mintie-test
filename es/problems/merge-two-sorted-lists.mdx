@@ -1,0 +1,108 @@
+---
+title: "Fusionar dos listas ordenadas"
+description: "Fusiona dos listas enlazadas ordenadas en una sola lista ordenada reutilizando sus nodos."
+tag: "Fácil"
+---
+
+Fusiona dos listas enlazadas ordenadas en una sola lista ordenada reutilizando sus nodos.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/merge-two-sorted-lists/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0021-merge-two-sorted-lists/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Crea un nodo ficticio y conserva un puntero a la cola de la lista fusionada.
+  </Step>
+  <Step title="Paso 2">
+    Compara los dos nodos actuales y añade el menor.
+  </Step>
+  <Step title="Paso 3">
+    Añade la lista restante cuando se agote una de las entradas.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export class ListNode {
+  constructor(
+    public value: number,
+    public next: ListNode | null = null,
+  ) {}
+}
+
+export function fromArray(values: readonly number[]): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  for (const value of values) {
+    tail.next = new ListNode(value);
+    tail = tail.next;
+  }
+  return dummy.next;
+}
+
+export function toArray(head: ListNode | null): number[] {
+  const values: number[] = [];
+  for (let node = head; node !== null; node = node.next) values.push(node.value);
+  return values;
+}
+
+export function mergeTwoSortedLists(
+  first: ListNode | null,
+  second: ListNode | null,
+): ListNode | null {
+  const dummy = new ListNode(0);
+  let tail = dummy;
+  let left = first;
+  let right = second;
+
+  while (left !== null && right !== null) {
+    if (left.value <= right.value) {
+      tail.next = left;
+      left = left.next;
+    } else {
+      tail.next = right;
+      right = right.next;
+    }
+    tail = tail.next;
+  }
+  tail.next = left ?? right;
+  return dummy.next;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n + m)` |
+| Espacio auxiliar | `O(1)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = toArray(mergeTwoSortedLists(fromArray([1, 2, 4]), fromArray([1, 3, 4])));
+console.log(result);
+```
+
+**Salida:** `[1, 1, 2, 3, 4, 4]`
+
+Los nodos de ambas entradas ordenadas se enlazan en orden ascendente.
+
+## Casos límite
+
+- Cualquiera de las dos listas de entrada puede estar vacía.
+- Los valores duplicados mantienen el orden.
+- El algoritmo reutiliza los nodos existentes en lugar de asignar uno nuevo por cada valor.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Listas enlazadas"} href="/es/algorithms/linked-lists" icon="diagram-project" />
+  <Card title={"Dos punteros"} href="/es/algorithms/two-pointers" icon="diagram-project" />
+</CardGroup>

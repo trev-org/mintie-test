@@ -1,0 +1,44 @@
+---
+title: "Pilas"
+description: "Procesa estados anidados o recientes en orden de último en entrar, primero en salir."
+---
+
+Procesa estados anidados o recientes en orden de último en entrar, primero en salir.
+
+## Cuándo usarlas
+
+- Validar delimitadores anidados.
+- Simular recursión.
+- Registrar elementos anteriores pendientes de resolver.
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Apila el estado pendiente de resolver.
+  </Step>
+  <Step title="Paso 2">
+    Inspecciona o desapila el estado más reciente.
+  </Step>
+  <Step title="Paso 3">
+    Valida la pila final.
+  </Step>
+</Steps>
+
+## Complejidad habitual
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(n)` |
+
+<Note>
+  La complejidad exacta depende de la implementación y de la entrada. Cada problema
+  enlazado indica la cota de su solución probada.
+</Note>
+
+## Problemas de ejemplo
+
+<CardGroup cols={2}>
+  <Card title={"Paréntesis válidos"} href="/es/problems/valid-parentheses" icon="code" />
+</CardGroup>

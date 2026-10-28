@@ -1,0 +1,90 @@
+---
+title: "Relleno por difusión"
+description: "Cambia el color del componente conexo que contiene una celda inicial en una cuadrícula."
+tag: "Fácil"
+---
+
+Cambia el color del componente conexo que contiene una celda inicial en una cuadrícula.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/flood-fill/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0733-flood-fill/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Guarda el color inicial y termina de inmediato si ya coincide con el color de reemplazo.
+  </Step>
+  <Step title="Paso 2">
+    Usa una pila para visitar las celdas del componente conexo.
+  </Step>
+  <Step title="Paso 3">
+    Cambia el color de cada celda visitada y añade sus vecinos ortogonales del mismo color.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export function floodFill(
+  image: number[][],
+  startRow: number,
+  startColumn: number,
+  replacement: number,
+): number[][] {
+  const original = image[startRow]?.[startColumn];
+  if (original === undefined || original === replacement) return image;
+
+  const stack: Array<[number, number]> = [[startRow, startColumn]];
+  const directions: ReadonlyArray<readonly [number, number]> = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  while (stack.length > 0) {
+    const [row, column] = stack.pop()!;
+    if (image[row]?.[column] !== original) continue;
+    image[row]![column] = replacement;
+    for (const [rowOffset, columnOffset] of directions) {
+      stack.push([row + rowOffset, column + columnOffset]);
+    }
+  }
+
+  return image;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(rows × columns)` |
+| Espacio auxiliar | `O(rows × columns)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = floodFill([[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2);
+console.log(result);
+```
+
+**Salida:** `[[2,2,2],[2,2,0],[2,0,1]]`
+
+Cada 1 conectado con el centro mediante un camino ortogonal cambia de color.
+
+## Casos límite
+
+- Devuelve una imagen vacía sin cambios.
+- Termina de inmediato cuando el color de reemplazo coincide con el color inicial.
+- Las celdas diagonales no están conectadas.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Recorrido de grafos"} href="/es/algorithms/graph-traversal" icon="diagram-project" />
+</CardGroup>

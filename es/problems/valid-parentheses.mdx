@@ -1,0 +1,84 @@
+---
+title: "Paréntesis válidos"
+description: "Determina si cada delimitador de apertura se cierra en el orden correcto."
+tag: "Fácil"
+---
+
+Determina si cada delimitador de apertura se cierra en el orden correcto.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/valid-parentheses/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0020-valid-parentheses/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Apila cada delimitador de apertura.
+  </Step>
+  <Step title="Paso 2">
+    Cuando encuentres un delimitador de cierre, desapila y compáralo con el delimitador de apertura requerido.
+  </Step>
+  <Step title="Paso 3">
+    La cadena solo es válida si todas las comparaciones tienen éxito y la pila termina vacía.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+const closerToOpener: Readonly<Record<string, string>> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+export function isValidParentheses(input: string): boolean {
+  const stack: string[] = [];
+
+  for (const character of input) {
+    const expectedOpener = closerToOpener[character];
+    if (expectedOpener === undefined) {
+      stack.push(character);
+      continue;
+    }
+    if (stack.pop() !== expectedOpener) {
+      return false;
+    }
+  }
+
+  return stack.length === 0;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(n)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = isValidParentheses("([]{})");
+console.log(result);
+```
+
+**Salida:** `true`
+
+Cada delimitador de cierre coincide con el delimitador de apertura sin pareja más reciente.
+
+## Casos límite
+
+- Una cadena vacía es válida.
+- Un delimitador de cierre no puede aparecer antes que su delimitador de apertura.
+- Un delimitador de apertura restante hace que la cadena sea inválida.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Pilas"} href="/es/algorithms/stacks" icon="diagram-project" />
+</CardGroup>

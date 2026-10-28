@@ -1,0 +1,76 @@
+---
+title: "Suma de dos números"
+description: "Devuelve los índices de dos números cuya suma es igual al objetivo."
+tag: "Fácil"
+---
+
+Devuelve los índices de dos números cuya suma es igual al objetivo.
+
+<Note>
+  Esta página usa un resumen original y enlaza al
+  [problema original](https://leetcode.com/problems/two-sum/). La implementación se prueba en el
+  [repositorio de código](https://github.com/trev-org/mintie-test-code/blob/main/algorithms/problems/0001-two-sum/solution.ts).
+</Note>
+
+## Algoritmo
+
+<Steps>
+  <Step title="Paso 1">
+    Crea un mapa que relacione los valores vistos anteriormente con sus índices.
+  </Step>
+  <Step title="Paso 2">
+    Para cada valor, calcula el complemento necesario para alcanzar el objetivo.
+  </Step>
+  <Step title="Paso 3">
+    Cuando exista el complemento, devuelve su índice guardado y el índice actual.
+  </Step>
+</Steps>
+
+## Implementación
+
+```typescript
+export function twoSum(nums: readonly number[], target: number): [number, number] | null {
+  const seen = new Map<number, number>();
+
+  for (let index = 0; index < nums.length; index += 1) {
+    const value = nums[index]!;
+    const complementIndex = seen.get(target - value);
+    if (complementIndex !== undefined) {
+      return [complementIndex, index];
+    }
+    seen.set(value, index);
+  }
+
+  return null;
+}
+```
+
+## Complejidad
+
+| Medida | Complejidad |
+| --- | --- |
+| Tiempo | `O(n)` |
+| Espacio auxiliar | `O(n)` |
+
+## Ejemplo de uso
+
+```typescript
+const result = twoSum([2, 7, 11, 15], 9);
+console.log(result);
+```
+
+**Salida:** `[0, 1]`
+
+Los valores de los índices 0 y 1 suman 9.
+
+## Casos límite
+
+- El valor coincidente puede aparecer dos veces en índices distintos.
+- Los valores negativos y un objetivo negativo son válidos.
+- Devuelve null cuando no existe ningún par.
+
+## Patrones relacionados
+
+<CardGroup cols={2}>
+  <Card title={"Mapas hash"} href="/es/algorithms/hash-maps" icon="diagram-project" />
+</CardGroup>

@@ -1,0 +1,45 @@
+---
+title: "Programmation dynamique"
+description: "Réutilisez les solutions de sous-problèmes qui se chevauchent au lieu de les recalculer."
+---
+
+Réutilisez les solutions de sous-problèmes qui se chevauchent au lieu de les recalculer.
+
+## Quand l’utiliser
+
+- Un résultat dépend d’états plus petits et répétés.
+- Une réponse optimale présente une sous-structure optimale.
+- Une récurrence peut être évaluée dans l’ordre.
+
+## Algorithme
+
+<Steps>
+  <Step title="Étape 1">
+    Définissez l’état.
+  </Step>
+  <Step title="Étape 2">
+    Écrivez la transition.
+  </Step>
+  <Step title="Étape 3">
+    Définissez les cas de base et évaluez les états dans l’ordre de leurs dépendances.
+  </Step>
+</Steps>
+
+## Complexité habituelle
+
+| Mesure | Complexité |
+| --- | --- |
+| Temps | `O(number of states × transition cost)` |
+| Espace auxiliaire | `O(number of retained states)` |
+
+<Note>
+  La complexité exacte dépend de l’implémentation et des données d’entrée. Chaque problème
+  associé indique les bornes de sa solution testée.
+</Note>
+
+## Exemples de problèmes
+
+<CardGroup cols={2}>
+  <Card title={"Monter des marches"} href="/fr/problems/climbing-stairs" icon="code" />
+  <Card title={"Sous-tableau de somme maximale"} href="/fr/problems/maximum-subarray" icon="code" />
+</CardGroup>
