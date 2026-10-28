@@ -39,7 +39,7 @@ export function twoSum(nums: readonly number[], target: number): [number, number
 }
 ```
 
-## Ejemplo
+## Ejemplos
 
 ```typescript Example
 twoSum([2, 7, 11, 15], 9)
@@ -47,6 +47,13 @@ twoSum([2, 7, 11, 15], 9)
 ```
 
 Los valores en los índices 0 y 1 suman 9.
+
+```typescript Example
+twoSum([-3, 4, 3, 90], 0)
+// => [0, 2]
+```
+
+La búsqueda del complemento funciona con valores negativos.
 
 ## Casos límite
 

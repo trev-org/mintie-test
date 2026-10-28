@@ -39,7 +39,7 @@ export function twoSum(nums: readonly number[], target: number): [number, number
 }
 ```
 
-## Example
+## Examples
 
 ```typescript Example
 twoSum([2, 7, 11, 15], 9)
@@ -47,6 +47,13 @@ twoSum([2, 7, 11, 15], 9)
 ```
 
 The values at indexes 0 and 1 add up to 9.
+
+```typescript Example
+twoSum([-3, 4, 3, 90], 0)
+// => [0, 2]
+```
+
+The complement lookup works with negative values.
 
 ## Edge cases
 
